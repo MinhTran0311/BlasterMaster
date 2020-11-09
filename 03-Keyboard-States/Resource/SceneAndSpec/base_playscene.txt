@@ -15,7 +15,7 @@
 17	Resource/SceneAndSpec/Scene/area_7.png		255	0	255
 18	Resource/SceneAndSpec/Scene/area_8.png		255	0	255
 19	Resource/SceneAndSpec/Scene//area_9.jpg		255	0	255
-20	Resource/SceneAndSpec/Scene/fullmap2.png	255	0	255
+20	Resource/SceneAndSpec/Scene/overworld.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -155,23 +155,22 @@
 #Stage1
 Resource/SceneAndSpec/scene1.txt	1024	275	 
 #Stage2
-Resource/SceneAndSpec/scene2.txt	527	1315
+Resources/Scene/scene2.txt	527	1315
 #Stage3
-Resource/SceneAndSpec/scene3.txt	545	277
+Resources/Scene/scene3.txt	545	277
 #Stage4
-Resource/SceneAndSpec/scene4.txt	520	1023
+Resources/Scene/scene4.txt	520	1023
 #Stage5
-Resource/SceneAndSpec/scene5.txt	516	1800
+Resources/Scene/scene5.txt	516	1800
 #Stage6
-Resource/SceneAndSpec/scene6.txt	510	275
+Resources/Scene/scene6.txt	510	275
 #Stage7
-Resource/SceneAndSpec/scene7.txt	512	543
-#Stage8
-Resource/SceneAndSpec/scene8.txt	518	275
+Resources/Scene/scene7.txt	512	543
+Stage8
+Resources/Scene/scene8.txt	518	275
 #Stage9
-Resource/SceneAndSpec/scene9.txt	280	275
+Resources/Scene/scene9.txt	280	275
 #Stage10
-Resource/SceneAndSpec/scene10.txt	2048	2048
-
+Resources/Scene/scene10.txt	2048	2048
 
 

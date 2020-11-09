@@ -55,9 +55,11 @@ protected:
 protected:
 	Camera* gameCamera;
 	vector<LPCWSTR> listSceneFilePath;
-#pragma region list entity
+#pragma region lists
 	vector<LPGAMEENTITY> listEnemies;
 	vector<LPGAMEENTITY> listObjects;
+	vector<int> listWidth;
+	vector<int> listHeight;
 #pragma endregion
 
 	int idStage;

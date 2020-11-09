@@ -51,7 +51,7 @@ public:
 	float dx, dy;
 	int nx;	 
 	int ny;
-	int health;
+	int health = 1;
 	int gunDam;
 	int state;									
 
@@ -72,7 +72,7 @@ public:
 
 	/*int GetHeight{ return texture}*/
 
-	//int GetHealth() { return health; }
+	int GetHealth() { return health; }
 	//void SetHealth(int value) { health = value; }
 	//int GetgunDam() { return gunDam; }
 	//void SetgunDam(int value) { gunDam = value; }

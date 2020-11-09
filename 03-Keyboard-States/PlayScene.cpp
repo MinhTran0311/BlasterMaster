@@ -7,8 +7,10 @@
 #define MAP2_SIDE	200
 
 #define OBJECT_TYPE_WORM 10
+#define OBJECT_TYPE_DOMES 11
 
-#define ID_AREA1	11
+
+
 PlayScene::PlayScene() : Scene()
 {
 	keyHandler = new PlayScenceKeyHandler(this);
@@ -24,9 +26,9 @@ PlayScene::~PlayScene()
 
 void PlayScene::LoadBaseObjects()
 {
+
 	texturesFilePath = ToLPCWSTR("Resource\\SceneAndSpec\\base_playscene.txt");
 	LoadBaseTextures();
-	
 #pragma region create_base_objects
 	if (jason == NULL)
 	{
@@ -34,6 +36,7 @@ void PlayScene::LoadBaseObjects()
 		DebugOut(L"[INFO] JASON CREATED!!! \n");
 	}
 #pragma endregion
+
 	gameCamera = Camera::GetInstance();
 	gameCamera->SetCamPos(0.0f, 0.0f);	//initial camera
 }
@@ -102,7 +105,7 @@ void PlayScene::ChooseMap(int Stage)
 {
 	idStage = Stage;
 	CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
-	sceneFilePath = listSceneFilePath[0];			//chỉnh lại id
+	sceneFilePath = listSceneFilePath[(ID_AREA1%10)-1];			//chỉnh lại id
 	LoadSceneObjects(sceneFilePath);
 }
 
@@ -110,21 +113,20 @@ void PlayScene::Update(DWORD dt)
 {
 #pragma region camera
 	float cx, cy;
-
 	jason->GetPosition(cx, cy);
+	mapWidth = listWidth[(ID_AREA1 % 10) - 1];	
+	mapHeight= listHeight[(ID_AREA1 % 10) - 1];
+
 	if (jason->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
 		cx = mapWidth - SCREEN_WIDTH;
 	else
 	{
-
 		if (jason->Getx() < SCREEN_WIDTH / 2)
 			cx = 0;
 		else
 			cx -= SCREEN_WIDTH / 2;
 	}
 	cy -= SCREEN_HEIGHT / 2;
-
-	
 	gameCamera->SetCamPos(cx, 0.0f);//cy khi muon camera move theo y player 
 #pragma endregion
 
@@ -401,9 +403,10 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 
 		obj->SetAnimationSet(ani_set);
 		listEnemies.push_back(obj);
-		DebugOut(L"[test] add centipede !\n");
+		DebugOut(L"[test] add worm !\n");
 		break;
 	}
+
 	default:
 		DebugOut(L"[ERRO] Invalid object type: %d\n", object_type);
 		return;
@@ -449,7 +452,6 @@ void PlayScene::_ParseSection_SCENEFILEPATH(string line)
 	if (tokens.size() < 3) return;
 
 	listSceneFilePath.push_back(ToLPCWSTR(tokens[0]));
-	mapWidth = atoi(tokens[1].c_str());
-	mapHeight = atoi(tokens[2].c_str());
-	//Hien tai chi lay mapWidth/Height cua list cuoi cung` :P co the dem vo tung file scene rieng de phan biet (hoac khong can, camera co chay toi duoc
+	listWidth.push_back(atoi(tokens[1].c_str()));
+	listHeight.push_back(atoi(tokens[2].c_str()));
 }

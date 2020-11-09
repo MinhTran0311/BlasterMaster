@@ -34,12 +34,17 @@
 
 #define MAX_SCENE_LINE 1024
 
-#define STAGE_1						500
-#define STAGE_2_1					1000
-#define STAGE_2_2					1500
-#define STAGE_3_1					2000
-#define STAGE_3_2					2500
-#define STAGE_4						3000
+#define ID_AREA1			0
+#define ID_AREA2			1
+#define ID_AREA3			2
+#define ID_AREA4			3
+#define ID_AREA5			4
+#define ID_AREA6			5
+#define ID_AREA7			6
+#define ID_AREA8			7
+#define ID_AREA9			8
+#define ID_MAPOVERWORLD		9
+
 
 #define SCENE_SECTION_UNKNOWN			-1
 #define SCENE_SECTION_OBJECTS			1

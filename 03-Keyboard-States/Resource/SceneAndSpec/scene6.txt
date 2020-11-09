@@ -1,7 +1,7 @@
 # Id	FilePath			R	G	B
 [TEXTURES]
 40	Resource/Enemy/enemies.png	255	0	255
-
+50	Resource/item.png	255	255	0
 # id	left	top	right	bottom	texture_id
 
 [SPRITES]
@@ -16,20 +16,6 @@
 4001	168	411	186	421	40
 4002	187	411	204	421	40
 
-#DOMMER
-#walk top right
-5000	149	479	167	496	40
-5001	169	479	187	496	40
-#walk top left
-5002	67	479	85	495	40
-5003	87	479	105	496	40
-#walk right top
-5004	51	441	67	459	40
-5005	50	461	67	479	40
-#walk right bottom
-5006	132	441	149	459	40
-5007	133	461	149	479	40
-
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 
 [ANIMATIONS]
@@ -40,15 +26,6 @@
 #Walk worm
 400	4001	100	4002	100
 
-#DOMES
-#walk top right
-500	5000	100	5001	100
-#walk top left
-501	5002	100	5003	100
-#walk right top
-502	5004	100	5005	100
-#walk right bottom
-503	5006	100	5007	100
 # id	ani1	ani2	ani3
 # id tuan theo define
 [ANIMATION_SETS]
@@ -57,12 +34,9 @@
 #=== ENEMIES =====
 # Worm
 10	400	9000
-#DOMES
-11	500	501	502	503	9000	
+	
 [OBJECTS]
 # type	x	y	extra_settings per object type	width	height
 # type
 #Worm
 10	150	151	10
-#Domes
-11	150	125	11
