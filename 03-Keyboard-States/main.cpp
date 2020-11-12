@@ -1,13 +1,3 @@
-/* =============================================================
-	INTRODUCTION TO GAME PROGRAMMING SE102
-	
-	SAMPLE 03 - KEYBOARD AND OBJECT STATE
-
-	This sample illustrates how to:
-
-		1/ Process keyboard input
-		2/ Control object state with keyboard events
-================================================================ */
 
 #include <windows.h>
 #include <d3d9.h>
@@ -118,9 +108,6 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 */
 void Update(DWORD dt)
 {
-	//EnemyJump->Update(dt);
-	//EnemyVehicle->Update(dt);
-	//Worm->Update(dt);
 	SceneManager::GetInstance()->Update(dt);
 }
 
@@ -245,9 +232,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game = CGame::GetInstance();
 	game->InitDirectX(hWnd);
 
-	//keyHandler = new CSampleKeyHander();
 	game->InitKeyboard();
-	//game->LoadResources();
 	SceneManager::GetInstance()->SetScene(new PlayScene());
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 	Run();

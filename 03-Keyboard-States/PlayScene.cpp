@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Worms.h"
 #include "PlayScene.h"
 #define ID_SMALL_SOPHIA	0
 #define ID_JASON		1

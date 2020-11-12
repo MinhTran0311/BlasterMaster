@@ -101,11 +101,12 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects, vector<LPG
 		animationSet->at(SOPHIA_ANI_GUN_FLIP_RIGHT)->ResetCurrentFrame();
 		animationSet->at(SOPHIA_ANI_GUN_FLIP_LEFT)->ResetCurrentFrame();
 	}
+
 #pragma endregion
-	if (this->y >= 146)
+	if (this->y >= 144)
 	{
 		isJumping = false;
-		y = 146;
+		y = 144;
 	}
 }
 
@@ -248,13 +249,91 @@ void JASON::Render()
 		else {
 			if (vx == 0 && vy > 0)
 			{
-				if (nx > 0) ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT;
-				else ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT;
+				//if (nx > 0) ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT;
+				//else ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT;
+				if (nx > 0)
+				{
+					//idle theo walking
+					current_frame = animationSet->at(SOPHIA_ANI_JASON_WALKING_RIGHT)->GetFrameStopWalking();
+					switch (current_frame)
+					{
+					case SOPHIA_STOP_WALKING_SPRITE2:
+						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_2;
+						break;
+					case SOPHIA_STOP_WALKING_SPRITE3:
+						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_3;
+						break;
+					case SOPHIA_STOP_WALKING_SPRITE4:
+						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_4;
+						break;
+					default:
+						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_1;
+						break;
+					}
+				}
+				else
+				{
+					current_frame = animationSet->at(SOPHIA_ANI_JASON_WALKING_LEFT)->GetFrameStopWalking();
+					switch (current_frame)
+					{
+					case SOPHIA_STOP_WALKING_SPRITE2:
+						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT_2;
+						break;
+					case SOPHIA_STOP_WALKING_SPRITE3:
+						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT_3;
+						break;
+					case SOPHIA_STOP_WALKING_SPRITE4:
+						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT_4;
+						break;
+					default:
+						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT_1;
+						break;
+					}
+				}
 			}
 			else if (vx == 0 && vy <= 0)
 			{
-				if (nx > 0) ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT;
-				else ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT;
+				//if (nx > 0) ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT;
+				//else ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT;
+				if (nx > 0)
+				{
+					//idle theo walking
+					current_frame = animationSet->at(SOPHIA_ANI_JASON_WALKING_RIGHT)->GetFrameStopWalking();
+					switch (current_frame)
+					{
+					case SOPHIA_STOP_WALKING_SPRITE2:
+						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_2;
+						break;
+					case SOPHIA_STOP_WALKING_SPRITE3:
+						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_3;
+						break;
+					case SOPHIA_STOP_WALKING_SPRITE4:
+						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_4;
+						break;
+					default:
+						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_1;
+						break;
+					}
+				}
+				else
+				{
+					current_frame = animationSet->at(SOPHIA_ANI_JASON_WALKING_LEFT)->GetFrameStopWalking();
+					switch (current_frame)
+					{
+					case SOPHIA_STOP_WALKING_SPRITE2:
+						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_2;
+						break;
+					case SOPHIA_STOP_WALKING_SPRITE3:
+						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_3;
+						break;
+					case SOPHIA_STOP_WALKING_SPRITE4:
+						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_4;
+						break;
+					default:
+						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_1;
+						break;
+					}
+				}
 			}
 			else if (vy > 0)
 			{

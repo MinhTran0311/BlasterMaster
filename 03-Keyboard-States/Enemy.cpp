@@ -24,5 +24,5 @@ bool Enemy::IsContain(RECT rect1, RECT rect2)
 
 float Enemy::GetDistance(D3DXVECTOR2 pos, D3DXVECTOR2 target)
 {
-	return (float)sqrt(pow(pos.x - target.x, 2) + pow(pos.y - target.y, 2));
+	return (float)sqrt((pos.x - target.x)* (pos.x - target.x) + (pos.y - target.y)* (pos.y - target.y));
 }

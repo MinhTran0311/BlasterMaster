@@ -10,11 +10,11 @@ void Worm::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
-	Entity::Update(dt);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= WORM_SITEFOLLOW_PLAYER)// Kiểm tra bán kính xung quanh Worm xem có player không
+	
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(this->target->x, this->target->y)) <= WORM_SITEFOLLOW_PLAYER)// Kiểm tra bán kính xung quanh Worm xem có player không
 	{
 		isActive = true;
-		FollowTarget(target);
+		FollowTarget(this->target);
 	}
 	vy += WORM_GRAVITY * dt;
 
@@ -22,7 +22,7 @@ void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	if (!isActive) vx = 0;
 	else SetState(WORM_STATE_WALKING);
 #pragma endregion
-
+	Entity::Update(dt);
 }
 
 void Worm::Render()

@@ -25,7 +25,7 @@
 #define SCREEN_HEIGHT 275	//480
 #define BOTTOM_SCREEN 450
 
-#define MAX_FRAME_RATE 1000	//default Frame Rate is the truth
+#define MAX_FRAME_RATE 600	//default Frame Rate is the truth
 
 #define SCENEGAME_GAMETIMEMAX		300
 
@@ -34,16 +34,16 @@
 
 #define MAX_SCENE_LINE 1024
 
-#define ID_AREA1			0
-#define ID_AREA2			1
-#define ID_AREA3			2
-#define ID_AREA4			3
-#define ID_AREA5			4
-#define ID_AREA6			5
-#define ID_AREA7			6
-#define ID_AREA8			7
-#define ID_AREA9			8
-#define ID_MAPOVERWORLD		9
+#define ID_AREA1			11
+#define ID_AREA2			12
+#define ID_AREA3			13
+#define ID_AREA4			14
+#define ID_AREA5			15
+#define ID_AREA6			16
+#define ID_AREA7			17
+#define ID_AREA8			18
+#define ID_AREA9			19
+#define ID_MAPOVERWORLD		20
 
 
 #define SCENE_SECTION_UNKNOWN			-1
@@ -69,14 +69,9 @@
 #define ANIMATION_SET_GATE					26
 
 
-//Nen define thanh nhieu lop type
-//Vd Zombie thuoc EntityType, EnemyType
 enum EnemyType
 {
 	WORM = 1,
-	GOLEM = 2,
-	DOMES = 3,
-	GUNNER = 4
 };
 enum EntityType
 {
@@ -141,7 +136,7 @@ enum EntityType
 	////Enemies Zone 80-100
 	ENEMY = 80,
 	////GOLEM = 80,
-	////Worm = 81,
+	//Worm = 81,
 	////DOMES = 82,
 
 	//KNIGHT = 83,
