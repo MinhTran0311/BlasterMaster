@@ -98,13 +98,14 @@ enum EntityType
 	//UIEXTRASHOT = 13,
 
 	////Static Obj Zone 20-40
-	//BRICK = 20,
+	TAG_BRICK = 20,
+	TAG_GATE = 21,
 	//BREAKABLEBRICK = 21,
 	//TORCH = 22,
 	//CANDLE = 23,
 	//MOVINGPLATFORM = 24,
 	//STAIRS = 25,
-	//GATE = 26,
+	
 	//BUSH = 27,
 
 	////Item Zone 40-70
@@ -135,6 +136,7 @@ enum EntityType
 
 	////Enemies Zone 80-100
 	ENEMY = 80,
+	Tag_Worm = 81,
 	////GOLEM = 80,
 	//Worm = 81,
 	////DOMES = 82,

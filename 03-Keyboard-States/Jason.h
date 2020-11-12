@@ -60,9 +60,9 @@
 
 #define DURATION_X_TO_DIE	14
 #define DURATION_Y_TO_DIE	30
-
+#define DISTANCE_TO_OUT		8
 #define HEIGHT_LEVER1 35
-
+#define MAX_HEALTH	8
 #define SOPHIA_ANI_JASON_IDLE_RIGHT					0
 #define SOPHIA_ANI_JASON_IDLE_LEFT					1
 
@@ -105,12 +105,15 @@
 
 #define SOPHIA_JASON_ANI_DIE						34
 #define SOPHIA_JASON_ANI_EJECTING					35
+#define SOPHIA_JASON_BBOX_WIDTH		26
+#define SOPHIA_JASON_BBOX_HEIGHT	18
 class JASON : public Entity
 {
 	int alpha;
 	static JASON* instance;
 	bool isJumpHandle;
 	bool isGunFlipping = false;
+
 	float start_x;				//initial position of Jason
 	float start_y;
 
@@ -118,6 +121,7 @@ class JASON : public Entity
 	bool isPressJump;
 	bool isPressFlipGun;
 	bool isEjecting;
+
 public:
 	bool isDeath;
 	bool isDoneDeath;
@@ -129,7 +133,8 @@ public:
 	void SetState(int state);
 	void SetPressSpace(bool isPress) { isPressJump = isPress; };
 	void SetPressUp(bool a) { isPressFlipGun = a; }
-	
+	void GetPositionCenter(float& x, float& y) { x = this->x + SOPHIA_JASON_BBOX_WIDTH / 2; y = this->y + SOPHIA_JASON_BBOX_HEIGHT / 2; }
+
 	//void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	//void GetPositionCenter(float& x, float& y) { x = this->x + SOPHIA_JASON_BBOX_WIDTH / 2; y = this->y + SOPHIA_JASON_BBOX_HEIGHT / 2; }
 	bool isGunFlippingg() { return isGunFlipping; }
@@ -142,4 +147,8 @@ public:
 	float GetDy() { return dy; };
 	float GetDx() { return dx; };
 	void Reset();
+	void GetInfoForBullet(int& direct, int& isTargetTop, float& playerx, float& playery) { direct = nx; isTargetTop = isGunFlipping; playerx = x; playery = y; }
+
+	void SetInjured(int dame);
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };

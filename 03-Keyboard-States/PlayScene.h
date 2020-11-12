@@ -18,6 +18,9 @@
 #include "Jason.h"
 #include "Worms.h"
 
+#include "Brick.h"
+#include "Gate.h"
+
 #include <iostream>
 #include <fstream>
 using namespace std;

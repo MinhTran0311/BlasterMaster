@@ -1,4 +1,8 @@
 #include "Jason.h"
+#include <algorithm>
+#include <assert.h>
+#include "debug.h"
+#include "Game.h"
 
 JASON::JASON(float x, float y)
 {
@@ -69,11 +73,19 @@ void JASON::SetState(int state)
 	}
 }
 
-void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects, vector<LPGAMEENTITY>* coEnemies)
+void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects, vector<LPGAMEENTITY>* coEnemies)
 {
+#pragma region Death or not
 	if (isDoneDeath)
 		return;
-	
+	if (health <= 0)
+	{
+		isDeath == true;
+		vx = 0;
+		vy = 0;
+	}
+#pragma endregion
+
 	//health update
 	Entity::Update(dt);
 	//fall down
@@ -103,11 +115,62 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects, vector<LPG
 	}
 
 #pragma endregion
-	if (this->y >= 144)
+
+#pragma region Collision
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	coEvents.clear();
+
+	// turn off collision when player dies
+	if (state != SOPHIA_STATE_DIE)
+		CalcPotentialCollisions(coObjects, coEvents);
+
+	// No collision occured, proceed normally
+	if (coEvents.size() == 0)
 	{
-		isJumping = false;
-		y = 144;
+		x += dx;
+		y += dy;
 	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (e->obj->GetType() == EntityType::TAG_BRICK)
+			{
+				x += min_tx * dx + nx * 0.4f;
+				y += min_ty * dy + ny * 0.4f;
+				if (e->ny != 0)
+				{
+					if (e->ny != 0)
+					{
+						vy = 0;
+						if (ny < 0)
+							isJumping = false;
+					}
+					if(e->nx!=0)
+					{
+						vx = 0;
+					}
+				}
+			}
+		}
+	}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
+#pragma endregion
+
+
+	//if (this->y >= 144)
+	//{
+	//	isJumping = false;
+	//	y = 144;
+	//}
 }
 
 void JASON::Render()
@@ -362,3 +425,15 @@ void JASON::Reset()
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 }
+
+void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	if (isDoneDeath == false)
+	{
+		left = x;
+		top = y;
+		right = x + SOPHIA_JASON_BBOX_WIDTH;
+		bottom = y + SOPHIA_JASON_BBOX_HEIGHT;
+	}
+}
+

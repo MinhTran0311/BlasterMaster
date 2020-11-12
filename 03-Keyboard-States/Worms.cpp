@@ -43,7 +43,8 @@ void Worm::Render()
 Worm::Worm(float x, float y, LPGAMEENTITY t)
 {
 	SetState(WORM_STATE_WALKING);
-	enemyType = EnemyType::WORM;
+	enemyType = WORM;
+	tag = Tag_Worm;
 	this->x = x;
 	this->y = y;
 	nx = -1;

@@ -43,6 +43,9 @@
     <Filter Include="FrameWork\Grid">
       <UniqueIdentifier>{b1877222-a56c-4ec3-821b-b81f237901f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Obstacles">
+      <UniqueIdentifier>{5efe107e-55c3-4f33-bce0-5087b12e9b44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -111,9 +114,6 @@
     <ClCompile Include="Utils.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>FrameWork</Filter>
     </ClCompile>
@@ -128,6 +128,15 @@
     </ClCompile>
     <ClCompile Include="Grid.cpp">
       <Filter>FrameWork\Grid</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Objects\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="Gate.cpp">
+      <Filter>Objects\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>FrameWork</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -220,6 +229,12 @@
     </ClInclude>
     <ClInclude Include="Grid.h">
       <Filter>FrameWork\Grid</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Objects\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="Gate.h">
+      <Filter>Objects\Obstacles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

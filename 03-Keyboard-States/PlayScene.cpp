@@ -7,6 +7,9 @@
 
 #define MAP2_SIDE	200
 
+#define OBJECT_TYPE_BRICK		1
+#define OBJECT_TYPE_GATE		2
+
 #define OBJECT_TYPE_WORM 10
 #define OBJECT_TYPE_DOMES 11
 
@@ -33,7 +36,7 @@ void PlayScene::LoadBaseObjects()
 #pragma region create_base_objects
 	if (jason == NULL)
 	{
-		jason = new JASON(60, 142);
+		jason = new JASON(55, 100);
 		DebugOut(L"[INFO] JASON CREATED!!! \n");
 	}
 #pragma endregion
@@ -133,7 +136,10 @@ void PlayScene::Update(DWORD dt)
 
 	for (int i = 0; i < listEnemies.size(); i++)
 		listEnemies[i]->Update(dt);
-	jason->Update(dt);
+	vector<LPGAMEENTITY> coObjects;
+	for (int i = 0; i < listEnemies.size(); i++)
+		coObjects.push_back(listEnemies[i]);
+	jason->Update(dt,&listObjects);
 }
 
 void PlayScene::Render()
@@ -143,7 +149,10 @@ void PlayScene::Render()
 	LPDIRECT3DTEXTURE9 maptextures = CTextures::GetInstance()->Get(ID_AREA1);
 	CGame::GetInstance()->OldDraw(0, 0, maptextures, 0, 0, mapWidth, mapHeight);
 
-
+	for (int i = 0; i < listObjects.size(); i++)
+	{
+		listObjects[i]->Render();
+	}
 	for (int i = 0; i < listEnemies.size(); i++)
 		listEnemies[i]->Render();
 	jason->Render();
@@ -407,7 +416,32 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[test] add worm !\n");
 		break;
 	}
+	case OBJECT_TYPE_BRICK:
+	{
+		obj = new Brick(atof(tokens[4].c_str()), atof(tokens[5].c_str()));
+		obj->SetPosition(x, y);
+		//LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
+		//obj->SetAnimationSet(ani_set);
+		listObjects.push_back(obj);
+		DebugOut(L"[test] add brick !\n");
+		break;
+	}
+	case OBJECT_TYPE_GATE:
+	{
+		int switchId = atoi(tokens[3].c_str());
+		float playerPosX = atoi(tokens[4].c_str());
+		float playerPosY = atoi(tokens[5].c_str());
+		int playerState = atoi(tokens[6].c_str());
+		int isResetCamera = atoi(tokens[7].c_str());
+		int typePlayer = atoi(tokens[8].c_str());
+		float camX = atoi(tokens[9].c_str());
+		int camY = atoi(tokens[10].c_str());
+		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isResetCamera, typePlayer, camX, camY);
+		listObjects.push_back(obj);
+		DebugOut(L"[test] add gate !\n");
+		break;
+	}
 	default:
 		DebugOut(L"[ERRO] Invalid object type: %d\n", object_type);
 		return;
