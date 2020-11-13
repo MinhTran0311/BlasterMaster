@@ -111,7 +111,7 @@ public:
 
 	virtual bool IsCollidingObject(Entity* Obj);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
-	virtual void Update(DWORD dt);
+	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects=NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
 	~Entity();

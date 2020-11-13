@@ -3,40 +3,17 @@
 40	Resource/Enemy/enemies.png	255	0	255
 50	Resource/item.png	255	255	0
 # id	left	top	right	bottom	texture_id
-
-[SPRITES]
-#map
-
-1000	0	0	512	120	11
-
-##==============ENEMY===================
-
-#Worm
-#Walk 
-4001	168	411	186	421	40
-4002	187	411	204	421	40
-
-# ani_id	sprite1_id	time1	sprite2_id	time2	...
-
-[ANIMATIONS]
-#map
-100	1000	100
-
-# =============== ENEMIES==============
-#Walk worm
-400	4001	100	4002	100
-
-# id	ani1	ani2	ani3
-# id tuan theo define
-[ANIMATION_SETS]
-#map
-30	100
-#=== ENEMIES =====
-# Worm
-10	400	9000
-	
 [OBJECTS]
-# type	x	y	extra_settings per object type	width	height
-# type
+# type	x	y	ani_set_id	extra_settings per object type
+
+# BRICK
+1	0	192	22	510	48
+1	0	160	22	96	32
+1	160	160	22	64	32
+1	288	160	22	64	32
+1	416	160	22	94	32
+
+1	0	0	22	32	235
+1	480	0	22	32	235
 #Worm
 10	150	151	10

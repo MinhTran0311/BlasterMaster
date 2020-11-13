@@ -113,6 +113,27 @@ void PlayScene::ChooseMap(int Stage)
 	LoadSceneObjects(sceneFilePath);
 }
 
+void PlayScene::PlayerGotGate()
+{
+	//for (UINT i = 0; i < listGates.size(); i++)
+	//{
+	//	if (listGates[i]->GetType() == EntityType::TAG_GATE)
+	//	{
+	//		if (jason->IsCollidingObject(listGates[i]))
+	//		{
+	//			Gate* gate = dynamic_cast<Gate*>(listGates[i]);
+	//			_SophiaType = gate->typePlayer;
+	//			int ID_map = gate->GetIdScene();
+	//			float temp_x = gate->newPlayerx;
+	//			float temp_y = gate->newPlayery;
+	//			int tempState = gate->newPlayerState;
+	//			tempNeed = gate->directionCam;
+	//			
+	//		}
+	//	}
+	//}
+}
+
 void PlayScene::Update(DWORD dt)
 {
 #pragma region camera
@@ -133,12 +154,14 @@ void PlayScene::Update(DWORD dt)
 	cy -= SCREEN_HEIGHT / 2;
 	gameCamera->SetCamPos(cx, 0.0f);//cy khi muon camera move theo y player 
 #pragma endregion
-
-	for (int i = 0; i < listEnemies.size(); i++)
-		listEnemies[i]->Update(dt);
+	//init coObjects
 	vector<LPGAMEENTITY> coObjects;
 	for (int i = 0; i < listEnemies.size(); i++)
 		coObjects.push_back(listEnemies[i]);
+
+	for (int i = 0; i < listEnemies.size(); i++)
+		listEnemies[i]->Update(dt, &listObjects);
+	//player
 	jason->Update(dt,&listObjects);
 }
 
@@ -438,7 +461,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		float camX = atoi(tokens[9].c_str());
 		int camY = atoi(tokens[10].c_str());
 		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isResetCamera, typePlayer, camX, camY);
-		listObjects.push_back(obj);
+		listGates.push_back(obj);
 		DebugOut(L"[test] add gate !\n");
 		break;
 	}

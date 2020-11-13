@@ -10,23 +10,97 @@ void Worm::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
-	
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(this->target->x, this->target->y)) <= WORM_SITEFOLLOW_PLAYER)// Kiểm tra bán kính xung quanh Worm xem có player không
-	{
-		isActive = true;
-		FollowTarget(this->target);
-	}
-	vy += WORM_GRAVITY * dt;
+	Entity::Update(dt);
 
+#pragma region fall down
+	vy += WORM_GRAVITY * dt;
+#pragma endregion
+#pragma region Pre-collision
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	vector<LPGAMEENTITY> bricks;
+
+	coEvents.clear();
+	bricks.clear();
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK)
+			bricks.push_back(coObjects->at(i));
+
+		// turn off collision when die 
+		if (state != WORM_STATE_DIE)
+			CalcPotentialCollisions(&bricks, coEvents);
+	}
+#pragma endregion
+#pragma region coillision
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
+
+		//follow player
+		if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= WORM_SITEFOLLOW_PLAYER)
+		{
+			FollowTarget(target);
+		}
+		else    //Wall or reaching the edges
+		{
+			if (nx != 0)
+			{
+				this->nx = -this->nx;
+			}
+			if (ny != 0)
+			{
+				vy = 0;
+				for (UINT i = 0; i < coEventsResult.size(); i++)
+				{
+					LPCOLLISIONEVENT e = coEventsResult.at(i);
+					if (e->ny != 0)
+					{
+						RECT rect = static_cast<Brick*>(e->obj)->GetBBox();
+						if (x + WORM_BBOX_WIDTH > rect.right)
+						{
+							this->nx = -this->nx;
+							x += rect.right - (x + WORM_BBOX_WIDTH) - nx * 0.4f;
+						}
+						else if (x < rect.left)
+						{
+							this->nx = -this->nx;
+							x += rect.left - x + nx * 0.4f;
+						}
+						break;
+					}
+				}
+			}
+		}
+	}
+	//clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+#pragma endregion
 #pragma region Active
 	if (!isActive) vx = 0;
 	else SetState(WORM_STATE_WALKING);
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= WORM_SITEACTIVE_PLAYER)
+	{
+		isActive = true;
+	}
 #pragma endregion
-	Entity::Update(dt);
+
 }
 
 void Worm::Render()
 {
+	RenderBoundingBox();
 	if (vx > 0)
 		nx = 1;
 	else
@@ -52,6 +126,7 @@ Worm::Worm(float x, float y, LPGAMEENTITY t)
 	this->target = t;
 	health = WORM_MAXHEALTH;
 	isActive = false;
+	bbARGB = 250;
 }
 
 void Worm::FollowTarget(LPGAMEENTITY target) //đi theo nhân vật

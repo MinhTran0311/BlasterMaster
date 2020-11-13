@@ -3,40 +3,90 @@
 40	Resource/Enemy/enemies.png	255	0	255
 50	Resource/item.png	255	255	0
 # id	left	top	right	bottom	texture_id
-
+#[CLEARTEXTURES]
+#[CLEARSPRITES]
+#[CLEARANIMATIONS]
+#[CLEARANIMATIONSETS]
+# Id	FilePath			R	G	B
+[TEXTURES
+# id	left	top	right	bottom	texture_id
 [SPRITES]
-#map
-
-1000	0	0	512	120	11
-
-##==============ENEMY===================
-
-#Worm
-#Walk 
-4001	168	411	186	421	40
-4002	187	411	204	421	40
-
-# ani_id	sprite1_id	time1	sprite2_id	time2	...
-
 [ANIMATIONS]
-#map
-100	1000	100
-
-# =============== ENEMIES==============
-#Walk worm
-400	4001	100	4002	100
-
-# id	ani1	ani2	ani3
 # id tuan theo define
 [ANIMATION_SETS]
-#map
-30	100
-#=== ENEMIES =====
-# Worm
-10	400	9000
-	
 [OBJECTS]
-# type	x	y	extra_settings per object type	width	height
-# type
-#Worm
-10	150	151	10
+# type	x	y	extra_settings per object type
+# type: 1 = Brick, 2 = Torch, 3 = Gate, 4 = Stairs
+#viền trái
+1	0	0	22	31	1440
+#viền phải
+1	480	0	22	31	1440
+#viền trên
+1	0	0	22	600	64
+#viền dưới
+1	0	1249	22	600	64
+
+#ngang 1-1
+1	97	97	22	254	30
+#ngang 1-2
+1	415	97	22	100	30
+#ngang 2-1
+1	0	160	22	159	30
+#ngang  2-2
+1	352	160	22	150	30
+#ngang 3
+1	97	225	22	454	30
+#ngang 4
+1	0	289	22	352	30
+#ngang 5 nhỏ phải
+1	352	353	22	63	30
+#ngang 6
+1	97	417	22	255	30
+#ngang 7
+1	0	481	22	96	30
+#ngang 8-1
+1	0	545	22	223	30
+#ngang 8-2
+1	289	545	22	127	30
+#ngang 9
+1	416	609	22	140	30
+#ngang 10
+1	97	673	22	319	30
+#ngang 11-2
+1	416	737	22	140	30
+#ngang 11-1
+1	0	737	22	96	30
+#ngang 12-1
+1	95	801	22	65	30
+#ngang 12-2
+1	223	801	22	193	30
+#ngang 13-1
+1	0	865	22	223	30
+#ngang 13-2
+1	416	865	22	96	30
+#ngang 14
+1	160	929	22	256	30
+#ngang 15-2
+1	416	993	22	96	30
+#ngang 15-1
+1	0	993	22	160	30
+#ngang 16
+1	96	1057	22	320	30
+#ngang 17-1
+1	0	1121	22	96	30
+#ngang 17-2
+1	416	1121	22	96	30
+#ngang 18-1
+1	0	1185	22	160	30
+#ngang 18-2
+1	223	1185	22	360	30
+#dọc 1
+1	256	127	33	32	79
+#dọc 2
+1	256	703	33	32	79
+#dọc kế kế cuối
+1	319	831	33	32	79
+#dọc kế cuối
+1	256	959	33	32	79
+#dọc cuối
+1	319	1087	33	32	79

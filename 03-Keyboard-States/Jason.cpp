@@ -16,6 +16,7 @@ JASON::JASON(float x, float y)
 	current_Jumpy = 0;
 	isDeath = false;
 	alpha = 255;
+	bbARGB = 250;
 }
 
 JASON* JASON::instance = NULL;
@@ -175,9 +176,10 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects, vector<LPGAMEENTIT
 
 void JASON::Render()
 {
+
 	if (isDoneDeath)
 		return;
-	//RenderBoundingBox();
+	RenderBoundingBox();
 
 	int ani = -1;
 	int current_frame;

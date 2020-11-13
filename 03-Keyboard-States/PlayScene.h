@@ -29,6 +29,7 @@ class PlayScene : public Scene
 {
 public:
 	int _SophiaType = -1;
+	bool tempNeed;
 	PlayScene ();
 	~PlayScene();
 protected:
@@ -42,7 +43,7 @@ protected:
 
 	void ChooseMap(int whatStage);
 	//bool PlayerPassingStage(float DistanceXWant, int directionGo);
-	//void PlayerGotGate();
+	void PlayerGotGate();
 	//void PlayerGotCar();
 	//void PlayerTouchEnemy();
 	//void PlayerCollideItem();
@@ -59,6 +60,7 @@ protected:
 	Camera* gameCamera;
 	vector<LPCWSTR> listSceneFilePath;
 #pragma region lists
+	vector<LPGAMEENTITY> listGates;
 	vector<LPGAMEENTITY> listEnemies;
 	vector<LPGAMEENTITY> listObjects;
 	vector<int> listWidth;

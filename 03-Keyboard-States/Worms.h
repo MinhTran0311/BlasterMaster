@@ -2,10 +2,11 @@
 #include "Enemy.h"
 #include "Jason.h"
 #include "Timer.h"
+#include "Brick.h"
 #include <ctime>
 
 #define WORM_WALKING_SPEED 0.05f;
-#define WORM_GRAVITY		0.0f
+#define WORM_GRAVITY		0.002f
 
 #define WORM_BBOX_WIDTH 17
 #define WORM_BBOX_HEIGHT 8
@@ -17,7 +18,7 @@
 #define WORM_ANI_WALKING 0
 #define WORM_ANI_DIE 1
 
-#define WORM_SITEFOLLOW_PLAYER			20
+#define WORM_SITEFOLLOW_PLAYER			50
 #define WORM_SITEACTIVE_PLAYER			150
 
 #define WORM_MAXHEALTH					1
@@ -29,7 +30,7 @@ class Worm : public Enemy
 	LPGAMEENTITY target;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
+	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects=NULL);
 	virtual void Render();
 
 public:

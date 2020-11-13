@@ -150,7 +150,7 @@ bool Entity::IsCollidingObject(Entity* Obj)
 	return isColliding;
 }
 
-void Entity::Update(DWORD dt)
+void Entity::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	this->dt = dt;
 	dx = vx*dt;
