@@ -6,6 +6,8 @@
 #20	Resource/sophia.png	255	0	255
 30	Resource/jason.png	255	0	255
 40	Resource/Enemy/enemies.png	255	0	255
+50	Resource/HealthBar.png	255	255	255
+60	Resource/item2.png		255	255	0
 11	Resource/SceneAndSpec/Scene/area_1.jpg		255	0	255
 12	Resource/SceneAndSpec/Scene/area_2.jpg		255	0	255
 13	Resource/SceneAndSpec/Scene/area_3.jpg		255	0	255
@@ -93,6 +95,11 @@
 # die 
 11998	100	78	143	125	10
 11999	12	85	76	132	10
+#===========HEALTH_BAR====================#
+50001	30	35	50	127	50
+50002	55	37	71	45	50
+50003	84	35	106	125	50
+50004	111	37	127	45	50
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 ##JASON=========================
@@ -171,10 +178,22 @@
 470	11400	600	11400	100
 #die
 599	11998	100	11999	100	11999	100
+###============HealthBar==================#
+#Gun null
+801	50001	100
+#Gun add
+802	50002	100
+#Player null
+803	50003	100
+#Player add
+804	50004	100
+
 # id tuan theo define
 [ANIMATION_SETS]
 # JASON
 1	400	401	500	501	410	411	412	413	414	415	416	417	420	421	422	423	424	425	426	427	510	511	520	521	430	431	461	462	463	464	465	466	467	468	599	470
+#=== HEALTH BAR ===
+11	801	802	803	804
 [SCENE]
 #Stage1
 Resource/SceneAndSpec/scene1.txt	1024	275	 

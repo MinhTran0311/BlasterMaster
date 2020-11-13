@@ -17,6 +17,8 @@ JASON::JASON(float x, float y)
 	isDeath = false;
 	alpha = 255;
 	bbARGB = 250;
+	health = MAX_HEALTH;
+	gunDam = MAX_HEALTH;
 }
 
 JASON* JASON::instance = NULL;
@@ -428,6 +430,18 @@ void JASON::Reset()
 	SetSpeed(0, 0);
 }
 
+void JASON::SetInjured(int dame)
+{
+	//if (isImmortaling)
+	//	return;
+	health -= dame;
+	gunDam -= dame;
+
+	//StartUntouchable();
+	//immortalTimer->Start();
+	//isImmortaling = true;
+}
+
 void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (isDoneDeath == false)
@@ -438,4 +452,6 @@ void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 		bottom = y + SOPHIA_JASON_BBOX_HEIGHT;
 	}
 }
+
+
 

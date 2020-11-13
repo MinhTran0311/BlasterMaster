@@ -151,4 +151,8 @@ public:
 
 	void SetInjured(int dame);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
+	//collision handle
+	void CollisionWithEnemy(Entity* obj);
+
 };

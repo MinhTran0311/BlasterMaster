@@ -46,6 +46,12 @@
     <Filter Include="Objects\Obstacles">
       <UniqueIdentifier>{5efe107e-55c3-4f33-bce0-5087b12e9b44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Bullets">
+      <UniqueIdentifier>{fda0ee12-e328-498c-8a72-6c2fb01ab94e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HUD">
+      <UniqueIdentifier>{22eb520d-716d-49ef-b2f8-b0f417e13973}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -137,6 +143,15 @@
     </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>FrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Objects\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
+      <Filter>HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>HUD</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +250,15 @@
     </ClInclude>
     <ClInclude Include="Gate.h">
       <Filter>Objects\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Objects\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="HealthBar.h">
+      <Filter>HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
+      <Filter>HUD</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

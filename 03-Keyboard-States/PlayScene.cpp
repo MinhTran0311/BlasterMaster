@@ -13,6 +13,7 @@
 #define OBJECT_TYPE_WORM 10
 #define OBJECT_TYPE_DOMES 11
 
+#define HUD_Y (SCREEN_HEIGHT/11) 
 
 
 PlayScene::PlayScene() : Scene()
@@ -38,6 +39,11 @@ void PlayScene::LoadBaseObjects()
 	{
 		jason = new JASON(55, 100);
 		DebugOut(L"[INFO] JASON CREATED!!! \n");
+	}
+	if (gameHUD == NULL)
+	{
+		gameHUD = new HUD(jason->GetHealth(), jason->GetgunDam());
+		DebugOut(L"[INFO] HUD CREATED! %d \n", jason->GetHealth());
 	}
 #pragma endregion
 
@@ -153,6 +159,7 @@ void PlayScene::Update(DWORD dt)
 	}
 	cy -= SCREEN_HEIGHT / 2;
 	gameCamera->SetCamPos(cx, 0.0f);//cy khi muon camera move theo y player 
+	gameHUD->Update(cx, HUD_Y, jason->GetHealth(), jason->GetgunDam());	//move x follow camera
 #pragma endregion
 	//init coObjects
 	vector<LPGAMEENTITY> coObjects;
@@ -179,6 +186,7 @@ void PlayScene::Render()
 	for (int i = 0; i < listEnemies.size(); i++)
 		listEnemies[i]->Render();
 	jason->Render();
+	gameHUD->Render(jason);
 }
 
 void PlayScene::Unload()

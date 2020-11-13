@@ -8,7 +8,7 @@
 #include "SceneManager.h"
 #include "Game.h"
 #include "Camera.h"
-
+#include "HUD.h"
 #include "global.h"
 #include "Textures.h"
 #include "Utils.h"
@@ -34,7 +34,7 @@ public:
 	~PlayScene();
 protected:
 	JASON* jason;
-
+	HUD* gameHUD;
 	void LoadBaseObjects();
 	void LoadBaseTextures();
 	int mapWidth, mapHeight;
