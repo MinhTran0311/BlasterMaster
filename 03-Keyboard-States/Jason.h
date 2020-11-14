@@ -61,22 +61,22 @@
 #define DURATION_X_TO_DIE	14
 #define DURATION_Y_TO_DIE	30
 #define DISTANCE_TO_OUT		8
-#define HEIGHT_LEVER1 35
-#define MAX_HEALTH	8
+#define HEIGHT_LEVER1		35
+#define MAX_HEALTH			8
 #define SOPHIA_ANI_JASON_IDLE_RIGHT					0
 #define SOPHIA_ANI_JASON_IDLE_LEFT					1
 
 #define SOPHIA_ANI_JASON_WALKING_RIGHT				2
 #define SOPHIA_ANI_JASON_WALKING_LEFT				3
 
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_1			4
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_2			5
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_3			6
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_4			7
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_1			8
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_2			9
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_3			10
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_4			11
+#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_1		4
+#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_2		5
+#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_3		6
+#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_4		7
+#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_1		8
+#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_2		9
+#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_3		10
+#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_4		11
 #define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_1		12
 #define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_2		13
 #define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_3		14
@@ -107,6 +107,7 @@
 #define SOPHIA_JASON_ANI_EJECTING					35
 #define SOPHIA_JASON_BBOX_WIDTH		26
 #define SOPHIA_JASON_BBOX_HEIGHT	18
+#define PLAYER_IMMORTAL_DURATION	1000
 class JASON : public Entity
 {
 	int alpha;
@@ -122,6 +123,10 @@ class JASON : public Entity
 	bool isPressFlipGun;
 	bool isEjecting;
 
+	int untouchable;
+	bool isImmortaling;
+	DWORD untouchable_start;
+	Timer* immortalTimer = new Timer(PLAYER_IMMORTAL_DURATION);
 public:
 	bool isDeath;
 	bool isDoneDeath;
@@ -139,8 +144,10 @@ public:
 	//void GetPositionCenter(float& x, float& y) { x = this->x + SOPHIA_JASON_BBOX_WIDTH / 2; y = this->y + SOPHIA_JASON_BBOX_HEIGHT / 2; }
 	bool isGunFlippingg() { return isGunFlipping; }
 
-	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL, vector<LPGAMEENTITY>* coEnemies = NULL);
+	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	virtual void Render();
+
+	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	void Setvx(float new_vx) { vx = new_vx; }
 	void Setvy(float new_vy) { vy = new_vy; };

@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "debug.h"
 #include "Game.h"
-
+#include "Worms.h"
 JASON::JASON(float x, float y)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_PLAYER));
@@ -14,6 +14,7 @@ JASON::JASON(float x, float y)
 	this->x = x;
 	this->y = y;
 	current_Jumpy = 0;
+	isImmortaling = false;
 	isDeath = false;
 	alpha = 255;
 	bbARGB = 250;
@@ -76,7 +77,7 @@ void JASON::SetState(int state)
 	}
 }
 
-void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects, vector<LPGAMEENTITY>* coEnemies)
+void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 #pragma region Death or not
 	if (isDoneDeath)
@@ -90,6 +91,12 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects, vector<LPGAMEENTIT
 #pragma endregion
 
 	//health update
+	if (health <= 0)
+	{
+		isDeath = true;
+		vx = 0;
+		vy = 0;
+	}
 	Entity::Update(dt);
 	//fall down
 #pragma region fall down 
@@ -117,6 +124,13 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects, vector<LPGAMEENTIT
 		animationSet->at(SOPHIA_ANI_GUN_FLIP_LEFT)->ResetCurrentFrame();
 	}
 
+#pragma endregion
+#pragma region Timer
+	if (isImmortaling && immortalTimer->IsTimeUp())
+	{
+		isImmortaling = false;
+		immortalTimer->Reset();
+	}
 #pragma endregion
 
 #pragma region Collision
@@ -162,6 +176,22 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects, vector<LPGAMEENTIT
 					}
 				}
 			}
+			//else if (dynamic_cast<Worm *>(e->obj) && this->IsCollidingObject(e->obj))
+			//{
+			//	//SetInjured(1);
+			//	//if (this->IsCollidingObject(e->obj))
+			//		this->SetInjured(1);
+			//	//health--;
+			//	//gunDam--;
+			//	DebugOut(L"health level: %d", health);
+			//}
+		}
+	}
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		if (this->IsCollidingObject(coObjects->at(i)) && dynamic_cast<Worm*>(coObjects->at(i)))
+		{
+			SetInjured(1);
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -432,14 +462,14 @@ void JASON::Reset()
 
 void JASON::SetInjured(int dame)
 {
-	//if (isImmortaling)
-	//	return;
+	if (isImmortaling)
+		return;
 	health -= dame;
 	gunDam -= dame;
 
-	//StartUntouchable();
-	//immortalTimer->Start();
-	//isImmortaling = true;
+	StartUntouchable();
+	immortalTimer->Start();
+	isImmortaling = true;
 }
 
 void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)

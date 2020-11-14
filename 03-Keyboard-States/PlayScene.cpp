@@ -163,13 +163,15 @@ void PlayScene::Update(DWORD dt)
 #pragma endregion
 	//init coObjects
 	vector<LPGAMEENTITY> coObjects;
+	for (int i = 0; i < listObjects.size(); i++)
+		coObjects.push_back(listObjects[i]);
 	for (int i = 0; i < listEnemies.size(); i++)
 		coObjects.push_back(listEnemies[i]);
 
 	for (int i = 0; i < listEnemies.size(); i++)
 		listEnemies[i]->Update(dt, &listObjects);
 	//player
-	jason->Update(dt,&listObjects);
+	jason->Update(dt,&coObjects);
 }
 
 void PlayScene::Render()

@@ -110,6 +110,7 @@ void Worm::Render()
 	if (state == WORM_STATE_DIE) {
 		ani = WORM_ANI_DIE;
 	}
+	
 	animationSet->at(ani)->Render(nx, x, y);
 	//RenderBoundingBox();
 }

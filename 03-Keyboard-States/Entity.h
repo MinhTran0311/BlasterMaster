@@ -52,7 +52,7 @@ public:
 	float dx, dy;
 	int nx;	 
 	int ny;
-	int health = 1;
+	int health;
 	int gunDam;
 	int state;									
 
