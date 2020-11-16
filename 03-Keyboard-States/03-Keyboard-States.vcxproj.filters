@@ -257,6 +257,7 @@
     <ClInclude Include="HealthBar.h">
       <Filter>HUD</Filter>
     </ClInclude>
+
     <ClInclude Include="HUD.h">
       <Filter>HUD</Filter>
     </ClInclude>

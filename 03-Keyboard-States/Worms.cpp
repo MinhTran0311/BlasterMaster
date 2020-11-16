@@ -122,6 +122,7 @@ Worm::Worm(float x, float y, LPGAMEENTITY t)
 	tag = Tag_Worm;
 	this->x = x;
 	this->y = y;
+	dam = 1;
 	nx = -1;
 	isFollow = 0;
 	this->target = t;

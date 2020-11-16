@@ -4,6 +4,8 @@
 #include "debug.h"
 #include "Game.h"
 #include "Worms.h"
+#include "Gate.h"
+
 JASON::JASON(float x, float y)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_PLAYER));
@@ -51,7 +53,7 @@ void JASON::SetState(int state)
 		{
 			isJumpHandle = false;
 			isJumping = true;
-			vy = -SOPHIA_JUMP_SPEED_Y;		
+			vy = -SOPHIA_JUMP_SPEED_Y;
 			current_Jumpy = y;
 		}
 		break;
@@ -59,13 +61,13 @@ void JASON::SetState(int state)
 		isPressJump = false;
 		//isJumpHandle = true;
 		if (vx > 0) {
-			vx -= SOPHIA_WALKING_ACC*dt;
+			vx -= SOPHIA_WALKING_ACC * dt;
 			if (vx < 0)
 				vx = 0;
 		}
 		else if (vx < 0)
 		{
-			vx += SOPHIA_WALKING_ACC*dt;
+			vx += SOPHIA_WALKING_ACC * dt;
 			if (vx > 0)
 				vx = 0;
 		}
@@ -104,10 +106,10 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	//check player's height
 	if (isJumping && current_Jumpy - y >= HEIGHT_LEVER1 && isJumpHandle == false)
 	{
-		if (!isPressJump) 
+		if (!isPressJump)
 			vy = 0;
 		isJumpHandle = true;
-}
+	}
 #pragma endregion
 #pragma region gun flip
 	if (isPressFlipGun == false)
@@ -170,28 +172,27 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 						if (ny < 0)
 							isJumping = false;
 					}
-					if(e->nx!=0)
+					if (e->nx != 0)
 					{
 						vx = 0;
 					}
 				}
 			}
-			//else if (dynamic_cast<Worm *>(e->obj) && this->IsCollidingObject(e->obj))
+			//else if (dynamic_cast<Gate*>(e->obj))
 			//{
-			//	//SetInjured(1);
-			//	//if (this->IsCollidingObject(e->obj))
-			//		this->SetInjured(1);
-			//	//health--;
-			//	//gunDam--;
-			//	DebugOut(L"health level: %d", health);
+			//	//Gate* p = dynamic_cast<Gate*>(e->obj);
+			//	///PlayScene::GetInstance()->SwitchScene(p->GetIdScene());
 			//}
+
 		}
 	}
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (this->IsCollidingObject(coObjects->at(i)) && dynamic_cast<Worm*>(coObjects->at(i)))
+		if (this->IsCollidingObject(coObjects->at(i)) && dynamic_cast<Enemy*>(coObjects->at(i)))
 		{
-			SetInjured(1);
+			Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
+
+			SetInjured(enemy->GetDamage());
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -229,7 +230,7 @@ void JASON::Render()
 	else if (isEjecting)
 	{
 		ani = SOPHIA_JASON_ANI_EJECTING;
-		animationSet->at(ani)->Render(nx, x, y-8, alpha);
+		animationSet->at(ani)->Render(nx, x, y - 8, alpha);
 		if (animationSet->at(ani)->GetFrame() >= 1)
 		{
 			isEjecting = false;

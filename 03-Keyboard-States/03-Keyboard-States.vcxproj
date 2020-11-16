@@ -178,8 +178,8 @@
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Insects.h" />
-    <ClInclude Include="Jason.h" />
     <ClInclude Include="Jumpers.h" />
+        <ClInclude Include="Jason.h" />
     <ClInclude Include="KeyboardHandler.h" />
     <ClInclude Include="Orbs.h" />
     <ClInclude Include="PlayScene.h" />

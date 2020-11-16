@@ -28,10 +28,13 @@ using namespace std;
 class PlayScene : public Scene
 {
 public:
+	//static PlayScene* __instance;
+	//static PlayScene* GetInstance();
 	int _SophiaType = -1;
 	bool tempNeed;
 	PlayScene ();
 	~PlayScene();
+	void SwitchScene(int scene_id);
 protected:
 	JASON* jason;
 	HUD* gameHUD;

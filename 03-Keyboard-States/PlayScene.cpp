@@ -16,6 +16,13 @@
 #define HUD_Y (SCREEN_HEIGHT/11) 
 
 
+//PlayScene* PlayScene::GetInstance()
+//{
+//	if (__instance == NULL)
+//		__instance = new PlayScene();
+//	return __instance;
+//}
+
 PlayScene::PlayScene() : Scene()
 {
 	keyHandler = new PlayScenceKeyHandler(this);
@@ -26,6 +33,10 @@ PlayScene::PlayScene() : Scene()
 }
 
 PlayScene::~PlayScene()
+{
+}
+
+void PlayScene::SwitchScene(int scene_id)
 {
 }
 
@@ -171,6 +182,7 @@ void PlayScene::Update(DWORD dt)
 	for (int i = 0; i < listEnemies.size(); i++)
 		listEnemies[i]->Update(dt, &listObjects);
 	//player
+
 	jason->Update(dt,&coObjects);
 }
 
