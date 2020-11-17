@@ -17,6 +17,7 @@
 
 #include "Jason.h"
 #include "Worms.h"
+#include "Floaters.h"
 
 #include "Brick.h"
 #include "Gate.h"

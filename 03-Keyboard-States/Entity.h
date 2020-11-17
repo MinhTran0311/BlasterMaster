@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <Windows.h>
 #include <d3dx9.h>
@@ -50,9 +50,9 @@ public:
 	float vy;
 
 	float dx, dy;
-	int nx;	 
-	int ny;
-	int health;
+	int nx;				// Hướng xoay render trục ngang // 1: bên phải .. -1 bên trái   
+	int ny;				//
+	int health = 1;
 	int gunDam;
 	int state;									
 

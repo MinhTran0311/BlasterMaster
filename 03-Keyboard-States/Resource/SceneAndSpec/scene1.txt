@@ -30,6 +30,12 @@
 5006	132	441	149	459	40
 5007	133	461	149	479	40
 
+#FLOATER
+#FLY
+6001	148	406	166	421	40
+#ATTACK
+6002	128	405	146	421	40
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 
 [ANIMATIONS]
@@ -49,6 +55,14 @@
 #502	5004	100	5005	100
 #walk right bottom
 #503	5006	100	5007	100
+
+#FLOATER
+#Fly
+600	6001	100
+#Attack
+601	6002	100	6001	100
+
+
 # id	ani1	ani2	ani3
 # id tuan theo define
 [ANIMATION_SETS]
@@ -59,6 +73,10 @@
 10	400
 #DOMES
 #11	500	501	502	503	9000	
+
+#FLOATER
+12	600	601	
+
 [OBJECTS]
 # type	x	y	extra_settings per object type	width	height
 # type
@@ -66,6 +84,10 @@
 10	150	151	10
 #Domes
 #11	150	125	11
+
+#FLOATER
+12	200	100	12
+
 #Brick
 ######Brick main
 1	0	161	22	318	16
