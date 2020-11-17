@@ -12,6 +12,7 @@
 
 #define OBJECT_TYPE_WORM 10
 #define OBJECT_TYPE_DOMES 11
+#define OBJECT_TYPE_FLOATER 12
 
 #define HUD_Y (SCREEN_HEIGHT/11) 
 
@@ -461,6 +462,18 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[test] add worm !\n");
 		break;
 	}
+	case OBJECT_TYPE_FLOATER:
+	{
+		obj = new Floaters(x, y, jason);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		listEnemies.push_back(obj);
+		DebugOut(L"[test] add worm !\n");
+		break;
+	}
+
 	case OBJECT_TYPE_BRICK:
 	{
 		obj = new Brick(atof(tokens[4].c_str()), atof(tokens[5].c_str()));
@@ -483,7 +496,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		float camX = atoi(tokens[9].c_str());
 		int camY = atoi(tokens[10].c_str());
 		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isResetCamera, typePlayer, camX, camY);
-		listGates.push_back(obj);
+		listObjects.push_back(obj);
 		DebugOut(L"[test] add gate !\n");
 		break;
 	}

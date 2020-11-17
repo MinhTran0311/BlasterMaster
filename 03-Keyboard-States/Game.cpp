@@ -457,7 +457,7 @@ void CGame::SweptAABB(float ml, float mt, float mr, float mb, float dx, float dy
 	}
 
 }
-
+//
 //void CGame::LoadResources()
 //{
 //	CTextures* textures = CTextures::GetInstance();

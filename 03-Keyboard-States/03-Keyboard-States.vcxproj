@@ -176,6 +176,7 @@
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Insects.h" />
     <ClInclude Include="Jumpers.h" />
