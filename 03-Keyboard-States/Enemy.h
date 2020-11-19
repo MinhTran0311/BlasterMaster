@@ -1,6 +1,6 @@
 #pragma once
 #include "Entity.h"
-
+#include "Random.h"
 #define ENEMY_MOVING_SPEED		0.1f
 
 #define ENEMY_STATE_IDLE 100

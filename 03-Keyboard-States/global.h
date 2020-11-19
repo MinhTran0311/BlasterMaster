@@ -71,8 +71,9 @@
 
 enum EnemyType
 {
-	WORM = 1,
-	FLOATER = 2,
+	WORM = 10,
+	FLOATER = 12,
+	INSECT = 13,
 };
 enum EntityType
 {

@@ -5,7 +5,6 @@
 #include "Brick.h"
 #include <ctime>
 #include <cstdlib>
-#include "Random.h"
 #include <cmath>
 #define MOVING_SPEED	0.05f
 

@@ -62,17 +62,15 @@ void Floaters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		x += min_tx * dx + nx * 0.4f; // ko dính vào tường
 		y += min_ty * dy + ny * 0.4f;// ko dính vào tường
 
-		//setRandomVxVy(vx, vy);
+		/*setRandomVxVy(vx, vy);*/
 		if (!nx && !ny)
 		{
-
 			nx = -nx;
 			vx = -vx;
 			vy = -vy;
 		}
 		else if (!nx) 
 		{
-			
 			vy = -vy;
 		}
 			
@@ -109,7 +107,7 @@ void Floaters::Render()
 	if (health <= 0)
 	{
 		ani = FLOATERS_ANI_DIE;
-		animationSet->at(ani)->OldRender(x, y);
+		animationSet->at(ani)->Render(nx,x, y);
 	}
 	else if (true)
 	//else if (cooldownTimer->IsTimeUp())

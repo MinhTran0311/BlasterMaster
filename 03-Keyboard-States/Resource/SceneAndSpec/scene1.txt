@@ -36,6 +36,12 @@
 #ATTACK
 6002	128	405	146	421	40
 
+#INSECT
+#FLY
+1301	128	529	146	547	40
+1302 	148	532	166	547	40
+
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 
 [ANIMATIONS]
@@ -62,6 +68,13 @@
 #Attack
 601	6002	100	6001	100
 
+#INSECT
+#Fly
+1300	1301	100	1302	100
+
+
+
+
 
 # id	ani1	ani2	ani3
 # id tuan theo define
@@ -77,6 +90,11 @@
 #FLOATER
 12	600	601	
 
+#INSECT
+13	1300	
+
+
+
 [OBJECTS]
 # type	x	y	extra_settings per object type	width	height
 # type
@@ -87,6 +105,11 @@
 
 #FLOATER
 12	200	100	12
+
+#INSECT
+13	250	50	13
+
+
 
 #Brick
 ######Brick main
