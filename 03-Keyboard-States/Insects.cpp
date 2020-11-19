@@ -12,8 +12,9 @@ void Insects::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt);
 
-#pragma region fall down
+#pragma region fly
 	//vy += WORM_GRAVITY * dt;
+	fly(dt);
 #pragma endregion
 #pragma region Pre-collision
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -62,16 +63,16 @@ void Insects::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		x += min_tx * dx + nx * 0.4f; // ko dính vào tường
 		y += min_ty * dy + ny * 0.4f;// ko dính vào tường
 
-		setRandomVxVy(vx, vy);
+		//setRandomVxVy(vx, vy);
 		if (!nx && !ny)
 		{
 			nx = -nx;
 			vx = -vx;
-			vy = -vy;
+			//vy = -vy;
 		}
 		else if (!nx)
 		{
-			vy = -vy;
+			//vy = -vy;
 		}
 
 		else if (!ny)
@@ -140,7 +141,7 @@ Insects::Insects(float x, float y, LPGAMEENTITY t)
 {
 	SetState(INSECTS_STATE_FLY);
 	enemyType = INSECT;
-	tag = Tag_Floater;
+	tag = Tag_Insect;
 	this->x = x;
 	this->y = y;
 	nx = -1;
@@ -149,7 +150,10 @@ Insects::Insects(float x, float y, LPGAMEENTITY t)
 	this->target = t;
 	health = MAXHEALTH;
 	isActive = false;
+	setRandomFlyDropRange();
 	bbARGB = 250;
+	originalY = this->y;
+	maxdrop = flyDropRange + originalY;
 }
 
 void Insects::Attack(LPGAMEENTITY target) //đi theo nhân vật
@@ -177,7 +181,7 @@ void Insects::Attack(LPGAMEENTITY target) //đi theo nhân vật
 	}
 
 
-}
+} 
 
 void Insects::SetState(int state)
 {
@@ -191,7 +195,8 @@ void Insects::SetState(int state)
 
 	case INSECTS_STATE_FLY:
 
-		setRandomVxVy(vx, vy);
+		setRandomVx();
+
 
 		break;
 
@@ -236,3 +241,30 @@ void Insects::setRandomVxVy(float& vx, float& vy)
 
 }
 
+void Insects::setRandomVx()
+{
+	vx = r->getRandomFloat(0.001f, MOVING_SPEED);
+}
+
+void Insects::fly(const DWORD &dt)
+{
+	
+
+	if (isDroping&&y<maxdrop)
+	{
+		vy = 0.005f;
+	}
+	else 
+	{
+		if (!isDroping&&y > originalY)
+		{
+			vy = -0.05f;
+		}
+		else isDroping = !isDroping;
+	}
+}
+
+void Insects::setRandomFlyDropRange()
+{
+	this->flyDropRange = r->getRandomInt(MIN_FLY_DROP_RANGE, MAX_FLY_DROP_RANGE);
+}

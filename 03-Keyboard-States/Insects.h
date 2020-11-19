@@ -8,7 +8,7 @@
 
 #include <cmath>
 #pragma once
-#define MOVING_SPEED	0.05f
+#define MOVING_SPEED	0.01f
 
 
 #define INSECTS_STATE_FLY		100
@@ -31,17 +31,26 @@
 
 #define TARGET_RANGE 200
 
+#define MIN_FLY_DROP_RANGE 10
+#define MAX_FLY_DROP_RANGE 25
+
 class Insects : public Enemy
 {
+	bool isDroping = true;
+	int flyDropRange;
+	int maxdrop;
+	float originalY;
 	bool canAttack = true;
 	bool isTargeting;
 	Random* r = new Random();
-	Timer* cooldownTimer = new Timer(r->getRandomInt(500, 5000));
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();
 	virtual bool inTargetRange();
 	virtual void setRandomVxVy(float& vx, float& vy);
+	virtual void fly(const DWORD &dt);
+	virtual void setRandomFlyDropRange();
+	virtual void setRandomVx();
 public:
 	Insects(float x, float y, LPGAMEENTITY t);
 	virtual void Attack(LPGAMEENTITY target = NULL);

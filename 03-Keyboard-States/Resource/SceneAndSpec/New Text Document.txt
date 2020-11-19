@@ -3,7 +3,7 @@
 0	Resource/bbox.png	255	255	0
 #1	Resource/item.png	255	255	0
 #10	Resource/sophia_die.png	176	0	248
-#20	Resource/sophia.png	255	0	255
+21	Resource/sophia.png	255	0	255
 30	Resource/jason.png	255	0	255
 40	Resource/Enemy/enemies.png	255	0	255
 11	Resource/SceneAndSpec/Scene/area_1.jpg		255	0	255

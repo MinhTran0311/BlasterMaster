@@ -3,7 +3,7 @@
 0	Resource/bbox.png	255	255	0
 #1	Resource/item.png	255	255	0
 10	Resource/sophia_die.png	176	0	248
-#20	Resource/sophia.png	255	0	255
+21	Resource/sophia.png	255	0	255
 30	Resource/jason.png	255	0	255
 40	Resource/Enemy/enemies.png	255	0	255
 50	Resource/HealthBar.png	255	255	255
@@ -95,6 +95,12 @@
 # die 
 11998	100	78	143	125	10
 11999	12	85	76	132	10
+#============ SMALL SOPHIA =================
+
+12000	
+
+
+
 #===========HEALTH_BAR====================#
 50001	30	35	50	127	50
 50002	55	37	71	45	50
