@@ -69,9 +69,6 @@
     <ClCompile Include="Worms.cpp">
       <Filter>Objects\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Telepoters.cpp">
-      <Filter>Objects\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="Skulls.cpp">
       <Filter>Objects\Enemies</Filter>
     </ClCompile>
@@ -153,6 +150,9 @@
     <ClCompile Include="HUD.cpp">
       <Filter>HUD</Filter>
     </ClCompile>
+    <ClCompile Include="Teleporters.cpp">
+      <Filter>Objects\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -189,9 +189,6 @@
       <Filter>Header Files\EnemyHeader</Filter>
     </ClInclude>
     <ClInclude Include="Worms.h">
-      <Filter>Header Files\EnemyHeader</Filter>
-    </ClInclude>
-    <ClInclude Include="Telepoters.h">
       <Filter>Header Files\EnemyHeader</Filter>
     </ClInclude>
     <ClInclude Include="global.h">
@@ -257,9 +254,11 @@
     <ClInclude Include="HealthBar.h">
       <Filter>HUD</Filter>
     </ClInclude>
-
     <ClInclude Include="HUD.h">
       <Filter>HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Teleporters.h">
+      <Filter>Header Files\EnemyHeader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

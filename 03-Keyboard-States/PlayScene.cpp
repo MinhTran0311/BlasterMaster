@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "Worms.h"
+#include "Eyeballs.h"
+#include "Teleporters.h"
 #include "PlayScene.h"
 #define ID_SMALL_SOPHIA	0
 #define ID_JASON		1
@@ -12,6 +14,8 @@
 
 #define OBJECT_TYPE_WORM 10
 #define OBJECT_TYPE_DOMES 11
+#define OBJECT_TYPE_EYEBALLS 17
+#define OBJECT_TYPE_TELEPOTERS 18
 
 #define HUD_Y (SCREEN_HEIGHT/11) 
 
@@ -459,6 +463,28 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		obj->SetAnimationSet(ani_set);
 		listEnemies.push_back(obj);
 		DebugOut(L"[test] add worm !\n");
+		break;
+	}
+	case OBJECT_TYPE_EYEBALLS:
+	{
+		obj = new Eyeballs(x, y, jason);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		listEnemies.push_back(obj);
+		DebugOut(L"[test] add eyeballs !\n");
+		break;
+	}
+	case OBJECT_TYPE_TELEPOTERS:
+	{
+		obj = new Teleporters(x, y, jason);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		listEnemies.push_back(obj);
+		DebugOut(L"[test] add telepoters !\n");
 		break;
 	}
 	case OBJECT_TYPE_BRICK:

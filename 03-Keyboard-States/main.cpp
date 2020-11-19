@@ -18,7 +18,7 @@
 #include "Jumpers.h"
 #include "Orbs.h"
 #include "Skulls.h"
-#include "Telepoters.h"
+#include "Teleporters.h"
 #include "Worms.h"
 #include "KeyboardHandler.h"
 #include "SceneManager.h"

@@ -152,7 +152,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Small_Sophia.cpp" />
     <ClCompile Include="Sprites.cpp" />
-    <ClCompile Include="Telepoters.cpp" />
+    <ClCompile Include="Teleporters.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Worms.cpp" />
@@ -179,7 +179,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Insects.h" />
     <ClInclude Include="Jumpers.h" />
-        <ClInclude Include="Jason.h" />
+    <ClInclude Include="Jason.h" />
     <ClInclude Include="KeyboardHandler.h" />
     <ClInclude Include="Orbs.h" />
     <ClInclude Include="PlayScene.h" />
@@ -188,7 +188,7 @@
     <ClInclude Include="Skulls.h" />
     <ClInclude Include="Small_Sophia.h" />
     <ClInclude Include="Sprites.h" />
-    <ClInclude Include="Telepoters.h" />
+    <ClInclude Include="Teleporters.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Worms.h" />

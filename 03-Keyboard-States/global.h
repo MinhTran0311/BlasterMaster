@@ -72,6 +72,8 @@
 enum EnemyType
 {
 	WORM = 1,
+	EYEBALLS = 8,
+	TELEPORTERS = 9,
 };
 enum EntityType
 {
@@ -137,6 +139,8 @@ enum EntityType
 	////Enemies Zone 80-100
 	ENEMY = 80,
 	Tag_Worm = 81,
+	Tag_Eyeballs = 88,
+	Tag_Teleporters = 89,
 	////GOLEM = 80,
 	//Worm = 81,
 	////DOMES = 82,

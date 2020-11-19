@@ -17,6 +17,8 @@
 
 #include "Jason.h"
 #include "Worms.h"
+#include "Eyeballs.h"
+#include "Teleporters.h"
 
 #include "Brick.h"
 #include "Gate.h"
