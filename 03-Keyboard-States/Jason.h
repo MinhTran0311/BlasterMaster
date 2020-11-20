@@ -2,7 +2,7 @@
 #include "Entity.h"
 #include <map>
 #include "Timer.h"
-
+#include "Gate.h"
 #define SOPHIA_WALKING_SPEED_UNIT		0.0040f//0.010f
 #define SOPHIA_WALKING_SPEED			0.1f 
 #define SOPHIA_WALKING_SPEED_BONUS		0.003f//0.007f
@@ -10,7 +10,7 @@
 
 #define SOPHIA_JUMP_SPEED_Y				0.223f
 #define SOPHIA_JUMP_DEFLECT_SPEED		0.10f
-#define SOPHIA_GRAVITY					0.0004f
+#define SOPHIA_GRAVITY					0.0002f
 #define SOPHIA_DIE_DEFLECT_SPEED		0.5f
 #define SOPHIA_JASON_HEIGHT_GUN_FLIP	15.5
 
@@ -61,7 +61,7 @@
 #define DURATION_X_TO_DIE	14
 #define DURATION_Y_TO_DIE	30
 #define DISTANCE_TO_OUT		8
-#define HEIGHT_LEVER1		35
+#define HEIGHT_LEVER1		45
 #define MAX_HEALTH			8
 #define SOPHIA_ANI_JASON_IDLE_RIGHT					0
 #define SOPHIA_ANI_JASON_IDLE_LEFT					1
@@ -110,6 +110,8 @@
 #define PLAYER_IMMORTAL_DURATION	1000
 class JASON : public Entity
 {
+	bool GateColliding = false;
+
 	int alpha;
 	static JASON* instance;
 	bool isJumpHandle;
@@ -154,7 +156,17 @@ public:
 	float GetDy() { return dy; };
 	float GetDx() { return dx; };
 	void Reset();
-	void GetInfoForBullet(int& direct, int& isTargetTop, float& playerx, float& playery) { direct = nx; isTargetTop = isGunFlipping; playerx = x; playery = y; }
+	void GetInfoForBullet(int& direct, bool& isTargetTop, float& playerx, float& playery) { direct = nx; isTargetTop = isGunFlipping; playerx = x; playery = y; }
+
+#pragma region sceneswitching
+	Gate* gate;
+	Gate* GetGate() { return gate; };
+	void ResetGate() { gate = NULL; };
+	bool GetGateColliding() { return GateColliding; };
+	void SetGateColliding(bool done) { GateColliding = done; };
+#pragma endregion
+
+
 
 	void SetInjured(int dame);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

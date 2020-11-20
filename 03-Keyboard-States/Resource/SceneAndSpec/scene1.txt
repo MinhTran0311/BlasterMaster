@@ -1,7 +1,7 @@
 # Id	FilePath			R	G	B
 [TEXTURES]
 40	Resource/Enemy/enemies.png	255	0	255
-
+60	Resource/item2.png	255	255	0
 # id	left	top	right	bottom	texture_id
 
 [SPRITES]
@@ -30,12 +30,27 @@
 5006	132	441	149	459	40
 5007	133	461	149	479	40
 
+#ENEMY DIE
+90000	176	94	183	102	1
+90001	192	91	208	104	1
+90002	213	90	229	106	1
+
+#EnemyBullet
+#Big Navigated Enemy Bullet
+400001	358	110	365	117	60
+#small Navigated Enemy Bullet
+400002	359	161	364	166	60
+#skull bullet
+400003	257	9	266	18	60
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 
 [ANIMATIONS]
 #map
 100	1000	100
-
+# =============== BULLET===============
+40001	400001	100
+40002	400002	100
+40003	400003	100
 # =============== ENEMIES==============
 #Walk worm
 400	4001	100	4002	100
@@ -49,16 +64,22 @@
 #502	5004	100	5005	100
 #walk right bottom
 #503	5006	100	5007	100
+#ENEMY DIE
+9000	90000	100	90001	100	90002	100	90002	100
 # id	ani1	ani2	ani3
 # id tuan theo define
 [ANIMATION_SETS]
 #map
 30	100
+#Bullet
+4001	40001	30005
+4002	40002	30005
+4003	40003	30005
 #=== ENEMIES =====
 # Worm
-10	400
+10	400	9000
 #DOMES
-#11	500	501	502	503	9000	
+#11	500	501	502	503	9000
 [OBJECTS]
 # type	x	y	extra_settings per object type	width	height
 # type
@@ -129,4 +150,4 @@
 1	0	224	22	1000	15
 #Gate
 #	gateX	gateY	stage	playerX	playerY	state	camera	typeplayer	camX	camY
-2	979	120	2	65	1165	0	1	1	0	1031.372437
+2	979	120	12	65	1165	0	1	1	0	50	1100

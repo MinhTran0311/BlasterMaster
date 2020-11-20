@@ -163,7 +163,7 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 		CreateWindow(
 			WINDOW_CLASS_NAME,
 			MAIN_WINDOW_TITLE,
-			WS_OVERLAPPEDWINDOW, // WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP,
+			WS_OVERLAPPEDWINDOW, // WS_EX_TOPMOST | WS_isDeath | WS_POPUP,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
 			ScreenWidth,
@@ -233,7 +233,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game->InitDirectX(hWnd);
 
 	game->InitKeyboard();
-	SceneManager::GetInstance()->SetScene(new PlayScene());
+	SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 	Run();
 

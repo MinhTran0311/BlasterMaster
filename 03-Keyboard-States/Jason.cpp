@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Worms.h"
 #include "Gate.h"
+#include "PlayScene.h"
 
 JASON::JASON(float x, float y)
 {
@@ -178,12 +179,12 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 					}
 				}
 			}
-			//else if (dynamic_cast<Gate*>(e->obj))
-			//{
-			//	//Gate* p = dynamic_cast<Gate*>(e->obj);
-			//	///PlayScene::GetInstance()->SwitchScene(p->GetIdScene());
-			//}
-
+			else if (dynamic_cast<Gate*>(e->obj))
+			{
+				gate = dynamic_cast<Gate*>(e->obj);
+				DebugOut(L"jason dung tuong loai 1");
+				GateColliding = true;
+			}
 		}
 	}
 	for (UINT i = 0; i < coObjects->size(); i++)
@@ -191,20 +192,21 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		if (this->IsCollidingObject(coObjects->at(i)) && dynamic_cast<Enemy*>(coObjects->at(i)))
 		{
 			Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
-
+			//re check
+			if (isJumping)
+			{
+				this->SetState(SOPHIA_STATE_IDLE);
+				isJumping = false;
+				isJumpHandle = true;
+				this->y += 2.5f;
+				this->x += 2.0f;
+			}
 			SetInjured(enemy->GetDamage());
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 #pragma endregion
-
-
-	//if (this->y >= 144)
-	//{
-	//	isJumping = false;
-	//	y = 144;
-	//}
 }
 
 void JASON::Render()
