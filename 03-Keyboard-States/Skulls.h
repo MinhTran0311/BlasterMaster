@@ -11,6 +11,7 @@
 #define SKULLS_STATE_FLY		100
 #define SKULLS_STATE_ATTACK	200
 #define SKULLS_STATE_DIE		300
+#define SKULLS_STATE_STOP		400
 
 #define SKULLS_ANI_FLY		0
 #define SKULLS_ANI_ATTACK		1
@@ -28,11 +29,13 @@
 
 #define TARGET_RANGE 200
 
+#define SKULLS_SITEFOLLOW_PLAYER 50
+#define SKULLS_SITEACTIVE_PLAYER 150
+
 class Skulls : public Enemy
 {
-
-
-	bool canAttack = true;
+	int time = 0;
+	bool canAttack = false;
 	bool isTargeting;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
@@ -40,7 +43,7 @@ class Skulls : public Enemy
 	virtual bool inTargetRange();
 public:
 	Skulls(float x, float y, LPGAMEENTITY t);
-	virtual void Attack(LPGAMEENTITY target = NULL);
+	virtual void Attack(LPGAMEENTITY target);
 	virtual void SetState(int state);
 	void SelfDestroy();
 };

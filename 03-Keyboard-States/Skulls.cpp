@@ -31,6 +31,7 @@ void Skulls::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		if (state != SKULLS_STATE_DIE)
 			CalcPotentialCollisions(&bricks, coEvents);
 	}
+	
 #pragma endregion
 
 
@@ -80,12 +81,22 @@ void Skulls::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 #pragma region Active
-	/*if (!isActive) vx = 0;
-	else SetState(SKULLS_STATE_FLY);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= WORM_SITEACTIVE_PLAYER)
+	
+	
+	
+	
+
+	//if (!isActive) vx = 0;
+	//else SetState(SKULLS_STATE_FLY);
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= SKULLS_SITEACTIVE_PLAYER)
 	{
 		isActive = true;
-	}*/
+		Attack(target);
+		/*if (this->x == this->target->x)
+		{
+			Attack();
+		}*/
+	}
 #pragma endregion
 
 }
@@ -93,10 +104,7 @@ void Skulls::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 void Skulls::Render()
 {
 	//RenderBoundingBox();
-	if (vx > 0)
-		nx = 1;
-	else
-		nx = -1;
+	
 
 
 	int ani;
@@ -105,9 +113,31 @@ void Skulls::Render()
 		ani = SKULLS_ANI_DIE;
 		animationSet->at(ani)->OldRender(x, y);
 	}
-	else if (true)
+	else if (!canAttack)
 		//else if (cooldownTimer->IsTimeUp())
 	{
+		if (vx > 0)
+			nx = 1;
+		else
+			nx = -1;
+		ani = SKULLS_ANI_FLY;
+		animationSet->at(ani)->Render(nx, x, y);
+		//animationSet->at(ani)->OldRender(x, y);
+
+	}
+	else if (canAttack && time < 20)
+		//else if (cooldownTimer->IsTimeUp())
+	{
+		
+		ani = SKULLS_ANI_ATTACK;
+		animationSet->at(ani)->Render(nx, x, y);
+		//animationSet->at(ani)->OldRender(x, y);
+
+	}
+	else if (canAttack)
+		//else if (cooldownTimer->IsTimeUp())
+	{
+
 		ani = SKULLS_ANI_FLY;
 		animationSet->at(ani)->Render(nx, x, y);
 		//animationSet->at(ani)->OldRender(x, y);
@@ -136,7 +166,7 @@ Skulls::Skulls(float x, float y, LPGAMEENTITY t)
 	tag = Tag_Skulls;
 	this->x = x;
 	this->y = y;
-	nx = -1;
+	nx = 1;
 	isTargeting = 0;
 	this->target = t;
 	health = MAXHEALTH;
@@ -144,30 +174,15 @@ Skulls::Skulls(float x, float y, LPGAMEENTITY t)
 	bbARGB = 250;
 }
 
-void Skulls::Attack(LPGAMEENTITY target) //đi theo nhân vật
+void Skulls::Attack(LPGAMEENTITY target) //tấn công tại vị trí nhân vật
 {
-	//if ((target->x - this->x) > 0)
-	//{
-	//	this->nx = 1;
-	//	vx = WORM_WALKING_SPEED;
-	//}
-	//else
-	//{
-	//	vx = -WORM_WALKING_SPEED;
-	//	this->nx = -1;
-	//}
-	if (canAttack)
-	{
-		if (target != NULL)
-		{
-
-		}
-		else
-		{
-
-		}
+	if (abs(target->x -this->x) < 20) {
+		SetState(SKULLS_STATE_ATTACK);
+		canAttack = true;
+		
 	}
-
+	
+	
 
 }
 
@@ -192,10 +207,19 @@ void Skulls::SetState(int state)
 		}
 		break;
 
-		//case SKULLS_STATE_ATTACK:
-		//	cooldownTimer->Reset(randomTimeAttack());
-		//	delayTimer->Start();
-		//	break;
+	case SKULLS_STATE_ATTACK:
+			
+		vx = 0;
+		if(time <30)
+		time++;
+		break;
+
+	
+	case SKULLS_STATE_STOP:
+		time = 1;
+		vx = 0;
+		vy = 0;
+		break;
 
 	}
 

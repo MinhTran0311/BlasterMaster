@@ -31,7 +31,7 @@
 
 class Orbs : public Enemy
 {
-	
+	float collectionX;
 	bool isflip = false;
 	int time = 0;
 	bool canAttack = false;

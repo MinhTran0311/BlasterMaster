@@ -20,7 +20,8 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEENTITY> bricks;
 	if (isflip == true) { SetState(ORBS_STATE_FLIP); }
-	else { SetState(ORBS_STATE_FLY);  }
+	if (time == 19) { SetState(ORBS_STATE_FLY); isflip = false; }
+	if (collectionX == x)time = 0;
 	coEvents.clear();
 	bricks.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
@@ -71,7 +72,8 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 		else if (!ny)
 		{
-			
+			isflip = true;
+			this->collectionX = this->x;
 			nx = -nx;
 			vx = -vx;
 		}
@@ -110,7 +112,7 @@ void Orbs::Render()
 		ani = ORBS_ANI_DIE;
 		animationSet->at(ani)->OldRender(x, y);
 	}
-	else if (!isflip)
+	else if (!isflip )
 		//else if (cooldownTimer->IsTimeUp())
 	{
 		ani = ORBS_ANI_FLY;
@@ -118,7 +120,7 @@ void Orbs::Render()
 		//animationSet->at(ani)->OldRender(x, y);
 
 	}
-	else if (isflip)
+	else if (isflip && time <20)
 	{
 
 		ani = ORBS_ANI_FLIP;
@@ -202,6 +204,8 @@ void Orbs::SetState(int state)
 		break;
 
 	case ORBS_STATE_FLY:
+		
+		if (time == 21)time = 0;
 		if (nx > 0)
 		{
 			vx = MOVING_SPEED;
