@@ -46,14 +46,7 @@ void Teleporters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 	else
 	{
-		this->SetState(TELEPORTERS_STATE_TRANSFORMING);
-		transportTimer->Start();
-		if (transportTimer->IsTimeUp()) {
-			isTransporting = true;
-			this->SetState(TELEPORTERS_STATE_IDLE);
-			isActive = false;
-			transportTimer->Reset();
-		}
+		this->SetState(TELEPORTERS_STATE_IDLE);
 	}
 #pragma endregion
 
@@ -101,6 +94,7 @@ Teleporters::Teleporters(float x, float y, LPGAMEENTITY t)
 	bbARGB = 250;
 	isTransporting = true;
 	isAttacking = false;
+	re_tranform = true;
 }
 
 void Teleporters::AttackTarget(LPGAMEENTITY target) //tấn công nhân vật

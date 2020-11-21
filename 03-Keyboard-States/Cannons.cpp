@@ -122,7 +122,7 @@ void Cannons::SetState(int state)
 		case CANNONS_STATE_ATTACKING_TOP:
 		{
 			//Attack
-			Bullet* bullet = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH / 2 - 3.0f, y, EntityType::TAG_CANNONS, -1, -1);
+			Bullet* bullet = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH / 2 - 3.0f, y, EntityType::TAG_CANNONS, 0, -1);
 			Bullet* bullet2 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH / 2 - 3.0f, y + CANNONS_BBOX_HEIGHT, EntityType::TAG_CANNONS, 0, 1);
 			/*if (listBullet.size() <= 4)
 			{

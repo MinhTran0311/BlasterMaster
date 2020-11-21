@@ -88,9 +88,11 @@
 #Walk worm
 400	4001	100	4002	100
 
-#Fly eyeballs
-1100	11001	100	11002	100	11003	100
-
+#Fly and Attack eyeballs
+1100	11001	100	11003	100
+#Idle eyeballs
+1101	11002	100	11001	100
+	
 #TELEPORTERS
 #IDLE teleporters
 1200	12001	100
@@ -145,7 +147,7 @@
 # Worm
 10	400
 #Eyeballs
-17	1100
+17	1100	1101
 #Teleporters
 18	1200	1201	1202
 #Cannons
@@ -158,7 +160,7 @@
 #Worm
 10	150	151	10
 #Eyeballs
-17	150	151	17
+17	150	70	17
 #Teleporters
 18	150	125	18
 #Cannons

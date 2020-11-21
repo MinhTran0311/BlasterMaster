@@ -470,7 +470,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[test] add worm !\n");
 		break;
 	}*/
-	/*
+	
 	case OBJECT_TYPE_EYEBALLS:
 	{
 		obj = new Eyeballs(x, y, jason);
@@ -481,8 +481,8 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		listEnemies.push_back(obj);
 		DebugOut(L"[test] add eyeballs !\n");
 		break;
-	}*/
-	case OBJECT_TYPE_TELEPOTERS:
+	}
+	/*case OBJECT_TYPE_TELEPOTERS:
 	{
 		obj = new Teleporters(x, y, jason);
 		obj->SetPosition(x, y);
@@ -492,8 +492,8 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		listEnemies.push_back(obj);
 		DebugOut(L"[test] add telepoters !\n");
 		break;
-	}
-	case OBJECT_TYPE_CANNONS:
+	}*/
+	/*case OBJECT_TYPE_CANNONS:
 	{
 		obj = new Cannons(x, y, jason);
 		obj->SetPosition(x, y);
@@ -503,7 +503,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		listEnemies.push_back(obj);
 		DebugOut(L"[test] add cannons !\n");
 		break;
-	}
+	}*/
 	/*case OBJECT_TYPE_DOMES:
 	{
 		obj = new Domes(x, y, jason);

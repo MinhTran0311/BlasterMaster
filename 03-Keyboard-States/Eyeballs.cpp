@@ -13,7 +13,7 @@ void Eyeballs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	Entity::Update(dt);
 
 #pragma region fall down
-	vy += EYEBALLS_GRAVITY * dt;
+	//vy += EYEBALLS_GRAVITY * dt;
 #pragma endregion
 #pragma region Pre-collision
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -51,7 +51,7 @@ void Eyeballs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		//follow player
 		if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= EYEBALLS_SITEFOLLOW_PLAYER)
 		{
-			FollowTarget(target);
+			FlyAndAttackTarget(target);
 		}
 		else    //Wall or reaching the edges
 		{
@@ -105,9 +105,18 @@ void Eyeballs::Render()
 	else
 		nx = -1;
 
-	int ani = EYEBALLS_ANI_FLYING;
+	int ani = EYEBALLS_ANI_IDLE;
 	if (state == EYEBALLS_STATE_DIE) {
 		ani = EYEBALLS_ANI_DIE;
+	}
+	else if (state == EYEBALLS_STATE_IDLE) {
+		ani = EYEBALLS_ANI_IDLE;
+	}
+	else if (state == EYEBALLS_STATE_FLYING) {
+		ani = EYEBALLS_ANI_FLYING;
+	}
+	else if (state == EYEBALLS_STATE_ATTACKING) {
+		ani = EYEBALLS_ANI_FLYING;
 	}
 
 	animationSet->at(ani)->Render(nx, x, y);
@@ -116,7 +125,7 @@ void Eyeballs::Render()
 
 Eyeballs::Eyeballs(float x, float y, LPGAMEENTITY t)
 {
-	SetState(EYEBALLS_STATE_FLYING);
+	SetState(EYEBALLS_STATE_IDLE);
 	enemyType = EYEBALLS;
 	tag = TAG_EYEBALLS;
 	this->x = x;
@@ -130,18 +139,21 @@ Eyeballs::Eyeballs(float x, float y, LPGAMEENTITY t)
 	bbARGB = 250;
 }
 
-void Eyeballs::FollowTarget(LPGAMEENTITY target)
+void Eyeballs::FlyAndAttackTarget(LPGAMEENTITY target)
 {
-	if ((target->x - this->x) > 0)
+	if (attackTimer->IsTimeUp())
 	{
-		this->nx = 1;
-		vx = EYEBALLS_WALKING_SPEED;
+		SetState(EYEBALLS_STATE_FLYING);
+		attackTimer->Reset();
+		attackTimer->Start();
 	}
-	else
+	else if (flyTimer->IsTimeUp())
 	{
-		vx = -EYEBALLS_WALKING_SPEED;
-		this->nx = -1;
+		SetState(EYEBALLS_STATE_ATTACKING);
+		flyTimer->Reset();
+		flyTimer->Start();
 	}
+		
 }
 
 void Eyeballs::SetState(int state)
@@ -149,19 +161,34 @@ void Eyeballs::SetState(int state)
 	Entity::SetState(state);
 	switch (state)
 	{
-	case EYEBALLS_STATE_DIE:
-		y += EYEBALLS_BBOX_HEIGHT - EYEBALLS_BBOX_HEIGHT_DIE + 1;
-		vx = 0;
-		vy = 0;
-		break;
-	case EYEBALLS_STATE_FLYING:
-		if (nx > 0)
+		case EYEBALLS_STATE_DIE:
+			y += EYEBALLS_BBOX_HEIGHT - EYEBALLS_BBOX_HEIGHT_DIE + 1;
+			vx = 0;
+			vy = 0;
+			break;
+		case EYEBALLS_STATE_FLYING:
 		{
-			vx = EYEBALLS_WALKING_SPEED;
+			if (nx > 0)
+			{
+				vx = EYEBALLS_WALKING_SPEED;
+			}
+			else
+			{
+				vx = -EYEBALLS_WALKING_SPEED;
+			}
+			flyTimer->Start();
+			break;
 		}
-		else
+		case EYEBALLS_STATE_ATTACKING:
 		{
-			vx = -EYEBALLS_WALKING_SPEED;
+			vx = 0;
+			vy = 0;
+			attackTimer->Start();
+			break;
+		}
+		case EYEBALLS_STATE_IDLE:
+		{
+			break;
 		}
 	}
 }

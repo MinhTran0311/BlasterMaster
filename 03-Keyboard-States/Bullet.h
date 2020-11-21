@@ -65,7 +65,8 @@ public:
 	int alpha, typeBullet;
 	bool  isHitBrick, isHitEnemy;
 	float timeDelayed, timeDelayedMax;
-
+	float equation_a, equation_b;
+	LPGAMEENTITY targetObject;
 	// phương thức
 	Bullet();
 	~Bullet();

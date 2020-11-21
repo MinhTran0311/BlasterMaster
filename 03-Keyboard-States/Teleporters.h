@@ -24,7 +24,6 @@
 
 #define TELEPORTERS_SITEATTACK_PLAYER			100
 
-#define TELEPORTERS_TRANSPORT_DURATION 1500
 #define TELEPORTERS_DELAY_ATTACK 1000
 #define TELEPORTERS_MAXHEALTH					1
 
@@ -37,11 +36,10 @@ class Teleporters : public Enemy
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
 	virtual void Render();
-	Timer* transportTimer = new Timer(TELEPORTERS_TRANSPORT_DURATION);
 	Timer* delayAttackTimer = new Timer(TELEPORTERS_DELAY_ATTACK);
 	bool isTransporting;
 	bool isAttacking;
-
+	bool re_tranform;
 public:
 	Teleporters(float x, float y, LPGAMEENTITY t);
 

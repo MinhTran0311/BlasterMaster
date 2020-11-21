@@ -26,7 +26,7 @@
 #define BOTTOM_SCREEN 450
 #define CAMERA_SPEED_WORLD1 0.223
 #define CAMERA_SPEED_OVERWORLD 0.15
-#define MAX_FRAME_RATE 600	//default Frame Rate is the truth
+#define MAX_FRAME_RATE 120	//default Frame Rate is the truth
 
 #define SCENEGAME_GAMETIMEMAX		300
 
