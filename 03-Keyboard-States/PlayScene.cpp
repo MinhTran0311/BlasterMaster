@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Worms.h"
+#include "Insects.h"
 #include "PlayScene.h"
 #define ID_SMALL_SOPHIA	0
 #define ID_JASON		1
@@ -13,6 +14,7 @@
 #define OBJECT_TYPE_WORM 10
 #define OBJECT_TYPE_DOMES 11
 #define OBJECT_TYPE_FLOATER 12
+#define OBJECT_TYPE_INSECT 13
 
 #define HUD_Y (SCREEN_HEIGHT/11) 
 
@@ -52,6 +54,13 @@ void PlayScene::LoadBaseObjects()
 		jason = new JASON(55, 100);
 		DebugOut(L"[INFO] JASON CREATED!!! \n");
 	}
+	if (ssophia == NULL)
+	{
+		ssophia = new Small_Sophia(55, 100);
+		DebugOut(L"[INFO] SMALL SOPHIA CREATED!!! \n");
+	}
+
+
 	if (gameHUD == NULL)
 	{
 		gameHUD = new HUD(jason->GetHealth(), jason->GetgunDam());
@@ -156,19 +165,40 @@ void PlayScene::Update(DWORD dt)
 {
 #pragma region camera
 	float cx, cy;
-	jason->GetPosition(cx, cy);
+
 	mapWidth = listWidth[(ID_AREA1 % 10) - 1];	
 	mapHeight= listHeight[(ID_AREA1 % 10) - 1];
 
-	if (jason->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
-		cx = mapWidth - SCREEN_WIDTH;
-	else
+
+	switch (_SophiaType)
 	{
-		if (jason->Getx() < SCREEN_WIDTH / 2)
-			cx = 0;
+	case ID_JASON:
+		jason->GetPosition(cx, cy);
+		if (jason->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
+			cx = mapWidth - SCREEN_WIDTH;
 		else
-			cx -= SCREEN_WIDTH / 2;
+		{
+			if (jason->Getx() < SCREEN_WIDTH / 2)
+				cx = 0;
+			else
+				cx -= SCREEN_WIDTH / 2;
+		}
+		break;
+	case ID_SMALL_SOPHIA:
+		ssophia->GetPosition(cx, cy);
+		if (ssophia->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
+			cx = mapWidth - SCREEN_WIDTH;
+		else
+		{
+			if (ssophia->Getx() < SCREEN_WIDTH / 2)
+				cx = 0;
+			else
+				cx -= SCREEN_WIDTH / 2;
+		}
+		break;
 	}
+
+	
 	cy -= SCREEN_HEIGHT / 2;
 	gameCamera->SetCamPos(cx, 0.0f);//cy khi muon camera move theo y player 
 	gameHUD->Update(cx, HUD_Y, jason->GetHealth(), jason->GetgunDam());	//move x follow camera
@@ -185,6 +215,7 @@ void PlayScene::Update(DWORD dt)
 	//player
 
 	jason->Update(dt,&coObjects);
+	ssophia->Update(dt,&coObjects);
 }
 
 void PlayScene::Render()
@@ -200,7 +231,16 @@ void PlayScene::Render()
 	}
 	for (int i = 0; i < listEnemies.size(); i++)
 		listEnemies[i]->Render();
-	jason->Render();
+	switch (_SophiaType)
+	{
+	case ID_JASON:
+		jason->Render();
+		break;
+	case ID_SMALL_SOPHIA:
+		jason->Render();
+		ssophia->Render();
+
+	}
 	gameHUD->Render(jason);
 }
 
@@ -280,44 +320,68 @@ void PlayScene::LoadSceneObjects(LPCWSTR path)
 void PlayScenceKeyHandler::KeyState(BYTE* states)
 {
 	int _SophiaType = ((PlayScene*)scence)->_SophiaType;
-	JASON* player = ((PlayScene*)scence)->jason;
-	vector<LPGAMEENTITY> listEnemies = ((PlayScene*)scence)->listEnemies;
-	if (player->GetState() == SOPHIA_STATE_DIE) return;
+
+	JASON* jason = ((PlayScene*)scence)->jason;
+	Small_Sophia* ssophia = ((PlayScene*)scence)->ssophia;
+
+	if (jason->GetState() == SOPHIA_STATE_DIE) return;
 	
 	if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
 	{
 		if (_SophiaType == ID_JASON)
-			player->SetState(SOPHIA_STATE_WALKING_RIGHT);
+			jason->SetState(SOPHIA_STATE_WALKING_RIGHT);
+		if (_SophiaType == ID_SMALL_SOPHIA)
+			ssophia->SetState(SMALL_SOPHIA_STATE_WALKING_RIGHT);
+
 	}
 	else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
 	{
 		if (_SophiaType == ID_JASON) {
-			player->SetState(SOPHIA_STATE_WALKING_LEFT);
+			jason->SetState(SOPHIA_STATE_WALKING_LEFT);
 		}
+		if (_SophiaType == ID_SMALL_SOPHIA) {
+			ssophia->SetState(SMALL_SOPHIA_STATE_WALKING_LEFT);
+		}
+
 	}
 	else
 	{
 		if (_SophiaType == ID_JASON)
-			player->SetState(SOPHIA_STATE_IDLE);
+			jason->SetState(SOPHIA_STATE_IDLE);
+		if (_SophiaType == ID_SMALL_SOPHIA)
+			ssophia->SetState(SMALL_SOPHIA_STATE_IDLE);
+
 	}
 
 	if (CGame::GetInstance()->IsKeyDown(DIK_SPACE))
 	{
 		if (_SophiaType == ID_JASON)
-			player->SetPressSpace(true);
+			jason->SetPressSpace(true);
+		if (_SophiaType == ID_SMALL_SOPHIA)
+		{
+			ssophia->SetPressSpace(true);
+		}
 	}
 
-	if (CGame::GetInstance()->IsKeyDown(DIK_UP))
-	{
-		if (_SophiaType == ID_JASON)
-			player->SetPressUp(true);
-	}
+	//if (CGame::GetInstance()->IsKeyDown(DIK_UP))
+	//{
+	//	if (_SophiaType == ID_JASON)
+	//		player->SetP(true);
+	//}
+	//if (CGame::GetInstance()->IsKeyDown(DIKEYBOARD_LSHIFT))
+	//{
+	//	if (_SophiaType == ID_JASON)
+	//		player 
+	//}
+
+
 }
 
 void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	int _SophiaType = ((PlayScene*)scence)->_SophiaType;
-	JASON* player = ((PlayScene*)scence)->jason;
+	Entity* ssophia = ((PlayScene*)scence)->ssophia;
+	JASON* jason = ((PlayScene*)scence)->jason;
 	vector<LPGAMEENTITY> listEnemies = ((PlayScene*)scence)->listEnemies;
 	float x, y;
 	int direction, directionY, isTargetTop, dame;
@@ -327,27 +391,92 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		DestroyWindow(CGame::GetInstance()->GetWindowHandle());
 		break;
 	case DIK_SPACE:
-		if (_SophiaType == ID_JASON)
-			player->SetState(SOPHIA_STATE_JUMP);
+		switch (_SophiaType)
+		{
+		case ID_JASON:
+			jason->SetState(SOPHIA_STATE_JUMP);
+			break;
+		case ID_SMALL_SOPHIA:
+			ssophia->SetState(SMALL_SOPHIA_STATE_JUMP);
+			break;
+		}
+		
+			
 		break;
+	case DIK_LSHIFT:
+		/*if (_SophiaType == ID_JASON)
+			((PlayScene*)scence)->changePlayer();
+		else if (_SophiaType== ID_SMALL_SOPHIA)
+		{
+			((PlayScene*)scence)->changePlayer();
+		}*/
+		((PlayScene*)scence)->changePlayer();
+		break;
+
 	default:
 		break;
 	}
 
 }
 
+void PlayScene::changePlayer()
+{
+	//if (abs(jason->x - ssophia->x)< DISTANCE_TO_OUT&& abs(jason->y - ssophia->y) < DISTANCE_TO_OUT)
+	//{
+		if (_SophiaType == ID_JASON)
+		{
+			this->jason->SetState(SOPHIA_STATE_OUT);
+			this->ssophia->x = jason->x;
+			this->ssophia->y = jason->y;
+			this->_SophiaType = ID_SMALL_SOPHIA;
+			this->ssophia->SetState(SMALL_SOPHIA_STATE_OUT);
+		}
+
+		else if (_SophiaType == ID_SMALL_SOPHIA)
+		{
+			if (abs(jason->x - ssophia->x) < DISTANCE_TO_OUT && abs(jason->y - ssophia->y) < DISTANCE_TO_OUT)
+			{
+				this->ssophia->SetState(SMALL_SOPHIA_STATE_IDLE);
+				this->ssophia->SetState(SMALL_SOPHIA_STATE_OUT);
+				this->_SophiaType = ID_JASON;
+				
+			}
+			
+		}
+	//}
+	
+	//this->_SophiaType = ID_SMALL_SOPHIA;
+}
+
 void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 {
-	JASON* player = ((PlayScene*)scence)->jason;
+	JASON* jason = ((PlayScene*)scence)->jason;
+	Small_Sophia* ssophia = ((PlayScene*)scence)->ssophia;
 	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
 	switch (KeyCode)
 	{
 	case DIK_UP:
-		player->SetPressUp(false);
-		player->SetState(SOPHIA_STATE_GUN_UNFLIP);
+		switch (((PlayScene*)scence)->_SophiaType)
+		{
+		case ID_JASON:
+			jason->SetPressUp(false);
+			jason->SetState(SOPHIA_STATE_GUN_UNFLIP);
+			break;
+
+		}
+		
 		break;
 	case DIK_SPACE:
-		player->SetPressSpace(false);
+		switch (((PlayScene*)scence)->_SophiaType)
+		{
+			case ID_JASON:
+				jason->SetPressSpace(false);
+				break;
+			case ID_SMALL_SOPHIA:
+				ssophia->SetPressSpace(false);
+				break;
+		}
+		
 		break;
 	}
 } 
@@ -470,9 +599,23 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 
 		obj->SetAnimationSet(ani_set);
 		listEnemies.push_back(obj);
-		DebugOut(L"[test] add worm !\n");
+		DebugOut(L"[test] add floater !\n");
 		break;
 	}
+
+	case OBJECT_TYPE_INSECT:
+	{
+		obj = new Insects(x, y, jason);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		listEnemies.push_back(obj);
+		DebugOut(L"[test] add insect !\n");
+		break;
+	}
+
+
 
 	case OBJECT_TYPE_BRICK:
 	{
