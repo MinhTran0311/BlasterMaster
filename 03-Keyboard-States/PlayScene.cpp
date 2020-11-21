@@ -2,6 +2,9 @@
 #include "Worms.h"
 #include "Insects.h"
 #include "PlayScene.h"
+#include "Skulls.h"
+#include "Orbs.h"
+#include "Jumpers.h"
 #define ID_SMALL_SOPHIA	0
 #define ID_JASON		1
 #define ID_BIG_SOPHIA	2
@@ -14,8 +17,13 @@
 #define OBJECT_TYPE_WORM 10
 #define OBJECT_TYPE_DOMES 11
 #define OBJECT_TYPE_FLOATER 12
+
 #define OBJECT_TYPE_INSECT 13
 
+
+#define OBJECT_TYPE_ORBS 14
+#define OBJECT_TYPE_JUMPER 15
+#define OBJECT_TYPE_SKULLS 16
 
 #define HUD_Y (SCREEN_HEIGHT/11) 
 
@@ -613,6 +621,39 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		obj->SetAnimationSet(ani_set);
 		listEnemies.push_back(obj);
 		DebugOut(L"[test] add insect !\n");
+		break;
+	}
+	case OBJECT_TYPE_ORBS:
+	{
+		obj = new Orbs(x, y, jason);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		listEnemies.push_back(obj);
+		DebugOut(L"[test] add orbs !\n");
+		break;
+	}
+	case OBJECT_TYPE_JUMPER:
+	{
+		obj = new Jumpers(x, y, jason);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		listEnemies.push_back(obj);
+		DebugOut(L"[test] add Jumpers !\n");
+		break;
+	}
+	case OBJECT_TYPE_SKULLS:
+	{
+		obj = new Skulls(x, y, jason);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		listEnemies.push_back(obj);
+		DebugOut(L"[test] add Skulls !\n");
 		break;
 	}
 
