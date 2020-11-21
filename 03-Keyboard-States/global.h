@@ -96,7 +96,7 @@ enum EntityType
 
 	////Bounding Box
 	//BBOX = 0,
-	TAG_JASON=1,
+	TAG_JASON = 1,
 	TAG_SMALL_SOPHIA = 2,
 	TAG_BIG_SOPHIA = 3,
 	////Player Zone 1-10
@@ -123,9 +123,9 @@ enum EntityType
 	//CANDLE = 23,
 	//MOVINGPLATFORM = 24,
 	//STAIRS = 25,
-	
-	//BUSH = 27,
 
+	//BUSH = 27,
+	ITEM = 40,
 	////Item Zone 40-70
 	//POWERUP = 40,
 	//GUNUP = 41,
