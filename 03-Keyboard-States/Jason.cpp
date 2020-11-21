@@ -11,7 +11,7 @@ JASON::JASON(float x, float y)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_PLAYER));
 	SetState(SOPHIA_STATE_IDLE);
-
+	
 	start_x = x;
 	start_y = y;
 	this->x = x;
@@ -22,7 +22,7 @@ JASON::JASON(float x, float y)
 	alpha = 255;
 	bbARGB = 250;
 	health = MAX_HEALTH;
-	gunDam = MAX_HEALTH;
+	dam = MAX_HEALTH;
 }
 
 JASON* JASON::instance = NULL;
@@ -469,7 +469,7 @@ void JASON::SetInjured(int dame)
 	if (isImmortaling)
 		return;
 	health -= dame;
-	gunDam -= dame;
+	dam -= dame;
 
 	StartUntouchable();
 	immortalTimer->Start();

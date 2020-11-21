@@ -13,25 +13,27 @@
 
 class CGrid
 {
+	LPGAMEENTITY player;
+	vector<LPGAMEENTITY> FilterObjectDuplicate(vector<LPGAMEENTITY> obj);
 	static CGrid* __instance;
 	vector<LPGAMEENTITY>** cells;
 	int columnGrid, rowGrid;
 	float cellW, cellH;
-	vector<LPGAMEENTITY> FilterObjectDuplicate(vector<LPGAMEENTITY> obj);
 	//string fileobj;
 	D3DXVECTOR2 posPlayerDefault;
-
 public:
 	static CGrid* GetInstance();
 	void InitGrid(int _mapW, int _mapH);
 	CGrid();
-	void LoadGrid(vector<string> token);
+	void LoadGrid(vector<string> tokens, JASON* &playscene_playe);
 	void InsertGrid(LPGAMEENTITY obj, vector<pair<int, int>> posGrid);
 	~CGrid();
 	void UpdateGrid(vector<LPGAMEENTITY> objects);
 	void RemoveObj(LPGAMEENTITY obj, bool isDeletePointer = 1);
 	void UnLoadGrid();
 	void InsertGrid(LPGAMEENTITY obj);
+
+	//LPGAMEENTITY getPlayerPointer() { return player; };
 
 	D3DXVECTOR2 GetPosPlayerDefault();
 	vector<LPGAMEENTITY> GetListUpdateObj();

@@ -53,7 +53,7 @@ public:
 	int nx;	 
 	int ny;
 	int health;
-	int gunDam;
+	int dam;
 	int state;									
 	bool isActive;
 	bool isDoneDeath;
@@ -77,10 +77,10 @@ public:
 
 	int GetHealth() { return health; }
 	void SetHealth(int value) { health = value; }
-	int GetgunDam() { return gunDam; }
-	void SetgunDam(int value) { gunDam = value; }
+	int GetgunDam() { return dam; }
+	void SetgunDam(int value) { dam = value; }
 	void AddHealth(int BonusHealth) { health += BonusHealth; }
-	void AddgunDam(int BonusgunDam) { gunDam += BonusgunDam; }
+	void AddgunDam(int BonusgunDam) { dam += BonusgunDam; }
 	EntityType GetType() { return tag; }
 
 	bool isDeath();

@@ -96,9 +96,9 @@ enum EntityType
 
 	////Bounding Box
 	//BBOX = 0,
-	TAG_JASON = 1,
-	TAG_SMALL_SOPHIA = 2,
-	TAG_BIG_SOPHIA = 3,
+	TAG_JASON = 101,
+	TAG_SMALL_SOPHIA = 102,
+	TAG_BIG_SOPHIA = 103,
 	////Player Zone 1-10
 	//PLAYER = 1,
 	//MORNINGSTAR = 2,

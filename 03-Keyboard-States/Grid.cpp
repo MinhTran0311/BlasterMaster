@@ -2,7 +2,8 @@
 #include <fstream>
 #include <algorithm>
 #include "Utils.h"
-
+#include "PlayScene.h"
+#include <assert.h>
 vector<LPGAMEENTITY> CGrid::FilterObjectDuplicate(vector<LPGAMEENTITY> objs)
 {
 	std::sort(objs.begin(), objs.end());
@@ -12,7 +13,6 @@ vector<LPGAMEENTITY> CGrid::FilterObjectDuplicate(vector<LPGAMEENTITY> objs)
 CGrid* CGrid::__instance = NULL;
 CGrid* CGrid::GetInstance()
 {
-
 	if (__instance == NULL) __instance = new CGrid();
 	return __instance;
 }
@@ -22,8 +22,11 @@ void CGrid::InitGrid(int _mapW, int _mapH)
 	cellW = CELL_SIZE.x;
 	cellH = CELL_SIZE.y;
 
-	columnGrid = 1 + _mapW / cellW;
-	rowGrid = 1 + _mapH / cellH;
+	columnGrid = 1 + _mapW / CELL_SIZE.x;
+	rowGrid = 1 + _mapH / CELL_SIZE.y;
+	DebugOut(L"number of rows: %d\n", rowGrid);
+	DebugOut(L"number of columns: %d\n", columnGrid);
+
 	cells = new vector<LPGAMEENTITY> * [rowGrid+1];
 	for (int i = 0; i < rowGrid+1; i++)
 	{
@@ -37,29 +40,32 @@ CGrid::CGrid()
 
 //CGrid::CGrid(int _mapW, int _mapH, string _fileobj)
 //{
-//	//cellH = CELL_SIZE.y;
-//	//cellW = CELL_SIZE.x;
-//	//columnGrid = 1 + _mapW / cellW;
-//	//rowGrid = 1 + _mapH / cellH;
+//	//CELL_SIZE.y = CELL_SIZE.y;
+//	//CELL_SIZE.x = CELL_SIZE.x;
+//	//columnGrid = 1 + _mapW / CELL_SIZE.x;
+//	//rowGrid = 1 + _mapH / CELL_SIZE.y;
 //	//fileobj = _fileobj;
 //}
 
-void CGrid::LoadGrid(vector<string> tokens)
+void CGrid::LoadGrid(vector<string> tokens, JASON* &playscene_player)
 {
+	player = playscene_player;
 	if (tokens.size() < 3)
 	{
 		DebugOut(L"Load tokens fail");
 		return;
 	}
 	//vector<pair<int, int>> posGrid;
+	//load type, x,y
 	int object_type = atoi(tokens[0].c_str());
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
+	//load values of grid positions
 	vector<pair<int, int>> posGrid;
 	int number_of_grid = atof(tokens[3].c_str());
 	for (int i = 1; i <= number_of_grid; i++)
 	{
-		posGrid.push_back(make_pair(atof(tokens[2 * i-1].c_str()), atof(tokens[2 * i].c_str())));
+		posGrid.push_back(make_pair(atof(tokens[3 + 2 * i-1].c_str()), atof(tokens[3 + 2 * i].c_str())));
 	}
 	int milestone =	3 + 2 * number_of_grid;
 	int ani_set_id = atoi(tokens[milestone+1].c_str());
@@ -70,12 +76,10 @@ void CGrid::LoadGrid(vector<string> tokens)
 	{
 	case EntityType::TAG_WORM:
 	{
-		obj = new Worm(x, y, JASON::GetInstance());
+		obj = new Worm(x, y, player);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 		obj->SetAnimationSet(ani_set);
-		//listEnemies.push_back(obj);
-		//InsertGrid(obj, posGrid);
 		DebugOut(L"[test] add worm !\n");
 		break;
 	}
@@ -85,10 +89,7 @@ void CGrid::LoadGrid(vector<string> tokens)
 		obj = new Brick(atof(tokens[milestone + 2].c_str()), atof(tokens[milestone + 3].c_str()));
 		obj->SetPosition(x, y);
 		//LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-
 		//obj->SetAnimationSet(ani_set);
-		//listObjects.push_back(obj);
-		//InsertGrid(obj, posGrid);
 		DebugOut(L"[test] add brick !\n");
 		break;
 	}
@@ -103,16 +104,25 @@ void CGrid::LoadGrid(vector<string> tokens)
 		float camX = atoi(tokens[milestone + 7].c_str());
 		int camY = atoi(tokens[milestone + 8].c_str());
 		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isResetCamera, typePlayer, camX, camY);
-		//listGates.push_back(obj);
-		//InsertGrid(obj, posGrid);
 		DebugOut(L"[test] add gate !\n");
 		break;
 	}
+	//case EntityType::TAG_JASON:
+	//{
+	//	obj = new JASON(x, y);
+	//	DebugOut(L"[test] Jason create!\n");
+	//	player = obj;
+	//	playscene_player = static_cast<JASON*>(obj);
+	//	break;
+	//}
 	default:
 		obj = nullptr;
 		DebugOut(L"[ERRO] Invalid object type: %d\n", object_type);
 		return;
 	}
+//	DebugOut(L"number of grid pairs: %d\n", posGrid.size());
+	for (int i = 0; i < posGrid.size(); i++)
+		DebugOut(L"Entity added at grid row %d collumn %d \n", posGrid.at(i).first, posGrid.at(i).second);
 	if (obj != nullptr)
 	{
 		InsertGrid(obj, posGrid);
@@ -237,8 +247,8 @@ void CGrid::InsertGrid(LPGAMEENTITY obj, vector<pair<int, int>> posGrid)
 	for (int i = 0; i < posGrid.size(); i++)
 	{
 		cells[posGrid.at(i).first][posGrid.at(i).second].push_back(obj);
+		DebugOut(L"Entity inserted at grid row %d collumn %d\n", posGrid.at(i).first, posGrid.at(i).second);
 	}
-	//DebugOut(L"Number entity hang %d cot %d\n", posGrid.first, posGrid.second);
 }
 CGrid::~CGrid()
 {
@@ -260,14 +270,10 @@ void CGrid::UpdateGrid(vector<LPGAMEENTITY> objects)
 void CGrid::RemoveObj(LPGAMEENTITY obj, bool isDeletePointer)
 {
 	RECT rectObj = obj->GetBBox();
-	int minRow = int(rectObj.top) / cellH - 3;
-	int maxRow = int(rectObj.bottom) / cellH + 3;
-	int minColumn = int(rectObj.left) / cellW - 3;
-	int maxColumn = int(rectObj.right) / cellW + 3;	
-	//int minRow = int(rectObj.top) / cellH;
-	//int maxRow = int(rectObj.bottom) / cellH;
-	//int minColumn = int(rectObj.left) / cellW;
-	//int maxColumn = int(rectObj.right) / cellW;
+	int minRow = int(rectObj.top) / CELL_SIZE.y - 3;
+	int maxRow = int(rectObj.bottom) / CELL_SIZE.y + 3;
+	int minColumn = int(rectObj.left) / CELL_SIZE.x - 3;
+	int maxColumn = int(rectObj.right) / CELL_SIZE.x + 3;	
 
 	if (minRow < 0)
 		minRow = 0;
@@ -307,10 +313,10 @@ void CGrid::UnLoadGrid()
 void CGrid::InsertGrid(LPGAMEENTITY obj)
 {
 	RECT rectObj = obj->GetBBox();
-	int minRow = int(rectObj.top) / cellH;
-	int maxRow = int(rectObj.bottom) / cellH;
-	int minColumn = int(rectObj.left) / cellW;
-	int maxColumn = int(rectObj.right) / cellW;
+	int minRow = int(rectObj.top) / CELL_SIZE.y;
+	int maxRow = int(rectObj.bottom) / CELL_SIZE.y;
+	int minColumn = int(rectObj.left) / CELL_SIZE.x;
+	int maxColumn = int(rectObj.right) / CELL_SIZE.x;
 
 	for (int i = minRow; i <= maxRow; i++)
 	{
@@ -329,15 +335,15 @@ D3DXVECTOR2 CGrid::GetPosPlayerDefault()
 vector<LPGAMEENTITY> CGrid::GetListUpdateObj()
 {
 	RECT rectCam = Camera::GetInstance()->GetRectCam();
-	int minRow = int(rectCam.top) / cellH;
+	int minRow = int(rectCam.top) / CELL_SIZE.y;
 	//fix
-	int maxRow = int(rectCam.bottom) / cellH; // sử dụng floor
+	int maxRow = int(rectCam.bottom) / CELL_SIZE.y;
 
 	//int minRow = (CCamera::GetInstance()->GetCurrentFloor()-1)*2;
 	//int maxRow = minRow + 2; // sử dụng floor
 
-	int minColumn = int(rectCam.left) / cellW;
-	int maxColumn = int(rectCam.right) / cellW;
+	int minColumn = int(rectCam.left) / CELL_SIZE.x;
+	int maxColumn = int(rectCam.right) / CELL_SIZE.x;
 
 	vector<LPGAMEENTITY> result;
 	//DebugOut(L"%d,%d   %d,%d\n", minRow, maxRow, minColumn, maxColumn);
@@ -359,11 +365,12 @@ vector<LPGAMEENTITY> CGrid::GetListUpdateObj()
 vector<LPGAMEENTITY> CGrid::GetListRenderObj()
 {
 	RECT rectCam = Camera::GetInstance()->GetRectCam();
-	int minRow = int(rectCam.top) / cellH;
-	int maxRow = int(rectCam.bottom) / cellH; 
+	int minRow = int(rectCam.top) / CELL_SIZE.y;
+	int maxRow = int(rectCam.bottom) / CELL_SIZE.y; 
 
-	int minColumn = int(rectCam.left) / cellW;
-	int maxColumn = int(rectCam.right) / cellW;
+	int minColumn = int(rectCam.left) / CELL_SIZE.x;
+	int maxColumn = int(rectCam.right) / CELL_SIZE.x;
+
 	DebugOut(L"cot nho nhat %d,  camera x: %d\n", minColumn, rectCam.left);
 	DebugOut(L"cot lon nhat %d,  camera x right: %d\n", maxColumn, rectCam.right);
 	DebugOut(L"hang nho nhat %d, camera y: %d\n", minRow, rectCam.top);

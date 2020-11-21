@@ -123,6 +123,7 @@ void PlayScene::ChooseMap(int Stage)
 	idStage = Stage;
 	CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
 	sceneFilePath = listSceneFilePath[(Stage%10)-1];			//chỉnh lại id
+	DebugOut(L"Init");
 	CGrid::GetInstance()->InitGrid(listWidth[(idStage % 10) - 1], listHeight[(idStage % 10) - 1]);
 	LoadSceneObjects(sceneFilePath);
 }
@@ -267,7 +268,7 @@ void PlayScene::Update(DWORD dt)
 		int k = 0;
 		for (int i = coObjects.size()-1; i>=0; i--)
 		{
-			if ((coObjects.at(i)->isDeath() && coObjects.at(i)->GetType() != EntityType::ITEM && coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != EntityType::TAG_GATE))
+			if ((coObjects.at(i)->isDeath() && coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != EntityType::TAG_GATE))
 			{
 				float xPos, yPos;
 				coObjects.at(i)->GetPosition(xPos, yPos);
@@ -473,13 +474,12 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		playScene->_SophiaType = 1;
 		break;
 	}
-	//case DIK_Z:
-	//	//if (listBullets.size() < 3)
-	//	//{
-	//	//	Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-	//	//	((PlayScene*)scence)->listBullets.push_back(bullet);
-	//	//}
-	//	//break;
+	case DIK_Z:
+	{
+		Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
+		CGrid::GetInstance()->InsertGrid(bullet);
+		break;
+	}
 
 	//case DIK_X:
 	//	//if (listBullets.size() < 3)
@@ -677,7 +677,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 //		return;
 //	}
 //#pragma endregion
-	CGrid::GetInstance()->LoadGrid(tokens);
+	CGrid::GetInstance()->LoadGrid(tokens,jason);
 }
 
 void PlayScene::_ParseSection_CLEARTEXTURES(string line)

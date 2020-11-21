@@ -21,7 +21,6 @@ protected:
 	bool isArmor;
 	bool isBoss;
 	bool isDeath;
-	int dam;
 	//int health;
 	LPGAMEENTITY target;
 	EnemyType enemyType;
