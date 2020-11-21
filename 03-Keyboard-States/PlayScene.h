@@ -28,6 +28,7 @@ using namespace std;
 class PlayScene : public Scene
 {
 public:
+
 	int _SophiaType = -1;
 	float oldPosX;
 	float oldPosY;

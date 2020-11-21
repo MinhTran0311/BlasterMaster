@@ -5,9 +5,8 @@ JasonBullet::JasonBullet(float posX, float posY, int level, int direct, bool isG
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_JASON_BULLET));
 	alpha = 255;
 	bbARGB = 0;
-	this->SetState(BULLET_JASON_STATE_FLYING);
-	//isHitBrick = false;
-	//isHitEnemy = false;
+	isHitBrick = false;
+	isHitEnemy = false;
 	dam = 1;
 	timeDelayed = 0;
 	timeDelayedMax = BULLET_JASON_DELAY;
@@ -24,8 +23,7 @@ JasonBullet::JasonBullet(float posX, float posY, int level, int direct, bool isG
 		x = posX + DISTANCE_FIRING_WIDTH;
 		y = posY - DISTANCE_FIRING_HEIGHT*2;
 	}
-	
-	//isActive = true;
+	isActive = true;
 }
 
 JasonBullet::~JasonBullet()
@@ -119,23 +117,22 @@ void JasonBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (e->obj->GetType() == EntityType::TAG_BRICK)
 			{
-				this->SetState(BULLET_JASON_STATE_HIT_BRICK);
+				isHitBrick = true;
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
-				//vx = 0;
-				//vy = 0;
+				vx = 0;
+				vy = 0;
 			}
 			if (e->obj->GetType() == EntityType::ENEMY)
 			{
 				e->obj->AddHealth(-dam);
 				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
-				this->SetState(BULLET_JASON_STATE_HIT_ENEMY);
-				//isHitEnemy = true;
+				isHitEnemy = true;
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
-				//vx = 0;
-				//vy = 0;
-				//isActive = false;
+				vx = 0;
+				vy = 0;
+				isActive = false;
 			}
 		}
 	}
@@ -151,7 +148,7 @@ void JasonBullet::Render()
 	int ani;
 	
 
-	if (BULLET_JASON_STATE_FLYING)
+	if (!isHitEnemy && !isHitBrick)
 	{
 		if (isAimingTop)
 		{
@@ -172,7 +169,7 @@ void JasonBullet::Render()
 			animationSet->at(ani)->Render(nx ,x, y, alpha);
 		}
 	}
-	else if (state == BULLET_JASON_STATE_HIT_BRICK)
+	else if (isHitBrick)
 	{
 		ani = BULLET_BANG;
 		if (nx == 1 && !isAimingTop)
@@ -191,22 +188,4 @@ void JasonBullet::Render()
 void JasonBullet::SetState(int state)
 {
 	Entity::SetState(state);
-	switch (state)
-	{
-	case BULLET_JASON_STATE_FLYING:
-		isHitBrick = false;
-		isHitEnemy = false;
-		isActive = true;
-		break;
-	case BULLET_JASON_STATE_HIT_BRICK:
-		vx = 0;
-		vy = 0;
-		isHitBrick = true;
-	case BULLET_JASON_STATE_HIT_ENEMY:
-		vx = 0;
-		vy = 0;
-		isHitEnemy = true;
-		isActive = false;
-		break;
-	}
 }

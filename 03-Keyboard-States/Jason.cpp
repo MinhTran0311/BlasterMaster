@@ -179,7 +179,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 					}
 				}
 			}
-			else if ((e->obj->GetType()==EntityType::TAG_GATE))
+			else if (dynamic_cast<Gate*>(e->obj))
 			{
 				gate = dynamic_cast<Gate*>(e->obj);
 				DebugOut(L"jason dung tuong loai 1");
@@ -187,10 +187,9 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			}
 		}
 	}
-	//khi va cham chua xet gia tri x và y
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType()==EntityType::ENEMY))
+		if (this->IsCollidingObject(coObjects->at(i)) && dynamic_cast<Enemy*>(coObjects->at(i)))
 		{
 			Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
 			//re check
@@ -199,10 +198,10 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 				this->SetState(SOPHIA_STATE_IDLE);
 				isJumping = false;
 				isJumpHandle = true;
-				this->y += 1.5f;
+				this->y += 2.5f;
 				this->x += 2.0f;
 			}
-			SetInjured(enemy->GetDamage());		
+			SetInjured(enemy->GetDamage());
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

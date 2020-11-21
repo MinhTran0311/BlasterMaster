@@ -3,8 +3,6 @@
 #include "PlayScene.h"
 #include "JasonRocket.h"
 #include "JasonBullet.h"
-#include "Grid.h"
-
 #define ID_SMALL_SOPHIA	0
 #define ID_JASON		1
 #define ID_BIG_SOPHIA	2
@@ -21,7 +19,6 @@ PlayScene::PlayScene(int _idStage) : Scene()
 	_SophiaType = ID_JASON;
 	LoadBaseObjects();
 	ChooseMap(idStage);
-	
 }
 
 
@@ -123,7 +120,6 @@ void PlayScene::ChooseMap(int Stage)
 	idStage = Stage;
 	CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
 	sceneFilePath = listSceneFilePath[(Stage%10)-1];			//chỉnh lại id
-	CGrid::GetInstance()->InitGrid(listWidth[(idStage % 10) - 1], listHeight[(idStage % 10) - 1]);
 	LoadSceneObjects(sceneFilePath);
 }
 
@@ -155,9 +151,9 @@ void PlayScene::CheckPlayerReachGate()
 void PlayScene::Update(DWORD dt)
 {
 #pragma region sceneswitching
-	//CheckPlayerReachGate();
+	CheckPlayerReachGate();
 #pragma endregion
-	//EraseInactiveObject();
+	EraseInactiveObject();
 
 #pragma region camera
 	float cx, cy;
@@ -226,75 +222,25 @@ void PlayScene::Update(DWORD dt)
 		//DebugOut(L"toa do cam y %f \n ", posY);
 		gameCamera->SetCamPos(cx, posY);
 	}
-		//move x follow camera
+	gameHUD->Update(cx, HUD_Y+posY, jason->GetHealth(), jason->GetgunDam());	//move x follow camera
 #pragma endregion
-
-	
 	//init coObjects
-	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj();
-	jason->Update(dt, &coObjects);
-	//for (int i = 0; i < listObjects.size(); i++)
-	//	coObjects.push_back(listObjects[i]);
-	//for (int i = 0; i < listEnemies.size(); i++)
-	//	coObjects.push_back(listEnemies[i]);	
-	//for (int i = 0; i < listGates.size(); i++)
-	//	coObjects.push_back(listGates[i]);
+	vector<LPGAMEENTITY> coObjects;
+	for (int i = 0; i < listObjects.size(); i++)
+		coObjects.push_back(listObjects[i]);
+	for (int i = 0; i < listEnemies.size(); i++)
+		coObjects.push_back(listEnemies[i]);	
+	for (int i = 0; i < listGates.size(); i++)
+		coObjects.push_back(listGates[i]);
 
-	//Kiểm tra có obj nào cần được thêm vào hay không
-	//vector<CEntity*> addAfterUpdate = jason->GetAbjAddAfterUpdate();
-	//for (int i = 0; i < addAfterUpdate.size(); i++)
-	//{
-	//	CGrid::GetInstance()->InsertGrid(addAfterUpdate.at(i));
-	//	coObjects.push_back(addAfterUpdate.at(i));
-	//}
-	//for (int i = 0; i < listEnemies.size(); i++)
-	//{
-	//	listEnemies[i]->Update(dt, &listObjects);
-	//}
-	//for (int i = 0; i < listBullets.size(); i++)
-	//	listBullets[i]->Update(dt, &coObjects);
-
-	if (coObjects.size() != 0)
-	{//update obj
-		for (int i = 0; i < coObjects.size(); i++)
-		{
-			if (coObjects.at(i)->GetType()!=EntityType::TAG_BRICK && coObjects.at(i)->GetType() != EntityType::TAG_GATE)
-			{
-				coObjects[i]->Update(dt, &coObjects);
-			}
-		}
-		//sua cho nay
-		int k = 0;
-		for (int i = coObjects.size()-1; i>=0; i--)
-		{
-			if ((coObjects.at(i)->isDeath() && coObjects.at(i)->GetType() != EntityType::ITEM && coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != EntityType::TAG_GATE))
-			{
-				float xPos, yPos;
-				coObjects.at(i)->GetPosition(xPos, yPos);
-				Entity* backup = coObjects.at(i);
-
-				coObjects.erase(coObjects.end() - i);
-				float _xtemp, _ytemp;
-				backup->GetPosition(_xtemp, _ytemp);
-#pragma region add item into grid
-				switch (backup->GetType())
-				{
-				default:
-					break;
-				}
-#pragma endregion
-				if (backup != nullptr)
-					DebugOut(L"khasc nulll %d", coObjects.at(i)->GetType());
-				CGrid::GetInstance()->RemoveObj(backup,true);
-				k++;
-			}
-			//item effect
-			else { }
-		}
+	for (int i = 0; i < listEnemies.size(); i++)
+	{
+		listEnemies[i]->Update(dt, &listObjects);
 	}
-	CGrid::GetInstance()->UpdateGrid(coObjects);
+	for (int i = 0; i < listBullets.size(); i++)
+		listBullets[i]->Update(dt, &coObjects);
 	//player
-	gameHUD->Update(cx, HUD_Y + posY, jason->GetHealth(), jason->GetgunDam());
+	jason->Update(dt,&coObjects);
 }
 
 void PlayScene::Render()
@@ -303,19 +249,17 @@ void PlayScene::Render()
 	
 	LPDIRECT3DTEXTURE9 maptextures = CTextures::GetInstance()->Get(idStage);
 	CGame::GetInstance()->OldDraw(0, 0, maptextures, 0, 0, mapWidth, mapHeight);
-	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListRenderObj();
-	for (int i = 0; i < coObjects.size(); i++)
-		coObjects[i]->Render();
-	//for (int i = 0; i < listObjects.size(); i++)
-	//{
-	//	listObjects[i]->Render();
-	//}
-	//for (int i = 0; i < listGates.size(); i++)
-	//	listGates[i]->Render();
-	//for (int i = 0; i < listEnemies.size(); i++)
-	//	listEnemies[i]->Render();
-	//for (int i = 0; i < listBullets.size(); i++)
-	//	listBullets[i]->Render();
+
+	for (int i = 0; i < listObjects.size(); i++)
+	{
+		listObjects[i]->Render();
+	}
+	for (int i = 0; i < listGates.size(); i++)
+		listGates[i]->Render();
+	for (int i = 0; i < listEnemies.size(); i++)
+		listEnemies[i]->Render();
+	for (int i = 0; i < listBullets.size(); i++)
+		listBullets[i]->Render();
 	jason->Render();
 	gameHUD->Render(jason);
 
@@ -323,8 +267,7 @@ void PlayScene::Render()
 
 void PlayScene::Unload()
 {
-	CGrid::GetInstance()->UnLoadGrid();
-	/*for (UINT i = 0; i < listObjects.size(); i++)
+	for (UINT i = 0; i < listObjects.size(); i++)
 		delete listObjects[i];
 	listObjects.clear();
 	for (UINT i = 0; i < listGates.size(); i++)
@@ -332,7 +275,7 @@ void PlayScene::Unload()
 	listGates.clear();
 	for (UINT i = 0; i < listEnemies.size(); i++)
 		delete listEnemies[i];
-	listEnemies.clear();*/
+	listEnemies.clear();
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
@@ -409,7 +352,7 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 {
 	int _SophiaType = ((PlayScene*)scence)->_SophiaType;
 	JASON* player = ((PlayScene*)scence)->jason;
-	//vector<LPGAMEENTITY> listEnemies = ((PlayScene*)scence)->listEnemies;
+	vector<LPGAMEENTITY> listEnemies = ((PlayScene*)scence)->listEnemies;
 	if (player->GetState() == SOPHIA_STATE_DIE) return;
 	
 	if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
@@ -446,8 +389,8 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	int _SophiaType = ((PlayScene*)scence)->_SophiaType;
 	JASON* player = ((PlayScene*)scence)->jason;
-	//vector<LPGAMEENTITY> listEnemies = ((PlayScene*)scence)->listEnemies;
-	//vector<LPBULLET> listBullets = ((PlayScene*)scence)->listBullets;
+	vector<LPGAMEENTITY> listEnemies = ((PlayScene*)scence)->listEnemies;
+	vector<LPBULLET> listBullets = ((PlayScene*)scence)->listBullets;
 	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
 	float xPos, yPos;
 	bool isAimingTop;
@@ -473,45 +416,45 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		playScene->_SophiaType = 1;
 		break;
 	}
-	//case DIK_Z:
-	//	//if (listBullets.size() < 3)
-	//	//{
-	//	//	Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-	//	//	((PlayScene*)scence)->listBullets.push_back(bullet);
-	//	//}
-	//	//break;
+	case DIK_Z:
+		if (listBullets.size() < 3)
+		{
+			Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
+			((PlayScene*)scence)->listBullets.push_back(bullet);
+		}
+		break;
 
-	//case DIK_X:
-	//	//if (listBullets.size() < 3)
-	//	//{
-	//	//	Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
-	//	//	((PlayScene*)scence)->listBullets.push_back(bullet);
-	//	//}
-	//	//break;
-	//case DIK_C:
-	//	//if (listBullets.size() < 3)
-	//	//{
-	//	//	Bullet* bullet = new JasonRocket(player->Getx(), player->Gety());
-	//	//	((PlayScene*)scence)->listBullets.push_back(bullet);
-	//	//}
-	//	//break;
-	//case DIK_F2:
-	//	//if (player->GetBBARGB() == 255)
-	//	//{
-	//	//	player->SetBBARGB(0);
-	//	//}
-	//	//else player->SetBBARGB(255);
+	case DIK_X:
+		if (listBullets.size() < 3)
+		{
+			Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
+			((PlayScene*)scence)->listBullets.push_back(bullet);
+		}
+		break;
+	case DIK_C:
+		if (listBullets.size() < 3)
+		{
+			Bullet* bullet = new JasonRocket(player->Getx(), player->Gety());
+			((PlayScene*)scence)->listBullets.push_back(bullet);
+		}
+		break;
+	case DIK_F2:
+		if (player->GetBBARGB() == 255)
+		{
+			player->SetBBARGB(0);
+		}
+		else player->SetBBARGB(255);
 
-	//	//for (int i = 0; i < ((PlayScene*)scence)->listBullets.size(); i++)
-	//	//{
-	//	//	if (((PlayScene*)scence)->listBullets[i]->GetBBARGB() == 255)
-	//	//	{
-	//	//		DebugOut(L"dan mat mau");
-	//	//		((PlayScene*)scence)->listBullets[i]->SetBBARGB(0);
-	//	//	}
-	//	//	else ((PlayScene*)scence)->listBullets[i]->SetBBARGB(255);
-	//	//}
-	//	//break;
+		for (int i = 0; i < ((PlayScene*)scence)->listBullets.size(); i++)
+		{
+			if (((PlayScene*)scence)->listBullets[i]->GetBBARGB() == 255)
+			{
+				DebugOut(L"dan mat mau");
+				((PlayScene*)scence)->listBullets[i]->SetBBARGB(0);
+			}
+			else ((PlayScene*)scence)->listBullets[i]->SetBBARGB(255);
+		}
+		break;
 	}
 }
 
@@ -530,6 +473,8 @@ void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	}
 } 
+
+
 
 void PlayScene::_ParseSection_TEXTURES(string line)
 {
@@ -619,65 +564,60 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 	vector<string> tokens = split(line);
 
 	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
-//#pragma region oldcode
-//
-//
-//
-//	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
-//
-//	int object_type = atoi(tokens[0].c_str());
-//	float x = atof(tokens[1].c_str());
-//	float y = atof(tokens[2].c_str());
-//	int ani_set_id = atoi(tokens[3].c_str());
-//	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
-//
-//	Entity* obj = NULL;
-//
-//	switch (object_type)
-//	{
-//	case EntityType::TAG_WORM:		
-//	{
-//		obj = new Worm(x, y, jason);
-//		//obj->SetPosition(x, y);
-//		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-//
-//		obj->SetAnimationSet(ani_set);
-//		listEnemies.push_back(obj);
-//		DebugOut(L"[test] add worm !\n");
-//		break;
-//	}
-//	case EntityType::TAG_BRICK:
-//	{
-//		obj = new Brick(atof(tokens[4].c_str()), atof(tokens[5].c_str()));
-//		obj->SetPosition(x, y);
-//		//LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-//
-//		//obj->SetAnimationSet(ani_set);
-//		listObjects.push_back(obj);
-//		DebugOut(L"[test] add brick !\n");
-//		break;
-//	}
-//	case EntityType::TAG_GATE:
-//	{
-//		int switchId = atoi(tokens[3].c_str());
-//		float playerPosX = atoi(tokens[4].c_str());
-//		float playerPosY = atoi(tokens[5].c_str());
-//		int playerState = atoi(tokens[6].c_str());
-//		int isResetCamera = atoi(tokens[7].c_str());
-//		int typePlayer = atoi(tokens[8].c_str());
-//		float camX = atoi(tokens[9].c_str());
-//		int camY = atoi(tokens[10].c_str());
-//		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isResetCamera, typePlayer, camX, camY);
-//		listGates.push_back(obj);
-//		DebugOut(L"[test] add gate !\n");
-//		break;
-//	}
-//	default:
-//		DebugOut(L"[ERRO] Invalid object type: %d\n", object_type);
-//		return;
-//	}
-//#pragma endregion
-	CGrid::GetInstance()->LoadGrid(tokens);
+
+	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
+
+	int object_type = atoi(tokens[0].c_str());
+	float x = atof(tokens[1].c_str());
+	float y = atof(tokens[2].c_str());
+	int ani_set_id = atoi(tokens[3].c_str());
+	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
+
+	Entity* obj = NULL;
+
+	switch (object_type)
+	{
+	case EntityType::TAG_WORM:		
+	{
+		obj = new Worm(x, y, jason);
+		//obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		listEnemies.push_back(obj);
+		DebugOut(L"[test] add worm !\n");
+		break;
+	}
+	case EntityType::TAG_BRICK:
+	{
+		obj = new Brick(atof(tokens[4].c_str()), atof(tokens[5].c_str()));
+		obj->SetPosition(x, y);
+		//LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		//obj->SetAnimationSet(ani_set);
+		listObjects.push_back(obj);
+		DebugOut(L"[test] add brick !\n");
+		break;
+	}
+	case EntityType::TAG_GATE:
+	{
+		int switchId = atoi(tokens[3].c_str());
+		float playerPosX = atoi(tokens[4].c_str());
+		float playerPosY = atoi(tokens[5].c_str());
+		int playerState = atoi(tokens[6].c_str());
+		int isResetCamera = atoi(tokens[7].c_str());
+		int typePlayer = atoi(tokens[8].c_str());
+		float camX = atoi(tokens[9].c_str());
+		int camY = atoi(tokens[10].c_str());
+		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isResetCamera, typePlayer, camX, camY);
+		listGates.push_back(obj);
+		DebugOut(L"[test] add gate !\n");
+		break;
+	}
+	default:
+		DebugOut(L"[ERRO] Invalid object type: %d\n", object_type);
+		return;
+	}
 }
 
 void PlayScene::_ParseSection_CLEARTEXTURES(string line)
@@ -724,14 +664,14 @@ void PlayScene::_ParseSection_SCENEFILEPATH(string line)
 }
 void PlayScene::EraseInactiveObject()
 {
-	//int pos=-1;
-	//for (int i = 0; i < listBullets.size(); i++)
-	//{
-	//	if (listBullets[i]->GetisActive() == false)
-	//	{
-	//		Bullet* p = listBullets[i];
-	//		pos = i;
-	//	}
-	//}
-	//if(pos!=-1)	listBullets.erase(listBullets.begin() + pos);
+	int pos=-1;
+	for (int i = 0; i < listBullets.size(); i++)
+	{
+		if (listBullets[i]->GetisActive() == false)
+		{
+			Bullet* p = listBullets[i];
+			pos = i;
+		}
+	}
+	if(pos!=-1)	listBullets.erase(listBullets.begin() + pos);
 }
