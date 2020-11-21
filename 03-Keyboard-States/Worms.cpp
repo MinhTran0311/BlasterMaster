@@ -129,7 +129,7 @@ Worm::Worm(float x, float y, LPGAMEENTITY t)
 {
 	SetState(WORM_STATE_WALKING);
 	enemyType = WORM;
-	tag = ENEMY;
+	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
 	dam = 1;
