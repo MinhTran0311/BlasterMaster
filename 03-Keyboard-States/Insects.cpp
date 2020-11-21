@@ -252,13 +252,13 @@ void Insects::fly(const DWORD &dt)
 
 	if (isDroping&&y<maxdrop)
 	{
-		vy = 0.005f;
+		vy = 0.01f;
 	}
 	else 
 	{
 		if (!isDroping&&y > originalY)
 		{
-			vy = -0.05f;
+			vy = -0.07f;
 		}
 		else isDroping = !isDroping;
 	}

@@ -16,9 +16,10 @@
 #include "Animations.h"
 
 #include "Jason.h"
+#include "Small_Sophia.h"
 #include "Worms.h"
 #include "Floaters.h"
-
+#include "Small_Sophia.h"
 #include "Brick.h"
 #include "Gate.h"
 
@@ -31,10 +32,13 @@ class PlayScene : public Scene
 public:
 	int _SophiaType = -1;
 	bool tempNeed;
+	Entity* currentPlayer;
 	PlayScene ();
 	~PlayScene();
 protected:
+	
 	JASON* jason;
+	Small_Sophia* ssophia;
 	HUD* gameHUD;
 	void LoadBaseObjects();
 	void LoadBaseTextures();
@@ -53,6 +57,7 @@ protected:
 	virtual void Render();
 	virtual void Unload();
 	virtual void LoadSceneObjects(LPCWSTR path);
+	virtual void changePlayer();
 	//Item* RandomItem(float x, float y);
 	//Item* DropItem(EntityType createrType, float x, float y, int idCreater = 0);
 

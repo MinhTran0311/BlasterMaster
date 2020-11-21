@@ -1,165 +1,104 @@
-#pragma once
 #include "Entity.h"
 #include <map>
 #include "Timer.h"
 
-#define SOPHIA_WALKING_SPEED_UNIT		0.0040f//0.010f
-#define SOPHIA_WALKING_SPEED			0.1f 
-#define SOPHIA_WALKING_SPEED_BONUS		0.003f//0.007f
-#define SOPHIA_WALKING_ACC				0.00035f
+#pragma once
+#define ANIMATION_SET_SMALL_SOPHIA	0
 
-#define SOPHIA_JUMP_SPEED_Y				0.223f
-#define SOPHIA_JUMP_DEFLECT_SPEED		0.10f
-#define SOPHIA_GRAVITY					0.0004f
-#define SOPHIA_DIE_DEFLECT_SPEED		0.5f
-#define SOPHIA_JASON_HEIGHT_GUN_FLIP	15.5
+#define SOPHIA_GRAVITY						0.0004f
+#define SMALL_SOPHIA_WALKING_SPEED			0.07f 
+#define SMALL_SOPHIA_WALKING_ACC			0.00015f
+#define SMALL_SOPHIA_CRAWLING_SPEED			0.03f 
+#define SMALL_SOPHIA_JUMP_SPEED_Y			0.15f
 
-#pragma region State define
-#define SOPHIA_STATE_IDLE				0
-#define SOPHIA_STATE_WALKING_RIGHT		100
-#define SOPHIA_STATE_WALKING_LEFT		200
-#define SOPHIA_STATE_JUMP				300
-#define SOPHIA_STATE_DIE				400
-#define SOPHIA_STATE_GUN_UNFLIP			500
-#define SOPHIA_STATE_OUT				600
-#pragma endregion
+#define SOPHIA_ANI_SMALL_IDLE_RIGHT				0
+#define SOPHIA_ANI_SMALL_WALKING_RIGHT			1
+#define SOPHIA_ANI_SMALL_IDLE_CRAWL_RIGHT		2
+#define SOPHIA_ANI_SMALL_WALKING_CRAWL_RIGHT		3
+#define SOPHIA_ANI_SMALL_DIE						3
+#define SOPHIA_ANI_SMALL_JUMP					4
 
-#pragma region animation define
-//
-//#define SOPHIA_ANI_JASON_IDLE_RIGHT					0
-//#define SOPHIA_ANI_JASON_IDLE_LEFT					1
-//
-//#define SOPHIA_ANI_JASON_WALKING_RIGHT				2
-//#define SOPHIA_ANI_JASON_WALKING_LEFT				3
-//
-//#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT			4
-//#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT			5
-//#define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT		6
-//#define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT		7
-//#define SOPHIA_ANI_JASON_JUMP_UP_WALKING_RIGHT		8
-//#define SOPHIA_ANI_JASON_JUMP_UP_WALKING_LEFT		9
-//#define SOPHIA_ANI_JASON_JUMP_DOWN_WALKING_RIGHT	10
-//#define SOPHIA_ANI_JASON_JUMP_DOWN_WALKING_LEFT		11
-//
-//#define SOPHIA_ANI_GUN_FLIP_RIGHT					12
-//#define SOPHIA_ANI_GUN_FLIP_LEFT					13
-//
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_1			14
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_2			15
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_3			16
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_4			17
-//
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_1				18
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_2				19
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_3				20
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_4				21
-//
-//#define SOPHIA_JASON_ANI_DIE						22
-//#define SOPHIA_JASON_ANI_EJECTING					23
-#pragma endregion
+#define SMALL_SOPHIA_STATE_IDLE			    0
+#define SMALL_SOPHIA_STATE_WALKING_RIGHT		100
+#define SMALL_SOPHIA_STATE_WALKING_LEFT		200
+#define SMALL_SOPHIA_STATE_CRAWLING_RIGHT	300
+#define SMALL_SOPHIA_STATE_CRAWLING_LEFT		400
+#define SMALL_SOPHIA_STATE_JUMP				500
+#define SMALL_SOPHIA_STATE_DIE				600
+#define SMALL_SOPHIA_STATE_IN				700
+#define SMALL_SOPHIA_STATE_OUT				800
+#define SMALL_SOPHIA_STATE_CRAWL				900
+#define SMALL_SOPHIA_STATE_CRAWL_STOP		1000
 
-#define DURATION_X_TO_DIE	14
-#define DURATION_Y_TO_DIE	30
-#define DISTANCE_TO_OUT		8
-#define HEIGHT_LEVER1		35
-#define MAX_HEALTH			8
-#define SOPHIA_ANI_JASON_IDLE_RIGHT					0
-#define SOPHIA_ANI_JASON_IDLE_LEFT					1
+#define MAX_HEALTH						8
 
-#define SOPHIA_ANI_JASON_WALKING_RIGHT				2
-#define SOPHIA_ANI_JASON_WALKING_LEFT				3
 
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_1		4
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_2		5
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_3		6
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_4		7
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_1		8
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_2		9
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_3		10
-#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_4		11
-#define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_1		12
-#define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_2		13
-#define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_3		14
-#define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_4		15
-#define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT_1		16
-#define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT_2		17
-#define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT_3		18
-#define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT_4		19
-#define SOPHIA_ANI_JASON_JUMP_UP_WALKING_RIGHT		20
-#define SOPHIA_ANI_JASON_JUMP_UP_WALKING_LEFT		21
-#define SOPHIA_ANI_JASON_JUMP_DOWN_WALKING_RIGHT	22
-#define SOPHIA_ANI_JASON_JUMP_DOWN_WALKING_LEFT		23
+#define SMALL_SOPHIA_BBOX_WIDTH				10
+#define SMALL_SOPHIA_BBOX_HEIGHT				16
+#define SMALL_SOPHIA_CRAWL_BBOX_WIDTH		16
+#define SMALL_SOPHIA_CRAWL_BBOX_HEIGHT		10
 
-#define SOPHIA_ANI_GUN_FLIP_RIGHT					24
-#define SOPHIA_ANI_GUN_FLIP_LEFT					25
 
-#define SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_1			26
-#define SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_2			27
-#define SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_3			28
-#define SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_4			29
-
-#define SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_1				30
-#define SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_2				31
-#define SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_3				32
-#define SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_4				33
-
-#define SOPHIA_JASON_ANI_DIE						34
-#define SOPHIA_JASON_ANI_EJECTING					35
-#define SOPHIA_JASON_BBOX_WIDTH		26
-#define SOPHIA_JASON_BBOX_HEIGHT	18
 #define PLAYER_IMMORTAL_DURATION	1000
-class SMALL_SOPHIA : public Entity
+#define HIGH_LEVER1 43
+
+#define LAST_FRAME_DIE	13
+
+class Small_Sophia : public Entity
 {
-	int alpha;
-	static SMALL_SOPHIA* instance;
-	bool isJumpHandle;
-	bool isGunFlipping = false;
-
-	float start_x;				//initial position of Jason
-	float start_y;
-
-	float current_Jumpy;
-	bool isPressJump;
-	bool isPressFlipGun;
-	bool isEjecting;
-
-	int untouchable;
-	bool isImmortaling;
-	DWORD untouchable_start;
-	Timer* immortalTimer = new Timer(PLAYER_IMMORTAL_DURATION);
 public:
 	bool isDeath;
 	bool isDoneDeath;
+	static Small_Sophia* instance;
+
+	int level;
+	int untouchable;
 	bool isJumping = false;
-	SMALL_SOPHIA(float x = 0.0f, float y = 0.0f);
-	static SMALL_SOPHIA* GetInstance();
+	bool isGunFlipping = false;
+	bool isJumpHandle;
+	bool isImmortaling;
+	int alpha;
+	DWORD untouchable_start;
 
-	void SetDirection(int d) { nx = d; };
-	void SetState(int state);
-	void SetPressSpace(bool isPress) { isPressJump = isPress; };
-	void SetPressUp(bool a) { isPressFlipGun = a; }
-	void GetPositionCenter(float& x, float& y) { x = this->x + SOPHIA_JASON_BBOX_WIDTH / 2; y = this->y + SOPHIA_JASON_BBOX_HEIGHT / 2; }
+	Timer* immortalTimer = new Timer(PLAYER_IMMORTAL_DURATION);
 
-	//void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-	//void GetPositionCenter(float& x, float& y) { x = this->x + SOPHIA_JASON_BBOX_WIDTH / 2; y = this->y + SOPHIA_JASON_BBOX_HEIGHT / 2; }
-	bool isGunFlippingg() { return isGunFlipping; }
+	float start_x;			// initial position of Mario at scene
+	float start_y;
 
-	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
+
+	float backup_JumpY;
+	bool isPressJump;
+	bool isPressFlipGun;
+	bool isCrawl;
+
+public:
+	Small_Sophia(float x = 0.0f, float y = 0.0f);
+	static Small_Sophia* GetInstance();
+
+	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL, vector<LPGAMEENTITY>* coEnemies = NULL);
 	virtual void Render();
 
+	//Immortal
+	bool IsImmortaling() { return isImmortaling; }
+	void SetImmortaling(bool immo) { isImmortaling = immo; }
+	void StartImmortalingTimer() { immortalTimer->Start(); }
+
+	void SetDirection(int d) { nx = d; }
+	void SetState(int state);
+	void SetPressSpace(bool isPress) { isPressJump = isPress; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-
-	void Setvx(float new_vx) { vx = new_vx; }
-	void Setvy(float new_vy) { vy = new_vy; };
-	float GetDy() { return dy; };
-	float GetDx() { return dx; };
+	void GetPositionCenter(float& x, float& y) { x = this->x + SMALL_SOPHIA_BBOX_WIDTH / 2; y = this->y + SMALL_SOPHIA_BBOX_HEIGHT / 2; }
+	bool GetIsCrawl() { return isCrawl; }
+	void SetIsCrawl(bool crawl) { isCrawl = crawl; }
+	void Setvx(float vx) { vx = vx; }
+	void Setvy(float vy) { vy = vy; }
+	float GetDy() { return dy; }
+	float Getvy() { return vy; }
 	void Reset();
-	void GetInfoForBullet(int& direct, int& isTargetTop, float& playerx, float& playery) { direct = nx; isTargetTop = isGunFlipping; playerx = x; playery = y; }
+	void GetInfoForBullet(int& direct, float& playerx, float& playery) { direct = nx; playerx = x; playery = y; }
 
+	//Bullet* GetPlayerMainBullet() { return mainBullet; }
 	void SetInjured(int dame);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-
-	//collision handle
-	void CollisionWithEnemy(Entity* obj);
-
 };
+
