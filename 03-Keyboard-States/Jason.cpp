@@ -212,7 +212,7 @@ void JASON::Render()
 
 	if (isDoneDeath)
 		return;
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 	int ani = -1;
 	int current_frame;

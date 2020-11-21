@@ -16,6 +16,7 @@
 #define OBJECT_TYPE_FLOATER 12
 #define OBJECT_TYPE_INSECT 13
 
+
 #define HUD_Y (SCREEN_HEIGHT/11) 
 
 
