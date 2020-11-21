@@ -119,12 +119,11 @@ Worm::Worm(float x, float y, LPGAMEENTITY t)
 {
 	SetState(WORM_STATE_WALKING);
 	enemyType = WORM;
-	tag = Tag_Worm;
+	tag = ENEMY;
 	this->x = x;
 	this->y = y;
 	dam = 1;
 	nx = -1;
-	isFollow = 0;
 	this->target = t;
 	health = WORM_MAXHEALTH;
 	isActive = false;

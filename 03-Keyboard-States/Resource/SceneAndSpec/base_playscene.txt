@@ -7,7 +7,7 @@
 30	Resource/jason.png	255	0	255
 40	Resource/Enemy/enemies.png	255	0	255
 50	Resource/HealthBar.png	255	255	255
-60	Resource/item2.png		255	255	0
+60	Resource/item2.png	255	255	0
 11	Resource/SceneAndSpec/Scene/area_1.jpg		255	0	255
 12	Resource/SceneAndSpec/Scene/area_2.jpg		255	0	255
 13	Resource/SceneAndSpec/Scene/area_3.jpg		255	0	255
@@ -100,6 +100,10 @@
 50002	55	37	71	45	50
 50003	84	35	106	125	50
 50004	111	37	127	45	50
+#===========BULLET=========================#
+300101	176	94	183	102	1
+300102	192	91	208	104	1
+300103	213	90	229	106	1
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 ##JASON=========================
@@ -187,7 +191,8 @@
 803	50003	100
 #Player add
 804	50004	100
-
+#==========Bullet==========#
+30005	300101	100	300102	100 	300103	100
 # id tuan theo define
 [ANIMATION_SETS]
 # JASON

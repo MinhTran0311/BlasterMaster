@@ -1,20 +1,50 @@
 #pragma once
-#include "Entity.h"
 #include "Enemy.h"
-#define WORM_MOVING_SPEED		0.1f
+#include "Jason.h"
+#include "Timer.h"
+#include "Brick.h"
+#include <ctime>
+#include "Timer.h"
+#include "BigNavigatedEnemyBullet.h"
+#include "Bullet.h"
 
-#define ENEMY_STATE_IDLE 100
-#define ENEMY_STATE_MOVING_LEFT 200
-#define ENEMY_STATE_MOVING_RIGHT 300
+#define CANNONS_BBOX_WIDTH 25
+#define CANNONS_BBOX_HEIGHT 25
+#define CANNONS_BBOX_HEIGHT_DIE 9
 
-#define ENEMY_ANI_MOVING 1
-#define ENEMY_ANI_IDLE 2
+#define CANNONS_STATE_IDLE 0
+#define CANNONS_STATE_ATTACKING_LEFT 100
+#define CANNONS_STATE_ATTACKING_TOP 200
+#define CANNONS_STATE_DIE 300
+
+#define CANNONS_ANI_IDLE 0
+#define CANNONS_ANI_ATTACKING_LEFT 1
+#define CANNONS_ANI_ATTACKING_TOP 2
+#define CANNONS_ANI_DIE 3
+
+#define CANNONS_SITEATTACK_PLAYER 100
+
+#define CANNONS_ATTACK_DURATION 1000
+
+#define CANNONS_MAXHEALTH					1
+
+#define CANNONS_MAX_BULLETS	4
 
 
-class CCannons : public Enemy
+class Cannons : public Enemy
 {
-	CCannons(float x, float y);
-	CCannons();
-	void Update(DWORD dt);
-	void Render();
+	bool isAttack;
+	LPGAMEENTITY target;
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
+	virtual void Render();
+	Timer* attackTimer = new Timer(CANNONS_ATTACK_DURATION);
+	bool isAttackTop;
+	
+public:
+	Cannons(float x, float y, LPGAMEENTITY t);
+
+	void AttackTarget(LPGAMEENTITY target);
+	virtual void SetState(int state);
+	void SelfDestroy();
 };

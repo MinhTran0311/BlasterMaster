@@ -19,6 +19,7 @@
 #include "Worms.h"
 #include "Eyeballs.h"
 #include "Teleporters.h"
+#include "Domes.h"
 
 #include "Brick.h"
 #include "Gate.h"

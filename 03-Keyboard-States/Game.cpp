@@ -16,6 +16,7 @@
 #include "Orbs.h"
 #include "Skulls.h"
 #include "Teleporters.h"
+#include "Cannons.h"
 #include "Worms.h"
 
 #include "Enemy.h"

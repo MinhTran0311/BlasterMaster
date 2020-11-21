@@ -153,6 +153,9 @@
     <ClCompile Include="Teleporters.cpp">
       <Filter>Objects\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="BigNavigatedEnemyBullet.cpp">
+      <Filter>Objects\Bullets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -259,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="Teleporters.h">
       <Filter>Header Files\EnemyHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="BigNavigatedEnemyBullet.h">
+      <Filter>Objects\Bullets</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

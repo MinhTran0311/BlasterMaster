@@ -1,6 +1,6 @@
 #pragma once
 #include "Entity.h"
-
+#include "Bullet.h"
 #define ENEMY_MOVING_SPEED		0.1f
 
 #define ENEMY_STATE_IDLE 100
@@ -25,7 +25,7 @@ protected:
 	//int health;
 	LPGAMEENTITY target;
 	EnemyType enemyType;
-
+	vector<LPBULLET> listBullet;
 public:
 	Enemy();
 	~Enemy();

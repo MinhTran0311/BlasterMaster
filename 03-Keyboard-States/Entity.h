@@ -55,7 +55,8 @@ public:
 	int health;
 	int gunDam;
 	int state;									
-
+	bool isActive;
+	bool isDoneDeath;
 	int bbARGB;
 	//static vector<LPANIMATION> animations;
 

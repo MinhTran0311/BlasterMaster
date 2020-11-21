@@ -16,15 +16,16 @@
 #include <vector>
 #include <iostream>
 
-#define WINDOW_CLASS_NAME L"SampleWindow"
-#define MAIN_WINDOW_TITLE L"TUAN - 1"
+#define WINDOW_CLASS_NAME L"BLASTER MASTER"
+#define MAIN_WINDOW_TITLE L"HOMIES GAME"
 
 #define BGColor D3DCOLOR_XRGB(255,255,200)
 #define BGColorCrossing D3DCOLOR_XRGB(255,255,200)
 #define SCREEN_WIDTH 320	//530
-#define SCREEN_HEIGHT 275	//480
+#define SCREEN_HEIGHT 274	//480
 #define BOTTOM_SCREEN 450
-
+#define CAMERA_SPEED_WORLD1 0.223
+#define CAMERA_SPEED_OVERWORLD 0.15
 #define MAX_FRAME_RATE 600	//default Frame Rate is the truth
 
 #define SCENEGAME_GAMETIMEMAX		300
@@ -63,17 +64,26 @@
 #define ANIMATION_SET_BBOX					0
 #define ANIMATION_SET_PLAYER				1
 #define ANIMATION_SET_PLAYERHP				11
-#define ANIMATION_SET_ITEM_POWERUP			12
-#define ANIMATION_SET_ITEM_GUNUP			13
+//#define ANIMATION_SET_ITEM_POWERUP			12
+//#define ANIMATION_SET_ITEM_GUNUP			13
 #define ANIMATION_SET_BRICK					20
 #define ANIMATION_SET_GATE					26
-
-
+#define ANIMATION_SET_JASON_BULLET			3000
+#define ANIMATION_SET_BIG_ENEMY_BULLET		4001
+#define ANIMATION_SET_SMALL_ENEMY_BULLET		4002
+#define ANIMATION_SET_SKULL_ENEMY_BULLET		4003
 enum EnemyType
 {
-	WORM = 1,
-	EYEBALLS = 8,
-	TELEPORTERS = 9,
+	WORM = 10,
+	DOMES = 11,
+	FLOATER = 12,
+	INSECT = 13,
+	ORB = 14,
+	JUMPER = 15,
+	SKULL = 16,
+	EYEBALLS = 17,
+	TELEPORTERS = 18,
+	CANNONS = 19,
 };
 enum EntityType
 {
@@ -82,7 +92,9 @@ enum EntityType
 
 	////Bounding Box
 	//BBOX = 0,
-
+	TAG_JASON = 1,
+	TAG_SMALL_SOPHIA = 2,
+	TAG_BIG_SOPHIA = 3,
 	////Player Zone 1-10
 	//PLAYER = 1,
 	//MORNINGSTAR = 2,
@@ -100,14 +112,14 @@ enum EntityType
 	//UIEXTRASHOT = 13,
 
 	////Static Obj Zone 20-40
-	TAG_BRICK = 20,
-	TAG_GATE = 21,
+	TAG_BRICK = 1,
+	TAG_GATE = 2,
 	//BREAKABLEBRICK = 21,
 	//TORCH = 22,
 	//CANDLE = 23,
 	//MOVINGPLATFORM = 24,
 	//STAIRS = 25,
-	
+
 	//BUSH = 27,
 
 	////Item Zone 40-70
@@ -138,13 +150,21 @@ enum EntityType
 
 	////Enemies Zone 80-100
 	ENEMY = 80,
-	Tag_Worm = 81,
-	Tag_Eyeballs = 88,
-	Tag_Teleporters = 89,
+	TAG_WORM = 10,
+	TAG_DOMES = 11,
+	TAG_FLOATER = 12,
+	TAG_INSECT = 13,
+	TAG_ORB = 14,
+	TAG_JUMPER = 15,
+	TAG_SKULL = 16,
+	TAG_EYEBALLS = 17,
+	TAG_TELEPORTERS = 18,
+	TAG_CANNONS = 19,
 	////GOLEM = 80,
 	//Worm = 81,
 	////DOMES = 82,
-
+	BULLET = 30,
+	JASON_NORMAL_BULLET = 31,
 	//KNIGHT = 83,
 	//GHOST = 84,
 	//RAVEN = 85,

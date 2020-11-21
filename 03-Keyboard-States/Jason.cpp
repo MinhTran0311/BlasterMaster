@@ -4,6 +4,9 @@
 #include "debug.h"
 #include "Game.h"
 #include "Worms.h"
+#include "Teleporters.h"
+#include "Cannons.h"
+#include "Eyeballs.h"
 #include "Gate.h"
 
 JASON::JASON(float x, float y)

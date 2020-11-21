@@ -2,6 +2,8 @@
 #include "Worms.h"
 #include "Eyeballs.h"
 #include "Teleporters.h"
+#include "Cannons.h"
+#include "Domes.h"
 #include "PlayScene.h"
 #define ID_SMALL_SOPHIA	0
 #define ID_JASON		1
@@ -16,6 +18,7 @@
 #define OBJECT_TYPE_DOMES 11
 #define OBJECT_TYPE_EYEBALLS 17
 #define OBJECT_TYPE_TELEPOTERS 18
+#define OBJECT_TYPE_CANNONS 19
 
 #define HUD_Y (SCREEN_HEIGHT/11) 
 
@@ -174,7 +177,7 @@ void PlayScene::Update(DWORD dt)
 	}
 	cy -= SCREEN_HEIGHT / 2;
 	gameCamera->SetCamPos(cx, 0.0f);//cy khi muon camera move theo y player 
-	gameHUD->Update(cx, HUD_Y, jason->GetHealth(), jason->GetgunDam());	//move x follow camera
+
 #pragma endregion
 	//init coObjects
 	vector<LPGAMEENTITY> coObjects;
@@ -182,12 +185,13 @@ void PlayScene::Update(DWORD dt)
 		coObjects.push_back(listObjects[i]);
 	for (int i = 0; i < listEnemies.size(); i++)
 		coObjects.push_back(listEnemies[i]);
-
+	listObjects.push_back(jason);
 	for (int i = 0; i < listEnemies.size(); i++)
 		listEnemies[i]->Update(dt, &listObjects);
 	//player
 
 	jason->Update(dt,&coObjects);
+	gameHUD->Update(cx, HUD_Y, jason->GetHealth(), jason->GetgunDam());	//move x follow camera
 }
 
 void PlayScene::Render()
@@ -308,6 +312,7 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 	{
 		if (_SophiaType == ID_JASON)
 			player->SetPressSpace(true);
+		DebugOut(L"health %d\n", player->GetHealth());
 	}
 
 	if (CGame::GetInstance()->IsKeyDown(DIK_UP))
@@ -454,7 +459,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
-	case OBJECT_TYPE_WORM:		
+	/*case OBJECT_TYPE_WORM:		
 	{
 		obj = new Worm(x, y, jason);
 		obj->SetPosition(x, y);
@@ -464,7 +469,8 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		listEnemies.push_back(obj);
 		DebugOut(L"[test] add worm !\n");
 		break;
-	}
+	}*/
+	/*
 	case OBJECT_TYPE_EYEBALLS:
 	{
 		obj = new Eyeballs(x, y, jason);
@@ -475,7 +481,7 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		listEnemies.push_back(obj);
 		DebugOut(L"[test] add eyeballs !\n");
 		break;
-	}
+	}*/
 	case OBJECT_TYPE_TELEPOTERS:
 	{
 		obj = new Teleporters(x, y, jason);
@@ -487,6 +493,28 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[test] add telepoters !\n");
 		break;
 	}
+	case OBJECT_TYPE_CANNONS:
+	{
+		obj = new Cannons(x, y, jason);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		listEnemies.push_back(obj);
+		DebugOut(L"[test] add cannons !\n");
+		break;
+	}
+	/*case OBJECT_TYPE_DOMES:
+	{
+		obj = new Domes(x, y, jason);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		listEnemies.push_back(obj);
+		DebugOut(L"[test] add domes !\n");
+		break;
+	}*/
 	case OBJECT_TYPE_BRICK:
 	{
 		obj = new Brick(atof(tokens[4].c_str()), atof(tokens[5].c_str()));
