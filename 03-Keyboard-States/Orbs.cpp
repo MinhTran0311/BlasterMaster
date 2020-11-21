@@ -10,7 +10,8 @@ void Orbs::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt);
-
+	
+	
 #pragma region fall down
 	//vy += WORM_GRAVITY * dt;
 #pragma endregion
@@ -18,7 +19,8 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEENTITY> bricks;
-
+	if (isflip == true) { SetState(ORBS_STATE_FLIP); }
+	else { SetState(ORBS_STATE_FLY);  }
 	coEvents.clear();
 	bricks.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
@@ -63,13 +65,13 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		}
 		else if (!nx)
 		{
-			isfly = false;
+			
 			vy = -vy;
 		}
 
 		else if (!ny)
 		{
-			isfly = false;
+			
 			nx = -nx;
 			vx = -vx;
 		}
@@ -84,8 +86,8 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma endregion
 #pragma region Active
 	/*if (!isActive) vx = 0;
-	else SetState(SKULLS_STATE_FLY);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= WORM_SITEACTIVE_PLAYER)
+	else SetState(ORBS_STATE_FLY);
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= ORBS_SITEACTIVE_PLAYER)
 	{
 		isActive = true;
 	}*/
@@ -108,7 +110,7 @@ void Orbs::Render()
 		ani = ORBS_ANI_DIE;
 		animationSet->at(ani)->OldRender(x, y);
 	}
-	else if (isfly)
+	else if (!isflip)
 		//else if (cooldownTimer->IsTimeUp())
 	{
 		ani = ORBS_ANI_FLY;
@@ -116,11 +118,13 @@ void Orbs::Render()
 		//animationSet->at(ani)->OldRender(x, y);
 
 	}
-	else if (!isfly)
+	else if (isflip)
 	{
 
-		ani = ORBS_ANI_ATTACK;
-		animationSet->at(ani)->OldRender(x, y);
+		ani = ORBS_ANI_FLIP;
+		animationSet->at(ani)->Render(nx, x, y);
+		
+		
 		
 		
 	}
@@ -135,12 +139,14 @@ void Orbs::Render()
 
 Orbs::Orbs(float x, float y, LPGAMEENTITY t)
 {
+
 	SetState(ORBS_STATE_FLY);
 	enemyType = ORBS;
 	tag = Tag_Orbs;
 	this->x = x;
 	this->y = y;
 	nx = -1;
+	//dam = 1;
 	isTargeting = 0;
 	this->target = t;
 	health = MAXHEALTH;
@@ -185,7 +191,10 @@ void Orbs::SetState(int state)
 		vy = 0;
 		break;
 	
-	
+	case ORBS_STATE_FLIP:
+		vx = 0;
+		time++;
+		break;
 	
 	case ORBS_STATE_ATTACK:
 		
@@ -203,10 +212,7 @@ void Orbs::SetState(int state)
 		}
 		break;
 
-		//case SKULLS_STATE_ATTACK:
-		//	cooldownTimer->Reset(randomTimeAttack());
-		//	delayTimer->Start();
-		//	break;
+	
 	}
 
 }

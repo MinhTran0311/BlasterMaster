@@ -19,7 +19,7 @@
 #define FLYING_SPEED	0.05f;
 
 #define BBOX_WIDTH 18
-#define BBOX_HEIGHT 15
+#define BBOX_HEIGHT 18
 //#define BBOX_HEIGHT_DIE 9 
 
 #define MAXHEALTH	1

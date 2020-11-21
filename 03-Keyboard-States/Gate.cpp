@@ -32,5 +32,5 @@ void Gate::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 void Gate::Render()
 {
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "Enemy.h"
+#include "Timer.h"
 
 
 #define MOVING_SPEED	0.05f
@@ -8,10 +9,11 @@
 
 #define ORBS_STATE_FLY		100
 #define ORBS_STATE_ATTACK	200
+#define ORBS_STATE_FLIP	400
 #define ORBS_STATE_DIE		300
 
 #define ORBS_ANI_FLY		0
-#define ORBS_ANI_ATTACK		1
+#define ORBS_ANI_FLIP	1
 #define ORBS_ANI_DIE		2
 
 #define FLYING_SPEED	0.05f;
@@ -29,7 +31,9 @@
 
 class Orbs : public Enemy
 {
-	bool isfly = true;
+	
+	bool isflip = false;
+	int time = 0;
 	bool canAttack = false;
 	bool isTargeting;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

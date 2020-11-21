@@ -34,7 +34,7 @@
 #ORBS
 #FLY
 14000	154	386	172	404	40
-#ATTACK
+#FLIP
 14001	134	386	152	404	40
 14002	114	386	132	404	40
 
@@ -55,7 +55,7 @@
 #FLOATER
 #FLY
 6001	148	406	166	421	40
-#ATTACK
+#FLIP
 6002	128	405	146	421	40
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
@@ -82,7 +82,7 @@
 #ORBS
 #FLY
 1400	14000	100
-#ATTACK
+#FLIP
 1401	14000	100	14001	100	14002	100
 
 #JUMPERS
@@ -127,7 +127,7 @@
 # type	x	y	extra_settings per object type	width	height
 # type
 #Worm
-10	150	151	10
+10	380	151	10
 #Domes
 #11	150	125	11
 

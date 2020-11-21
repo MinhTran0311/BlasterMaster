@@ -100,7 +100,7 @@ void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Worm::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	if (vx > 0)
 		nx = 1;
 	else
@@ -122,7 +122,7 @@ Worm::Worm(float x, float y, LPGAMEENTITY t)
 	tag = Tag_Worm;
 	this->x = x;
 	this->y = y;
-	dam = 1;
+	//dam = 1;
 	nx = -1;
 	isFollow = 0;
 	this->target = t;

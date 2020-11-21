@@ -121,7 +121,7 @@ Jumpers::Jumpers(float x, float y, LPGAMEENTITY t)
 	tag = Tag_Jumpers;
 	this->x = x;
 	this->y = y;
-	dam = 1;
+	//dam = 1;
 	nx = -1;
 	isFollow = 0;
 	this->target = t;
@@ -132,16 +132,27 @@ Jumpers::Jumpers(float x, float y, LPGAMEENTITY t)
 
 void Jumpers::FollowTarget(LPGAMEENTITY target) //đi theo nhân vật
 {
+	
+	if (indexFollow < 1) {
+		SetState(JUMPER_STATE_JUMP);
+		indexFollow++;
+	}
+	else indexFollow++;
+	if (indexFollow == 50)indexFollow = 0;
+	
 	if ((target->x - this->x) > 0)
 	{
 		this->nx = 1;
 		vx = JUMPER_WALKING_SPEED;
+		
 	}
 	else
 	{
 		vx = -JUMPER_WALKING_SPEED;
 		this->nx = -1;
+		
 	}
+	
 
 }
 
@@ -155,7 +166,12 @@ void Jumpers::SetState(int state)
 		vx = 0;
 		vy = 0;
 		break;
+
+	case JUMPER_STATE_JUMP:
+		vy = -JUMPER_JUMP_SPEED_Y;
+		break;
 	case JUMPER_STATE_WALKING:
+
 		if (nx > 0)
 		{
 			vx = JUMPER_WALKING_SPEED;
