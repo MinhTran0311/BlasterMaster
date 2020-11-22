@@ -11,7 +11,7 @@
 #include "Jumpers.h"
 #include "Eyeballs.h"
 #include "Cannons.h"
-#include "Telepoters.h"
+#include "Teleporters.h"
 vector<LPGAMEENTITY> CGrid::FilterObjectDuplicate(vector<LPGAMEENTITY> objs)
 {
 	std::sort(objs.begin(), objs.end());
@@ -135,6 +135,42 @@ void CGrid::LoadGrid(vector<string> tokens, JASON* &playscene_player)
 
 		obj->SetAnimationSet(ani_set);
 		DebugOut(L"[test] add insect !\n");
+		break;
+	}
+	case EntityType::TAG_DOMES:
+	{
+		obj = new Domes(x, y, player);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		DebugOut(L"[test] add domes !\n");
+		break;
+	}
+	case EntityType::TAG_EYEBALLS:
+	{
+		obj = new Eyeballs(x, y, player);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		DebugOut(L"[test] add eyeballs !\n");
+		break;
+	}
+	case EntityType::TAG_TELEPORTERS:
+	{
+		obj = new Teleporters(x, y, player);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		DebugOut(L"[test] add teleporters !\n");
+		break;
+	}
+	case EntityType::TAG_CANNONS:
+	{
+		obj = new Cannons(x, y, player);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		DebugOut(L"[test] add cannons !\n");
 		break;
 	}
 	case EntityType::TAG_BRICK:

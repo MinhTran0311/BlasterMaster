@@ -29,19 +29,19 @@ CSprites* CSprites::GetInstance()
 //	Game* game = Game::GetInstance();
 //	game->Draw(direction, x, y, texture, left, top, right, bottom, alpha);
 //}
-//
-//void CSprite::DrawY(int direction, float x, float y, int alpha)
-//{
-//	CGame* game = CGame::GetInstance();
-//	game->DrawY(direction, x, y, texture, left, top, right, bottom, alpha);
-//}
-//
-//
-//void CSprite::DrawTopBottom(int direction, float x, float y, int alpha)
-//{
-//	CGame* game = CGame::GetInstance();
-//	game->DrawTopBottom(direction, x, y, texture, left, top, right, bottom, alpha);
-//}
+
+void CSprite::DrawY(int direction, float x, float y, int alpha)
+{
+	CGame* game = CGame::GetInstance();
+	game->DrawY(direction, x, y, texture, left, top, right, bottom, alpha);
+}
+
+
+void CSprite::DrawTopBottom(int direction, float x, float y, int alpha)
+{
+	CGame* game = CGame::GetInstance();
+	game->DrawTopBottom(direction, x, y, texture, left, top, right, bottom, alpha);
+}
 
 void CSprite::OldDraw(float x, float y, int alpha)
 {

@@ -75,9 +75,6 @@
     <ClCompile Include="Worms.cpp">
       <Filter>Objects\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Telepoters.cpp">
-      <Filter>Objects\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="Skulls.cpp">
       <Filter>Objects\Enemies</Filter>
     </ClCompile>
@@ -167,6 +164,9 @@
     </ClCompile>
     <ClCompile Include="JasonRocket.cpp">
       <Filter>Objects\Bullets\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Teleporters.cpp">
+      <Filter>Objects\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

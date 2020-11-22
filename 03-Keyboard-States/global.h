@@ -79,15 +79,15 @@
 enum EnemyType
 {
 	WORM = 10,
-	DOME = 11,
+	DOMES = 11,
 	FLOATERS = 12,
 	INSECT = 13,
 	ORBS = 14,
 	JUMPERS = 15,
 	SKULLS = 16,
-	EYEBALL = 17,
-	TELEPOTER =18,
-	CANNON = 19,
+	EYEBALLS = 17,
+	TELEPORTERS =18,
+	CANNONS = 19,
 };
 enum EntityType
 {
@@ -162,7 +162,7 @@ enum EntityType
 	TAG_JUMPERS = 15,
 	TAG_SKULLS = 16,
 	TAG_EYEBALLS = 17,
-	TAG_TELEPOTERS = 18,
+	TAG_TELEPORTERS = 18,
 	TAG_CANNONS = 19,
 	////GOLEM = 80,
 	//Worm = 81,
