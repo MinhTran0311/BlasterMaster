@@ -46,7 +46,12 @@ class Eyeballs : public Enemy
 public:
 	Eyeballs(float x, float y, LPGAMEENTITY t);
 	void setRandomVxVy(float& vx, float& vy);
+<<<<<<< Updated upstream
 	void FlyAndAttackTarget();
+=======
+	void FlyAndAttackTarget(LPGAMEENTITY target);
+	float getRandomFloat(float min = 0, float max = RAND_MAX);
+>>>>>>> Stashed changes
 	virtual void SetState(int state);
 	void SelfDestroy();
 };

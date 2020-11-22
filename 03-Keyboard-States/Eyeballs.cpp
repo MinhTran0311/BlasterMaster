@@ -141,6 +141,7 @@ Eyeballs::Eyeballs(float x, float y, LPGAMEENTITY t)
 	canFly = true;
 }
 
+<<<<<<< Updated upstream
 //void Eyeballs::setRandomVxVy(float& vx, float& vy)
 //{
 //	//srand(static_cast <unsigned> (time(0)));
@@ -150,6 +151,22 @@ Eyeballs::Eyeballs(float x, float y, LPGAMEENTITY t)
 //}
 
 void Eyeballs::FlyAndAttackTarget()
+=======
+void Eyeballs::setRandomVxVy(float& vx, float& vy)
+{
+	vx = r->getRandomFloat(0.0001f, EYEBALLS_FLYING_SPEED);
+	vy = sqrt(2 * EYEBALLS_FLYING_SPEED * EYEBALLS_FLYING_SPEED - vx * vx);
+}
+
+float Eyeballs::getRandomFloat(float min = 0, float max = RAND_MAX)
+{
+	srand(static_cast <unsigned> (time(0)));
+	float r3 = min + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (max - min)));
+	return r3;
+}
+
+void Eyeballs::FlyAndAttackTarget(LPGAMEENTITY target)
+>>>>>>> Stashed changes
 {
 	/*if (state == EYEBALLS_STATE_IDLE && canFly)
 	{
@@ -232,15 +249,21 @@ void Eyeballs::SetState(int state)
 			break;
 		case EYEBALLS_STATE_FLYING:
 		{
-			if (nx > 0)
+			/*if (nx > 0)
 			{
 				vx = EYEBALLS_FLYING_SPEED;
 			}
 			else
 			{
 				vx = -EYEBALLS_FLYING_SPEED;
+<<<<<<< Updated upstream
 			}
 			//setRandomVxVy(vx, vy);
+=======
+			}*/
+			setRandomVxVy(vx, vy);
+			flyTimer->Start();
+>>>>>>> Stashed changes
 			break;
 		}
 		case EYEBALLS_STATE_ATTACKING:
@@ -257,3 +280,5 @@ void Eyeballs::SetState(int state)
 		}
 	}
 }
+
+
