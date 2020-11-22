@@ -3,11 +3,20 @@
 BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BIG_ENEMY_BULLET));
+	tag = EntityType::BULLET;
 	alpha = 255;
 	bbARGB = 0;
 	isHitBrick = isHitEnemy = false;
 	dam = 1;
-	typeBullet = type_enemy;
+	switch (type_enemy)
+	{
+	case TAG_CANNONS:
+		typeBullet = CANNONS_BULLET;
+	default:
+		typeBullet = -1;
+		break;
+	}
+	//typeBullet = type_enemy;
 	nx = direct_x;
 	ny = direct_y;
 	isActive = true;
@@ -47,7 +56,7 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_o
 		Entity::Update(dt);
 		switch (typeBullet)
 		{
-		case EntityType::TAG_CANNONS:
+		case EntityType::CANNONS_BULLET:
 			bullet_speed = CANNONS_BULLET_SPEED;
 			break;
 		default:

@@ -261,8 +261,8 @@ void CGrid::UpdateGrid(vector<LPGAMEENTITY> objects)
 		//thieu cast trigger 
 		if (!dynamic_cast<Brick*>(objects.at(i)) && !dynamic_cast<Gate*>(objects.at(i)))
 		{
-			RemoveObj(objects.at(i), 0);
-			InsertGrid(objects.at(i));
+			RemoveObj(objects.at(i), 0);	//xoa doi tuuong trong cac grid
+			InsertGrid(objects.at(i));		//them lai doi tuong vao grid moi
 		}
 	}
 }
@@ -297,8 +297,11 @@ void CGrid::RemoveObj(LPGAMEENTITY obj, bool isDeletePointer)
 			}
 		}
 	}
+	DebugOut(L"REmove Object: %d\n",obj->GetType());
 	if (isDeletePointer)
+	{
 		SAFE_DELETE(obj);
+	}
 }
 
 void CGrid::UnLoadGrid()
@@ -312,6 +315,7 @@ void CGrid::UnLoadGrid()
 
 void CGrid::InsertGrid(LPGAMEENTITY obj)
 {
+	
 	RECT rectObj = obj->GetBBox();
 	int minRow = int(rectObj.top) / CELL_SIZE.y;
 	int maxRow = int(rectObj.bottom) / CELL_SIZE.y;
@@ -325,6 +329,21 @@ void CGrid::InsertGrid(LPGAMEENTITY obj)
 			cells[i][j].push_back(obj);
 		}
 	}
+}
+
+bool CGrid::CheckBulletLimitation(EntityType typebullet)
+{
+	int bullet_count = 0;
+	for (int i=0; i<rowGrid; i++)
+		for (int j=0; j<rowGrid;j++)
+			for (int k = 0; k < cells[i][j].size(); k++)
+			{
+				if (static_cast<Bullet*>(cells[i][j].at(k))->GetBulletType() == typebullet)
+					bullet_count++;
+			}
+	if (bullet_count <= MAX_NUMBER_OF_JASON_BULLET)
+		return true;
+	return false;
 }
 
 D3DXVECTOR2 CGrid::GetPosPlayerDefault()

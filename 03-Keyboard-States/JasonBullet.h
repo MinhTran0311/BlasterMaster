@@ -1,5 +1,7 @@
 #pragma once
 #include "Bullet.h"
+#include "global.h"
+
 #include <math.h>
 //bbox cho dan binh thuong
 #define BULLET_JASON_NORMAL_HORIZONTAL_BBOX_WIDTH		23
@@ -12,7 +14,7 @@
 #define BULLET_JASON_UPGRADE_VERTICAL_BBOX_WIDTH		6
 #define BULLET_JASON_UPGRADE_VERTICAL_BBOX_HEIGHT		24
 //state
-#define BULLET_JASON_STATE_FLYING								0
+#define BULLET_JASON_STATE_FLYING						0
 #define BULLET_JASON_STATE_HIT_BRICK					100
 #define BULLET_JASON_STATE_HIT_ENEMY					200
 
@@ -23,10 +25,9 @@
 #define BULLET_JASON_UPGRADE_ANI_TOP					3
 #define BULLET_BANG										4
 
-#define BULLET_JASON_DELAY								550
+#define BULLET_JASON_DELAY								1000
 //kieu dan
-#define JASON_NORMAL_BULLET								0
-#define JASON_UPGRADE_BULLET							1
+
 
 class JasonBullet : public Bullet
 {

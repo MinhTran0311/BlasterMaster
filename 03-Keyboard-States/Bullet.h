@@ -63,9 +63,9 @@ public:
 	int totalTime;
 	int x_Start_Pos, y_Start_Pos;
 	bool able_firing;
-	int dam;
 	int isAimingTop;
-	int alpha, typeBullet;
+	int alpha;
+	int typeBullet;
 	bool  isHitBrick, isHitEnemy;
 	float timeDelayed, timeDelayedMax;
 
@@ -107,4 +107,5 @@ public:
 	bool GetisActive() { return isActive; }
 	//void SetIsDone(bool isdone) { isDone = isdone; }
 	int GetDamage() { return dam; }
+	int GetBulletType() { return typeBullet; };
 };

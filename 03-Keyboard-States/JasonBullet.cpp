@@ -5,13 +5,16 @@ JasonBullet::JasonBullet(float posX, float posY, int level, int direct, bool isG
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_JASON_BULLET));
 	alpha = 255;
 	bbARGB = 0;
-	this->SetState(BULLET_JASON_STATE_FLYING);
-	//isHitBrick = false;
-	//isHitEnemy = false;
+	tag = EntityType::BULLET;
+	//this->SetState(BULLET_JASON_STATE_FLYING);
+	isHitBrick = false;
+	isHitEnemy = false;
 	dam = 1;
 	timeDelayed = 0;
 	timeDelayedMax = BULLET_JASON_DELAY;
-	typeBullet = level;
+	if (level == 0)
+		typeBullet = EntityType::JASON_NORMAL_BULLET;
+	else typeBullet = EntityType::JASON_UPGRADE_BULLET;
 	nx = direct;
 	isAimingTop = isGunFlip;
 	if (!isAimingTop)
@@ -25,7 +28,7 @@ JasonBullet::JasonBullet(float posX, float posY, int level, int direct, bool isG
 		y = posY - DISTANCE_FIRING_HEIGHT*2;
 	}
 	
-	//isActive = true;
+	isActive = true;
 }
 
 JasonBullet::~JasonBullet()
@@ -119,23 +122,24 @@ void JasonBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (e->obj->GetType() == EntityType::TAG_BRICK)
 			{
-				this->SetState(BULLET_JASON_STATE_HIT_BRICK);
+				//this->SetState(BULLET_JASON_STATE_HIT_BRICK);
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
-				//vx = 0;
-				//vy = 0;
+				vx = 0;
+				vy = 0;
+				isHitBrick = true;
 			}
 			if (e->obj->GetType() == EntityType::ENEMY)
 			{
 				e->obj->AddHealth(-dam);
 				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
-				this->SetState(BULLET_JASON_STATE_HIT_ENEMY);
-				//isHitEnemy = true;
+				//this->SetState(BULLET_JASON_STATE_HIT_ENEMY);
+				isHitEnemy = true;
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
-				//vx = 0;
-				//vy = 0;
-				//isActive = false;
+				vx = 0;
+				vy = 0;
+				isActive = false;
 			}
 		}
 	}
@@ -149,9 +153,9 @@ void JasonBullet::Render()
 		return;
 	RenderBoundingBox();
 	int ani;
-	
+	DebugOut(L"Jason bullet render");
 
-	if (BULLET_JASON_STATE_FLYING)
+	if (!isHitBrick && !isHitEnemy)
 	{
 		if (isAimingTop)
 		{
@@ -172,7 +176,7 @@ void JasonBullet::Render()
 			animationSet->at(ani)->Render(nx ,x, y, alpha);
 		}
 	}
-	else if (state == BULLET_JASON_STATE_HIT_BRICK)
+	else if (isHitBrick)
 	{
 		ani = BULLET_BANG;
 		if (nx == 1 && !isAimingTop)

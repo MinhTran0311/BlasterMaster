@@ -83,6 +83,8 @@ public:
 	void AddgunDam(int BonusgunDam) { dam += BonusgunDam; }
 	EntityType GetType() { return tag; }
 
+	bool isFinishDeathAni() { return isDoneDeath; };
+	bool isActiveObject() { return isActive; };
 	bool isDeath();
 	int GetState() { return this->state; }
 

@@ -266,15 +266,16 @@ void PlayScene::Update(DWORD dt)
 		}
 		//sua cho nay
 		int k = 0;
-		for (int i = coObjects.size()-1; i>=0; i--)
+		for (int i = 0; i<coObjects.size()-k; i++)
 		{
-			if ((coObjects.at(i)->isDeath() && coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != EntityType::TAG_GATE))
+			if ((coObjects.at(i)->isDeath()))
 			{
 				float xPos, yPos;
 				coObjects.at(i)->GetPosition(xPos, yPos);
-				Entity* backup = coObjects.at(i);
+				LPGAMEENTITY backup = coObjects.at(i);
 
-				coObjects.erase(coObjects.end() - i);
+				coObjects.erase(coObjects.begin() + i);
+
 				float _xtemp, _ytemp;
 				backup->GetPosition(_xtemp, _ytemp);
 #pragma region add item into grid
@@ -284,13 +285,14 @@ void PlayScene::Update(DWORD dt)
 					break;
 				}
 #pragma endregion
-				if (backup != nullptr)
-					DebugOut(L"khasc nulll %d", coObjects.at(i)->GetType());
 				CGrid::GetInstance()->RemoveObj(backup,true);
-				k++;
+				k = 1;
+				i--;
 			}
 			//item effect
-			else { }
+			else {
+				k = 0;
+			}
 		}
 	}
 	CGrid::GetInstance()->UpdateGrid(coObjects);
@@ -476,18 +478,21 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	}
 	case DIK_Z:
 	{
-		Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-		CGrid::GetInstance()->InsertGrid(bullet);
-		break;
+		//if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET))
+		//{
+			Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
+			CGrid::GetInstance()->InsertGrid(bullet);
+		//}
+		//break;
 	}
 
 	//case DIK_X:
-	//	//if (listBullets.size() < 3)
-	//	//{
-	//	//	Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
-	//	//	((PlayScene*)scence)->listBullets.push_back(bullet);
-	//	//}
-	//	//break;
+	//	if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET))
+	//	{
+	//		Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
+	//		CGrid::GetInstance()->InsertGrid(bullet);
+	//	}
+	//	break;
 	//case DIK_C:
 	//	//if (listBullets.size() < 3)
 	//	//{

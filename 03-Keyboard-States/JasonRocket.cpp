@@ -5,6 +5,8 @@
 
 JasonRocket::JasonRocket(float xPos, float yPos)
 {
+	tag = EntityType::BULLET;
+	typeBullet = EntityType::JASON_ROCKET_BULLET;
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_JASON_ROCKET));
 	alpha = 255;
 	isHitEnemy = false;
