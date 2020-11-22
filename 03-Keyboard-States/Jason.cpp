@@ -190,7 +190,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	//khi va cham chua xet gia tri x và y
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType()==EntityType::ENEMY))
+		if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType()== EntityType::ENEMY))
 		{
 			Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
 			//re check
