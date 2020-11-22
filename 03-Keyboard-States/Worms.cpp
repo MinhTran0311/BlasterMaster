@@ -105,17 +105,17 @@ void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 void Worm::Render()
 {
 	//RenderBoundingBox();
-	if (vx > 0)
-		nx = 1;
-	else
-		nx = -1;
+	//if (vx > 0)
+	//	nx = 1;
+	//else
+	//	nx = -1;
 
 	int ani = WORM_ANI_WALKING;
 	if (state == WORM_STATE_DIE) {
 		ani = WORM_ANI_DIE;
 		if (animationSet->at(ani)->GetFrame() == 3)
 		{
-			isActive = false;
+			
 			isDoneDeath = true;
 		}
 		animationSet->at(ani)->Render(nx, x, y - 3);
@@ -132,7 +132,6 @@ Worm::Worm(float x, float y, LPGAMEENTITY t)
 	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
-	//dam = 1;
 	nx = -1;
 	isFollow = 0;
 	this->target = t;
@@ -166,6 +165,7 @@ void Worm::SetState(int state)
 		y += WORM_BBOX_HEIGHT - WORM_BBOX_HEIGHT_DIE + 1;
 		vx = 0;
 		vy = 0;
+		isActive = false;
 		break;
 	}
 	case WORM_STATE_WALKING:

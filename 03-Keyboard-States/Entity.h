@@ -54,7 +54,7 @@ public:
 	int nx;				// Hướng xoay render trục ngang // 1: bên phải .. -1 bên trái
 	int ny;				//
 	int health = 1;
-	int dam;
+	int dam = 1;
 	int state;
 	bool isActive;
 	bool isDoneDeath;
