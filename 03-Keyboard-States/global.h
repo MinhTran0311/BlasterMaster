@@ -75,7 +75,7 @@ enum EnemyType
 	FLOATER = 12,
 	INSECT = 13,
 	WORM = 1,
-	FLOATER = 2,
+	//FLOATER = 2,
 	ORBS = 14,
 	JUMPER = 15,
 	SKULLS  = 16,
