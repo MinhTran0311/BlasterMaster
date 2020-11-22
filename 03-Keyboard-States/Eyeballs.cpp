@@ -15,10 +15,21 @@ void Eyeballs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma region fall down
 	//vy += EYEBALLS_GRAVITY * dt;
 #pragma endregion
+#pragma region Active
+
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= EYEBALLS_SITEACTIVE_PLAYER)
+	{
+		FlyAndAttackTarget();
+		isActive = true;
+	}
+	if (!isActive) SetState(EYEBALLS_STATE_IDLE);
+		//else SetState(EYEBALLS_STATE_FLYING);
+#pragma endregion
 #pragma region Pre-collision
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEENTITY> bricks;
+	//SetState(EYEBALLS_STATE_FLYING);
 
 	coEvents.clear();
 	bricks.clear();
@@ -40,7 +51,7 @@ void Eyeballs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 	else
 	{
-		float min_tx, min_ty, nx = 0, ny;
+		float min_tx, min_ty, nx, ny;
 		float rdx = 0;
 		float rdy = 0;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
@@ -51,7 +62,7 @@ void Eyeballs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		//follow player
 		if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= EYEBALLS_SITEFOLLOW_PLAYER)
 		{
-			FlyAndAttackTarget(target);
+			//FlyAndAttackTarget();
 		}
 		else    //Wall or reaching the edges
 		{
@@ -87,14 +98,7 @@ void Eyeballs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	//clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
-#pragma region Active
-	if (!isActive) vx = 0;
-	else SetState(EYEBALLS_STATE_FLYING);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= EYEBALLS_SITEACTIVE_PLAYER)
-	{
-		isActive = true;
-	}
-#pragma endregion
+
 }
 
 void Eyeballs::Render()
@@ -105,17 +109,14 @@ void Eyeballs::Render()
 	else
 		nx = -1;
 
-	int ani = EYEBALLS_ANI_IDLE;
+	int ani = -1;
 	if (state == EYEBALLS_STATE_DIE) {
 		ani = EYEBALLS_ANI_DIE;
 	}
 	else if (state == EYEBALLS_STATE_IDLE) {
 		ani = EYEBALLS_ANI_IDLE;
 	}
-	else if (state == EYEBALLS_STATE_FLYING) {
-		ani = EYEBALLS_ANI_FLYING;
-	}
-	else if (state == EYEBALLS_STATE_ATTACKING) {
+	else if (state == EYEBALLS_STATE_FLYING || state == EYEBALLS_STATE_ATTACKING) {
 		ani = EYEBALLS_ANI_FLYING;
 	}
 
@@ -131,29 +132,92 @@ Eyeballs::Eyeballs(float x, float y, LPGAMEENTITY t)
 	this->x = x;
 	this->y = y;
 	dam = 1;
-	nx = -1;
-	isFollow = 0;
+	nx = 1;
 	this->target = t;
 	health = EYEBALLS_MAXHEALTH;
 	isActive = false;
 	bbARGB = 250;
+	canAttack = false;
+	canFly = true;
 }
 
-void Eyeballs::FlyAndAttackTarget(LPGAMEENTITY target)
+//void Eyeballs::setRandomVxVy(float& vx, float& vy)
+//{
+//	//srand(static_cast <unsigned> (time(0)));
+//	//vx = 0.0001f + static_cast <float> (rand()) / (static_cast <float> (0.005f / (0.005f - 0.0001f)));
+//	vx = 0.005f + (rand()) / ((0.005f / (0.005f - 0.0001f)));
+//	vy = sqrt(2 * 0.005f * 0.005f - vx * vx);
+//}
+
+void Eyeballs::FlyAndAttackTarget()
 {
-	if (attackTimer->IsTimeUp())
+	/*if (state == EYEBALLS_STATE_IDLE && canFly)
+	{
+		canFly = false;
+		SetState(EYEBALLS_STATE_IDLE);
+		idleTimer->Start();
+		if (idleTimer->IsTimeUp())
+		{
+			DebugOut(L"########### %d\n", 80000);
+			SetState(EYEBALLS_STATE_FLYING);
+			canAttack = true;
+			flyOrAttackTimer->Start();
+			idleTimer->Reset();
+		}
+	}
+	else if (canAttack && flyOrAttackTimer->IsTimeUp())
+	{
+		DebugOut(L"########### %d\n", 90000);
+		SetState(EYEBALLS_STATE_IDLE);
+		idleTimer->Start();
+		if (idleTimer->IsTimeUp())
+		{
+			SetState(EYEBALLS_STATE_ATTACKING);
+			flyOrAttackTimer->Reset();
+			flyOrAttackTimer->Start();
+			canAttack = false;
+			canFly = true;
+			idleTimer->Reset();
+		}
+	}
+	else if (canFly && flyOrAttackTimer->IsTimeUp())
+	{
+		SetState(EYEBALLS_STATE_IDLE);
+		idleTimer->Start();
+		if (idleTimer->IsTimeUp())
+		{
+			SetState(EYEBALLS_STATE_FLYING);
+			flyOrAttackTimer->Reset();
+			flyOrAttackTimer->Start();
+			canFly = false;
+			canAttack = true;
+			idleTimer->Reset();
+		}
+	}*/
+
+	if (state == EYEBALLS_STATE_IDLE && canFly)
 	{
 		SetState(EYEBALLS_STATE_FLYING);
-		attackTimer->Reset();
-		attackTimer->Start();
+		canAttack = true;
+		canFly = false;
+		flyOrAttackTimer->Start();
 	}
-	else if (flyTimer->IsTimeUp())
+	else if (canAttack && flyOrAttackTimer->IsTimeUp())
 	{
 		SetState(EYEBALLS_STATE_ATTACKING);
-		flyTimer->Reset();
-		flyTimer->Start();
+		flyOrAttackTimer->Reset();
+		flyOrAttackTimer->Start();
+		canAttack = false;
+		canFly = true;
 	}
-		
+	else if (canFly && flyOrAttackTimer->IsTimeUp())
+	{
+		SetState(EYEBALLS_STATE_FLYING);
+		flyOrAttackTimer->Reset();
+		flyOrAttackTimer->Start();
+		canFly = false;
+		canAttack = true;
+	}
 }
 
 void Eyeballs::SetState(int state)
@@ -170,24 +234,25 @@ void Eyeballs::SetState(int state)
 		{
 			if (nx > 0)
 			{
-				vx = EYEBALLS_WALKING_SPEED;
+				vx = EYEBALLS_FLYING_SPEED;
 			}
 			else
 			{
-				vx = -EYEBALLS_WALKING_SPEED;
+				vx = -EYEBALLS_FLYING_SPEED;
 			}
-			flyTimer->Start();
+			//setRandomVxVy(vx, vy);
 			break;
 		}
 		case EYEBALLS_STATE_ATTACKING:
 		{
 			vx = 0;
 			vy = 0;
-			attackTimer->Start();
 			break;
 		}
 		case EYEBALLS_STATE_IDLE:
 		{
+			vx = 0;
+			vy = 0;
 			break;
 		}
 	}

@@ -160,7 +160,7 @@
 #Worm
 10	150	151	10
 #Eyeballs
-17	150	70	17
+17	150	125	17
 #Teleporters
 18	150	125	18
 #Cannons
