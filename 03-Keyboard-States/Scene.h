@@ -10,10 +10,8 @@ protected:
 	KeyboardHandler* keyHandler;
 	LPCWSTR sceneFilePath;
 	LPCWSTR texturesFilePath;
-
 public:
 	Scene();
-
 	KeyboardHandler* GetKeyEventHandler() { return keyHandler; }
 	virtual void LoadSceneObjects(LPCWSTR path) = 0;
 	virtual void Unload() = 0;

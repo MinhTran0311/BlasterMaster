@@ -3,7 +3,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <stdio.h>
-
+#include "Bullet.h"
 #include "Scene.h"
 #include "SceneManager.h"
 #include "Game.h"
@@ -30,16 +30,26 @@ using namespace std;
 class PlayScene : public Scene
 {
 public:
-	//static PlayScene* __instance;
-	//static PlayScene* GetInstance();
 	int _SophiaType = -1;
+	float oldPosX;
+	float oldPosY;
+	int directMoveCam = -1;
+	float posX, posY;
+
+	float nCamXGo;
+	float nCamXBack;
+	float nCamYGo;
+	float nCamYBack;
+	float camMap1X;
+	float camMap1Y;
 	bool tempNeed;
 	Entity* currentPlayer;
 	PlayScene ();
+	DWORD timeResetCam;
+	PlayScene (int idStage);
 	~PlayScene();
-	void SwitchScene(int scene_id);
 protected:
-	
+
 	JASON* jason;
 	Small_Sophia* ssophia;
 	HUD* gameHUD;
@@ -48,10 +58,10 @@ protected:
 	int mapWidth, mapHeight;
 	int camMaxWidth;
 
+	void CheckPlayerReachGate();
 
 	void ChooseMap(int whatStage);
 	//bool PlayerPassingStage(float DistanceXWant, int directionGo);
-	void PlayerGotGate();
 	//void PlayerGotCar();
 	//void PlayerTouchEnemy();
 	//void PlayerCollideItem();
@@ -71,11 +81,12 @@ protected:
 #pragma region lists
 	vector<LPGAMEENTITY> listGates;
 	vector<LPGAMEENTITY> listEnemies;
+	vector<LPBULLET> listBullets;
 	vector<LPGAMEENTITY> listObjects;
 	vector<int> listWidth;
 	vector<int> listHeight;
 #pragma endregion
-
+	void EraseInactiveObject();
 	int idStage;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -100,5 +111,3 @@ public:
 	virtual void OnKeyUp(int KeyCode);
 	PlayScenceKeyHandler(Scene* s) :ScenceKeyHandler(s) {};
 };
-
-

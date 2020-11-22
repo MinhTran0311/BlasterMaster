@@ -8,16 +8,23 @@
 #include "Sprites.h"
 
 
+bool Entity::isDeath()
+{
+	if ((this->GetType()==EntityType::ENEMY && isFinishDeathAni()) || (this->GetType()==EntityType::BULLET && isActiveObject()==false))
+		return true;
+	return false;
+}
+
 RECT Entity::GetBBox()
 {
 	float left, top, right, bottom;
-	GetBoundingBox(left, top, right, bottom);
+	this->GetBoundingBox(left, top, right, bottom);
 	RECT Bbox;
 	Bbox.left = (long)left;
 	Bbox.top = (long)top;
 	Bbox.right = (long)right;
 	Bbox.bottom = (long)bottom;
-	return  Bbox;
+	return Bbox;
 }
 
 void Entity::RenderBoundingBox()

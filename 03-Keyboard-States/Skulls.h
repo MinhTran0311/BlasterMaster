@@ -2,26 +2,23 @@
 #include "Entity.h"
 #include "Enemy.h"
 
-
-
-
 #define MOVING_SPEED	0.05f
 
 
 #define SKULLS_STATE_FLY		100
-#define SKULLS_STATE_ATTACK	200
+#define SKULLS_STATE_ATTACK		200
 #define SKULLS_STATE_DIE		300
 #define SKULLS_STATE_STOP		400
 
-#define SKULLS_ANI_FLY		0
+#define SKULLS_ANI_FLY			0
 #define SKULLS_ANI_ATTACK		1
-#define SKULLS_ANI_DIE		2
+#define SKULLS_ANI_DIE			2	
 
 #define FLYING_SPEED	0.05f;
 
 #define BBOX_WIDTH 18
 #define BBOX_HEIGHT 18
-//#define BBOX_HEIGHT_DIE 9 
+//#define BBOX_HEIGHT_DIE 9
 
 #define MAXHEALTH	1
 #define MIN_COOLDOWN 500

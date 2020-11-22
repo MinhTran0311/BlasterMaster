@@ -8,7 +8,7 @@
 #[CLEARANIMATIONS]
 #[CLEARANIMATIONSETS]
 # Id	FilePath			R	G	B
-[TEXTURES
+[TEXTURES]
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 [ANIMATIONS]
@@ -16,7 +16,7 @@
 [ANIMATION_SETS]
 [OBJECTS]
 # type	x	y	extra_settings per object type
-# type: 1 = Brick, 2 = Torch, 3 = Gate, 4 = Stairs
+# type: 1 = Brick, 2 = Gate
 #viền trái
 1	0	0	22	31	1440
 #viền phải
@@ -25,7 +25,6 @@
 1	0	0	22	600	64
 #viền dưới
 1	0	1249	22	600	64
-
 #ngang 1-1
 1	97	97	22	254	30
 #ngang 1-2
@@ -90,3 +89,9 @@
 1	256	959	33	32	79
 #dọc cuối
 1	319	1087	33	32	79
+#Gate
+#	gateX	gateY	stage	playerX	playerY	state	camera	typeplayer	camX	camY
+#back
+2	0	1130	11	942	143	0	1	1	754	0
+#go
+2	465	120	13	95	141.5	0	1	1	0	0

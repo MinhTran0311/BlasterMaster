@@ -77,11 +77,6 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			nx = -nx;
 			vx = -vx;
 		}
-		
-
-
-
-
 	}
 	//clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -125,10 +120,6 @@ void Orbs::Render()
 
 		ani = ORBS_ANI_FLIP;
 		animationSet->at(ani)->Render(nx, x, y);
-		
-		
-		
-		
 	}
 
 
@@ -144,7 +135,7 @@ Orbs::Orbs(float x, float y, LPGAMEENTITY t)
 
 	SetState(ORBS_STATE_FLY);
 	enemyType = ORBS;
-	tag = Tag_Orbs;
+	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
 	nx = -1;

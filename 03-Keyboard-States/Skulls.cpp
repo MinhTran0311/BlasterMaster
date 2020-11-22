@@ -72,19 +72,11 @@ void Skulls::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			nx = -nx;
 			vx = -vx;
 		}
-
-
-
-
 	}
 	//clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 #pragma region Active
-	
-	
-	
-	
 
 	//if (!isActive) vx = 0;
 	//else SetState(SKULLS_STATE_FLY);
@@ -104,9 +96,6 @@ void Skulls::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 void Skulls::Render()
 {
 	//RenderBoundingBox();
-	
-
-
 	int ani;
 	if (health <= 0)
 	{
@@ -163,7 +152,7 @@ Skulls::Skulls(float x, float y, LPGAMEENTITY t)
 {
 	SetState(SKULLS_STATE_FLY);
 	enemyType = SKULLS;
-	tag = Tag_Skulls;
+	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
 	nx = 1;
@@ -181,9 +170,6 @@ void Skulls::Attack(LPGAMEENTITY target) //tấn công tại vị trí nhân v�
 		canAttack = true;
 		
 	}
-	
-	
-
 }
 
 void Skulls::SetState(int state)

@@ -3,7 +3,7 @@
 #include "Timer.h"
 
 #pragma once
-#define ANIMATION_SET_SMALL_SOPHIA	0
+#define ANIMATION_SET_SMALL_SOPHIA	2
 
 #define SOPHIA_GRAVITY						0.0004f
 #define SMALL_SOPHIA_WALKING_SPEED			0.07f 

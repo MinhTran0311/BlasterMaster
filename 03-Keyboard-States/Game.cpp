@@ -2,7 +2,9 @@
 #include "debug.h"
 #include <d3d9.h>
 #include <d3dx9.h>
-
+#include "Textures.h"
+#include "Sprites.h"
+#include "Animations.h"
 #include "debug.h"
 #include "Entity.h"
 #include "Textures.h"
@@ -208,6 +210,22 @@ void CGame::DrawTopBottom(int direction, float x, float y, LPDIRECT3DTEXTURE9 te
 //
 //	spriteHandler->SetTransform(&oldMatrix);
 //}
+
+void CGame::SwitchScene(int id_scene)
+{
+	DebugOut(L"[Info] Switching to scene %d\n", id_scene);
+
+	scenes[current_scene]->Unload();
+	CTextures::GetInstance()->Clear();
+	CSprites::GetInstance()->Clear();
+	CAnimations::GetInstance()->Clear();
+
+	current_scene = id_scene;
+	LPSCENE s = scenes[id_scene];
+	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
+	
+
+}
 
 int CGame::IsKeyDown(int KeyCode)
 { 

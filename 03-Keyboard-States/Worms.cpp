@@ -11,7 +11,11 @@ void Worm::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt);
-
+	if (health <= 0)
+	{
+		this->SetState(WORM_STATE_DIE);
+		return;
+	}
 #pragma region fall down
 	vy += WORM_GRAVITY * dt;
 #pragma endregion
@@ -109,9 +113,15 @@ void Worm::Render()
 	int ani = WORM_ANI_WALKING;
 	if (state == WORM_STATE_DIE) {
 		ani = WORM_ANI_DIE;
+		if (animationSet->at(ani)->GetFrame() == 3)
+		{
+			isActive = false;
+			isDoneDeath = true;
+		}
+		animationSet->at(ani)->Render(nx, x, y - 3);
 	}
-	
-	animationSet->at(ani)->Render(nx, x, y);
+	else
+		animationSet->at(ani)->Render(nx, x, y);
 	//RenderBoundingBox();
 }
 
@@ -119,7 +129,7 @@ Worm::Worm(float x, float y, LPGAMEENTITY t)
 {
 	SetState(WORM_STATE_WALKING);
 	enemyType = WORM;
-	tag = Tag_Worm;
+	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
 	//dam = 1;
@@ -152,10 +162,12 @@ void Worm::SetState(int state)
 	switch (state)
 	{
 	case WORM_STATE_DIE:
+	{
 		y += WORM_BBOX_HEIGHT - WORM_BBOX_HEIGHT_DIE + 1;
 		vx = 0;
 		vy = 0;
 		break;
+	}
 	case WORM_STATE_WALKING:
 		if (nx > 0)
 		{

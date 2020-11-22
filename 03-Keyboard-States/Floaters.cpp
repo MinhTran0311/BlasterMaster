@@ -101,8 +101,6 @@ void Floaters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 void Floaters::Render()
 {
 	//RenderBoundingBox();
-
-
 	int ani;
 	if (health <= 0)
 	{
@@ -136,8 +134,8 @@ void Floaters::Render()
 Floaters::Floaters(float x, float y, LPGAMEENTITY t)
 {
 	SetState(FLOATERS_STATE_FLY);
-	enemyType = FLOATER;
-	tag = Tag_Floater;
+	enemyType = FLOATERS;
+	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
 	nx = -1;

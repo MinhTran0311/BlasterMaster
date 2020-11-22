@@ -52,6 +52,12 @@
     <Filter Include="HUD">
       <UniqueIdentifier>{22eb520d-716d-49ef-b2f8-b0f417e13973}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Bullets\Player">
+      <UniqueIdentifier>{34964fb6-1d4c-4b90-ab59-c50d188c85c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Bullets\Enemy">
+      <UniqueIdentifier>{20c3036c-6bd4-431a-b218-c15233cc69b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -144,14 +150,23 @@
     <ClCompile Include="Entity.cpp">
       <Filter>FrameWork</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Objects\Bullets</Filter>
-    </ClCompile>
     <ClCompile Include="HealthBar.cpp">
       <Filter>HUD</Filter>
     </ClCompile>
     <ClCompile Include="HUD.cpp">
       <Filter>HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="JasonBullet.cpp">
+      <Filter>Objects\Bullets\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Objects\Bullets</Filter>
+    </ClCompile>
+    <ClCompile Include="BigNavigatedEnemyBullet.cpp">
+      <Filter>Objects\Bullets\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="JasonRocket.cpp">
+      <Filter>Objects\Bullets\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -215,9 +230,6 @@
     <ClInclude Include="Animations.h">
       <Filter>FrameWork\Render</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardHandler.h">
-      <Filter>FrameWork</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>FrameWork\Scene</Filter>
     </ClInclude>
@@ -251,18 +263,29 @@
     <ClInclude Include="Gate.h">
       <Filter>Objects\Obstacles</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Objects\Bullets</Filter>
-    </ClInclude>
     <ClInclude Include="HealthBar.h">
       <Filter>HUD</Filter>
     </ClInclude>
-
     <ClInclude Include="HUD.h">
       <Filter>HUD</Filter>
     </ClInclude>
     <ClInclude Include="Random.h">
       <Filter>FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardHandler.h">
+      <Filter>FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="JasonBullet.h">
+      <Filter>Objects\Bullets\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Objects\Bullets</Filter>
+    </ClInclude>
+    <ClInclude Include="BigNavigatedEnemyBullet.h">
+      <Filter>Objects\Bullets\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="JasonRocket.h">
+      <Filter>Objects\Bullets\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

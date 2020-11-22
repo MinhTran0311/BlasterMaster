@@ -43,19 +43,21 @@ class Entity
 {
 public:
 
-	float x; 
+	float x;
 	float y;
 
 	float vx;
 	float vy;
 
 	float dx, dy;
-	int nx;				// Hướng xoay render trục ngang // 1: bên phải .. -1 bên trái   
+	//Conflict
+	int nx;				// Hướng xoay render trục ngang // 1: bên phải .. -1 bên trái
 	int ny;				//
 	int health = 1;
-	int gunDam;
-	int state;									
-
+	int dam;
+	int state;
+	bool isActive;
+	bool isDoneDeath;
 	int bbARGB;
 	//static vector<LPANIMATION> animations;
 
@@ -76,13 +78,15 @@ public:
 
 	int GetHealth() { return health; }
 	void SetHealth(int value) { health = value; }
-	int GetgunDam() { return gunDam; }
-	void SetgunDam(int value) { gunDam = value; }
+	int GetgunDam() { return dam; }
+	void SetgunDam(int value) { dam = value; }
 	void AddHealth(int BonusHealth) { health += BonusHealth; }
-	void AddgunDam(int BonusgunDam) { gunDam += BonusgunDam; }
+	void AddgunDam(int BonusgunDam) { dam += BonusgunDam; }
 	EntityType GetType() { return tag; }
 
-
+	bool isFinishDeathAni() { return isDoneDeath; };
+	bool isActiveObject() { return isActive; };
+	bool isDeath();
 	int GetState() { return this->state; }
 
 	RECT GetBBox();
@@ -110,7 +114,7 @@ public:
 
 
 	virtual bool IsCollidingObject(Entity* Obj);
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) =0;
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects=NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }

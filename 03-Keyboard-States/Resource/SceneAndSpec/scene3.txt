@@ -1,7 +1,4 @@
-# Id	FilePath			R	G	B
-[TEXTURES]
-40	Resource/Enemy/enemies.png	255	0	255
-50	Resource/item.png	255	255	0
+[OBJECTS]
 # id	left	top	right	bottom	texture_id
 #viền trái
 1	0	0	22	64	170
@@ -10,7 +7,7 @@
 #viền trên
 1	0	50	22	530	30
 #viền dưới
-1	0	159	22	567	34
+1	0	160	22	567	34
 #cột 1
 1	64	80	22	17	30
 #cột 2
@@ -25,3 +22,8 @@
 1	384	80	22	17	30
 #cột 7
 1	448	80	22	17	30
+#Gate
+#back
+2	30	130	12	420	142	0	1	1	257	7
+#go
+2	495	128	14	68	875	0	1	1	0	745

@@ -117,8 +117,8 @@ void Jumpers::Render()
 Jumpers::Jumpers(float x, float y, LPGAMEENTITY t)
 {
 	SetState(JUMPER_STATE_WALKING);
-	enemyType = JUMPER;
-	tag = Tag_Jumpers;
+	enemyType = EnemyType::JUMPERS;
+	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
 	//dam = 1;

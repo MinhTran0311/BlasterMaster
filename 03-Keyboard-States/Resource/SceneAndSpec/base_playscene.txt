@@ -1,22 +1,23 @@
 # Id	FilePath			R	G	B
 [TEXTURES]
 0	Resource/bbox.png	255	255	0
-#1	Resource/item.png	255	255	0
+1	Resource/item.png	255	255	255
+2	Resource/player_jason_bullet.png	199 	200 	50
 10	Resource/sophia_die.png	176	0	248
 21	Resource/sophia.png	255	0	255
 30	Resource/jason.png	255	0	255
 40	Resource/Enemy/enemies.png	255	0	255
 50	Resource/HealthBar.png	255	255	255
-60	Resource/item2.png		255	255	0
-11	Resource/SceneAndSpec/Scene/area_1.jpg		255	0	255
-12	Resource/SceneAndSpec/Scene/area_2.jpg		255	0	255
-13	Resource/SceneAndSpec/Scene/area_3.jpg		255	0	255
-14	Resource/SceneAndSpec/Scene/area_4.png		255	0	255
-15	Resource/SceneAndSpec/Scene/area_5.png		255	0	255
-16	Resource/SceneAndSpec/Scene/area_6.png		255	0	255
-17	Resource/SceneAndSpec/Scene/area_7.png		255	0	255
-18	Resource/SceneAndSpec/Scene/area_8.png		255	0	255
-19	Resource/SceneAndSpec/Scene//area_9.jpg		255	0	255
+60	Resource/item2.png	255	255	0
+11	Resource/SceneAndSpec/Scene/area_1.jpg	255	0	255
+12	Resource/SceneAndSpec/Scene/area_2.jpg	255	0	255
+13	Resource/SceneAndSpec/Scene/area_3.png	255	0	255
+14	Resource/SceneAndSpec/Scene/area_4.png	255	0	255
+15	Resource/SceneAndSpec/Scene/area_5.png	255	0	255
+16	Resource/SceneAndSpec/Scene/area_6.png	255	0	255
+17	Resource/SceneAndSpec/Scene/area_7.png	255	0	255
+18	Resource/SceneAndSpec/Scene/area_8.png	255	0	255
+19	Resource/SceneAndSpec/Scene//area_9.jpg	255	0	255
 20	Resource/SceneAndSpec/Scene/overworld.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
@@ -49,9 +50,9 @@
 11011	45	30	71	47	30
 11012	12	30	38	47	30
 # idle jump up idle right
-10101	146	130	172	151	30	
+10101	146	130	172	151	30
 # idle jump up walking right
-10102	178	130	204	151	30	
+10102	178	130	204	151	30
 10103	211	130	237	151	30
 10104	245	130	271	151	30
 # idle jump up idle left
@@ -92,7 +93,7 @@
 11308	13	283	39	317	30
 #eject
 11400	105	334	131	360	30
-# die 
+# die
 11998	100	78	143	125	10
 11999	12	85	76	132	10
 #============ SMALL SOPHIA =================
@@ -114,13 +115,34 @@
 12009	153	22	169	36	21
 12010	208	22	224	36	21
 
-
+#===========Bullet_Jason==================#
+#Bullet level 1 JASON right, top lv1
+300001	35	47	59	54	2
+300002	4	61	10	86	2
+#Bullet level 1 JASON right, top lv2
+#right
+310001	35	37	59	43	2
+310002	35	26	59	32	2
+310003	35	14	59	20	2
+310004	35	2	59	8	2
+#top
+310005	16	61	22	85	2
+310006	28	61	34	85	2
+310007	40	61	46	85	2
+310008	52	61	58	85	2
+#Blow up
+300101	176	94	183	102	1
+300102	192	91	208	104	1
+300103	213	90	229	106	1
+#rocket
+320001	114	3	128	9	2
 
 #===========HEALTH_BAR====================#
 50001	30	35	50	127	50
 50002	55	37	71	45	50
 50003	84	35	106	125	50
 50004	111	37	127	45	50
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 ##JASON=========================
@@ -128,9 +150,9 @@
 400	10001	100
 #idle left
 401	11001	100
-#walk right 
+#walk right
 500	10001	30	10002	30	10003	30	10004	30	10005	30	10006	30	10007	30	10008	30	10009	30	10010	30	10011	30	10012	30
-#walk left 
+#walk left
 501	11001	30	11002	30	11003	30	11004	30	11005	30	11006	30	11007	30	11008	30	11009	30	11010	30	11011	30	11012	30
 ##JUMP
 # idle jump up idle right 1
@@ -173,7 +195,7 @@
 520	10201	30	10202	30	10203	30	10204	30
 # idle jump down walking left
 521	11201	30	11202	30	11203	30	11204	30
-###GUNFLIP 
+###GUNFLIP
 #gun flip right
 430	10301	40	10302	40	10303	40	10304	40	10305	40	10306	40	10307	40	10308	40
 #gun flip left
@@ -195,18 +217,27 @@
 467	11303	120	11307	999999999
 #idle gun flip idle  left 4
 468	11304	120	11308	999999999
-#get out 
+#get out
 470	11400	600	11400	100
 #die
 599	11998	100	11999	100	11999	100
+###============Bullet=====================#
+30001	300001	100
+30002	300002	100
+30003	310001	100	310002	100	310003	100	310004	100
+30004	310005	100	310006	100	310007	100	310008	100
+30005	300101	100	300102	100 	300103	100
+#rocket
+30006	320001	100
 ###============HealthBar==================#
 #Gun null
-801	50001	100
+800	50001	100
 #Gun add
-802	50002	100
+801	50002	100
 #Player null
-803	50003	100
+802	50003	100
 #Player add
+803	50004	100
 804	50004	100
 ###============SMALL SOPHIA===============#
 #idle right
@@ -226,12 +257,16 @@
 # JASON
 1	400	401	500	501	410	411	412	413	414	415	416	417	420	421	422	423	424	425	426	427	510	511	520	521	430	431	461	462	463	464	465	466	467	468	599	470
 # SMALL SOPHIA
-0	900	901	902	903	904
+2	900	901	902	903	904
+#====Bullet========#
+31	30001	30002	30003	30004	30005
+#rocket
+32	30006
 #=== HEALTH BAR ===
-11	801	802	803	804
+30	800	801	802	803
 [SCENE]
 #Stage1
-Resource/SceneAndSpec/scene1.txt	1024	275	 
+Resource/SceneAndSpec/scene1.txt	1024	275
 #Stage2
 Resource/SceneAndSpec/scene2.txt	527	1315
 #Stage3
@@ -250,5 +285,3 @@ Resource/SceneAndSpec/scene8.txt	518	275
 Resource/SceneAndSpec/scene9.txt	280	275
 #Stage10
 Resource/SceneAndSpec/scene10.txt	2048	2048
-
-

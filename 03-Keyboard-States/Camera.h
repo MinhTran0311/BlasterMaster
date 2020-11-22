@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <Windows.h>
-
+#include "global.h"
 class Camera
 {
 	static Camera* __instance;
@@ -15,5 +15,6 @@ public:
 	void SetCamPos(float x, float y) { camx = x; camy = y; }
 	float GetCamx() { return camx; }
 	float GetCamy() { return camy; }
+	RECT GetRectCam();
 };
 

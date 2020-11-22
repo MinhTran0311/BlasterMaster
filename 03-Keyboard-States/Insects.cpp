@@ -141,7 +141,7 @@ Insects::Insects(float x, float y, LPGAMEENTITY t)
 {
 	SetState(INSECTS_STATE_FLY);
 	enemyType = INSECT;
-	tag = Tag_Insect;
+	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
 	nx = -1;

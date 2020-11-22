@@ -16,7 +16,7 @@ Small_Sophia::Small_Sophia(float x, float y) : Entity()
 	this->x = x;
 	this->y = y;
 	backup_JumpY = 0;
-	gunDam = MAX_HEALTH;
+	dam = MAX_HEALTH;
 	health = MAX_HEALTH;
 	isImmortaling = false;
 	isCrawl = false;
@@ -115,7 +115,7 @@ void Small_Sophia::SetInjured(int dame)
 	if (isImmortaling)
 		return;
 	health -= dame;
-	gunDam -= dame;
+	dam -= dame;
 
 	StartUntouchable();
 	immortalTimer->Start();
