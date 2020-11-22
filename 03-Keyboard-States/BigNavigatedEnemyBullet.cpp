@@ -1,13 +1,34 @@
+<<<<<<< HEAD
 ﻿#include "BigNavigatedEnemyBullet.h"
 
 BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x = 0, int direct_y = 0)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BIG_ENEMY_BULLET));
+=======
+#include "BigNavigatedEnemyBullet.h"
+
+BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y)
+{
+	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BIG_ENEMY_BULLET));
+	tag = EntityType::BULLET;
+>>>>>>> main
 	alpha = 255;
 	bbARGB = 0;
 	isHitBrick = isHitEnemy = false;
 	dam = 1;
+<<<<<<< HEAD
 	typeBullet = type_enemy;
+=======
+	switch (type_enemy)
+	{
+	case TAG_CANNONS:
+		typeBullet = CANNONS_BULLET;
+	default:
+		typeBullet = -1;
+		break;
+	}
+	//typeBullet = type_enemy;
+>>>>>>> main
 	nx = direct_x;
 	ny = direct_y;
 	isActive = true;
@@ -15,6 +36,7 @@ BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int typ
 	y = posY;
 	timeDelayed = 0;
 	timeDelayedMax = BIG_BULLET_ENEMY_DELAY;
+<<<<<<< HEAD
 	targetObject = nullptr;
 }
 
@@ -41,6 +63,8 @@ void BigNavigatedEnemyBullet::CalcDistanceEquation(float& equa_a, float& equa_b,
 {
 	equa_a = (target_y - y) / (target_x - x);
 	equa_b = (target_y - (target_x * equa_a));
+=======
+>>>>>>> main
 }
 
 BigNavigatedEnemyBullet::~BigNavigatedEnemyBullet()
@@ -73,13 +97,18 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_o
 		Entity::Update(dt);
 		switch (typeBullet)
 		{
+<<<<<<< HEAD
 		case EntityType::TAG_CANNONS:
+=======
+		case EntityType::CANNONS_BULLET:
+>>>>>>> main
 			bullet_speed = CANNONS_BULLET_SPEED;
 			break;
 		default:
 			bullet_speed = BULLET_SPEED;
 			break;
 		}
+<<<<<<< HEAD
 		//if (ny==0)
 		//{
 		//	vx = BULLET_SPEED * nx;
@@ -106,6 +135,18 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_o
 				vy = BULLET_SPEED * ny; //Không cần thiết
 				break;
 			}
+=======
+		if (ny==0)
+		{
+			vx = BULLET_SPEED * nx;
+			vy = 0;
+		}
+		else
+		{
+			vy = BULLET_SPEED*ny;
+			vx = 0;
+		}
+>>>>>>> main
 	}
 #pragma endregion
 #pragma region collision
@@ -117,6 +158,7 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_o
 	CalcPotentialCollisions(colliable_objects, coEvents);
 	if (coEvents.size() == 0)
 	{
+<<<<<<< HEAD
 		switch (typeBullet)
 		{
 		case EntityType::TAG_CANNONS:
@@ -128,6 +170,10 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_o
 			y = x * equation_a + equation_b;
 			break;
 		}
+=======
+		x += dx;
+		y += dy;
+>>>>>>> main
 	}
 	else
 	{
@@ -150,7 +196,11 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_o
 			if (e->obj->GetType() == EntityType::TAG_JASON || e->obj->GetType() == EntityType::TAG_SMALL_SOPHIA || e->obj->GetType() == EntityType::TAG_BIG_SOPHIA)
 			{
 				e->obj->AddHealth(-dam);
+<<<<<<< HEAD
 				DebugOut(L"xxxxxxxxxxxxxxxx %d\n", e->obj->health);
+=======
+				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
+>>>>>>> main
 				isHitEnemy = true;
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;

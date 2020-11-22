@@ -1,10 +1,20 @@
 ﻿#pragma once
 #include "Worms.h"
+<<<<<<< HEAD
 #include "Eyeballs.h"
 #include "Teleporters.h"
 #include "Cannons.h"
 #include "Domes.h"
+=======
+#include "Insects.h"
+>>>>>>> main
 #include "PlayScene.h"
+#include "Skulls.h"
+#include "Orbs.h"
+#include "Jumpers.h"
+#include "JasonRocket.h"
+#include "JasonBullet.h"
+#include "Grid.h"
 #define ID_SMALL_SOPHIA	0
 #define ID_JASON		1
 #define ID_BIG_SOPHIA	2
@@ -16,40 +26,45 @@
 
 #define OBJECT_TYPE_WORM 10
 #define OBJECT_TYPE_DOMES 11
+<<<<<<< HEAD
 #define OBJECT_TYPE_EYEBALLS 17
 #define OBJECT_TYPE_TELEPOTERS 18
 #define OBJECT_TYPE_CANNONS 19
+=======
+#define OBJECT_TYPE_FLOATER 12
+>>>>>>> main
 
-#define HUD_Y (SCREEN_HEIGHT/11) 
+#define OBJECT_TYPE_INSECT 13
 
 
-//PlayScene* PlayScene::GetInstance()
-//{
-//	if (__instance == NULL)
-//		__instance = new PlayScene();
-//	return __instance;
-//}
+#define OBJECT_TYPE_ORBS 14
+#define OBJECT_TYPE_JUMPER 15
+#define OBJECT_TYPE_SKULLS 16
 
-PlayScene::PlayScene() : Scene()
+#define HUD_Y (SCREEN_HEIGHT/11)
+
+PlayScene::PlayScene(int _idStage) : Scene()
 {
+	idStage = _idStage;
 	keyHandler = new PlayScenceKeyHandler(this);
 	_SophiaType = ID_JASON;
 	LoadBaseObjects();
-	//CTextures::GetInstance()->Add(ID_AREA1, L"Resource\\level2-side.png", D3DCOLOR_XRGB(176, 224, 248));
-	ChooseMap(ID_AREA1);
+	ChooseMap(idStage);
 }
+
+
 
 PlayScene::~PlayScene()
 {
 }
 
-void PlayScene::SwitchScene(int scene_id)
-{
-}
+//void PlayScene::SwitchScene(int scene_id)
+//{
+//	DebugOut(L"dung cong");
+//}
 
 void PlayScene::LoadBaseObjects()
 {
-
 	texturesFilePath = ToLPCWSTR("Resource\\SceneAndSpec\\base_playscene.txt");
 	LoadBaseTextures();
 #pragma region create_base_objects
@@ -58,6 +73,13 @@ void PlayScene::LoadBaseObjects()
 		jason = new JASON(55, 100);
 		DebugOut(L"[INFO] JASON CREATED!!! \n");
 	}
+	if (ssophia == NULL)
+	{
+		ssophia = new Small_Sophia(55, 100);
+		DebugOut(L"[INFO] SMALL SOPHIA CREATED!!! \n");
+	}
+
+
 	if (gameHUD == NULL)
 	{
 		gameHUD = new HUD(jason->GetHealth(), jason->GetgunDam());
@@ -72,7 +94,7 @@ void PlayScene::LoadBaseObjects()
 void PlayScene::LoadBaseTextures()
 {
 	DebugOut(L"[INFO] Start loading TEXTURES resources from : %s \n", texturesFilePath);
-	
+
 	ifstream f;
 	f.open(texturesFilePath);
 
@@ -90,23 +112,23 @@ void PlayScene::LoadBaseTextures()
 			section = SCENE_SECTION_TEXTURES; continue;
 		}
 		if (line == "[SPRITES]")								//sprite section
-		{								
+		{
 			section = SCENE_SECTION_SPRITES; continue;
 		}
 		if (line == "[ANIMATIONS]")								//animation section
-		{							
+		{
 			section = SCENE_SECTION_ANIMATIONS; continue;
 		}
 		if (line == "[ANIMATION_SETS]")							//animationset section
-		{						
+		{
 			section = SCENE_SECTION_ANIMATION_SETS; continue;
 		}
 		if (line == "[SCENE]")									//secne section
-		{								
+		{
 			section = SCENE_SECTION_SCENEFILEPATH; continue;
 		}
 		if (line == "[MAPTEXTURES]")							//maptexture sectoin
-		{							
+		{
 			section = SCENE_SECTION_MAPTEXTURES; continue;
 		}
 
@@ -129,57 +151,224 @@ void PlayScene::LoadBaseTextures()
 	DebugOut(L"[INFO] Done loading TEXTURES resources %s\n", texturesFilePath);
 }
 
+
 void PlayScene::ChooseMap(int Stage)
 {
 	idStage = Stage;
 	CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
-	sceneFilePath = listSceneFilePath[(ID_AREA1%10)-1];			//chỉnh lại id
+	sceneFilePath = listSceneFilePath[(Stage%10)-1];			//chỉnh lại id
+	DebugOut(L"Init");
+	CGrid::GetInstance()->InitGrid(listWidth[(idStage % 10) - 1], listHeight[(idStage % 10) - 1]);
 	LoadSceneObjects(sceneFilePath);
 }
 
-void PlayScene::PlayerGotGate()
+void PlayScene::CheckPlayerReachGate()
 {
-	//for (UINT i = 0; i < listGates.size(); i++)
-	//{
-	//	if (listGates[i]->GetType() == EntityType::TAG_GATE)
-	//	{
-	//		if (jason->IsCollidingObject(listGates[i]))
-	//		{
-	//			Gate* gate = dynamic_cast<Gate*>(listGates[i]);
-	//			_SophiaType = gate->typePlayer;
-	//			int ID_map = gate->GetIdScene();
-	//			float temp_x = gate->newPlayerx;
-	//			float temp_y = gate->newPlayery;
-	//			int tempState = gate->newPlayerState;
-	//			tempNeed = gate->directionCam;
-	//			
-	//		}
-	//	}
-	//}
-}
+	if (jason->GetGateColliding())
+	{
+		Gate* gate = jason->GetGate();
+		DebugOut(L"[Info] success\n");
+		_SophiaType = gate->typePlayer;
+		int tempMap = gate->GetIdScene();
+		float tempx = gate->newPlayerx;
+		float tempy = gate->newPlayery;
+		int tempState = gate->newPlayerState;
+		tempNeed = gate->directionCam;
+		camMap1X = gate->camPosX;
+		camMap1Y = gate->camPosY;
+		Unload();
 
+		ChooseMap(tempMap);
+		jason->SetGateColliding(false);
+		jason->ResetGate();
+		jason->SetPosition(tempx, tempy);
+		jason->Setvx(0);
+		jason->Setvy(0);
+		jason->SetState(tempState);
+	}
+}
 void PlayScene::Update(DWORD dt)
 {
+#pragma region sceneswitching
+	//CheckPlayerReachGate();
+#pragma endregion
+	//EraseInactiveObject();
+
 #pragma region camera
 	float cx, cy;
+	mapWidth = listWidth[(idStage% 10) - 1];
+	mapHeight= listHeight[(idStage % 10) - 1];
+	/*switch (_SophiaType)
+	{
+	case ID_JASON:
 	jason->GetPosition(cx, cy);
-	mapWidth = listWidth[(ID_AREA1 % 10) - 1];	
-	mapHeight= listHeight[(ID_AREA1 % 10) - 1];
 
-	if (jason->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
+
+
+	//if (jason->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
+	//	cx = mapWidth - SCREEN_WIDTH;
+	//else
+	//{
+	//	if (jason->Getx() < SCREEN_WIDTH / 2)
+	//		cx = 0;
+	//	else
+	//		cx -= SCREEN_WIDTH / 2;
+	//}
+	//cy -= SCREEN_HEIGHT / 2;
+	//gameCamera->SetCamPos(cx, cy);//cy khi muon camera move theo y player
+	//jason->GetPosition(cx, cy);
+	if (tempNeed)
+	{
+		//timeResetCam += dt;
+		gameCamera->SetCamPos(camMap1X, camMap1Y);
+		posY = camMap1Y;
+		//if (timeResetCam > 1000)
+		tempNeed = 0;
+	}
+	else
+	{}
+		//sua conflict camera
+
+		break;
+	case ID_SMALL_SOPHIA:
+	ssophia->GetPosition(cx, cy);
+	if (ssophia->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
 		cx = mapWidth - SCREEN_WIDTH;
 	else
 	{
-		if (jason->Getx() < SCREEN_WIDTH / 2)
+		if (ssophia->Getx() < SCREEN_WIDTH / 2)
 			cx = 0;
 		else
 			cx -= SCREEN_WIDTH / 2;
 	}
+<<<<<<< HEAD
 	cy -= SCREEN_HEIGHT / 2;
 	gameCamera->SetCamPos(cx, 0.0f);//cy khi muon camera move theo y player 
 
+=======
+	break;
+	}
+		if (cy + SCREEN_HEIGHT >= mapHeight)
+		{
+
+			cy = mapHeight - SCREEN_HEIGHT;
+			posY = cy;
+		}
+		else
+		{
+			if (jason->Gety() < SCREEN_HEIGHT / 3)
+			{
+				posY = 0;
+			}
+			else
+			{
+				//DebugOut(L"cy - posY %f \n", cy - posY);
+				if ((cy - posY) < (SCREEN_HEIGHT / 4))
+				{
+					posY -= CAMERA_SPEED_WORLD1 * dt;
+				}
+				if ((cy - posY) > (SCREEN_HEIGHT / 2))
+				{
+					posY += CAMERA_SPEED_WORLD1 * dt;
+				}
+			}
+		}
+		//DebugOut(L"toa do cam x %f \n ", cx);
+		//DebugOut(L"toa do cam y %f \n ", posY);
+		gameCamera->SetCamPos(cx, posY);
+	//}
+		gameHUD->Update(cx, HUD_Y, jason->GetHealth(), jason->GetgunDam());	//move x follow camera
+		//move x follow camera*/
+	switch (_SophiaType)
+	{
+	case ID_JASON:
+		jason->GetPosition(cx, cy);
+		/*if (jason->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
+			cx = mapWidth - SCREEN_WIDTH;
+		else
+		{
+			if (jason->Getx() < SCREEN_WIDTH / 2)
+				cx = 0;
+			else
+				cx -= SCREEN_WIDTH / 2;
+		}*/
+		if (tempNeed)
+		{
+			//timeResetCam += dt;
+			gameCamera->SetCamPos(camMap1X, camMap1Y);
+			posY = camMap1Y;
+			//if (timeResetCam > 1000)
+			tempNeed = 0;
+		}
+		else
+		{
+			if (jason->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
+				cx = mapWidth - SCREEN_WIDTH;
+			else
+			{
+				if (jason->Getx() < SCREEN_WIDTH / 2)
+					cx = 0;
+				else
+					cx -= SCREEN_WIDTH / 2;
+			}
+
+			if (cy + SCREEN_HEIGHT >= mapHeight)
+			{
+
+				cy = mapHeight - SCREEN_HEIGHT;
+				posY = cy;
+			}
+			else
+			{
+				if (jason->Gety() < SCREEN_HEIGHT / 3)
+				{
+					posY = 0;
+				}
+				else
+				{
+					//DebugOut(L"cy - posY %f \n", cy - posY);
+					if ((cy - posY) < (SCREEN_HEIGHT / 4))
+					{
+						posY -= CAMERA_SPEED_WORLD1 * dt;
+					}
+					if ((cy - posY) > (SCREEN_HEIGHT / 2))
+					{
+						posY += CAMERA_SPEED_WORLD1 * dt;
+					}
+				}
+			}
+			//DebugOut(L"toa do cam x %f \n ", cx);
+			//DebugOut(L"toa do cam y %f \n ", posY);
+			gameCamera->SetCamPos(cx, posY);
+		}
+		break;
+	case ID_SMALL_SOPHIA:
+	{
+		ssophia->GetPosition(cx, cy);
+		if (ssophia->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
+			cx = mapWidth - SCREEN_WIDTH;
+		else
+		{
+			if (ssophia->Getx() < SCREEN_WIDTH / 2)
+				cx = 0;
+			else
+				cx -= SCREEN_WIDTH / 2;
+		}
+		cy -= SCREEN_HEIGHT / 2;
+		gameCamera->SetCamPos(cx, 0.0f);//cy khi muon camera move theo y player
+		break;
+	}
+	}
+
+
+
+	//gameHUD->Update(cx, HUD_Y, jason->GetHealth(), jason->GetgunDam());	//move x follow camera
+>>>>>>> main
 #pragma endregion
+
+
 	//init coObjects
+<<<<<<< HEAD
 	vector<LPGAMEENTITY> coObjects;
 	for (int i = 0; i < listObjects.size(); i++)
 		coObjects.push_back(listObjects[i]);
@@ -192,27 +381,123 @@ void PlayScene::Update(DWORD dt)
 
 	jason->Update(dt,&coObjects);
 	gameHUD->Update(cx, HUD_Y, jason->GetHealth(), jason->GetgunDam());	//move x follow camera
+=======
+	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj();
+	jason->Update(dt, &coObjects);
+	ssophia->Update(dt,&coObjects);
+	//for (int i = 0; i < listObjects.size(); i++)
+	//	coObjects.push_back(listObjects[i]);
+	//for (int i = 0; i < listEnemies.size(); i++)
+	//	coObjects.push_back(listEnemies[i]);
+	//for (int i = 0; i < listGates.size(); i++)
+	//	coObjects.push_back(listGates[i]);
+
+	//Kiểm tra có obj nào cần được thêm vào hay không
+	//vector<CEntity*> addAfterUpdate = jason->GetAbjAddAfterUpdate();
+	//for (int i = 0; i < addAfterUpdate.size(); i++)
+	//{
+	//	CGrid::GetInstance()->InsertGrid(addAfterUpdate.at(i));
+	//	coObjects.push_back(addAfterUpdate.at(i));
+	//}
+	//for (int i = 0; i < listEnemies.size(); i++)
+	//{
+	//	listEnemies[i]->Update(dt, &listObjects);
+	//}
+	//for (int i = 0; i < listBullets.size(); i++)
+	//	listBullets[i]->Update(dt, &coObjects);
+
+	if (coObjects.size() != 0)
+	{//update obj
+		for (int i = 0; i < coObjects.size(); i++)
+		{
+			if (coObjects.at(i)->GetType()!=EntityType::TAG_BRICK && coObjects.at(i)->GetType() != EntityType::TAG_GATE)
+			{
+				coObjects[i]->Update(dt, &coObjects);
+			}
+		}
+		//sua cho nay
+		int k = 0;
+		for (int i = 0; i<coObjects.size()-k; i++)
+		{
+			if ((coObjects.at(i)->isDeath()))
+			{
+				float xPos, yPos;
+				coObjects.at(i)->GetPosition(xPos, yPos);
+				LPGAMEENTITY backup = coObjects.at(i);
+
+				coObjects.erase(coObjects.begin() + i);
+
+				float _xtemp, _ytemp;
+				backup->GetPosition(_xtemp, _ytemp);
+#pragma region add item into grid
+				switch (backup->GetType())
+				{
+				default:
+					break;
+				}
+#pragma endregion
+				CGrid::GetInstance()->RemoveObj(backup,true);
+				k = 1;
+				i--;
+			}
+			//item effect
+			else {
+				k = 0;
+			}
+		}
+	}
+	CGrid::GetInstance()->UpdateGrid(coObjects);
+	//player
+	gameHUD->Update(cx, HUD_Y + posY, jason->GetHealth(), jason->GetgunDam());
+>>>>>>> main
 }
 
 void PlayScene::Render()
 {
 	//idStage / STAGE_1 + 10
-	
-	LPDIRECT3DTEXTURE9 maptextures = CTextures::GetInstance()->Get(ID_AREA1);
-	CGame::GetInstance()->OldDraw(0, 0, maptextures, 0, 0, mapWidth, mapHeight);
 
-	for (int i = 0; i < listObjects.size(); i++)
+	LPDIRECT3DTEXTURE9 maptextures = CTextures::GetInstance()->Get(idStage);
+	CGame::GetInstance()->OldDraw(0, 0, maptextures, 0, 0, mapWidth, mapHeight);
+	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListRenderObj();
+	for (int i = 0; i < coObjects.size(); i++)
+		coObjects[i]->Render();
+	//for (int i = 0; i < listObjects.size(); i++)
+	//{
+	//	listObjects[i]->Render();
+	//}
+	//for (int i = 0; i < listGates.size(); i++)
+	//	listGates[i]->Render();
+	//for (int i = 0; i < listEnemies.size(); i++)
+	//	listEnemies[i]->Render();
+	//for (int i = 0; i < listBullets.size(); i++)
+	//	listBullets[i]->Render();
+	switch (_SophiaType)
 	{
-		listObjects[i]->Render();
+	case ID_JASON:
+		jason->Render();
+		break;
+	case ID_SMALL_SOPHIA:
+		jason->Render();
+		ssophia->Render();
+
 	}
-	for (int i = 0; i < listEnemies.size(); i++)
-		listEnemies[i]->Render();
-	jason->Render();
 	gameHUD->Render(jason);
+
 }
 
 void PlayScene::Unload()
 {
+	CGrid::GetInstance()->UnLoadGrid();
+	/*for (UINT i = 0; i < listObjects.size(); i++)
+		delete listObjects[i];
+	listObjects.clear();
+	for (UINT i = 0; i < listGates.size(); i++)
+		delete listGates[i];
+	listGates.clear();
+	for (UINT i = 0; i < listEnemies.size(); i++)
+		delete listEnemies[i];
+	listEnemies.clear();*/
+	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
 void PlayScene::LoadSceneObjects(LPCWSTR path)
@@ -230,7 +515,7 @@ void PlayScene::LoadSceneObjects(LPCWSTR path)
 	{
 		string line(str);
 
-		if (line[0] == '#') continue;	// skip comment lines	
+		if (line[0] == '#') continue;	// skip comment lines
 
 		if (line == "[CLEARTEXTURES]") {
 			section = SCENE_SECTION_CLEARTEXTURES; continue;
@@ -287,78 +572,222 @@ void PlayScene::LoadSceneObjects(LPCWSTR path)
 void PlayScenceKeyHandler::KeyState(BYTE* states)
 {
 	int _SophiaType = ((PlayScene*)scence)->_SophiaType;
-	JASON* player = ((PlayScene*)scence)->jason;
-	vector<LPGAMEENTITY> listEnemies = ((PlayScene*)scence)->listEnemies;
-	if (player->GetState() == SOPHIA_STATE_DIE) return;
-	
+
+	JASON* jason = ((PlayScene*)scence)->jason;
+	Small_Sophia* ssophia = ((PlayScene*)scence)->ssophia;
+
+	if (jason->GetState() == SOPHIA_STATE_DIE) return;
+
 	if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
 	{
 		if (_SophiaType == ID_JASON)
-			player->SetState(SOPHIA_STATE_WALKING_RIGHT);
+			jason->SetState(SOPHIA_STATE_WALKING_RIGHT);
+		if (_SophiaType == ID_SMALL_SOPHIA)
+			ssophia->SetState(SMALL_SOPHIA_STATE_WALKING_RIGHT);
+
 	}
 	else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
 	{
 		if (_SophiaType == ID_JASON) {
-			player->SetState(SOPHIA_STATE_WALKING_LEFT);
+			jason->SetState(SOPHIA_STATE_WALKING_LEFT);
 		}
+		if (_SophiaType == ID_SMALL_SOPHIA) {
+			ssophia->SetState(SMALL_SOPHIA_STATE_WALKING_LEFT);
+		}
+
 	}
 	else
 	{
 		if (_SophiaType == ID_JASON)
-			player->SetState(SOPHIA_STATE_IDLE);
+			jason->SetState(SOPHIA_STATE_IDLE);
+		if (_SophiaType == ID_SMALL_SOPHIA)
+			ssophia->SetState(SMALL_SOPHIA_STATE_IDLE);
+
 	}
 
 	if (CGame::GetInstance()->IsKeyDown(DIK_SPACE))
 	{
 		if (_SophiaType == ID_JASON)
+<<<<<<< HEAD
 			player->SetPressSpace(true);
 		DebugOut(L"health %d\n", player->GetHealth());
+=======
+			jason->SetPressSpace(true);
+		if (_SophiaType == ID_SMALL_SOPHIA)
+		{
+			ssophia->SetPressSpace(true);
+		}
+>>>>>>> main
 	}
 
+	//if (CGame::GetInstance()->IsKeyDown(DIK_UP))
+	//{
+	//	if (_SophiaType == ID_JASON)
+	//		player->SetP(true);
+	//}
+	//if (CGame::GetInstance()->IsKeyDown(DIKEYBOARD_LSHIFT))
+	//{
+	//	if (_SophiaType == ID_JASON)
+	//		player
+	//}
 	if (CGame::GetInstance()->IsKeyDown(DIK_UP))
 	{
 		if (_SophiaType == ID_JASON)
-			player->SetPressUp(true);
+			jason->SetPressUp(true);
 	}
+
 }
 
 void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	int _SophiaType = ((PlayScene*)scence)->_SophiaType;
+	Entity* ssophia = ((PlayScene*)scence)->ssophia;
 	JASON* player = ((PlayScene*)scence)->jason;
-	vector<LPGAMEENTITY> listEnemies = ((PlayScene*)scence)->listEnemies;
-	float x, y;
-	int direction, directionY, isTargetTop, dame;
+	//vector<LPGAMEENTITY> listEnemies = ((PlayScene*)scence)->listEnemies;
+	//vector<LPBULLET> listBullets = ((PlayScene*)scence)->listBullets;
+	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
+	float xPos, yPos;
+	bool isAimingTop;
+	int nx, ny, dam;
+	player->GetInfoForBullet(nx, isAimingTop, xPos, yPos);
 	switch (KeyCode)
 	{
 	case DIK_ESCAPE:
 		DestroyWindow(CGame::GetInstance()->GetWindowHandle());
 		break;
 	case DIK_SPACE:
-		if (_SophiaType == ID_JASON)
+		switch (_SophiaType)
+		{
+		case ID_JASON:
 			player->SetState(SOPHIA_STATE_JUMP);
+			break;
+		case ID_SMALL_SOPHIA:
+			ssophia->SetState(SMALL_SOPHIA_STATE_JUMP);
+			break;
+		}
 		break;
-	default:
+	case DIK_LSHIFT:
+		/*if (_SophiaType == ID_JASON)
+			((PlayScene*)scence)->changePlayer();
+		else if (_SophiaType== ID_SMALL_SOPHIA)
+		{
+			((PlayScene*)scence)->changePlayer();
+		}*/
+		((PlayScene*)scence)->changePlayer();
+		break;
+	case DIK_A:
+	{
+		playScene->Unload();
+		playScene->ChooseMap(ID_AREA1);
+		player->SetPosition(30, 60);
+		player->SetHealth(MAX_HEALTH);
+		player->isDoneDeath = false;
+		player->isDeath = false;
+		playScene->_SophiaType = 1;
 		break;
 	}
+	case DIK_Z:
+	{
+		//if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET))
+		//{
+		Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
+		CGrid::GetInstance()->InsertGrid(bullet);
+		//}
+		//break;
+	}
 
+	//case DIK_X:
+	//	if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET))
+	//	{
+	//		Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
+	//		CGrid::GetInstance()->InsertGrid(bullet);
+	//	}
+	//	break;
+	//case DIK_C:
+	//	//if (listBullets.size() < 3)
+	//	//{
+	//	//	Bullet* bullet = new JasonRocket(player->Getx(), player->Gety());
+	//	//	((PlayScene*)scence)->listBullets.push_back(bullet);
+	//	//}
+	//	//break;
+	//case DIK_F2:
+	//	//if (player->GetBBARGB() == 255)
+	//	//{
+	//	//	player->SetBBARGB(0);
+	//	//}
+	//	//else player->SetBBARGB(255);
+
+	//	//for (int i = 0; i < ((PlayScene*)scence)->listBullets.size(); i++)
+	//	//{
+	//	//	if (((PlayScene*)scence)->listBullets[i]->GetBBARGB() == 255)
+	//	//	{
+	//	//		DebugOut(L"dan mat mau");
+	//	//		((PlayScene*)scence)->listBullets[i]->SetBBARGB(0);
+	//	//	}
+	//	//	else ((PlayScene*)scence)->listBullets[i]->SetBBARGB(255);
+	//	//}
+	//	//break;
+	}
+}
+
+void PlayScene::changePlayer()
+{
+	//if (abs(jason->x - ssophia->x)< DISTANCE_TO_OUT&& abs(jason->y - ssophia->y) < DISTANCE_TO_OUT)
+	//{
+		if (_SophiaType == ID_JASON)
+		{
+			this->jason->SetState(SOPHIA_STATE_OUT);
+			this->ssophia->x = jason->x;
+			this->ssophia->y = jason->y;
+			this->_SophiaType = ID_SMALL_SOPHIA;
+			this->ssophia->SetState(SMALL_SOPHIA_STATE_OUT);
+		}
+
+		else if (_SophiaType == ID_SMALL_SOPHIA)
+		{
+			if (abs(jason->x - ssophia->x) < DISTANCE_TO_OUT && abs(jason->y - ssophia->y) < DISTANCE_TO_OUT)
+			{
+				this->ssophia->SetState(SMALL_SOPHIA_STATE_IDLE);
+				this->ssophia->SetState(SMALL_SOPHIA_STATE_OUT);
+				this->_SophiaType = ID_JASON;
+
+			}
+
+		}
+	//}
+
+	//this->_SophiaType = ID_SMALL_SOPHIA;
 }
 
 void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 {
-	JASON* player = ((PlayScene*)scence)->jason;
+	JASON* jason = ((PlayScene*)scence)->jason;
+	Small_Sophia* ssophia = ((PlayScene*)scence)->ssophia;
 	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
 	switch (KeyCode)
 	{
 	case DIK_UP:
-		player->SetPressUp(false);
-		player->SetState(SOPHIA_STATE_GUN_UNFLIP);
+		switch (((PlayScene*)scence)->_SophiaType)
+		{
+		case ID_JASON:
+			jason->SetPressUp(false);
+			jason->SetState(SOPHIA_STATE_GUN_UNFLIP);
+			break;
+		}
 		break;
 	case DIK_SPACE:
-		player->SetPressSpace(false);
+		switch (((PlayScene*)scence)->_SophiaType)
+		{
+			case ID_JASON:
+				jason->SetPressSpace(false);
+				break;
+			case ID_SMALL_SOPHIA:
+				ssophia->SetPressSpace(false);
+				break;
+		}
 		break;
 	}
-} 
+}
 
 void PlayScene::_ParseSection_TEXTURES(string line)
 {
@@ -435,21 +864,22 @@ void PlayScene::_ParseSection_ANIMATION_SETS(string line)
 
 		LPANIMATION ani = animations->Get(ani_id);
 		s->push_back(ani);
+
 	}
 
 	CAnimationSets::GetInstance()->Add(ani_set_id, s);
+	DebugOut(L"Added animationset %d \n", ani_set_id);
 }
 
 void PlayScene::_ParseSection_OBJECTS(string line)
 {
-	//chưa done
 	vector<string> tokens = split(line);
 
 	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
 
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
 
-	int object_type = atoi(tokens[0].c_str());
+/*	int object_type = atoi(tokens[0].c_str());
 	float x = atof(tokens[1].c_str());
 	float y = atof(tokens[2].c_str());
 	int ani_set_id = atoi(tokens[3].c_str());
@@ -459,7 +889,11 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
+<<<<<<< HEAD
 	/*case OBJECT_TYPE_WORM:		
+=======
+	case OBJECT_TYPE_WORM:
+>>>>>>> main
 	{
 		obj = new Worm(x, y, jason);
 		obj->SetPosition(x, y);
@@ -482,39 +916,95 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[test] add eyeballs !\n");
 		break;
 	}
+<<<<<<< HEAD
 	/*case OBJECT_TYPE_TELEPOTERS:
 	{
 		obj = new Teleporters(x, y, jason);
+=======
+	case OBJECT_TYPE_FLOATER:
+	{
+		obj = new Floaters(x, y, jason);
+>>>>>>> main
 		obj->SetPosition(x, y);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 		obj->SetAnimationSet(ani_set);
 		listEnemies.push_back(obj);
+<<<<<<< HEAD
 		DebugOut(L"[test] add telepoters !\n");
 		break;
 	}*/
 	/*case OBJECT_TYPE_CANNONS:
 	{
 		obj = new Cannons(x, y, jason);
+=======
+		DebugOut(L"[test] add floater !\n");
+		break;
+	}
+
+	case OBJECT_TYPE_INSECT:
+	{
+		obj = new Insects(x, y, jason);
 		obj->SetPosition(x, y);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 		obj->SetAnimationSet(ani_set);
 		listEnemies.push_back(obj);
+		DebugOut(L"[test] add insect !\n");
+		break;
+	}
+	case OBJECT_TYPE_ORBS:
+	{
+		obj = new Orbs(x, y, jason);
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		listEnemies.push_back(obj);
+		DebugOut(L"[test] add orbs !\n");
+		break;
+	}
+	case OBJECT_TYPE_JUMPER:
+	{
+		obj = new Jumpers(x, y, jason);
+>>>>>>> main
+		obj->SetPosition(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		listEnemies.push_back(obj);
+<<<<<<< HEAD
 		DebugOut(L"[test] add cannons !\n");
 		break;
 	}*/
 	/*case OBJECT_TYPE_DOMES:
 	{
 		obj = new Domes(x, y, jason);
+=======
+		DebugOut(L"[test] add Jumpers !\n");
+		break;
+	}
+	case OBJECT_TYPE_SKULLS:
+	{
+		obj = new Skulls(x, y, jason);
+>>>>>>> main
 		obj->SetPosition(x, y);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 		obj->SetAnimationSet(ani_set);
 		listEnemies.push_back(obj);
+<<<<<<< HEAD
 		DebugOut(L"[test] add domes !\n");
 		break;
 	}*/
+=======
+		DebugOut(L"[test] add Skulls !\n");
+		break;
+	}
+
+
+
+>>>>>>> main
 	case OBJECT_TYPE_BRICK:
 	{
 		obj = new Brick(atof(tokens[4].c_str()), atof(tokens[5].c_str()));
@@ -537,14 +1027,15 @@ void PlayScene::_ParseSection_OBJECTS(string line)
 		float camX = atoi(tokens[9].c_str());
 		int camY = atoi(tokens[10].c_str());
 		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isResetCamera, typePlayer, camX, camY);
-		listGates.push_back(obj);
+		listObjects.push_back(obj);
 		DebugOut(L"[test] add gate !\n");
 		break;
 	}
 	default:
 		DebugOut(L"[ERRO] Invalid object type: %d\n", object_type);
 		return;
-	}
+	}*/
+	CGrid::GetInstance()->LoadGrid(tokens,jason);
 }
 
 void PlayScene::_ParseSection_CLEARTEXTURES(string line)
@@ -588,4 +1079,17 @@ void PlayScene::_ParseSection_SCENEFILEPATH(string line)
 	listSceneFilePath.push_back(ToLPCWSTR(tokens[0]));
 	listWidth.push_back(atoi(tokens[1].c_str()));
 	listHeight.push_back(atoi(tokens[2].c_str()));
+}
+void PlayScene::EraseInactiveObject()
+{
+	//int pos=-1;
+	//for (int i = 0; i < listBullets.size(); i++)
+	//{
+	//	if (listBullets[i]->GetisActive() == false)
+	//	{
+	//		Bullet* p = listBullets[i];
+	//		pos = i;
+	//	}
+	//}
+	//if(pos!=-1)	listBullets.erase(listBullets.begin() + pos);
 }

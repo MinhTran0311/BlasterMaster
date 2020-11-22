@@ -8,7 +8,11 @@
 //#define BULLET_VERTICAL_BBOX_WIDTH 8
 //#define BULLET_VERTICAL_BBOX_HEIGHT 24
 //
+<<<<<<< HEAD
 //#define BULLET_FLYING_SPACE 150
+=======
+//#define BULLET_STATE_FLYING_SPACE 150
+>>>>>>> main
 //
 //#define BULLET_STATE_FLYING_LEFT 100
 //#define BULLET_STATE_FLYING_RIGHT 200
@@ -51,7 +55,14 @@
 #define DISTANCE_BLOWING_UP		4
 #define BULLET_SPEED			0.2f
 
+<<<<<<< HEAD
 
+=======
+#define BULLET_STATE_FLYING			100
+#define BULLET_STATE_BLOW_UP		200
+#define BULLET_STATE_FLYING_TOP		300
+#define BULLET_STATE_DISAPPEAR		400
+>>>>>>> main
 class Bullet;
 typedef Bullet* LPBULLET;
 class Bullet : public Entity
@@ -60,6 +71,7 @@ public:
 	int totalTime;
 	int x_Start_Pos, y_Start_Pos;
 	bool able_firing;
+<<<<<<< HEAD
 	int dam;
 	int isAimingTop;
 	int alpha, typeBullet;
@@ -67,6 +79,14 @@ public:
 	float timeDelayed, timeDelayedMax;
 	float equation_a, equation_b;
 	LPGAMEENTITY targetObject;
+=======
+	int isAimingTop;
+	int alpha;
+	int typeBullet;
+	bool  isHitBrick, isHitEnemy;
+	float timeDelayed, timeDelayedMax;
+
+>>>>>>> main
 	// phương thức
 	Bullet();
 	~Bullet();
@@ -105,4 +125,8 @@ public:
 	bool GetisActive() { return isActive; }
 	//void SetIsDone(bool isdone) { isDone = isdone; }
 	int GetDamage() { return dam; }
+<<<<<<< HEAD
+=======
+	int GetBulletType() { return typeBullet; };
+>>>>>>> main
 };

@@ -1,12 +1,12 @@
 ﻿#pragma once
 
-#include <Windows.h>  
+#include <Windows.h>
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <map>
-#include "debug.h" 
+#include "debug.h"
 
-#include <fstream> 
+#include <fstream>
 #include <string>
 #include <stdio.h>
 #include <iostream>
@@ -26,7 +26,11 @@
 #define BOTTOM_SCREEN 450
 #define CAMERA_SPEED_WORLD1 0.223
 #define CAMERA_SPEED_OVERWORLD 0.15
+<<<<<<< HEAD
 #define MAX_FRAME_RATE 120	//default Frame Rate is the truth
+=======
+#define MAX_FRAME_RATE 600	//default Frame Rate is the truth
+>>>>>>> main
 
 #define SCENEGAME_GAMETIMEMAX		300
 
@@ -63,11 +67,16 @@
 
 #define ANIMATION_SET_BBOX					0
 #define ANIMATION_SET_PLAYER				1
+<<<<<<< HEAD
 #define ANIMATION_SET_PLAYERHP				11
+=======
+#define ANIMATION_SET_PLAYERHP				30
+>>>>>>> main
 //#define ANIMATION_SET_ITEM_POWERUP			12
 //#define ANIMATION_SET_ITEM_GUNUP			13
 #define ANIMATION_SET_BRICK					20
 #define ANIMATION_SET_GATE					26
+<<<<<<< HEAD
 #define ANIMATION_SET_JASON_BULLET			3000
 #define ANIMATION_SET_BIG_ENEMY_BULLET		4001
 #define ANIMATION_SET_SMALL_ENEMY_BULLET		4002
@@ -84,6 +93,28 @@ enum EnemyType
 	EYEBALLS = 17,
 	TELEPORTERS = 18,
 	CANNONS = 19,
+=======
+#define ANIMATION_SET_JASON_BULLET			31
+#define ANIMATION_SET_JASON_ROCKET			32
+#define ANIMATION_SET_BIG_ENEMY_BULLET		41
+#define ANIMATION_SET_SMALL_ENEMY_BULLET		42
+#define ANIMATION_SET_SKULL_ENEMY_BULLET		43
+
+#define SAFE_DELETE(a) { delete (a); (a) = NULL; }
+
+enum EnemyType
+{
+	WORM = 10,
+	DOME = 11,
+	FLOATERS = 12,
+	INSECT = 13,
+	ORBS = 14,
+	JUMPERS = 15,
+	SKULLS = 16,
+	EYEBALL = 17,
+	TELEPOTER =18,
+	CANNON = 19,
+>>>>>>> main
 };
 enum EntityType
 {
@@ -92,9 +123,15 @@ enum EntityType
 
 	////Bounding Box
 	//BBOX = 0,
+<<<<<<< HEAD
 	TAG_JASON = 1,
 	TAG_SMALL_SOPHIA = 2,
 	TAG_BIG_SOPHIA = 3,
+=======
+	TAG_JASON = 101,
+	TAG_SMALL_SOPHIA = 102,
+	TAG_BIG_SOPHIA = 103,
+>>>>>>> main
 	////Player Zone 1-10
 	//PLAYER = 1,
 	//MORNINGSTAR = 2,
@@ -119,9 +156,14 @@ enum EntityType
 	//CANDLE = 23,
 	//MOVINGPLATFORM = 24,
 	//STAIRS = 25,
+<<<<<<< HEAD
 
 	//BUSH = 27,
+=======
+>>>>>>> main
 
+	//BUSH = 27,
+	TAG_ITEM = 40,
 	////Item Zone 40-70
 	//POWERUP = 40,
 	//GUNUP = 41,
@@ -154,17 +196,34 @@ enum EntityType
 	TAG_DOMES = 11,
 	TAG_FLOATER = 12,
 	TAG_INSECT = 13,
+<<<<<<< HEAD
 	TAG_ORB = 14,
 	TAG_JUMPER = 15,
 	TAG_SKULL = 16,
 	TAG_EYEBALLS = 17,
 	TAG_TELEPORTERS = 18,
+=======
+	TAG_ORBS = 14,
+	TAG_JUMPERS = 15,
+	TAG_SKULLS = 16,
+	TAG_EYEBALLS = 17,
+	TAG_TELEPOTERS = 18,
+>>>>>>> main
 	TAG_CANNONS = 19,
 	////GOLEM = 80,
 	//Worm = 81,
 	////DOMES = 82,
+<<<<<<< HEAD
 	BULLET = 30,
 	JASON_NORMAL_BULLET = 31,
+=======
+	//bullet 30 ->50
+	BULLET=30,
+	JASON_NORMAL_BULLET = 31,
+	JASON_UPGRADE_BULLET = 32,
+	JASON_ROCKET_BULLET = 33,
+	CANNONS_BULLET = 41,
+>>>>>>> main
 	//KNIGHT = 83,
 	//GHOST = 84,
 	//RAVEN = 85,
@@ -193,4 +252,3 @@ enum EntityType
 class define
 {
 };
-

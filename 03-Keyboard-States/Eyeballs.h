@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #pragma once
 #include "Enemy.h"
 #include "Jason.h"
@@ -49,3 +50,5 @@ public:
 	virtual void SetState(int state);
 	void SelfDestroy();
 };
+=======
+>>>>>>> main

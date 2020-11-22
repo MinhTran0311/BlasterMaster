@@ -129,6 +129,7 @@
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Cannons.cpp" />
+    <ClCompile Include="BigNavigatedEnemyBullet.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Domes.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -143,6 +144,8 @@
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Insects.cpp" />
     <ClCompile Include="Jason.cpp" />
+    <ClCompile Include="JasonBullet.cpp" />
+    <ClCompile Include="JasonRocket.cpp" />
     <ClCompile Include="Jumpers.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Orbs.cpp" />
@@ -165,6 +168,7 @@
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Cannons.h" />
+    <ClInclude Include="BigNavigatedEnemyBullet.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gate.h" />
     <ClInclude Include="global.h" />
@@ -178,6 +182,9 @@
     <ClInclude Include="Grid.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="JasonBullet.h" />
+    <ClInclude Include="JasonRocket.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Insects.h" />
     <ClInclude Include="Jumpers.h" />

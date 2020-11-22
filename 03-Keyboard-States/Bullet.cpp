@@ -22,7 +22,11 @@
 //	Entity::Update(dt);
 //	if (state == BULLET_STATE_FLYING_LEFT) {
 //		SetSpeed(-BULLET_SPEED, 0.0f);
+<<<<<<< HEAD
 //		if (x < startPositionX - BULLET_FLYING_SPACE)
+=======
+//		if (x < startPositionX - BULLET_STATE_FLYING_SPACE)
+>>>>>>> main
 //		{
 //			isAlive = false;
 //			return;
@@ -36,7 +40,11 @@
 //	}
 //	else if (state == BULLET_STATE_FLYING_RIGHT) {
 //		SetSpeed(BULLET_SPEED, 0.0f);
+<<<<<<< HEAD
 //		if (x > startPositionX + BULLET_FLYING_SPACE) {
+=======
+//		if (x > startPositionX + BULLET_STATE_FLYING_SPACE) {
+>>>>>>> main
 //			isAlive = false;
 //			return;
 //
@@ -50,7 +58,11 @@
 //	else
 //	{
 //		SetSpeed(0.0f, -BULLET_SPEED);
+<<<<<<< HEAD
 //		if (y < startPositionY - BULLET_FLYING_SPACE) {
+=======
+//		if (y < startPositionY - BULLET_STATE_FLYING_SPACE) {
+>>>>>>> main
 //			isAlive = false;
 //		}
 //		else

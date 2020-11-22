@@ -8,12 +8,13 @@
 #include "Cannons.h"
 #include "Eyeballs.h"
 #include "Gate.h"
+#include "PlayScene.h"
 
 JASON::JASON(float x, float y)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_PLAYER));
 	SetState(SOPHIA_STATE_IDLE);
-
+	
 	start_x = x;
 	start_y = y;
 	this->x = x;
@@ -24,7 +25,7 @@ JASON::JASON(float x, float y)
 	alpha = 255;
 	bbARGB = 250;
 	health = MAX_HEALTH;
-	gunDam = MAX_HEALTH;
+	dam = MAX_HEALTH;
 }
 
 JASON* JASON::instance = NULL;
@@ -181,33 +182,35 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 					}
 				}
 			}
-			//else if (dynamic_cast<Gate*>(e->obj))
-			//{
-			//	//Gate* p = dynamic_cast<Gate*>(e->obj);
-			//	///PlayScene::GetInstance()->SwitchScene(p->GetIdScene());
-			//}
-
+			else if ((e->obj->GetType()==EntityType::TAG_GATE))
+			{
+				gate = dynamic_cast<Gate*>(e->obj);
+				DebugOut(L"jason dung tuong loai 1");
+				GateColliding = true;
+			}
 		}
 	}
+	//khi va cham chua xet gia tri x và y
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (this->IsCollidingObject(coObjects->at(i)) && dynamic_cast<Enemy*>(coObjects->at(i)))
+		if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType()==EntityType::ENEMY))
 		{
 			Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
-
-			SetInjured(enemy->GetDamage());
+			//re check
+			if (isJumping)
+			{
+				this->SetState(SOPHIA_STATE_IDLE);
+				isJumping = false;
+				isJumpHandle = true;
+				this->y += 1.5f;
+				this->x += 2.0f;
+			}
+			SetInjured(enemy->GetDamage());		
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 #pragma endregion
-
-
-	//if (this->y >= 144)
-	//{
-	//	isJumping = false;
-	//	y = 144;
-	//}
 }
 
 void JASON::Render()
@@ -215,7 +218,7 @@ void JASON::Render()
 
 	if (isDoneDeath)
 		return;
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 	int ani = -1;
 	int current_frame;
@@ -469,7 +472,7 @@ void JASON::SetInjured(int dame)
 	if (isImmortaling)
 		return;
 	health -= dame;
-	gunDam -= dame;
+	dam -= dame;
 
 	StartUntouchable();
 	immortalTimer->Start();

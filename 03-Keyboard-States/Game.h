@@ -9,7 +9,9 @@
 #include <dinput.h>
 #include "KeyboardHandler.h"
 #define KEYBOARD_BUFFER_SIZE 1024
-
+#include <dinput.h>
+#include <unordered_map>
+#include "Scene.h"
 #define ID_TEX_MARIO 0
 #define ID_TEX_ENEMY 10
 #define ID_TEX_MISC 20
@@ -18,12 +20,15 @@
 /*
 Abstract class to define keyboard event handlers
 */
-
+using namespace std;
 
 class CGame
 {
 	static CGame* __instance;
 	HWND hWnd;									// Window handle
+
+	unordered_map<int, LPSCENE> scenes;
+	int current_scene;
 
 	LPDIRECT3D9 d3d = NULL;						// Direct3D handle
 	LPDIRECT3DDEVICE9 d3ddv = NULL;				// Direct3D device object
@@ -56,7 +61,7 @@ public:
 	void DrawY(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha);
 	void DrawTopBottom(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha);
 
-
+	void SwitchScene(int id_scene);
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }

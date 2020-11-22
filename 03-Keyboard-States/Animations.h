@@ -54,6 +54,7 @@ public:
 	void RenderGunFlip(float x, float y, int alpha = 255);
 	void RenderGunFlipTargetTop(float x, float y, int alpha = 255);
 	void RenderFrame(int idFrame, float x, float y, int alpha = 255);
+	int GetLastFrameIndex() { return frames.size() - 1; };
 };
 
 typedef CAnimation* LPANIMATION;
