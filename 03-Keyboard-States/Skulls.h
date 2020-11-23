@@ -3,6 +3,7 @@
 #include "Enemy.h"
 
 #define MOVING_SPEED	0.05f
+#define MOVING_SPEED_Y	0.5f
 
 
 #define SKULLS_STATE_FLY		100

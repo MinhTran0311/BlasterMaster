@@ -106,11 +106,14 @@ void Jumpers::Render()
 		nx = -1;
 
 	int ani = JUMPER_ANI_WALKING;
-	if (state == JUMPER_STATE_DIE) {
+	if (this->state == JUMPER_STATE_DIE) {
 		ani = JUMPER_ANI_DIE;
 	}
 
 	animationSet->at(ani)->Render(nx, x, y);
+
+
+
 	//RenderBoundingBox();
 }
 
