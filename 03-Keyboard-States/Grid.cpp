@@ -184,14 +184,22 @@ void CGrid::LoadGrid(vector<string> tokens, JASON* &playscene_player)
 	}
 	case EntityType::TAG_GATE:
 	{
+
 		int switchId = atoi(tokens[milestone + 1].c_str());
+		
 		float playerPosX = atoi(tokens[milestone + 2].c_str());
+		
+		
 		float playerPosY = atoi(tokens[milestone + 3].c_str());
 		int playerState = atoi(tokens[milestone + 4].c_str());
+
 		int isResetCamera = atoi(tokens[milestone + 5].c_str());
+
 		int typePlayer = atoi(tokens[milestone + 6].c_str());
 		float camX = atoi(tokens[milestone + 7].c_str());
+		DebugOut(L"Tạo gate %d", camX);
 		int camY = atoi(tokens[milestone + 8].c_str());
+
 		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isResetCamera, typePlayer, camX, camY);
 		DebugOut(L"[test] add gate !\n");
 		break;
@@ -420,17 +428,32 @@ void CGrid::InsertGrid(LPGAMEENTITY obj)
 	}
 }
 
-bool CGrid::CheckBulletLimitation(EntityType typebullet)
+bool CGrid::CheckBulletLimitation(EntityType typebullet, float xPlayerPos, float yPlayerPos, int limit)
 {
+	int center_row = int(yPlayerPos) / CELL_SIZE.y;
+	int center_column = int(xPlayerPos) / CELL_SIZE.y;
+	int minRow = center_row - 3;
+	int maxRow = center_row + 3;
+	int minColumn = center_column-3;
+	int maxColumn = center_column + 3;
+	if (minRow < 0)
+		minRow = 0;
+	if (maxRow >= rowGrid)
+		maxRow = rowGrid - 1;
+	if (minColumn < 0)
+		minColumn = 0;
+	if (maxColumn >= columnGrid)
+		maxColumn = columnGrid - 1;
+
 	int bullet_count = 0;
-	for (int i=0; i<rowGrid; i++)
-		for (int j=0; j<rowGrid;j++)
+	for (int i= minRow; i< maxRow; i++)
+		for (int j= minColumn; j< maxColumn;j++)
 			for (int k = 0; k < cells[i][j].size(); k++)
 			{
 				if (static_cast<Bullet*>(cells[i][j].at(k))->GetBulletType() == typebullet)
 					bullet_count++;
 			}
-	if (bullet_count <= MAX_NUMBER_OF_JASON_BULLET)
+	if (bullet_count < limit)
 		return true;
 	return false;
 }

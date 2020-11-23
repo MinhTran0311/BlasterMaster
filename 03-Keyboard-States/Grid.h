@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "SceneManager.h"
 #include "Jason.h"
+#include "Gate.h"
 #define CELL_SIZE D3DXVECTOR2(160,137)
 #define MAX_NUMBER_OF_JASON_BULLET 3
 class CGrid
@@ -32,7 +33,7 @@ public:
 	void RemoveObj(LPGAMEENTITY obj, bool isDeletePointer = true);
 	void UnLoadGrid();
 	void InsertGrid(LPGAMEENTITY obj);
-	bool CheckBulletLimitation(EntityType typebullet);
+	bool CheckBulletLimitation(EntityType typebullet, float xPlayerPos, float yPlayerPos, int limit);
 	//LPGAMEENTITY getPlayerPointer() { return player; };
 
 	D3DXVECTOR2 GetPosPlayerDefault();
