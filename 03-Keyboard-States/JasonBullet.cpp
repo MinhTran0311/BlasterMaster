@@ -6,7 +6,7 @@ JasonBullet::JasonBullet(float posX, float posY, int level, int direct, bool isG
 	alpha = 255;
 	bbARGB = 0;
 	tag = EntityType::BULLET;
-	this->SetState(BULLET_JASON_STATE_FLYING);
+	//this->SetState(BULLET_JASON_STATE_FLYING);
 	isHitBrick = false;
 	isHitEnemy = false;
 	dam = 1;
@@ -122,24 +122,24 @@ void JasonBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (e->obj->GetType() == EntityType::TAG_BRICK)
 			{
-				this->SetState(BULLET_JASON_STATE_HIT_BRICK);
+				//this->SetState(BULLET_JASON_STATE_HIT_BRICK);
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
-				//vx = 0;
-				//vy = 0;
+				vx = 0;
+				vy = 0;
 				isHitBrick = true;
 			}
 			if (e->obj->GetType() == EntityType::ENEMY)
 			{
 				e->obj->AddHealth(-dam);
 				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
-				this->SetState(BULLET_JASON_STATE_HIT_ENEMY);
+				//this->SetState(BULLET_JASON_STATE_HIT_ENEMY);
 				isHitEnemy = true;
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
-				//vx = 0;
-				//vy = 0;
-				//isActive = false;
+				vx = 0;
+				vy = 0;
+				isActive = false;
 			}
 		}
 	}
@@ -155,8 +155,8 @@ void JasonBullet::Render()
 	int ani;
 	DebugOut(L"Jason bullet render");
 
-	//if (!isHitBrick && !isHitEnemy)
-	if (state==BULLET_JASON_STATE_FLYING)
+	if (!isHitBrick && !isHitEnemy)
+	//if (state==BULLET_JASON_STATE_FLYING)
 	{
 		if (isAimingTop)
 		{
