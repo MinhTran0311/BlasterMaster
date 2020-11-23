@@ -94,7 +94,7 @@
 #small Navigated Enemy Bullet
 400002	359	161	364	166	60
 #skull bullet
-400003	257	9	266	18	60
+400003	257	9	267	19	60
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 
 [ANIMATIONS]
@@ -247,7 +247,7 @@
 15	400	100	1	0	2	15
 
 #SKULLS
-16	150	120	1	0	0	16
+16	150	100	1	0	0	16
 
 #Brick
 ##Brick main

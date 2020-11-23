@@ -151,6 +151,12 @@ void Skulls::Attack(LPGAMEENTITY target) //tấn công tại vị trí nhân v�
 {
 	if (abs(target->x -this->x) < 20 && time < 100) {
 		SetState(SKULLS_STATE_ATTACK);
+		if (!Attacked) {
+			Bullet* bullet = new SkullBullet(this->x, this->y, this->nx);
+			CGrid::GetInstance()->InsertGrid(bullet);
+			Attacked = true;
+		}
+		
 	}
 }
 

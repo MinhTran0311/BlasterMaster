@@ -66,7 +66,7 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		}
 		else if (!nx)
 		{
-			
+			isflip = true;
 			vy = -vy;
 		}
 
@@ -196,7 +196,6 @@ void Orbs::SetState(int state)
 
 	case ORBS_STATE_FLY:
 		isflip = false;
-		time--;
 		if (nx > 0)
 		{
 			vx = MOVING_SPEED;
