@@ -155,7 +155,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Small_Sophia.cpp" />
     <ClCompile Include="Sprites.cpp" />
-    <ClCompile Include="Telepoters.cpp" />
+    <ClCompile Include="Teleporters.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Worms.cpp" />

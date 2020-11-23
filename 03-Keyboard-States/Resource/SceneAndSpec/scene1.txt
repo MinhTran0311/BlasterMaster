@@ -16,6 +16,43 @@
 1000	168	411	186	421	40
 1001	187	411	204	421	40
 
+#DOMES
+#walk top right
+1100	145	478	163	495	40
+1101	165	478	183	495	40
+#walk top left
+1102	63	478	81	494	40
+1103	83	478	101	495	40
+#walk right top
+1104	47	440	63	458	40
+1105	46	460	63	478	40
+#walk right bottom
+1106	128	440	145	458	40
+1107	129	460	145	478	40
+#Attack Left Right
+1108	128	440	145	458	40
+#Attack Top Bottom
+1109	145	478	163	495	40
+
+#Eyeballs
+#IDLE	#FLY	#ATTACK
+1700	98	549	114	564	40
+1701	115	549	130	564	40
+1702	132	549	147	564	40	
+
+#Teleporters
+#IDLE	#TRANSFORM	#ATTACK
+1800	155	567	178	598	40
+1801	128	567	151	598	40
+
+#Cannons
+#IDLE
+1900	128	602	153	627	40
+#ATTACK LEFT-RIGHT
+1901	156	602	181	627	40
+#ATTACK TOP-BOTTOM
+1902	183	604	208	629	40
+
 #ORBS
 #FLY
 1400	154	386	172	404	40
@@ -71,6 +108,43 @@
 #Walk worm
 1000	1000	100	1001	100
 
+#DOMES
+#walk top right
+1100	1100	100	1101	100
+#walk top left
+1101	1102	100	1103	100
+#walk right top
+1102	1104	100	1105	100
+#walk right bottom
+1103	1106	100	1107	100
+#Attack Left Right
+1104	1108	100
+#Attack Top Bottom
+1105	1109	100
+
+#EYEBALLS
+#Fly and Attack eyeballs
+1700	1700	100	1702	100
+#Idle eyeballs
+1701	1701	100	1700	100
+	
+#TELEPORTERS
+#IDLE teleporters
+1800	1800	100
+#TRASFORM telepoters
+1801	1800	300	1801	100	1800	100	1801	100
+#ATTACK teleporters
+1802	1801	100
+
+#CANNONS
+#IDLE CANNONS
+1900	1900	100
+#ATTACK CANNONS
+#ATTACK LEFT-RIGHT
+1901	1901	500	1900	500
+#ATTACK TOP-BOTTOM	
+1902	1902	500	1900	500
+
 #ORBS
 #FLY
 1400	1400	100
@@ -111,8 +185,18 @@
 #=== ENEMIES =====
 # Worm
 10	1000	9000
+
 #DOMES
-#11	500	501	502	503	9000
+11	1100	1101	1102	1103	1104	1105
+
+#Eyeballs
+17	1700	1701
+
+#Teleporters
+18	1800	1801	1802
+
+#Cannons
+19	1900	1901	1902	
 
 #FLOATER
 12	1200	1201	9000
@@ -129,15 +213,25 @@
 16	1600	1601	9000
 
 [OBJECTS]
-# type	x	y	numberOfPairGrid	gird_row1 	grid_column1 	grid_row2 	grid_column2 ...	animationset_id		width		height
+# type	x	y	numberOfPairGrid	gird_row1 (y/scr_height) 	grid_column1 (x/scr_width) 	grid_row2 	grid_column2 ...	animationset_id		width		height
 # type
 #jason
 #101	55	100	1	0	0
 #Worm
 10	700	151	1	1	4	10
 10	120	151	1	1	0	10
-#Domes
-#11	150	125	11
+
+#DOMES
+11	150	125	1	0	0	11
+
+#EYEBALLS
+17	150	120	1	0	0	17
+
+#TELEPORTERS
+18	150	125	1	0	0	18
+
+#CANONS
+19	180	80	1	0	1	19	
 
 #FLOATER
 12	200	100	1	0	1	12

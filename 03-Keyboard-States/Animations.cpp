@@ -132,49 +132,49 @@ void CAnimation::Render(int direction, float x, float y, int alpha)
 	frames[currentFrame]->GetSprite()->Draw(direction, x, y, alpha);
 }
 
-//void CAnimation::RenderY(int direction, float x, float y, int alpha)
-//{
-//	DWORD now = GetTickCount();
-//	if (currentFrame == -1)
-//	{
-//		currentFrame = 0;
-//		lastFrameTime = now;
-//	}
-//	else
-//	{
-//		DWORD t = frames[currentFrame]->GetTime();
-//		if (now - lastFrameTime > t)
-//		{
-//			currentFrame++;
-//			lastFrameTime = now;
-//			if (currentFrame == frames.size()) currentFrame = 0;
-//		}
-//
-//	}
-//	frames[currentFrame]->GetSprite()->DrawY(direction, x, y, alpha);
-//}
+void CAnimation::RenderY(int direction, float x, float y, int alpha)
+{
+	DWORD now = GetTickCount();
+	if (currentFrame == -1)
+	{
+		currentFrame = 0;
+		lastFrameTime = now;
+	}
+	else
+	{
+		DWORD t = frames[currentFrame]->GetTime();
+		if (now - lastFrameTime > t)
+		{
+			currentFrame++;
+			lastFrameTime = now;
+			if (currentFrame == frames.size()) currentFrame = 0;
+		}
 
-//void CAnimation::RenderTopBottom(int direction, float x, float y, int alpha)
-//{
-//	DWORD now = GetTickCount();
-//	if (currentFrame == -1)
-//	{
-//		currentFrame = 0;
-//		lastFrameTime = now;
-//	}
-//	else
-//	{
-//		DWORD t = frames[currentFrame]->GetTime();
-//		if (now - lastFrameTime > t)
-//		{
-//			currentFrame++;
-//			lastFrameTime = now;
-//			if (currentFrame == frames.size()) currentFrame = 0;
-//		}
-//
-//	}
-//	frames[currentFrame]->GetSprite()->DrawTopBottom(direction, x, y, alpha);
-//}
+	}
+	frames[currentFrame]->GetSprite()->DrawY(direction, x, y, alpha);
+}
+
+void CAnimation::RenderTopBottom(int direction, float x, float y, int alpha)
+{
+	DWORD now = GetTickCount();
+	if (currentFrame == -1)
+	{
+		currentFrame = 0;
+		lastFrameTime = now;
+	}
+	else
+	{
+		DWORD t = frames[currentFrame]->GetTime();
+		if (now - lastFrameTime > t)
+		{
+			currentFrame++;
+			lastFrameTime = now;
+			if (currentFrame == frames.size()) currentFrame = 0;
+		}
+
+	}
+	frames[currentFrame]->GetSprite()->DrawTopBottom(direction, x, y, alpha);
+}
 
 
 CAnimations* CAnimations::__instance = NULL;
