@@ -167,6 +167,8 @@
     </ClCompile>
     <ClCompile Include="Teleporters.cpp">
       <Filter>Objects\Enemies</Filter>
+    <ClCompile Include="SmallSophiaBullet.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SkullBullet.cpp">
       <Filter>Objects\Bullets\Enemy</Filter>
@@ -292,6 +294,8 @@
     </ClInclude>
     <ClInclude Include="SkullBullet.h">
       <Filter>Objects\Bullets\Enemy</Filter>
+    <ClInclude Include="SmallSophiaBullet.h">
+      <Filter>Objects\Bullets\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

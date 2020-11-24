@@ -220,6 +220,8 @@ void JASON::Render()
 	int ani = -1;
 	int current_frame;
 	alpha = 255;
+	
+	
 
 	if (isDeath)
 	{
