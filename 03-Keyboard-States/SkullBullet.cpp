@@ -46,7 +46,7 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 #pragma region set dam and direction
 	dam = 1;
 
-
+	 
 	this->SetState(BULLET_SKULL_STATE_ROLLING);
 	if (timeDelayed >= timeDelayedMax)
 	{
@@ -126,7 +126,7 @@ void SkullBullet::Render()
 {
 	if (!isActive)
 		return;
-	RenderBoundingBox();
+
 	int ani;
 	DebugOut(L"SKULL bullet render");
 
@@ -136,13 +136,18 @@ void SkullBullet::Render()
 
 		ani = BULLET_SKULL_ANI_FALL_DOWN_AND_ROLLING;
 
-		animationSet->at(ani)->OldRender(x, y, alpha);
+		animationSet->at(ani)->OldRender(x, y);
 	}
 	if (state == BULLET_SKULL_STATE_EXPLOSION)
 	{
 		ani = BULLET_SKULL_ANI_EXPLOSION;
-		animationSet->at(ani)->OldRender(x, y, alpha);
+		animationSet->at(ani)->OldRender(x, y);
+		if (animationSet->at(ani)->GetFrame() == 2)
+		{
+			isActive = false;
+		}
 	}
+	 
 
 }
 
@@ -164,7 +169,7 @@ void SkullBullet::SetState(int state)
 	case BULLET_SKULL_STATE_EXPLOSION:
 	{
 		isHitBrick = false;
-		
+		this->dam = 1;
 		break;
 	}
 	}
