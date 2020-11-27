@@ -193,6 +193,7 @@
     <ClInclude Include="JasonRocket.h" />
     <ClInclude Include="SkullBullet.h" />
     <ClInclude Include="SmallSophiaBullet.h" />
+    <ClInclude Include="Teleporters.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Insects.h" />
     <ClInclude Include="Jumpers.h" />
@@ -205,7 +206,6 @@
     <ClInclude Include="Skulls.h" />
     <ClInclude Include="Small_Sophia.h" />
     <ClInclude Include="Sprites.h" />
-    <ClInclude Include="Telepoters.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Worms.h" />

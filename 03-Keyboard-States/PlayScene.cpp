@@ -329,7 +329,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	}
 	case DIK_Z:
 	{
-		player->FireBullet(0);
+		jason->FireBullet(0);
 		switch (_SophiaType)
 		{
 
