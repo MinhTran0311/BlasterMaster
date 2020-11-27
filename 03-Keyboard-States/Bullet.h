@@ -55,6 +55,7 @@
 #define BULLET_STATE_BLOW_UP		200
 #define BULLET_STATE_FLYING_TOP		300
 #define BULLET_STATE_DISAPPEAR		400
+
 class Bullet;
 typedef Bullet* LPBULLET;
 class Bullet : public Entity

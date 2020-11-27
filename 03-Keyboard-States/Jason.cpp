@@ -6,6 +6,9 @@
 #include "Worms.h"
 #include "Gate.h"
 #include "PlayScene.h"
+#include "Grid.h"
+#include "JasonBullet.h"
+#include "JasonRocket.h"
 
 JASON::JASON(float x, float y)
 {
@@ -18,11 +21,13 @@ JASON::JASON(float x, float y)
 	this->y = y;
 	current_Jumpy = 0;
 	isImmortaling = false;
+	canFire = true;
 	isDeath = false;
 	alpha = 255;
 	bbARGB = 250;
 	health = MAX_HEALTH;
 	dam = MAX_HEALTH;
+	canChangeAlpha = false;
 }
 
 JASON* JASON::instance = NULL;
@@ -131,10 +136,68 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma region Timer
 	if (isImmortaling && immortalTimer->IsTimeUp())
 	{
+		canChangeAlpha = false;
 		isImmortaling = false;
 		immortalTimer->Reset();
+		//changeAlphaTimer->Reset();
+	}
+
+	if (!canFire && FireTimer->IsTimeUp())
+	{
+		canFire = true;
+		FireTimer->Reset();
+	}
+	if (canChangeAlpha)
+	{
+		if (alpha == 255)
+			alpha = 140;
+		else alpha = 255;
 	}
 #pragma endregion
+
+	//ABBA with objects
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType() == EntityType::ENEMY))
+		{
+			Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
+			//re check
+			if (isJumping)
+			{
+				this->SetState(SOPHIA_STATE_IDLE);
+				isJumping = false;
+				isJumpHandle = true;
+			}
+			SetInjured(enemy->GetDamage());
+		}
+		if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType() == EntityType::ITEM))
+		{
+			LPGAMEITEM item = dynamic_cast<LPGAMEITEM>(coObjects->at(i));
+			if (item->getItemType() == EntityType::TAG_ITEM_POWER_UP)
+			{
+				if (this->GetHealth() + ITEM_POWER_UP_RESTORE <= MAX_HEALTH)
+					this->AddHealth(ITEM_POWER_UP_RESTORE);
+				else
+					this->SetHealth(MAX_HEALTH);
+			}			
+			else if (item->getItemType() == EntityType::TAG_ITEM_GUN_UP)
+			{
+				if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
+					this->AddgunDam(ITEM_GUN_UP_RESTORE);
+				else
+					this->SetgunDam(MAX_GUNDAM);
+			}
+			item->setActive(false);
+		}
+	}
+
+	//filter brick and gate object before collision handle
+	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
+	for (int i = 0; i < coObjects->size(); i++)
+	{
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE)
+			colliable_Objects->push_back(coObjects->at(i));
+	}
 
 #pragma region Collision
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -143,7 +206,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 	// turn off collision when player dies
 	if (state != SOPHIA_STATE_DIE)
-		CalcPotentialCollisions(coObjects, coEvents);
+		CalcPotentialCollisions(colliable_Objects, coEvents);
 
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -188,23 +251,6 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		}
 	}
 	//khi va cham chua xet gia tri x và y
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType()== EntityType::ENEMY))
-		{
-			Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
-			//re check
-			if (isJumping)
-			{
-				this->SetState(SOPHIA_STATE_IDLE);
-				isJumping = false;
-				isJumpHandle = true;
-				this->y += 1.5f;
-				this->x += 2.0f;
-			}
-			SetInjured(enemy->GetDamage());		
-		}
-	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 #pragma endregion
@@ -219,7 +265,12 @@ void JASON::Render()
 
 	int ani = -1;
 	int current_frame;
+<<<<<<< HEAD
+=======
 	alpha = 255;
+>>>>>>> 9675a3db35068caebc3c922844b496fd06b52f0e
+	
+	
 
 	if (isDeath)
 	{
@@ -466,6 +517,7 @@ void JASON::Reset()
 
 void JASON::SetInjured(int dame)
 {
+	canChangeAlpha = true;
 	if (isImmortaling)
 		return;
 	health -= dame;
@@ -478,6 +530,7 @@ void JASON::SetInjured(int dame)
 
 void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
+
 	if (isDoneDeath == false)
 	{
 		left = x;
@@ -485,6 +538,20 @@ void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 		right = x + SOPHIA_JASON_BBOX_WIDTH;
 		bottom = y + SOPHIA_JASON_BBOX_HEIGHT;
 	}
+}
+
+void JASON::FireBullet(int type)
+{
+	if (!canFire)
+		return;
+	
+	if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
+	{
+		Bullet* bullet = new JasonBullet(this->Getx(), this->Gety(), type, nx, isGunFlipping);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+	FireTimer->Start();
+	canFire = false;
 }
 
 

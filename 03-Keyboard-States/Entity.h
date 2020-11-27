@@ -86,6 +86,7 @@ public:
 
 	bool isFinishDeathAni() { return isDoneDeath; };
 	bool isActiveObject() { return isActive; };
+	void setActive(bool active) { isActive = active; };
 	bool isDeath();
 	int GetState() { return this->state; }
 

@@ -7,6 +7,7 @@
 #include "Jumpers.h"
 #include "JasonRocket.h"
 #include "JasonBullet.h"
+#include "SmallSophiaBullet.h"
 #include "Grid.h"
 #define ID_SMALL_SOPHIA	0
 #define ID_JASON		1
@@ -270,15 +271,26 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	int _SophiaType = ((PlayScene*)scence)->_SophiaType;
-	Entity* ssophia = ((PlayScene*)scence)->ssophia;
-	JASON* player = ((PlayScene*)scence)->jason;
+	Small_Sophia* ssophia = ((PlayScene*)scence)->ssophia;
+	JASON* jason = ((PlayScene*)scence)->jason;
 	//vector<LPGAMEENTITY> listEnemies = ((PlayScene*)scence)->listEnemies;
 	//vector<LPBULLET> listBullets = ((PlayScene*)scence)->listBullets;
 	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
 	float xPos, yPos;
 	bool isAimingTop;
 	int nx, ny, dam;
-	player->GetInfoForBullet(nx, isAimingTop, xPos, yPos);
+	switch (_SophiaType)
+	{
+	case ID_JASON:
+		jason->GetInfoForBullet(nx, isAimingTop, xPos, yPos);
+		break;
+	case ID_SMALL_SOPHIA:
+		ssophia->GetInfoForBullet(nx, xPos, yPos);
+		break;
+	default:
+		break;
+	}
+	
 	switch (KeyCode)
 	{
 	case DIK_ESCAPE:
@@ -288,7 +300,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		switch (_SophiaType)
 		{
 		case ID_JASON:
-			player->SetState(SOPHIA_STATE_JUMP);
+			jason->SetState(SOPHIA_STATE_JUMP);
 			break;
 		case ID_SMALL_SOPHIA:
 			ssophia->SetState(SMALL_SOPHIA_STATE_JUMP);
@@ -308,39 +320,59 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 		playScene->Unload();
 		playScene->ChooseMap(ID_AREA1);
-		player->SetPosition(30, 60);
-		player->SetHealth(MAX_HEALTH);
-		player->isDoneDeath = false;
-		player->isDeath = false;
+		jason->SetPosition(30, 60);
+		jason->SetHealth(MAX_HEALTH);
+		jason->isDoneDeath = false;
+		jason->isDeath = false;
 		playScene->_SophiaType = 1;
 		break;
 	}
 	case DIK_Z:
 	{
-		if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET,player->Getx(),player->Gety(),3))
+<<<<<<< HEAD
+		player->FireBullet(0);
+=======
+		switch (_SophiaType)
 		{
-		Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-		CGrid::GetInstance()->InsertGrid(bullet);
+
+		case ID_JASON:
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, jason->Getx(), jason->Gety(), 3))
+			{
+				Bullet* bullet = new JasonBullet(jason->Getx(), jason->Gety(), 0, nx, isAimingTop);
+				CGrid::GetInstance()->InsertGrid(bullet);
+			}
+			break;
+		case ID_SMALL_SOPHIA:
+			if (CGrid::GetInstance()->CheckBulletLimitation(SMALL_SOPHIA_NORMAL_BULLET, ssophia->Getx(), ssophia->Gety(), 2))
+			{
+				Bullet* bullet = new SmallSophiaBullet(ssophia->Getx(), ssophia->Gety(), 0, nx);
+				CGrid::GetInstance()->InsertGrid(bullet);
+			}
+			break;
+		default:
+			break;
 		}
+		
+>>>>>>> 9675a3db35068caebc3c922844b496fd06b52f0e
 		break;
 	}
 
 	case DIK_X:
 	{
-		if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(),3))
+		if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, jason->Getx(), jason->Gety(),3))
 		{
-			Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
+			Bullet* bullet = new JasonBullet(jason->Getx(), jason->Gety(), 1, nx, isAimingTop);
 			CGrid::GetInstance()->InsertGrid(bullet);
 		}
 		break;
 	}
 	case DIK_V:
 	{
-		if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(),3))
+		if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, jason->Getx(), jason->Gety(),3))
 		{
-			Bullet* bullet1 = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-			Bullet* bullet2 = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-			Bullet* bullet3 = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
+			Bullet* bullet1 = new JasonBullet(jason->Getx(), jason->Gety(), 0, nx, isAimingTop);
+			Bullet* bullet2 = new JasonBullet(jason->Getx(), jason->Gety(), 0, nx, isAimingTop);
+			Bullet* bullet3 = new JasonBullet(jason->Getx(), jason->Gety(), 0, nx, isAimingTop);
 			CGrid::GetInstance()->InsertGrid(bullet1);
 			CGrid::GetInstance()->InsertGrid(bullet2);
 			CGrid::GetInstance()->InsertGrid(bullet3);
@@ -942,6 +974,12 @@ void PlayScene::Update(DWORD dt)
 #pragma region add item into grid
 				switch (backup->GetType())
 				{
+				case EntityType::ENEMY:
+				{
+					LPGAMEENTITY _PowerUp = new PowerUp(xPos, yPos);
+					CGrid::GetInstance()->InsertGrid(_PowerUp);
+					break;
+				}
 				default:
 					break;
 				}

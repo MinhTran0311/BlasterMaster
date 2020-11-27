@@ -1,13 +1,13 @@
 #pragma once
 #include "Bullet.h"
 #include "global.h"
-
+#include "Timer.h"
 #include <math.h>
 //bbox cho dan binh thuong
-#define BULLET_JASON_NORMAL_HORIZONTAL_BBOX_WIDTH		23
+#define BULLET_JASON_NORMAL_HORIZONTAL_BBOX_WIDTH		7
 #define BULLET_JASON_NORMAL_HORIZONTAL_BBOX_HEIGHT		5
-#define BULLET_JASON_NORMAL_VERTICAL_BBOX_WIDTH			6
-#define BULLET_JASON_NORMAL_VERTICAL_BBOX_HEIGHT		20
+#define BULLET_JASON_NORMAL_VERTICAL_BBOX_WIDTH			5
+#define BULLET_JASON_NORMAL_VERTICAL_BBOX_HEIGHT		7
 //bbox cho dan mau
 #define BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_WIDTH		24
 #define BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_HEIGHT		6
@@ -26,7 +26,7 @@
 #define BULLET_BANG										4
 
 #define BULLET_JASON_DELAY								650
-//kieu dan
+
 
 
 class JasonBullet : public Bullet

@@ -23,6 +23,8 @@
 #include "Brick.h"
 #include "Gate.h"
 
+#include "GunUp.h"
+#include "PowerUp.h"
 #include <iostream>
 #include <fstream>
 using namespace std;

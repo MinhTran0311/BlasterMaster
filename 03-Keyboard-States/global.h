@@ -64,15 +64,16 @@
 #define ANIMATION_SET_BBOX					0
 #define ANIMATION_SET_PLAYER				1
 #define ANIMATION_SET_PLAYERHP				30
-//#define ANIMATION_SET_ITEM_POWERUP			12
-//#define ANIMATION_SET_ITEM_GUNUP			13
 #define ANIMATION_SET_BRICK					20
 #define ANIMATION_SET_GATE					26
 #define ANIMATION_SET_JASON_BULLET			31
+#define ANIMATION_SET_SMALL_SOPHIA_BULLET			34
 #define ANIMATION_SET_JASON_ROCKET			32
 #define ANIMATION_SET_BIG_ENEMY_BULLET		41
-#define ANIMATION_SET_SMALL_ENEMY_BULLET		42
-#define ANIMATION_SET_SKULL_ENEMY_BULLET		43
+#define ANIMATION_SET_SMALL_ENEMY_BULLET	42
+#define ANIMATION_SET_SKULL_ENEMY_BULLET	43
+#define ANIMATION_SET_ITEM_POWERUP			51
+#define ANIMATION_SET_ITEM_GUNUP			52
 
 #define SAFE_DELETE(a) { delete (a); (a) = NULL; }
 
@@ -93,66 +94,17 @@ enum EntityType
 {
 	//For Special Case
 	NONE = -1,
-
-	////Bounding Box
-	//BBOX = 0,
+	
+	//static objects
+	TAG_BRICK = 1,
+	TAG_GATE = 2,
+	
+	//player
 	TAG_JASON = 101,
 	TAG_SMALL_SOPHIA = 102,
 	TAG_BIG_SOPHIA = 103,
-	////Player Zone 1-10
-	//PLAYER = 1,
-	//MORNINGSTAR = 2,
-	//DAGGER = 3,
-	//BOOMERANG = 4,
-	//AXE = 5,
-	//WATERPOTION = 6,
-	//STOPWATCH = 7,
-	//BONE = 9,
 
-	////UI Zone 10-20
-	//BLACKBOARD = 10,
-	//PLAYERHP = 11,
-	//TEXTS = 12,
-	//UIEXTRASHOT = 13,
-
-	////Static Obj Zone 20-40
-	TAG_BRICK = 1,
-	TAG_GATE = 2,
-	//BREAKABLEBRICK = 21,
-	//TORCH = 22,
-	//CANDLE = 23,
-	//MOVINGPLATFORM = 24,
-	//STAIRS = 25,
-
-	//BUSH = 27,
-	TAG_ITEM = 40,
-	////Item Zone 40-70
-	//POWERUP = 40,
-	//GUNUP = 41,
-	//YUMMICHICKENLEG = 42,
-	//MONEYBAGS = 43,
-	//MONEYBAGRED = 44,
-	//MONEYBAGWHITE = 45,
-	//MONEYBAGBLUE = 46,
-	//UPGRADEMORNINGSTAR = 47,
-	//CRYSTALBALL = 48,
-	//INVIPOTION = 49,
-	//ITEMDAGGER = 50,
-	//ITEMSTOPWATCH = 51,
-	//CROSS = 52,
-	//CROWN = 53,
-	//ITEMEXTRASHOT = 54,
-	//ITEMBOOMERANG = 55,
-	//ITEMAXE = 56,
-	//ITEMWATERPOTION = 57,
-
-	////Effect Zone 70-80
-	//FIREEFFECT = 70,
-	//HITEFFECT = 71,
-	//BRICKEXPLODEEFFECT = 72,
-	//ADDSCOREEFFECT = 73,
-
-	////Enemies Zone 80-100
+	////Enemies Zone 10 - 20
 	ENEMY = 80,
 	TAG_WORM = 10,
 	TAG_DOMES = 11,
@@ -164,15 +116,30 @@ enum EntityType
 	TAG_EYEBALLS = 17,
 	TAG_TELEPORTERS = 18,
 	TAG_CANNONS = 19,
+<<<<<<< HEAD
+
+	//Bullet	30 - 50
+	BULLET=30,
+=======
 	////GOLEM = 80,
 	//Worm = 81,
 	////DOMES = 82,
 	//bullet 30 ->50
-	BULLET=30,
+	BULLET = 30,
+>>>>>>> 9675a3db35068caebc3c922844b496fd06b52f0e
 	JASON_NORMAL_BULLET = 31,
 	JASON_UPGRADE_BULLET = 32,
 	JASON_ROCKET_BULLET = 33,
+	SMALL_SOPHIA_NORMAL_BULLET = 34,
 	CANNONS_BULLET = 41,
+<<<<<<< HEAD
+	//Item,
+	ITEM = 50,
+	TAG_ITEM_POWER_UP = 51,
+	TAG_ITEM_GUN_UP = 52,
+
+=======
+	SKULLS_BULLET = 43,
 	//KNIGHT = 83,
 	//GHOST = 84,
 	//RAVEN = 85,
@@ -196,6 +163,7 @@ enum EntityType
 	////Ex
 	//ITEMPOKEBALL = -9,
 	//POKEBALL = -10
+>>>>>>> 9675a3db35068caebc3c922844b496fd06b52f0e
 };
 
 class define

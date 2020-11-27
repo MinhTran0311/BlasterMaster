@@ -8,7 +8,7 @@
 #define SOPHIA_WALKING_SPEED_BONUS		0.003f//0.007f
 #define SOPHIA_WALKING_ACC				0.00035f
 
-#define SOPHIA_JUMP_SPEED_Y				0.223f
+#define SOPHIA_JUMP_SPEED_Y				0.235f
 #define SOPHIA_JUMP_DEFLECT_SPEED		0.10f
 #define SOPHIA_GRAVITY					0.0002f
 #define SOPHIA_DIE_DEFLECT_SPEED		0.5f
@@ -107,7 +107,12 @@
 #define SOPHIA_JASON_ANI_EJECTING					35
 #define SOPHIA_JASON_BBOX_WIDTH		26
 #define SOPHIA_JASON_BBOX_HEIGHT	18
+#pragma region define timer duration
 #define PLAYER_IMMORTAL_DURATION	1000
+#define PLAYER_CAN_FIRE_DURATION	100
+#define PLAYER_CHANGE_ALPHA_WHEN_DAMAGED 400
+#pragma endregion
+
 class JASON : public Entity
 {
 	bool GateColliding = false;
@@ -129,6 +134,10 @@ class JASON : public Entity
 	bool isImmortaling;
 	DWORD untouchable_start;
 	Timer* immortalTimer = new Timer(PLAYER_IMMORTAL_DURATION);
+	bool canFire;
+	Timer* FireTimer = new Timer(PLAYER_CAN_FIRE_DURATION);
+	bool canChangeAlpha=false;
+
 public:
 	bool isDeath;
 	bool isDoneDeath;
@@ -172,6 +181,7 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
 	//collision handle
-	void CollisionWithEnemy(Entity* obj);
+	//void CollisionWithEnemy(Entity* obj);
 
+	void FireBullet(int type);
 };

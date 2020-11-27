@@ -470,21 +470,16 @@ vector<LPGAMEENTITY> CGrid::GetListUpdateObj()
 	//fix
 	int maxRow = int(rectCam.bottom) / CELL_SIZE.y;
 
-	//int minRow = (CCamera::GetInstance()->GetCurrentFloor()-1)*2;
-	//int maxRow = minRow + 2; // sử dụng floor
-
 	int minColumn = int(rectCam.left) / CELL_SIZE.x;
 	int maxColumn = int(rectCam.right) / CELL_SIZE.x;
 
 	vector<LPGAMEENTITY> result;
-	//DebugOut(L"%d,%d   %d,%d\n", minRow, maxRow, minColumn, maxColumn);
 
 	for (int i = minRow; i <= maxRow; i++)
 	{
 		for (int j = minColumn; j <= maxColumn; j++)
 		{
 			for (int m = 0; m < cells[i][j].size(); m++)
-				//if (!dynamic_cast<Brick*>(cells[i][j].at(m)) && !dynamic_cast<CTrigger*>(cells[i][j].at(m)))
 				result.push_back(cells[i][j].at(m));
 		}
 	}

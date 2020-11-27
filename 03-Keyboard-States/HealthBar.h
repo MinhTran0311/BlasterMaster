@@ -15,7 +15,7 @@ class HealthBar
 public:
 	float x, y;
 	int currentPlayerHealth, maxPlayerHealth;
-	std::vector<LPANIMATION_SET> health;
+	vector<LPANIMATION_SET> health;
 	bool isGun;
 		
 	HealthBar(int maxHealth, int isGun);
