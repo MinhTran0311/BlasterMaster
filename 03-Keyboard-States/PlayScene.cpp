@@ -290,7 +290,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	default:
 		break;
 	}
-	
+
 	switch (KeyCode)
 	{
 	case DIK_ESCAPE:
@@ -329,9 +329,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	}
 	case DIK_Z:
 	{
-<<<<<<< HEAD
 		player->FireBullet(0);
-=======
 		switch (_SophiaType)
 		{
 
@@ -352,8 +350,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		default:
 			break;
 		}
-		
->>>>>>> 9675a3db35068caebc3c922844b496fd06b52f0e
+
 		break;
 	}
 

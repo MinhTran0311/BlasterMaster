@@ -313,12 +313,10 @@
     </ClInclude>
     <ClInclude Include="GunUp.h">
       <Filter>Objects\Items</Filter>
-=======
     <ClInclude Include="SkullBullet.h">
       <Filter>Objects\Bullets\Enemy</Filter>
     <ClInclude Include="SmallSophiaBullet.h">
       <Filter>Objects\Bullets\Player</Filter>
->>>>>>> 9675a3db35068caebc3c922844b496fd06b52f0e
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

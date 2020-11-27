@@ -14,7 +14,7 @@ JASON::JASON(float x, float y)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_PLAYER));
 	SetState(SOPHIA_STATE_IDLE);
-	
+
 	start_x = x;
 	start_y = y;
 	this->x = x;
@@ -107,7 +107,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 	Entity::Update(dt);
 	//fall down
-#pragma region fall down 
+#pragma region fall down
 	vy += SOPHIA_GRAVITY * dt;
 	//check player's height
 	if (isJumping && current_Jumpy - y >= HEIGHT_LEVER1 && isJumpHandle == false)
@@ -179,7 +179,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 					this->AddHealth(ITEM_POWER_UP_RESTORE);
 				else
 					this->SetHealth(MAX_HEALTH);
-			}			
+			}
 			else if (item->getItemType() == EntityType::TAG_ITEM_GUN_UP)
 			{
 				if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
@@ -250,7 +250,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			}
 		}
 	}
-	//khi va cham chua xet gia tri x và y
+	//khi va cham chua xet gia tri x vï¿½ y
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 
 #pragma endregion
@@ -265,12 +265,7 @@ void JASON::Render()
 
 	int ani = -1;
 	int current_frame;
-<<<<<<< HEAD
-=======
-	alpha = 255;
->>>>>>> 9675a3db35068caebc3c922844b496fd06b52f0e
-	
-	
+		alpha = 255;
 
 	if (isDeath)
 	{
@@ -544,7 +539,7 @@ void JASON::FireBullet(int type)
 {
 	if (!canFire)
 		return;
-	
+
 	if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
 	{
 		Bullet* bullet = new JasonBullet(this->Getx(), this->Gety(), type, nx, isGunFlipping);
@@ -553,6 +548,3 @@ void JASON::FireBullet(int type)
 	FireTimer->Start();
 	canFire = false;
 }
-
-
-

@@ -94,11 +94,11 @@ enum EntityType
 {
 	//For Special Case
 	NONE = -1,
-	
+
 	//static objects
 	TAG_BRICK = 1,
 	TAG_GATE = 2,
-	
+
 	//player
 	TAG_JASON = 101,
 	TAG_SMALL_SOPHIA = 102,
@@ -116,29 +116,19 @@ enum EntityType
 	TAG_EYEBALLS = 17,
 	TAG_TELEPORTERS = 18,
 	TAG_CANNONS = 19,
-<<<<<<< HEAD
 
 	//Bullet	30 - 50
 	BULLET=30,
-=======
-	////GOLEM = 80,
-	//Worm = 81,
-	////DOMES = 82,
-	//bullet 30 ->50
-	BULLET = 30,
->>>>>>> 9675a3db35068caebc3c922844b496fd06b52f0e
 	JASON_NORMAL_BULLET = 31,
 	JASON_UPGRADE_BULLET = 32,
 	JASON_ROCKET_BULLET = 33,
 	SMALL_SOPHIA_NORMAL_BULLET = 34,
 	CANNONS_BULLET = 41,
-<<<<<<< HEAD
 	//Item,
 	ITEM = 50,
 	TAG_ITEM_POWER_UP = 51,
 	TAG_ITEM_GUN_UP = 52,
 
-=======
 	SKULLS_BULLET = 43,
 	//KNIGHT = 83,
 	//GHOST = 84,
@@ -163,7 +153,6 @@ enum EntityType
 	////Ex
 	//ITEMPOKEBALL = -9,
 	//POKEBALL = -10
->>>>>>> 9675a3db35068caebc3c922844b496fd06b52f0e
 };
 
 class define
