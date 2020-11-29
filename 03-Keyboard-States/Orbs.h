@@ -5,6 +5,7 @@
 
 
 #define MOVING_SPEED	0.05f
+#define FLY_SPEED		0.01f
 
 
 #define ORBS_STATE_FLY		100
@@ -31,11 +32,14 @@
 
 class Orbs : public Enemy
 {
-	
-	bool isflip = false;
-	int time = 0;
-	bool canAttack = false;
+	bool mode;
+	Timer* time = new Timer(300);
+	bool canflip = true;
+	bool isfly = true;
+	float pointX, pointY;
+	bool isAttack = false;
 	bool isTargeting;
+	Random* r = new Random();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();

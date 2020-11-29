@@ -10,7 +10,7 @@ void Jumpers::GetBoundingBox(float& left, float& top, float& right, float& botto
 void Jumpers::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt);
-
+	//if (!isActive)return;
 #pragma region fall down
 	vy += JUMPER_GRAVITY * dt;
 #pragma endregion
@@ -18,7 +18,7 @@ void Jumpers::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEENTITY> bricks;
-
+	if (this->health <= 0) { SetState(JUMPER_STATE_DIE); }
 	coEvents.clear();
 	bricks.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
@@ -87,18 +87,16 @@ void Jumpers::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 #pragma region Active
-	if (!isActive) vx = 0;
+	if (!isActive) return;
 	else SetState(JUMPER_STATE_WALKING);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= JUMPER_SITEACTIVE_PLAYER)
-	{
-		isActive = true;
-	}
+	
 #pragma endregion
 
 }
 
 void Jumpers::Render()
 {
+	if (!isActive)return;
 	//RenderBoundingBox();
 	if (vx > 0)
 		nx = 1;
@@ -108,9 +106,10 @@ void Jumpers::Render()
 	int ani = JUMPER_ANI_WALKING;
 	if (this->state == JUMPER_STATE_DIE) {
 		ani = JUMPER_ANI_DIE;
+		
 	}
-
-	animationSet->at(ani)->Render(nx, x, y);
+	else
+		animationSet->at(ani)->Render(nx, x, y);
 
 
 
@@ -129,7 +128,7 @@ Jumpers::Jumpers(float x, float y, LPGAMEENTITY t)
 	isFollow = 0;
 	this->target = t;
 	health = JUMPER_MAXHEALTH;
-	isActive = false;
+	isActive = true;
 	bbARGB = 250;
 }
 
@@ -168,6 +167,8 @@ void Jumpers::SetState(int state)
 		y += JUMPER_BBOX_HEIGHT - JUMPER_BBOX_HEIGHT_DIE + 1;
 		vx = 0;
 		vy = 0;
+		isActive = false;
+		this->dam = 0;
 		break;
 
 	case JUMPER_STATE_JUMP:

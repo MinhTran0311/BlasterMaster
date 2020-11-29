@@ -149,7 +149,8 @@ Skulls::Skulls(float x, float y, LPGAMEENTITY t)
 
 void Skulls::Attack(LPGAMEENTITY target) //tấn công tại vị trí nhân vật
 {
-	if (abs(target->x -this->x) < 20 && time < 100) {
+	if (abs(target->x -this->x) < 50 && time < 100) {
+		/* this->nx= target->nx;*/
 		SetState(SKULLS_STATE_ATTACK);
 		if (!Attacked) {
 			Bullet* bullet = new SkullBullet(this->x, this->y, this->nx);
