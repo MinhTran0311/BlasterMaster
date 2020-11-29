@@ -1,23 +1,23 @@
 ﻿#include <algorithm>
 #include <assert.h>
 #include "debug.h"
-
+#include "Enemy.h"
 #include "Small_Sophia.h"
 #include "Game.h"
 
-Small_Sophia::Small_Sophia(float x, float y) : Entity()
+Small_Sophia::Small_Sophia(float x, float y, int _health, int _gundam) : Player()
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SMALL_SOPHIA));
 	untouchable = 0;
 	SetState(SMALL_SOPHIA_STATE_IDLE);
-
+	_PlayerType = EntityType::TAG_SMALL_SOPHIA;
 	start_x = x;
 	start_y = y;
 	this->x = x;
 	this->y = y;
 	backup_JumpY = 0;
-	dam = MAX_HEALTH;
-	health = MAX_HEALTH;
+	dam = _gundam;
+	health = _health;
 	isImmortaling = false;
 	isCrawl = false;
 	alpha = 255;
@@ -30,17 +30,18 @@ Small_Sophia* Small_Sophia::GetInstance()
 	return instance;
 }
 
-void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects, vector<LPGAMEENTITY>* coEnemies)
+void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
-	if (isDoneDeath)
-		return;
-	if (health <= 0)
-	{
-		isDeath = true;
-		vx = 0;
-		vy = 0;
-	}
-	Entity::Update(dt);
+	Player::Update(dt, coObjects);
+	//if (isDoneDeath)
+	//	return;
+	//if (health <= 0)
+	//{
+	//	isDeath = true;
+	//	vx = 0;
+	//	vy = 0;
+	//}
+	//Entity::Update(dt);
 #pragma region fall down 
 	vy += SOPHIA_GRAVITY * dt;
 	//check player's height
@@ -60,14 +61,39 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects, vector<LPGA
 	}
 #pragma endregion
 
+
+
+	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
+	for (int i = 0; i < coObjects->size(); i++)
+	{
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE)
+			colliable_Objects->push_back(coObjects->at(i));
+	}
 #pragma region Collision
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
-
 	// turn off collision when die 
 	if (state != SMALL_SOPHIA_STATE_DIE)
-		CalcPotentialCollisions(coObjects, coEvents);
+		CalcPotentialCollisions(colliable_Objects, coEvents);
+
+	//ABBA with objects
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType() == EntityType::ENEMY))
+		{
+			Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
+			//re check
+			if (isJumping)
+			{
+				this->SetState(SMALL_SOPHIA_STATE_IDLE);
+				isJumping = false;
+				isJumpHandle = true;
+			}
+			SetInjured(enemy->GetDamage());
+		}
+	}
+
 
 	if (coEvents.size() == 0)
 	{
@@ -110,17 +136,17 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects, vector<LPGA
 #pragma endregion
 }
 
-void Small_Sophia::SetInjured(int dame)
-{
-	if (isImmortaling)
-		return;
-	health -= dame;
-	dam -= dame;
-
-	StartUntouchable();
-	immortalTimer->Start();
-	isImmortaling = true;
-}
+//void Small_Sophia::SetInjured(int dame)
+//{
+//	if (isImmortaling)
+//		return;
+//	health -= dame;
+//	dam -= dame;
+//
+//	StartUntouchable();
+//	immortalTimer->Start();
+//	isImmortaling = true;
+//}
 
 void Small_Sophia::Render()
 {

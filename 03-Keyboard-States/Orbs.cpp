@@ -36,9 +36,6 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 #pragma endregion
 
-
-
-#pragma endregion
 #pragma region coillision
 	if (coEvents.size() == 0)
 	{

@@ -14,7 +14,6 @@
 class Enemy : public Entity
 {
 protected:
-	//int HP;
 	bool isDamaged;
 	int DamageofEnemy;
 	bool isActive;
@@ -34,5 +33,6 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* objects = NULL) = 0;
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b) = 0;
 	bool GetDamage() {return dam;};
+	void SetTarget(LPGAMEENTITY _target) { target = _target; };
 	//void DeleteTarger() { target = NULL; };s
 };

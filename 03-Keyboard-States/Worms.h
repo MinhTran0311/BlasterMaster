@@ -27,7 +27,7 @@
 class Worm : public Enemy
 {
 	bool isFollow;
-	LPGAMEENTITY target;
+
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects=NULL);

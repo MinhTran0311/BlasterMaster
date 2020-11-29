@@ -10,7 +10,7 @@
 
 bool Entity::isDeath()
 {
-	if ((this->GetType()==EntityType::ENEMY && isFinishDeathAni()) || (this->GetType()==EntityType::BULLET && isActiveObject()==false))
+	if ((this->GetType()==EntityType::ENEMY && isFinishDeathAni()) || ((this->GetType()==EntityType::BULLET || this->GetType() == EntityType::ITEM) && isActiveObject()==false))
 		return true;
 	return false;
 }

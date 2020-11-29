@@ -219,8 +219,8 @@
 #jason
 #101	55	100	1	0	0
 #Worm
-#10	700	151	1	1	4	10
-#10	120	151	1	1	0	10
+10	700	151	1	1	4	10
+10	120	151	1	1	0	10
 
 #DOMES
 #11	150	125	1	0	0	11
@@ -229,7 +229,7 @@
 #17	150	120	1	0	0	17
 
 #TELEPORTERS
-#18	150	125	1	0	0	18
+18	150	125	1	0	0	18
 
 #CANONS
 #19	180	80	1	0	1	19	
@@ -241,13 +241,13 @@
 #13	200	75	1	0	1	13
 
 #ORBS
-14	200	100	1	0	1	14
+#14	200	100	1	0	1	14
 
 #JUMPERS
-15	400	100	1	0	2	15
+#15	400	100	1	0	2	15
 
 #SKULLS
-16	150	100	1	0	0	16
+#16	150	100	1	0	0	16
 
 #Brick
 ##Brick main
@@ -305,5 +305,5 @@
 #cột ngang cuối
 1	0	224	7	1	0	1	1	1	2	1	3	1	4	1	5	1	6	22	1000	15
 #Gate
-#	gateX	gateY	stage	playerX	playerY	state	camera	typeplayer	camX	camY
-2	979	120	2	0	6	1	6	12	65	1165	0	1	1	0	1100
+#	gateX	gateY						stage	playerX	playerY	state	camera	typeplayer	camX	camY
+2	979	120	2	0	6	1	6	12	65	1165	0	1	101	0	1100

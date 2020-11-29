@@ -117,15 +117,13 @@
 
 #======Bullet Small Sophia========#
 340001	134	180	139	185	1
-#bullet explode
-340002	154	177	162	186	1
-340003	170	174	187	189	1
-340004	191	173	208	190	1
-
 #===========Bullet_Jason==================#
 #Bullet level 1 JASON right, top lv1
-300001	35	47	59	54	2
-300002	4	61	10	86	2
+#file bullet (discard)
+#300001	35	47	59	54	1
+#300002	4	61	10	86	1
+300001	240	68	247	73	1
+300002	241	89	246	96	1
 #Bullet level 1 JASON right, top lv2
 #right
 310001	35	37	59	43	2
@@ -138,9 +136,9 @@
 310007	40	61	46	85	2
 310008	52	61	58	85	2
 #Blow up
-300101	176	94	183	102	1
-300102	192	91	208	104	1
-300103	213	90	229	106	1
+300101	169	88	188	107	1
+300102	190	88	209	107	1
+300103	211	88	230	107	1
 #rocket
 320001	114	3	128	9	2
 
@@ -149,6 +147,11 @@
 50002	55	37	71	45	50
 50003	84	35	106	125	50
 50004	111	37	127	45	50
+##=============ITEMS==========
+#POWERUP
+60001	87	237	103	253	1
+#GUNUP
+60002	66	237	82	253	1
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -248,6 +251,11 @@
 #Player add
 803	50004	100
 804	50004	100
+#==============Item=======================#
+#Power
+60001	60001	100
+#Power
+60002	60002	100
 ###============SMALL SOPHIA===============#
 #idle right
 900	12000	100
@@ -275,6 +283,9 @@
 34	34001	30005
 #=== HEALTH BAR ===
 30	800	801	802	803
+#=======ITEM==========#
+51	60001
+52	60002
 [SCENE]
 #Stage1
 Resource/SceneAndSpec/scene1.txt	1024	275
@@ -283,7 +294,7 @@ Resource/SceneAndSpec/scene2.txt	527	1315
 #Stage3
 Resource/SceneAndSpec/scene3.txt	545	277
 #Stage4
-Resource/SceneAndSpec/scene4.txt	520	1023
+Resource/SceneAndSpec/scene4.txt	520	1028
 #Stage5
 Resource/SceneAndSpec/scene5.txt	516	1800
 #Stage6

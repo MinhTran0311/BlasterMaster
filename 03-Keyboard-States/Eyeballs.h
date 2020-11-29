@@ -34,7 +34,6 @@
 
 class Eyeballs : public Enemy
 {
-	LPGAMEENTITY target;
 	Random* r = new Random();
 	bool canFly;
 	bool canAttack;
