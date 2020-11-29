@@ -55,7 +55,7 @@ CGrid::CGrid()
 //	//fileobj = _fileobj;
 //}
 
-void CGrid::LoadGrid(vector<string> tokens, JASON* &playscene_player)
+void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 {
 	player = playscene_player;
 	if (tokens.size() < 3)
@@ -195,7 +195,17 @@ void CGrid::LoadGrid(vector<string> tokens, JASON* &playscene_player)
 
 		int isResetCamera = atoi(tokens[milestone + 5].c_str());
 
-		int typePlayer = atoi(tokens[milestone + 6].c_str());
+		int int_typePlayer = atoi(tokens[milestone + 6].c_str());
+		EntityType typePlayer = EntityType::TAG_JASON;
+		switch (int_typePlayer)
+		{
+		case 102:
+			typePlayer = EntityType::TAG_SMALL_SOPHIA;
+		case 103:
+			typePlayer = EntityType::TAG_BIG_SOPHIA;
+		default:
+			break;
+		}
 		float camX = atoi(tokens[milestone + 7].c_str());
 		DebugOut(L"Tạo gate %d", camX);
 		int camY = atoi(tokens[milestone + 8].c_str());
@@ -214,137 +224,24 @@ void CGrid::LoadGrid(vector<string> tokens, JASON* &playscene_player)
 	//}
 	default:
 		obj = nullptr;
-		DebugOut(L"[ERRO] Invalid object type: %d\n", object_type);
+	//	DebugOut(L"[ERRO] Invalid object type: %d\n", object_type);
 		return;
 	}
 //	DebugOut(L"number of grid pairs: %d\n", posGrid.size());
 	for (int i = 0; i < posGrid.size(); i++)
-		DebugOut(L"Entity added at grid row %d collumn %d \n", posGrid.at(i).first, posGrid.at(i).second);
+	//	DebugOut(L"Entity added at grid row %d collumn %d \n", posGrid.at(i).first, posGrid.at(i).second);
 	if (obj != nullptr)
 	{
 		InsertGrid(obj, posGrid);
 	}
 }
-//void CGrid::LoadGrid()
-//{
-//	cells = new vector<Entity*> * [rowGrid + 1];
-//	for (int i = 0; i < rowGrid + 1; i++)
-//	{
-//		cells[i] = new vector<Entity*>[columnGrid + 1];
-//	}
-//	ifstream ifs(fileobj);
-//	int type;
-//	float _x, _y, _w, _h;
-//	int _type, _item, directStair, _direct;
-//	int _xGrid, _yGrid;
-//	int _countGrid;
-//	vector<pair<int, int>> posGrid;
-//	Entity* a;
-//	while (true)
-//	{
-//		posGrid.clear();
-//		ifs >> type;
-//		if (type == -555) break;
-//		ifs >> _countGrid;
-//
-//		for (int i = 0; i < _countGrid; i++)
-//		{
-//			ifs >> _xGrid >> _yGrid;
-//			posGrid.push_back(make_pair(_xGrid, _yGrid));
-//		}
-//		switch (static_cast<EntityType>(type))
-//		{
-//		case EntityType::TAG_JASON:
-//			ifs >> _x >> _y;
-//			//CSimon::GetIntance()->SetPosition(_x, _y);
-//			if (SceneManager::GetInstance()->GetCurrentSceneID() == 1)
-//			{
-//				CSimon::GetIntance()->SetPosition(_x, _y);
-//			}
-//			posSimonDefault = D3DXVECTOR2(_x, _y);
-//			a = CSimon::GetIntance();
-//			break;
-//		case BRICK:
-//			ifs >> _x >> _y >> _w >> _h >> _type;
-//			if (_type != BRICK_MODEL_TRANSPARENT_1 && _type != BRICK_MODEL_TRANSPARENT_2)
-//			{
-//				ifs >> _item;
-//				a = new Brick(_x, _y, _w, _h, _type, static_cast <ObjectType>(_item));
-//			}
-//			else
-//				a = new Brick(_x, _y, _w, _h, _type);
-//			break;
-//		case BRIDGE:
-//			ifs >> _x >> _y;
-//			a = new CBridge(_x, _y);
-//			break;
-//		case CANDLE:
-//			ifs >> _x >> _y >> _item >> _type;
-//			a = new CCandle(_x, _y, static_cast <ObjectType>(_item), static_cast <ObjectType>(_type));
-//			break;
-//		case TRIGGER:
-//			ifs >> _x >> _y >> _w >> _h >> _type >> directStair;
-//			a = new CTrigger(_x, _y, _w, _h, static_cast <ObjectType>(_type), directStair);
-//			if (_type == ITEM_HIDDEN_TRIGGER)
-//			{
-//				ifs >> _x >> _y >> _item;
-//				static_cast<CTrigger*>(a)->SetItemHolder(new CItem(_x, _y, static_cast <ObjectType>(_item)));
-//			}
-//			break;
-//		case ENEMY:
-//			ifs >> _x >> _y >> _type;
-//			switch (static_cast<ObjectType>(_type))
-//			{
-//			case BLACKKNIGHT:
-//				a = new CBlackKnight(_x, _y);
-//				break;
-//			case BAT:
-//				a = new CBat(_x, _y);
-//				break;
-//			case GHOST:
-//				a = new CGhost(_x, _y);
-//				break;
-//			case RAVEN:
-//				a = new CRaven(_x, _y);
-//				break;
-//			case FEAMAN:
-//				a = new CFeaman(_x, _y);
-//				break;
-//			case WHITESKELETON:
-//				a = new CWhiteSkeleton(_x, _y);
-//				break;
-//			case ZOMBIE:
-//				a = new CZombie(_x, _y);
-//				break;
-//			case PHANTOMBAT:
-//				a = new CPhantomBat(_x, _y);
-//				break;
-//			default:
-//				a = nullptr;
-//				break;
-//			}
-//			break;
-//
-//		case ENEMY_DOOR:
-//			ifs >> _x >> _y >> _type >> _direct;
-//			a = new CEnemyDoor(_x, _y, static_cast<ObjectType>(_type), _direct);
-//			break;
-//		default:
-//			a = nullptr;
-//			break;
-//		}
-//		if (static_cast<ObjectType>(type) != SIMON && a != nullptr)
-//			InsertGrid(a, posGrid);
-//	}
-//	ifs.close();
-//}
 
 void CGrid::InsertGrid(LPGAMEENTITY obj, vector<pair<int, int>> posGrid)
 {
 	for (int i = 0; i < posGrid.size(); i++)
 	{
 		cells[posGrid.at(i).first][posGrid.at(i).second].push_back(obj);
-		DebugOut(L"Entity inserted at grid row %d collumn %d\n", posGrid.at(i).first, posGrid.at(i).second);
+	//	DebugOut(L"Entity inserted at grid row %d collumn %d\n", posGrid.at(i).first, posGrid.at(i).second);
 	}
 }
 CGrid::~CGrid()
@@ -394,7 +291,7 @@ void CGrid::RemoveObj(LPGAMEENTITY obj, bool isDeletePointer)
 			}
 		}
 	}
-	DebugOut(L"REmove Object: %d\n",obj->GetType());
+//	DebugOut(L"REmove Object: %d\n",obj->GetType());
 	if (isDeletePointer)
 	{
 		SAFE_DELETE(obj);
@@ -453,9 +350,28 @@ bool CGrid::CheckBulletLimitation(EntityType typebullet, float xPlayerPos, float
 				if (static_cast<Bullet*>(cells[i][j].at(k))->GetBulletType() == typebullet)
 					bullet_count++;
 			}
-	if (bullet_count < limit)
+	if (bullet_count <= limit)
 		return true;
 	return false;
+}
+
+void CGrid::SetTargetForEnemies(LPGAMEPLAYER player)
+{
+	DebugOut(L"nap lai target %d\n", player->GetPlayerType());
+	for (int i = 0; i < rowGrid; i++)
+	{
+		for (int j = 0; j < columnGrid; j++)
+		{
+			for (int k = 0; k < cells[i][j].size(); k++)
+			{
+				if (cells[i][j].at(k)->GetType() == EntityType::ENEMY)
+				{
+					dynamic_cast<Enemy*>(cells[i][j].at(k))->SetTarget(player);
+					DebugOut(L"nap lai target %d\n", dynamic_cast<Enemy*>(cells[i][j].at(k))->GetType());
+				}
+			}
+		}
+	}
 }
 
 D3DXVECTOR2 CGrid::GetPosPlayerDefault()
@@ -497,10 +413,10 @@ vector<LPGAMEENTITY> CGrid::GetListRenderObj()
 	int minColumn = int(rectCam.left) / CELL_SIZE.x;
 	int maxColumn = int(rectCam.right) / CELL_SIZE.x;
 
-	DebugOut(L"cot nho nhat %d,  camera x: %d\n", minColumn, rectCam.left);
-	DebugOut(L"cot lon nhat %d,  camera x right: %d\n", maxColumn, rectCam.right);
-	DebugOut(L"hang nho nhat %d, camera y: %d\n", minRow, rectCam.top);
-	DebugOut(L"hang lon nhat %d, camera y bot: %d\n", maxRow, rectCam.bottom);
+	//DebugOut(L"cot nho nhat %d,  camera x: %d\n", minColumn, rectCam.left);
+	//DebugOut(L"cot lon nhat %d,  camera x right: %d\n", maxColumn, rectCam.right);
+	//DebugOut(L"hang nho nhat %d, camera y: %d\n", minRow, rectCam.top);
+	//DebugOut(L"hang lon nhat %d, camera y bot: %d\n", maxRow, rectCam.bottom);
 	
 	vector<LPGAMEENTITY> render_result;
 
@@ -510,12 +426,12 @@ vector<LPGAMEENTITY> CGrid::GetListRenderObj()
 		{
 			for (int m = 0; m < cells[i][j].size(); m++)
 				render_result.push_back(cells[i][j].at(m));
-			DebugOut(L"hang %d , cot %d\n", i, j);
+			//DebugOut(L"hang %d , cot %d\n", i, j);
 		}
 	}
-	DebugOut(L"size before: %d \n", render_result.size());
+	//DebugOut(L"size before: %d \n", render_result.size());
 	render_result = FilterObjectDuplicate(render_result);
-	DebugOut(L"size: %d \n", cells[3][1].size());
-	DebugOut(L"size result: %d \n", render_result.size());
+	//DebugOut(L"size: %d \n", cells[3][1].size());
+	//DebugOut(L"size result: %d \n", render_result.size());
 	return render_result;
 }

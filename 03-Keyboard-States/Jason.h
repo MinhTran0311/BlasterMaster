@@ -3,6 +3,8 @@
 #include <map>
 #include "Timer.h"
 #include "Gate.h"
+#include "Player.h"
+
 #define SOPHIA_WALKING_SPEED_UNIT		0.0040f//0.010f
 #define SOPHIA_WALKING_SPEED			0.1f 
 #define SOPHIA_WALKING_SPEED_BONUS		0.003f//0.007f
@@ -107,64 +109,33 @@
 #define SOPHIA_JASON_ANI_EJECTING					35
 #define SOPHIA_JASON_BBOX_WIDTH		26
 #define SOPHIA_JASON_BBOX_HEIGHT	18
-#pragma region define timer duration
-#define PLAYER_IMMORTAL_DURATION	1000
-#define PLAYER_CAN_FIRE_DURATION	100
-#define PLAYER_CHANGE_ALPHA_WHEN_DAMAGED 400
-#pragma endregion
 
-class JASON : public Entity
+#define PLAYER_CHANGE_ALPHA_WHEN_DAMAGED 400
+
+class JASON : public Player
 {
 	bool GateColliding = false;
 
-	int alpha;
 	static JASON* instance;
 	bool isJumpHandle;
 	bool isGunFlipping = false;
 
-	float start_x;				//initial position of Jason
-	float start_y;
-
+	bool isJumping = false;
 	float current_Jumpy;
 	bool isPressJump;
 	bool isPressFlipGun;
 	bool isEjecting;
-
-	int untouchable;
-	bool isImmortaling;
-	DWORD untouchable_start;
-	Timer* immortalTimer = new Timer(PLAYER_IMMORTAL_DURATION);
-	bool canFire;
-	Timer* FireTimer = new Timer(PLAYER_CAN_FIRE_DURATION);
-	bool canChangeAlpha=false;
-
 public:
-	bool isDeath;
-	bool isDoneDeath;
-	bool isJumping = false;
-	JASON(float x = 0.0f, float y = 0.0f);
+	JASON(float x, float y, int health, int gundam);
+	JASON() {};
 	static JASON* GetInstance();
 
-	void SetDirection(int d) { nx = d; };
+
 	void SetState(int state);
 	void SetPressSpace(bool isPress) { isPressJump = isPress; };
 	void SetPressUp(bool a) { isPressFlipGun = a; }
-	void GetPositionCenter(float& x, float& y) { x = this->x + SOPHIA_JASON_BBOX_WIDTH / 2; y = this->y + SOPHIA_JASON_BBOX_HEIGHT / 2; }
-
 	//void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-	//void GetPositionCenter(float& x, float& y) { x = this->x + SOPHIA_JASON_BBOX_WIDTH / 2; y = this->y + SOPHIA_JASON_BBOX_HEIGHT / 2; }
 	bool isGunFlippingg() { return isGunFlipping; }
-
-	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
-	virtual void Render();
-
-	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-
-	void Setvx(float new_vx) { vx = new_vx; }
-	void Setvy(float new_vy) { vy = new_vy; };
-	float GetDy() { return dy; };
-	float GetDx() { return dx; };
-	void Reset();
 	void GetInfoForBullet(int& direct, bool& isTargetTop, float& playerx, float& playery) { direct = nx; isTargetTop = isGunFlipping; playerx = x; playery = y; }
 
 #pragma region sceneswitching
@@ -174,14 +145,11 @@ public:
 	bool GetGateColliding() { return GateColliding; };
 	void SetGateColliding(bool done) { GateColliding = done; };
 #pragma endregion
-
-
-
-	void SetInjured(int dame);
+	virtual void FireBullet(int type);
+	virtual void GetPositionCenter(float& x, float& y) { x = this->x + SOPHIA_JASON_BBOX_WIDTH / 2; y = this->y + SOPHIA_JASON_BBOX_HEIGHT / 2; }
+	virtual void Reset();
+	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
+	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 
-	//collision handle
-	//void CollisionWithEnemy(Entity* obj);
-
-	void FireBullet(int type);
 };

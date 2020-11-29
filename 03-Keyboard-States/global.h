@@ -75,6 +75,9 @@
 #define ANIMATION_SET_ITEM_POWERUP			51
 #define ANIMATION_SET_ITEM_GUNUP			52
 
+#define PLAYER_MAX_HEALTH	8
+#define PLAYER_DEFAULT_GUNDAM	1
+
 #define SAFE_DELETE(a) { delete (a); (a) = NULL; }
 
 enum EnemyType

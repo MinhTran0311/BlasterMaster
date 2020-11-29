@@ -14,7 +14,7 @@
 #include "Utils.h"
 #include "Sprites.h"
 #include "Animations.h"
-
+#include "Player.h"
 #include "Jason.h"
 #include "Small_Sophia.h"
 #include "Worms.h"
@@ -28,6 +28,14 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
+
+struct PlayerHealthAndGunInfo
+{
+	int jasonHealth = PLAYER_MAX_HEALTH;
+	int jasonGundam = PLAYER_DEFAULT_GUNDAM;
+	int sophiaHealth = PLAYER_MAX_HEALTH;
+	int sophiaGundam = PLAYER_DEFAULT_GUNDAM;
+};
 
 class PlayScene : public Scene
 {
@@ -45,13 +53,16 @@ public:
 	float camMap1X;
 	float camMap1Y;
 	bool tempNeed;
-	Entity* currentPlayer;
-	PlayScene ();
+	//Entity* currentPlayer;
+	PlayScene();
 	DWORD timeResetCam;
 	PlayScene (int idStage);
 	~PlayScene();
+	bool isUnloaded = false;
 protected:
-
+	LPGAMEPLAYER player;
+	LPGAMEPLAYER backup_player;
+	PlayerHealthAndGunInfo playerInfo;
 	JASON* jason;
 	Small_Sophia* ssophia;
 	HUD* gameHUD;
@@ -63,11 +74,7 @@ protected:
 	void CheckPlayerReachGate();
 
 	void ChooseMap(int whatStage);
-	//bool PlayerPassingStage(float DistanceXWant, int directionGo);
-	//void PlayerGotCar();
-	//void PlayerTouchEnemy();
-	//void PlayerCollideItem();
-	//virtual void LoadSceneObjects();
+
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
@@ -81,14 +88,10 @@ protected:
 	Camera* gameCamera;
 	vector<LPCWSTR> listSceneFilePath;
 #pragma region lists
-	vector<LPGAMEENTITY> listGates;
-	vector<LPGAMEENTITY> listEnemies;
-	vector<LPBULLET> listBullets;
-	vector<LPGAMEENTITY> listObjects;
 	vector<int> listWidth;
 	vector<int> listHeight;
 #pragma endregion
-	void EraseInactiveObject();
+
 	int idStage;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);

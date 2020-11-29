@@ -33,7 +33,6 @@ class Jumpers : public Enemy
 {
 	bool isFollow;
 	int indexFollow=0;
-	LPGAMEENTITY target;
 	bool isJump = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);

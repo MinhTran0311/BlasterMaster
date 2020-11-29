@@ -10,11 +10,11 @@
 #include "JasonBullet.h"
 #include "JasonRocket.h"
 
-JASON::JASON(float x, float y)
+JASON::JASON(float x, float y, int _health, int _gundam)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_PLAYER));
 	SetState(SOPHIA_STATE_IDLE);
-
+	_PlayerType = EntityType::TAG_JASON;
 	start_x = x;
 	start_y = y;
 	this->x = x;
@@ -25,8 +25,8 @@ JASON::JASON(float x, float y)
 	isDeath = false;
 	alpha = 255;
 	bbARGB = 250;
-	health = MAX_HEALTH;
-	dam = MAX_HEALTH;
+	health = _health;
+	dam = _gundam;
 	canChangeAlpha = false;
 }
 
@@ -87,25 +87,7 @@ void JASON::SetState(int state)
 
 void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
-#pragma region Death or not
-	if (isDoneDeath)
-		return;
-	if (health <= 0)
-	{
-		isDeath == true;
-		vx = 0;
-		vy = 0;
-	}
-#pragma endregion
-
-	//health update
-	if (health <= 0)
-	{
-		isDeath = true;
-		vx = 0;
-		vy = 0;
-	}
-	Entity::Update(dt);
+	Player::Update(dt, coObjects);
 	//fall down
 #pragma region fall down
 	vy += SOPHIA_GRAVITY * dt;
@@ -510,18 +492,18 @@ void JASON::Reset()
 	SetSpeed(0, 0);
 }
 
-void JASON::SetInjured(int dame)
-{
-	canChangeAlpha = true;
-	if (isImmortaling)
-		return;
-	health -= dame;
-	dam -= dame;
-
-	StartUntouchable();
-	immortalTimer->Start();
-	isImmortaling = true;
-}
+//void JASON::SetInjured(int dame)
+//{
+//	canChangeAlpha = true;
+//	if (isImmortaling)
+//		return;
+//	health -= dame;
+//	dam -= dame;
+//
+//	StartUntouchable();
+//	immortalTimer->Start();
+//	isImmortaling = true;
+//}
 
 void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

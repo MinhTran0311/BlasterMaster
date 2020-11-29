@@ -128,7 +128,7 @@ Eyeballs::Eyeballs(float x, float y, LPGAMEENTITY t)
 {
 	SetState(EYEBALLS_STATE_IDLE);
 	enemyType = EYEBALLS;
-	tag = TAG_EYEBALLS;
+	tag = ENEMY;
 	this->x = x;
 	this->y = y;
 	dam = 1;

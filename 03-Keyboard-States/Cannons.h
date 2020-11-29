@@ -34,7 +34,6 @@
 class Cannons : public Enemy
 {
 	bool isAttack;
-	LPGAMEENTITY target;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
 	virtual void Render();

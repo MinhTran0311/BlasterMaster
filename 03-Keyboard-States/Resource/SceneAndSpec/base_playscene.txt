@@ -117,11 +117,6 @@
 
 #======Bullet Small Sophia========#
 340001	134	180	139	185	1
-#bullet explode
-340002	154	177	162	186	1
-340003	170	174	187	189	1
-340004	191	173	208	190	1
-
 #===========Bullet_Jason==================#
 #Bullet level 1 JASON right, top lv1
 #file bullet (discard)
@@ -299,7 +294,7 @@ Resource/SceneAndSpec/scene2.txt	527	1315
 #Stage3
 Resource/SceneAndSpec/scene3.txt	545	277
 #Stage4
-Resource/SceneAndSpec/scene4.txt	520	1023
+Resource/SceneAndSpec/scene4.txt	520	1028
 #Stage5
 Resource/SceneAndSpec/scene5.txt	516	1800
 #Stage6

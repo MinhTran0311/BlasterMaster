@@ -14,7 +14,7 @@ void Domes::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 Domes::Domes(float x, float y, LPGAMEENTITY t)
 {
 	//SetState(DOMES_STATE_WALKING_TOP_BOTTOM_RIGHT);
-	enemyType = DOMES;
+	enemyType = EnemyType::DOMES;
 	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;

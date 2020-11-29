@@ -86,7 +86,7 @@ Cannons::Cannons(float x, float y, LPGAMEENTITY t)
 {
 	this->SetState(CANNONS_STATE_IDLE);
 	enemyType = CANNONS;
-	tag = TAG_CANNONS;
+	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
 	dam = 1;

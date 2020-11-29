@@ -12,10 +12,10 @@ public:
 	bool isNeedResetCam;
 	float newPlayerx, newPlayery;
 	int newPlayerState;
-	int typePlayer;
+	EntityType typePlayer;
 	int camPosX, camPosY;
 
-	Gate(float x, float y, int switchId, float playerx, float playery, int playerState, bool rsCam, int type, int camX, int camY);
+	Gate(float x, float y, int switchId, float playerx, float playery, int playerState, bool rsCam, EntityType type, int camX, int camY);
 
 
 	~Gate();

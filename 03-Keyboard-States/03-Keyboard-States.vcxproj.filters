@@ -124,6 +124,9 @@
     <ClCompile Include="Worms.cpp">
       <Filter>Objects\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Objects\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -254,6 +257,9 @@
     </ClInclude>
     <ClInclude Include="Teleporters.h">
       <Filter>Header Files\EnemyHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Objects\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
