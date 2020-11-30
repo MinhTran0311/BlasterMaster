@@ -36,7 +36,7 @@ public:
 
 
 	//get set functions
-	void SetDirection(int d) { nx = d; };
+
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	void Setvx(float new_vx) { vx = new_vx; }

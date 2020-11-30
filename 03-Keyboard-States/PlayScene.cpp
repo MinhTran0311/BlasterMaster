@@ -617,11 +617,12 @@ void PlayScene::CheckPlayerReachGate()
 		tempNeed = gate->directionCam;
 		camMap1X = gate->camPosX;
 		camMap1Y = gate->camPosY;
-		
+
 		DebugOut(L"posX: %d, posY: %d\n", camMap1X, camMap1Y);
 
 		playerInfo.jasonGundam = player->GetgunDam();
 		playerInfo.jasonHealth = player->GetHealth();
+		playerInfo.playerDirectionBeforePassGate = player->GetDirection();
 		Unload();
 
 		ChooseMap(tempMap);
@@ -629,6 +630,7 @@ void PlayScene::CheckPlayerReachGate()
 		{
 		case EntityType::TAG_JASON:
 			player = new JASON(tempx, tempy, playerInfo.jasonHealth, playerInfo.jasonGundam);
+			player->SetDirection(playerInfo.playerDirectionBeforePassGate);
 			player->SetState(tempState);
 		default:
 			break;
