@@ -40,7 +40,7 @@ public:
 	//LPGAMEENTITY getPlayerPointer() { return player; };
 
 	D3DXVECTOR2 GetPosPlayerDefault();
-	vector<LPGAMEENTITY> GetListUpdateObj();
-	vector<LPGAMEENTITY> GetListRenderObj();
+	vector<LPGAMEENTITY> GetListUpdateObj(RECT rectCam);
+	vector<LPGAMEENTITY> GetListRenderObj(RECT rectCam);
 };
 

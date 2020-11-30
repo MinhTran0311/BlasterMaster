@@ -46,12 +46,14 @@ public:
 	int directMoveCam = -1;
 	float posX, posY;
 
+
+
 	float nCamXGo;
 	float nCamXBack;
 	float nCamYGo;
 	float nCamYBack;
-	float camMap1X;
-	float camMap1Y;
+	int camMap1X;
+	int camMap1Y;
 	bool tempNeed;
 	//Entity* currentPlayer;
 	PlayScene();
