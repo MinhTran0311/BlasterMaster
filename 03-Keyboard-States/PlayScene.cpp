@@ -39,7 +39,7 @@ PlayScene::PlayScene(int _idStage) : Scene()
 {
 	idStage = _idStage;
 	keyHandler = new PlayScenceKeyHandler(this);
-	_SophiaType = ID_JASON;
+	//_SophiaType = ID_JASON;
 	LoadBaseObjects();
 	ChooseMap(idStage);
 }
@@ -618,21 +618,23 @@ void PlayScene::CheckPlayerReachGate()
 		camMap1X = gate->camPosX;
 		camMap1Y = gate->camPosY;
 		
+		DebugOut(L"posX: %d, posY: %d\n", camMap1X, camMap1Y);
+
 		playerInfo.jasonGundam = player->GetgunDam();
 		playerInfo.jasonHealth = player->GetHealth();
 		Unload();
 
 		ChooseMap(tempMap);
-		//gameCamera->SetCamPos(camMap1X, camMap1Y);
 		switch (gate->typePlayer)
 		{
 		case EntityType::TAG_JASON:
-			player = new JASON(tempx, tempy,playerInfo.jasonHealth,playerInfo.jasonGundam);
+			player = new JASON(tempx, tempy, playerInfo.jasonHealth, playerInfo.jasonGundam);
 			player->SetState(tempState);
 		default:
 			break;
 		}
 		CGrid::GetInstance()->SetTargetForEnemies(player);
+		//DebugOut(L"xong chuyen cong %d\n ", idStage);
 		//jason->SetGateColliding(false);
 		//jason->ResetGate();
 		//jason->SetPosition(tempx, tempy);
@@ -643,7 +645,12 @@ void PlayScene::CheckPlayerReachGate()
 }
 void PlayScene::Update(DWORD dt)
 {
-
+	if (player->GetPlayerType() == EntityType::TAG_JASON)
+	{
+		//DebugOut(L"done reachgete\n");
+		CheckPlayerReachGate();
+	}
+	//DebugOut(L"Update first line %d\n ", idStage);
 #pragma region camera
 	float cx, cy;
 	mapWidth = listWidth[(idStage% 10) - 1];
@@ -669,8 +676,11 @@ void PlayScene::Update(DWORD dt)
 				else
 					cx -= SCREEN_WIDTH / 2;
 			}
-
-			if (cy + SCREEN_HEIGHT >= mapHeight)
+			if (cy - posY > SCREEN_HEIGHT)
+			{
+				posY = cy - SCREEN_HEIGHT / 2;
+			}
+			if (cy + SCREEN_HEIGHT/1.85 >= mapHeight)
 			{
 				cy = mapHeight - SCREEN_HEIGHT;
 				posY = cy;
@@ -715,21 +725,26 @@ void PlayScene::Update(DWORD dt)
 	}
 #pragma endregion
 #pragma region sceneswitching
-	if (player->GetPlayerType() == EntityType::TAG_JASON)
-		CheckPlayerReachGate();
 
+	//DebugOut(L"middle\n");
 #pragma endregion
-	//init coObjects
-	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj();
-	if (player != NULL)
-	{
-		player->Update(dt, &coObjects);
-	}
 	if (isUnloaded)
 	{
 		CGrid::GetInstance()->SetTargetForEnemies(player);
 		isUnloaded = false;
 	}
+	//init coObjects
+	//DebugOut(L"before - get gird update update\n");
+
+	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(gameCamera->GetRectCam());
+	//DebugOut(L"before - player update\n");
+	if (player != NULL)
+	{
+		//DebugOut(L"pre - player update\n");
+		player->Update(dt, &coObjects);
+		//DebugOut(L"player update\n");
+	}
+
 	//ssophia->Update(dt,&coObjects);
 	if (coObjects.size() != 0)
 	{//update obj
@@ -781,15 +796,16 @@ void PlayScene::Update(DWORD dt)
 	//player
 
 	gameHUD->Update(cx, HUD_Y + posY, player->GetHealth(), player->GetgunDam());
+
 }
 
 void PlayScene::Render()
 {
 	//idStage / STAGE_1 + 10
-
+	//DebugOut(L"Render first line %d\n ", idStage);
 	LPDIRECT3DTEXTURE9 maptexture = CTextures::GetInstance()->Get(idStage);
 	CGame::GetInstance()->OldDraw(0, 0, maptexture, 0, 0, mapWidth, mapHeight);
-	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListRenderObj();
+	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListRenderObj(gameCamera->GetRectCam());
 	for (int i = 0; i < coObjects.size(); i++)
 		coObjects[i]->Render();
 	switch (player->GetPlayerType())

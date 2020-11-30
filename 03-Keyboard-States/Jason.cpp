@@ -175,6 +175,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 	//filter brick and gate object before collision handle
 	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
+
 	for (int i = 0; i < coObjects->size(); i++)
 	{
 		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE)
@@ -182,59 +183,58 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 
 #pragma region Collision
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEvents.clear();
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
+		coEvents.clear();
 
-	// turn off collision when player dies
-	if (state != SOPHIA_STATE_DIE)
-		CalcPotentialCollisions(colliable_Objects, coEvents);
+		// turn off collision when player dies
+		if (state != SOPHIA_STATE_DIE)
+			CalcPotentialCollisions(colliable_Objects, coEvents);
 
-	// No collision occured, proceed normally
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		for (UINT i = 0; i < coEventsResult.size(); i++)
+		// No collision occured, proceed normally
+		if (coEvents.size() == 0)
 		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetType() == EntityType::TAG_BRICK)
+			x += dx;
+			y += dy;
+		}
+		else
+		{
+			float min_tx, min_ty, nx = 0, ny;
+			float rdx = 0;
+			float rdy = 0;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				if (e->ny != 0)
+				LPCOLLISIONEVENT e = coEventsResult[i];
+				if (e->obj->GetType() == EntityType::TAG_BRICK)
 				{
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
 					if (e->ny != 0)
 					{
-						vy = 0;
-						if (ny < 0)
-							isJumping = false;
-					}
-					if (e->nx != 0)
-					{
-						vx = 0;
+						if (e->ny != 0)
+						{
+							vy = 0;
+							if (ny < 0)
+								isJumping = false;
+						}
+						if (e->nx != 0)
+						{
+							vx = 0;
+						}
 					}
 				}
-			}
-			else if ((e->obj->GetType()==EntityType::TAG_GATE))
-			{
-				gate = dynamic_cast<Gate*>(e->obj);
-				DebugOut(L"jason dung tuong loai 1");
-				GateColliding = true;
+				else if ((e->obj->GetType() == EntityType::TAG_GATE))
+				{
+					gate = dynamic_cast<Gate*>(e->obj);
+					DebugOut(L"jason dung tuong loai 1");
+					GateColliding = true;
+				}
 			}
 		}
-	}
-	//khi va cham chua xet gia tri x v� y
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-
+		//khi va cham chua xet gia tri x va y
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 }
 

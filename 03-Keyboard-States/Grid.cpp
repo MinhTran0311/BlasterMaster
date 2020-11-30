@@ -379,34 +379,40 @@ D3DXVECTOR2 CGrid::GetPosPlayerDefault()
 	return posPlayerDefault;
 }
 
-vector<LPGAMEENTITY> CGrid::GetListUpdateObj()
+vector<LPGAMEENTITY> CGrid::GetListUpdateObj(RECT rectCam)
 {
-	RECT rectCam = Camera::GetInstance()->GetRectCam();
+	//RECT rectCam = Camera::GetInstance()->GetRectCam();
 	int minRow = int(rectCam.top) / CELL_SIZE.y;
 	//fix
 	int maxRow = int(rectCam.bottom) / CELL_SIZE.y;
 
 	int minColumn = int(rectCam.left) / CELL_SIZE.x;
 	int maxColumn = int(rectCam.right) / CELL_SIZE.x;
-
+	DebugOut(L"cot nho nhat %d,  camera x: %d\n", minColumn, rectCam.left);
+	DebugOut(L"cot lon nhat %d,  camera x right: %d\n", maxColumn, rectCam.right);
+	DebugOut(L"hang nho nhat %d, camera y: %d\n", minRow, rectCam.top);
+	DebugOut(L"hang lon nhat %d, camera y bot: %d\n", maxRow, rectCam.bottom);
+	DebugOut(L"sohang %d, socot: %d\n", rowGrid, columnGrid);
 	vector<LPGAMEENTITY> result;
-
+	
 	for (int i = minRow; i <= maxRow; i++)
 	{
 		for (int j = minColumn; j <= maxColumn; j++)
 		{
+			//DebugOut(L"size grid %d\n", cells[i][j].size());
 			for (int m = 0; m < cells[i][j].size(); m++)
 				result.push_back(cells[i][j].at(m));
 		}
 	}
 	result = FilterObjectDuplicate(result);
-
+	//DebugOut(L"size result: %d \n", result.size());
+	//DebugOut(L"hang lon nhat %d, camera y bot: %d\n", maxRow, rectCam.bottom);
 	return result;
 }
 
-vector<LPGAMEENTITY> CGrid::GetListRenderObj()
+vector<LPGAMEENTITY> CGrid::GetListRenderObj(RECT rectCam)
 {
-	RECT rectCam = Camera::GetInstance()->GetRectCam();
+	//RECT rectCam = Camera::GetInstance()->GetRectCam();
 	int minRow = int(rectCam.top) / CELL_SIZE.y;
 	int maxRow = int(rectCam.bottom) / CELL_SIZE.y; 
 
