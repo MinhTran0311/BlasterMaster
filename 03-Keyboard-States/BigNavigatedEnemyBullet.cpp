@@ -1,50 +1,5 @@
 #include "BigNavigatedEnemyBullet.h"
 
-BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y)
-{
-	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BIG_ENEMY_BULLET));
-	tag = EntityType::BULLET;
-	alpha = 255;
-	bbARGB = 0;
-	isHitBrick = isHitEnemy = false;
-	dam = 1;
-	/*switch (type_enemy)
-	{
-		case CANNONS:
-		{
-			typeBullet = CANNONS_BULLET;
-			break;
-		}
-		default:
-		{
-			typeBullet = BULLET;
-			break;
-		}
-	}
-	switch (typeBullet)
-	{
-		case CANNONS_BULLET:
-		{
-			bullet_speed = CANNONS_BULLET_SPEED;
-			break;
-		}
-		default:
-		{
-			bullet_speed = BULLET_SPEED;
-			break;
-		}
-	}*/
-	typeBullet = CANNONS_BULLET;
-	bullet_speed = CANNONS_BULLET_SPEED;
-	nx = direct_x;
-	ny = direct_y;
-	isActive = true;
-	x = posX;
-	y = posY;
-	timeDelayed = 0;
-	timeDelayedMax = BIG_BULLET_ENEMY_DELAY;
-}
-
 BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y, LPGAMEENTITY t)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BIG_ENEMY_BULLET));
@@ -53,7 +8,7 @@ BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int typ
 	bbARGB = 0;
 	isHitBrick = isHitEnemy = false;
 	dam = 1;
-	/*switch (type_enemy)
+	switch (type_enemy)
 	{
 		case CANNONS:
 		{
@@ -78,9 +33,7 @@ BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int typ
 			bullet_speed = BULLET_SPEED;
 			break;
 		}
-	}*/
-	typeBullet = BULLET;
-	bullet_speed = BULLET_SPEED;
+	}
 	nx = direct_x;
 	ny = direct_y;
 	isActive = true;
@@ -172,11 +125,21 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_o
 	CalcPotentialCollisions(colliable_objects, coEvents);
 	if (coEvents.size() == 0)
 	{
-		x += dx;
-		//DebugOut(L"Chi so x %f", x);
-		//y += dy;
-		y = CalPositionTarget(target, x);
-		//DebugOut(L"Chi so y %f", y);
+		switch (typeBullet)
+		{
+			case CANNONS_BULLET:
+			{
+				x += dx;
+				y += dy;
+				break;
+			}
+			default:
+			{
+				x += dx;
+				y = CalPositionTarget(target, x);
+				break;
+			}
+		}
 	}
 	else
 	{
