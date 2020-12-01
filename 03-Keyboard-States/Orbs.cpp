@@ -142,9 +142,9 @@ void Orbs::Render()
 	//RenderBoundingBox();
 }
 
-Orbs::Orbs(float x, float y, LPGAMEENTITY t)
+Orbs::Orbs(float x, float y, LPGAMEENTITY t, int orb_mode)
 {
-	this->mode = 0;
+	this->mode = orb_mode;
 	SetState(ORBS_STATE_FLY);
 	enemyType = ORBS;
 	tag = EntityType::ENEMY;

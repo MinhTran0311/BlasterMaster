@@ -15,6 +15,7 @@ JASON::JASON(float x, float y, int _health, int _gundam)
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_PLAYER));
 	SetState(SOPHIA_STATE_IDLE);
 	_PlayerType = EntityType::TAG_JASON;
+	tag = TAG_JASON;
 	start_x = x;
 	start_y = y;
 	this->x = x;
