@@ -135,7 +135,6 @@ void Eyeballs::Render()
 		ani = EYEBALLS_ANI_DIE;
 		if (animationSet->at(ani)->GetFrame() == 3)
 		{
-
 			isDoneDeath = true;
 		}
 		animationSet->at(ani)->Render(nx, x, y - 3);
@@ -253,8 +252,8 @@ void Eyeballs::SetState(int state)
 	Entity::SetState(state);
 	switch (state)
 	{
-		case EYEBALLS_STATE_DIE:
-			//y += EYEBALLS_BBOX_HEIGHT - EYEBALLS_BBOX_HEIGHT_DIE + 1;
+		case EYEBALLS_STATE_DIE:			
+			y += EYEBALLS_BBOX_HEIGHT - EYEBALLS_BBOX_HEIGHT_DIE + 1;
 			vx = 0;
 			vy = 0;
 			isActive = false;

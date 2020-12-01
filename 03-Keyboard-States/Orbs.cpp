@@ -19,7 +19,11 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEENTITY> bricks;
-	if (health <= 0)SetState(ORBS_STATE_DIE);
+	if (health <= 0)
+	{
+		SetState(ORBS_STATE_DIE);
+		return;
+	}
 	if (isfly) { SetState(ORBS_STATE_FLY);  }
 	if (this->pointX != this->x || this->pointY != this->y) { canflip=true; }
 	coEvents.clear();
@@ -82,8 +86,8 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 #pragma region Active
-	/*if (!isActive) vx = 0;
-	else SetState(ORBS_STATE_FLY);*/
+	if (!isActive) return;
+	/*else SetState(ORBS_STATE_FLY);*/
 	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TARGET_RANGE)
 	{
 		if (mode == 1) {
@@ -112,6 +116,10 @@ void Orbs::Render()
 	if (this->state == ORBS_STATE_DIE)
 	{
 		ani = ORBS_ANI_DIE;
+		if (animationSet->at(ani)->GetFrame() == 3)
+		{
+			isDoneDeath = true;
+		}
 		animationSet->at(ani)->OldRender(x, y);
 	}
 	else if (this->state == ORBS_STATE_FLY )
@@ -156,7 +164,7 @@ Orbs::Orbs(float x, float y, LPGAMEENTITY t, int orb_mode)
 	isTargeting = 0;
 	this->target = t;
 	health = MAXHEALTH;
-	isActive = false;
+	isActive = true;
 	bbARGB = 250;
 }
 
@@ -186,7 +194,8 @@ void Orbs::SetState(int state)
 	switch (state)
 	{
 	case ORBS_STATE_DIE:
-		y += BBOX_HEIGHT / 2 + 1;
+		isActive = false;
+		/*y += BBOX_HEIGHT / 2 + 1;*/
 		vx = 0;
 		vy = 0;
 		break;
