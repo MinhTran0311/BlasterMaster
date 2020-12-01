@@ -53,7 +53,7 @@
 #define DOMES_WALKING_SPEED						0.03f;
 #define DOMES_GRAVITY							0.005f
 
-#define DOMES_ATTACK_SPEED						0.3f
+#define DOMES_ATTACK_SPEED						0.25f
 
 #define DOMES_BBOX_WIDTH						18
 #define DOMES_BBOX_HEIGHT						18
@@ -93,6 +93,7 @@ class Domes : public Enemy
 	int directionclock;
 	bool firstFollow;
 	bool actived;
+	bool aboveTarget;
 
 	Timer* delayAttack = new Timer(DOMES_TIME_DELAYATTACK);
 	Timer* startAttack = new Timer(DOMES_TIME_ATTACK);

@@ -177,7 +177,7 @@ void PlayScene::CheckPlayerReachGate()
 void PlayScene::Update(DWORD dt)
 {
 #pragma region sceneswitching
-	//CheckPlayerReachGate();
+	CheckPlayerReachGate();
 #pragma endregion
 	//EraseInactiveObject();
 
@@ -341,13 +341,7 @@ void PlayScene::Update(DWORD dt)
 		break;
 	}
 	}
-
-
-
-	//gameHUD->Update(cx, HUD_Y, jason->GetHealth(), jason->GetgunDam());	//move x follow camera
 #pragma endregion
-
-
 	//init coObjects
 	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj();
 	jason->Update(dt, &coObjects);
@@ -358,7 +352,6 @@ void PlayScene::Update(DWORD dt)
 	//	coObjects.push_back(listEnemies[i]);
 	//for (int i = 0; i < listGates.size(); i++)
 	//	coObjects.push_back(listGates[i]);
-
 	//Kiểm tra có obj nào cần được thêm vào hay không
 	//vector<CEntity*> addAfterUpdate = jason->GetAbjAddAfterUpdate();
 	//for (int i = 0; i < addAfterUpdate.size(); i++)
@@ -379,7 +372,14 @@ void PlayScene::Update(DWORD dt)
 		{
 			if (coObjects.at(i)->GetType()!=EntityType::TAG_BRICK && coObjects.at(i)->GetType() != EntityType::TAG_GATE)
 			{
-				coObjects[i]->Update(dt, &coObjects);
+				/*if (coObjects.at(i)->GetType() != EntityType::BULLET)
+				{
+					coObjects.push_back(jason);
+					coObjects[i]->Update(dt, &coObjects);
+					coObjects.pop_back();
+				}
+				else */
+					coObjects[i]->Update(dt, &coObjects);
 			}
 		}
 		//sua cho nay
