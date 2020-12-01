@@ -389,11 +389,11 @@ vector<LPGAMEENTITY> CGrid::GetListUpdateObj(RECT rectCam)
 
 	int minColumn = int(rectCam.left) / CELL_SIZE.x;
 	int maxColumn = int(rectCam.right) / CELL_SIZE.x;
-	DebugOut(L"cot nho nhat %d,  camera x: %d\n", minColumn, rectCam.left);
-	DebugOut(L"cot lon nhat %d,  camera x right: %d\n", maxColumn, rectCam.right);
-	DebugOut(L"hang nho nhat %d, camera y: %d\n", minRow, rectCam.top);
-	DebugOut(L"hang lon nhat %d, camera y bot: %d\n", maxRow, rectCam.bottom);
-	DebugOut(L"sohang %d, socot: %d\n", rowGrid, columnGrid);
+	//DebugOut(L"cot nho nhat %d,  camera x: %d\n", minColumn, rectCam.left);
+	//DebugOut(L"cot lon nhat %d,  camera x right: %d\n", maxColumn, rectCam.right);
+	//DebugOut(L"hang nho nhat %d, camera y: %d\n", minRow, rectCam.top);
+	//DebugOut(L"hang lon nhat %d, camera y bot: %d\n", maxRow, rectCam.bottom);
+	//DebugOut(L"sohang %d, socot: %d\n", rowGrid, columnGrid);
 	vector<LPGAMEENTITY> result;
 	
 	for (int i = minRow; i <= maxRow; i++)
