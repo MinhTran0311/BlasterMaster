@@ -4,7 +4,9 @@
 #include "Enemy.h"
 #include "Small_Sophia.h"
 #include "Game.h"
-
+#include "Bullet.h"
+#include "SmallSophiaBullet.h"
+#include "Grid.h"
 Small_Sophia::Small_Sophia(float x, float y, int _health, int _gundam) : Player()
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SMALL_SOPHIA));
@@ -19,6 +21,7 @@ Small_Sophia::Small_Sophia(float x, float y, int _health, int _gundam) : Player(
 	dam = _gundam;
 	health = _health;
 	isImmortaling = false;
+	canFire = true;
 	isCrawl = false;
 	alpha = 255;
 }
@@ -60,8 +63,11 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		immortalTimer->Reset();
 	}
 #pragma endregion
-
-
+	if (!canFire && FireTimer->IsTimeUp())
+	{
+		canFire = true;
+		FireTimer->Reset();
+	}
 
 	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
 	for (int i = 0; i < coObjects->size(); i++)
@@ -297,6 +303,19 @@ void Small_Sophia::GetBoundingBox(float& left, float& top, float& right, float& 
 			bottom = y + SMALL_SOPHIA_BBOX_HEIGHT;
 		}
 	}
+}
+
+void Small_Sophia::FireBullet(int type)
+{
+	if (!canFire)
+		return;
+	if (CGrid::GetInstance()->CheckBulletLimitation(SMALL_SOPHIA_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
+	{
+		Bullet* bullet = new SmallSophiaBullet(this->Getx(), this->Gety(), type, nx);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+	FireTimer->Start();
+	canFire = false;
 }
 
 void Small_Sophia::Reset()
