@@ -49,7 +49,7 @@
 #define DISTANCE_FIRING_WIDTH	10
 #define DISTANCE_FIRING_HEIGHT	3
 #define DISTANCE_BLOWING_UP		4
-#define BULLET_SPEED			0.2f
+#define BULLET_SPEED			0.1f
 
 #define BULLET_STATE_FLYING			100
 #define BULLET_STATE_BLOW_UP		200
@@ -60,6 +60,7 @@ class Bullet;
 typedef Bullet* LPBULLET;
 class Bullet : public Entity
 {
+
 public:
 	int totalTime;
 	int x_Start_Pos, y_Start_Pos;
@@ -67,6 +68,7 @@ public:
 	int isAimingTop;
 	int alpha;
 	int typeBullet;
+	float bullet_speed;
 	bool  isHitBrick, isHitEnemy;
 	float timeDelayed, timeDelayedMax;
 
