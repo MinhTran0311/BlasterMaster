@@ -31,6 +31,7 @@ using namespace std;
 
 struct PlayerHealthAndGunInfo
 {
+	int playerDirectionBeforePassGate = 1;
 	int jasonHealth = PLAYER_MAX_HEALTH;
 	int jasonGundam = PLAYER_DEFAULT_GUNDAM;
 	int sophiaHealth = PLAYER_MAX_HEALTH;

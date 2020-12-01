@@ -351,7 +351,7 @@ bool CGrid::CheckBulletLimitation(EntityType typebullet, float xPlayerPos, float
 				if (static_cast<Bullet*>(cells[i][j].at(k))->GetBulletType() == typebullet)
 					bullet_count++;
 			}
-	if (bullet_count <= limit)
+	if (bullet_count < limit)
 		return true;
 	return false;
 }
