@@ -45,7 +45,7 @@ class Orbs : public Enemy
 	virtual void Render();
 	virtual bool inTargetRange();
 public:
-	Orbs(float x, float y, LPGAMEENTITY t);
+	Orbs(float x, float y, LPGAMEENTITY t, int orb_mode);
 	virtual void Attack(LPGAMEENTITY target = NULL);
 	virtual void SetState(int state);
 	void SelfDestroy();

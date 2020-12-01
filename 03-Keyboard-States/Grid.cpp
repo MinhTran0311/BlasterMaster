@@ -112,9 +112,10 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_ORBS:
 	{
-		obj = new Orbs(x, y, player);
+		int orb_mode = atoi(tokens[milestone + 2].c_str());
+		obj = new Orbs(x, y, player, orb_mode);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-
+		
 		obj->SetAnimationSet(ani_set);
 		DebugOut(L"[test] add insect !\n");
 		break;
@@ -350,7 +351,7 @@ bool CGrid::CheckBulletLimitation(EntityType typebullet, float xPlayerPos, float
 				if (static_cast<Bullet*>(cells[i][j].at(k))->GetBulletType() == typebullet)
 					bullet_count++;
 			}
-	if (bullet_count <= limit)
+	if (bullet_count < limit)
 		return true;
 	return false;
 }
