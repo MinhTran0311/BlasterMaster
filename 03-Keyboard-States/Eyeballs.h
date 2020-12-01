@@ -6,6 +6,8 @@
 #include <ctime>
 #include <cstdlib>
 #include <cmath>
+#include "BigNavigatedEnemyBullet.h"
+#include "Bullet.h"
 
 #define EYEBALLS_FLYING_SPEED 0.05f
 #define EYEBALLS_GRAVITY 0.002f
@@ -37,6 +39,7 @@ class Eyeballs : public Enemy
 	Random* r = new Random();
 	bool canFly;
 	bool canAttack;
+	bool canIdle;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
 	Timer* flyOrAttackTimer = new Timer(EYEBALLS_TIME_FLY_OR_ATTACK);

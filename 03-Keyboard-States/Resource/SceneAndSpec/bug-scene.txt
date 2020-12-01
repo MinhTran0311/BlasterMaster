@@ -1,0 +1,2 @@
+5- Từ 4->5 bị lỗi (Nhân vật rớt xuống dưới)
+5- Không chuyển map được 
