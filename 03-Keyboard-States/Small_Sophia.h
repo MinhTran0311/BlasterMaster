@@ -74,7 +74,7 @@ public:
 	void GetInfoForBullet(int& direct, float& playerx, float& playery) { direct = nx; playerx = x; playery = y; }
 
 	//Bullet* GetPlayerMainBullet() { return mainBullet; }
-	virtual void FireBullet(int type) {};
+	virtual void FireBullet(int type);
 	virtual void GetPositionCenter(float& x, float& y) { x = this->x + SMALL_SOPHIA_BBOX_WIDTH / 2; y = this->y + SMALL_SOPHIA_BBOX_HEIGHT / 2; }
 	virtual void Reset();
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
