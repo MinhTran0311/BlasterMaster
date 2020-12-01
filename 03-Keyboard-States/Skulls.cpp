@@ -19,7 +19,8 @@ void Skulls::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEENTITY> bricks;
-
+	if (this->health <= 0)SetState(SKULLS_STATE_DIE);
+	if (this->state == SKULLS_STATE_ATTACK && time == 20) SetState(SKULLS_STATE_STOP);
 	coEvents.clear();
 	bricks.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
@@ -97,12 +98,12 @@ void Skulls::Render()
 {
 	//RenderBoundingBox();
 	int ani;
-	if (health <= 0)
+	if (this->state == SKULLS_STATE_DIE)
 	{
 		ani = SKULLS_ANI_DIE;
 		animationSet->at(ani)->OldRender(x, y);
 	}
-	else if (!canAttack)
+	else if (this->state == SKULLS_STATE_FLY)
 		//else if (cooldownTimer->IsTimeUp())
 	{
 		if (vx > 0)
@@ -111,41 +112,24 @@ void Skulls::Render()
 			nx = -1;
 		ani = SKULLS_ANI_FLY;
 		animationSet->at(ani)->Render(nx, x, y);
-		//animationSet->at(ani)->OldRender(x, y);
+
 
 	}
-	else if (canAttack && time < 20)
-		//else if (cooldownTimer->IsTimeUp())
+	else if (this->state == SKULLS_STATE_ATTACK)
 	{
 		
 		ani = SKULLS_ANI_ATTACK;
 		animationSet->at(ani)->Render(nx, x, y);
-		//animationSet->at(ani)->OldRender(x, y);
 
 	}
-	else if (canAttack)
-		//else if (cooldownTimer->IsTimeUp())
+	else if (this->state ==SKULLS_STATE_STOP)
 	{
 
 		ani = SKULLS_ANI_FLY;
 		animationSet->at(ani)->Render(nx, x, y);
-		//animationSet->at(ani)->OldRender(x, y);
 
 	}
-	/*else
-		if (!delayTimeranishot->IsTimeUp())
-	{
-		ani = SKULLS_ANI_ATTACK;
-		animationSet->at(ani)->OldRender(x, y);
-
-	}*/
-
-
-	/*for (int i = 0; i < bullet.size(); i++)
-	{
-		bullet.at(i)->Render();
-	}*/
-	//RenderBoundingBox();
+	
 }
 
 Skulls::Skulls(float x, float y, LPGAMEENTITY t)
@@ -165,15 +149,20 @@ Skulls::Skulls(float x, float y, LPGAMEENTITY t)
 
 void Skulls::Attack(LPGAMEENTITY target) //tấn công tại vị trí nhân vật
 {
-	if (abs(target->x -this->x) < 20) {
+	if (abs(target->x -this->x) < 20 && time < 100) {
 		SetState(SKULLS_STATE_ATTACK);
-		canAttack = true;
+		if (!Attacked) {
+			Bullet* bullet = new SkullBullet(this->x, this->y, this->nx);
+			CGrid::GetInstance()->InsertGrid(bullet);
+			Attacked = true;
+		}
 		
 	}
 }
 
 void Skulls::SetState(int state)
 {
+	Entity::SetState(state);
 	switch (state)
 	{
 	case SKULLS_STATE_DIE:
@@ -196,13 +185,14 @@ void Skulls::SetState(int state)
 	case SKULLS_STATE_ATTACK:
 			
 		vx = 0;
+		vy = -MOVING_SPEED;
 		if(time <30)
 		time++;
 		break;
 
 	
 	case SKULLS_STATE_STOP:
-		time = 1;
+		time = 120;
 		vx = 0;
 		vy = 0;
 		break;

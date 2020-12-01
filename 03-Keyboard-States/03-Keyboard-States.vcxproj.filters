@@ -170,6 +170,9 @@
     <ClCompile Include="SmallSophiaBullet.cpp">
       <Filter>Objects\Bullets\Player</Filter>
     </ClCompile>
+    <ClCompile Include="SkullBullet.cpp">
+      <Filter>Objects\Bullets\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="debug.h">
@@ -289,6 +292,8 @@
     <ClInclude Include="JasonRocket.h">
       <Filter>Objects\Bullets\Player</Filter>
     </ClInclude>
+    <ClInclude Include="SkullBullet.h">
+      <Filter>Objects\Bullets\Enemy</Filter>
     <ClInclude Include="SmallSophiaBullet.h">
       <Filter>Objects\Bullets\Player</Filter>
     </ClInclude>

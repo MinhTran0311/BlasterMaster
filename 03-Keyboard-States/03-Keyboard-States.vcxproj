@@ -151,6 +151,7 @@
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SkullBullet.cpp" />
     <ClCompile Include="Skulls.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="SmallSophiaBullet.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Random.h" />
     <ClInclude Include="JasonBullet.h" />
     <ClInclude Include="JasonRocket.h" />
+    <ClInclude Include="SkullBullet.h" />
     <ClInclude Include="SmallSophiaBullet.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Insects.h" />

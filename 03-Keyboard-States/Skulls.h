@@ -1,8 +1,11 @@
 #pragma once
 #include "Entity.h"
 #include "Enemy.h"
-
+#include "Bullet.h"
+#include "Grid.h"
+#include "SkullBullet.h"
 #define MOVING_SPEED	0.05f
+#define MOVING_SPEED_Y	0.5f
 
 
 #define SKULLS_STATE_FLY		100
@@ -32,7 +35,7 @@
 class Skulls : public Enemy
 {
 	int time = 0;
-	bool canAttack = false;
+	bool Attacked = false;
 	bool isTargeting;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
