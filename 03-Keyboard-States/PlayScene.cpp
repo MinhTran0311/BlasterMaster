@@ -332,7 +332,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_Z:
 	{
 		player->FireBullet(0);
-		switch (player->GetPlayerType())
+		/*switch (player->GetPlayerType())
 		{
 
 		case EntityType::TAG_JASON:
@@ -351,7 +351,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			break;
 		default:
 			break;
-		}
+		}*/
 
 		break;
 	}

@@ -5,7 +5,7 @@
 #include "Gate.h"
 
 #define PLAYER_IMMORTAL_DURATION	1000
-#define PLAYER_CAN_FIRE_DURATION	100
+#define PLAYER_CAN_FIRE_DURATION	120
 
 class Player :public Entity
 {
