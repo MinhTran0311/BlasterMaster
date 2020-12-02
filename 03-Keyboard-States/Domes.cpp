@@ -14,7 +14,7 @@ void Domes::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 Domes::Domes(float x, float y, LPGAMEENTITY t)
 {
 	//SetState(DOMES_STATE_WALKING_TOP_BOTTOM_RIGHT);
-	enemyType = DOMES;
+	enemyType = EnemyType::DOMES;
 	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
@@ -29,6 +29,7 @@ Domes::Domes(float x, float y, LPGAMEENTITY t)
 	bbARGB = 0;
 	firstFollow = true;
 	actived = false;
+	aboveTarget = false;
 }
 
 void Domes::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
@@ -116,8 +117,15 @@ void Domes::Render()
 	case 2:
 		if (isDamaged)
 		{
-			ani = DOMES_ANI_ATTACK_LEFT_RIGHT;
-			animationSet->at(ani)->Render(1, x, y);
+			if (aboveTarget)
+			{
+				ani = DOMES_ANI_ATTACK_TOP_BOTTOM;
+				animationSet->at(ani)->RenderTopBottom(1, x, y);
+			}
+			else {
+				ani = DOMES_ANI_ATTACK_LEFT_RIGHT;
+				animationSet->at(ani)->Render(1, x, y);
+			}
 		}
 		else if (vy > 0)
 		{
@@ -373,6 +381,13 @@ void Domes::StartAttack()
 				isDamaged = true;
 				firstFollow = false;
 			}
+			else if (target->x <= x + DOMES_BBOX_WIDTH && target->x >= x && target->y > y)
+			{
+				startAttack->Start();
+				aboveTarget = true;
+				isDamaged = true;
+				firstFollow = false;
+			}
 			break;
 		case 3:
 			if (target->x <= x + DOMES_BBOX_WIDTH && target->x >= x && target->y < y)
@@ -419,6 +434,14 @@ void Domes::StartAttack()
 					delayAttack->Reset();
 					delayAttack->Start();
 				}
+				else if (target->x <= x + DOMES_BBOX_WIDTH && target->x >= x && target->y > y)
+				{
+					startAttack->Start();
+					aboveTarget = true;
+					isDamaged = true;
+					delayAttack->Reset();
+					delayAttack->Start();
+				}
 				break;
 			case 3:
 				if (target->x <= x + DOMES_BBOX_WIDTH && target->x >= x && target->y < y)
@@ -443,8 +466,6 @@ void Domes::StartAttack()
 			default:
 				break;
 			}
-
-
 		}
 	}
 }
@@ -458,31 +479,30 @@ void Domes::swapgravity()
 		{
 			if (dgravity == 1)
 			{
-
 				SetState(DOMES_STATE_ATTACK_TOP_BOTTOM);
 				vx = 0;
-
 			}
 			else if (dgravity == 3)
 			{
-
 				SetState(DOMES_STATE_ATTACK_TOP_BOTTOM);
 				vx = 0;
-
 			}
 			else if (dgravity == 2)
 			{
-
-				SetState(DOMES_STATE_ATTACK_LEFT_RIGHT);
-				vy = 0;
-
+				if (aboveTarget)
+				{
+					SetState(DOMES_STATE_ATTACK_TOP_BOTTOM);
+					vx = 0;
+				}
+				else {
+					SetState(DOMES_STATE_ATTACK_LEFT_RIGHT);
+					vy = 0;
+				}
 			}
 			else if (dgravity == 4)
 			{
-
 				SetState(DOMES_STATE_ATTACK_LEFT_RIGHT);
 				vy = 0;
-
 			}
 		}
 		else if (dgravity == 1)
@@ -512,25 +532,28 @@ void Domes::swapgravity()
 		{
 			if (dgravity == 1)
 			{
-
 				SetState(DOMES_STATE_ATTACK_TOP_BOTTOM);
 				vx = 0;
 			}
 			else if (dgravity == 3)
 			{
-
 				SetState(DOMES_STATE_ATTACK_TOP_BOTTOM);
 				vx = 0;
 			}
 			else if (dgravity == 2)
 			{
-
-				SetState(DOMES_STATE_ATTACK_LEFT_RIGHT);
-				vy = 0;
+				if (aboveTarget)
+				{
+					SetState(DOMES_STATE_ATTACK_TOP_BOTTOM);
+					vx = 0;
+				}
+				else {
+					SetState(DOMES_STATE_ATTACK_LEFT_RIGHT);
+					vy = 0;
+				}
 			}
 			else if (dgravity == 4)
 			{
-
 				SetState(DOMES_STATE_ATTACK_LEFT_RIGHT);
 				vy = 0;
 			}
@@ -573,9 +596,9 @@ void Domes::SetState(int state)
 		vy = 0;
 		break;
 	case DOMES_STATE_ATTACK_LEFT_RIGHT:
+	{
 		if (dgravity == 4)
 		{
-
 			if (startAttack->IsTimeUp())
 			{
 				vx = DOMES_ATTACK_SPEED;
@@ -583,16 +606,16 @@ void Domes::SetState(int state)
 			}
 
 		}
-		else if (dgravity == 2)
+		else if (dgravity == 2 && !aboveTarget)
 		{
-
 			if (startAttack->IsTimeUp())
 			{
+				DebugOut(L"########### %d\n", 70000);
 				vx = -DOMES_ATTACK_SPEED;
 				startAttack->Reset();
 			}
-
 		}
+	}
 		break;
 	case DOMES_STATE_ATTACK_TOP_BOTTOM:
 		if (dgravity == 1)
@@ -611,8 +634,16 @@ void Domes::SetState(int state)
 				vy = -DOMES_ATTACK_SPEED;
 				startAttack->Reset();
 			}
-
-
+		}
+		else if (dgravity == 2 && aboveTarget)
+		{
+			if (startAttack->IsTimeUp())
+			{
+				DebugOut(L"########### %d\n", 80000);
+				vy = DOMES_ATTACK_SPEED;
+				aboveTarget = false;
+				startAttack->Reset();
+			}
 		}
 		break;
 	case DOMES_STATE_WALKING_TOP_BOTTOM_RIGHT:
@@ -629,7 +660,7 @@ void Domes::SetState(int state)
 		break;
 
 	}
-	DebugOut(L"\nstartAttack:  %d", startAttack);
+	//DebugOut(L"\nstartAttack:  %d", startAttack);
 }
 
 void Domes::SetStatenoclock(int state)
@@ -647,7 +678,7 @@ void Domes::SetStatenoclock(int state)
 		{
 			vx = DOMES_ATTACK_SPEED;
 		}
-		else if (dgravity == 2)
+		else if (dgravity == 2 && !aboveTarget)
 		{
 			vx = -DOMES_ATTACK_SPEED;
 		}
@@ -661,7 +692,10 @@ void Domes::SetStatenoclock(int state)
 		else if (dgravity == 3)
 		{
 			vy = -DOMES_ATTACK_SPEED;
-
+		}
+		else if (dgravity == 2)
+		{
+			vy = DOMES_ATTACK_SPEED;
 		}
 		break;
 	case DOMES_STATE_WALKING_TOP_BOTTOM_RIGHT:

@@ -2,7 +2,7 @@
 #include "Entity.h"
 #include "HealthBar.h"
 #include "Jason.h"
-
+#include "Player.h"
 using namespace std;
 
 //#define MAX_TEXTLENGHT_SCORE					6
@@ -28,5 +28,5 @@ public:
 	~HUD();
 
 	void Update(float x, float y, int currentPlayerHealth, int currentGunHealth);
-	void Render(JASON* playerInfo);
+	void Render(LPGAMEPLAYER playerInfo);
 };

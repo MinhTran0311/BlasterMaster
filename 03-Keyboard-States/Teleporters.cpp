@@ -11,6 +11,11 @@ void Teleporters::GetBoundingBox(float& left, float& top, float& right, float& b
 void Teleporters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt);
+	if (health <= 0)
+	{
+		this->SetState(CANNONS_STATE_DIE);
+		return;
+	}
 //#pragma region fall down
 #pragma endregion
 #pragma region Pre-collision
@@ -55,24 +60,34 @@ void Teleporters::Render()
 	RenderBoundingBox();
 
 	int ani = -1;
-	if (state == TELEPORTERS_STATE_TRANSFORMING)
-	{
-		/*if (animationSet->at(ani)->GetFrame() == 3)
+	if (state == TELEPORTERS_STATE_DIE) {
+		ani = TELEPORTERS_ANI_DIE;
+		if (animationSet->at(ani)->GetFrame() == 3)
 		{
+			isDoneDeath = true;
+		}
+		animationSet->at(ani)->Render(nx, x, y - 3);
+	}
+	else {
+		if (state == TELEPORTERS_STATE_TRANSFORMING)
+		{
+			/*if (animationSet->at(ani)->GetFrame() == 3)
+			{
+				ani = TELEPORTERS_ANI_TRANSFORMING;
+			}*/
 			ani = TELEPORTERS_ANI_TRANSFORMING;
-		}*/
-		ani = TELEPORTERS_ANI_TRANSFORMING;
-	}
-	else if (state == TELEPORTERS_STATE_ATTACKING)
-	{
-		ani = TELEPORTERS_ANI_ATTACKING;
-	}
-	else if (state == TELEPORTERS_STATE_IDLE)
-	{
-		ani = TELEPORTERS_ANI_IDLE;
-	}
+		}
+		else if (state == TELEPORTERS_STATE_ATTACKING)
+		{
+			ani = TELEPORTERS_ANI_ATTACKING;
+		}
+		else if (state == TELEPORTERS_STATE_IDLE)
+		{
+			ani = TELEPORTERS_ANI_IDLE;
+		}
 
-	animationSet->at(ani)->OldRender(x, y);
+		animationSet->at(ani)->OldRender(x, y);
+	}
 }
 
 Teleporters::Teleporters(float x, float y, LPGAMEENTITY t)
@@ -87,10 +102,14 @@ Teleporters::Teleporters(float x, float y, LPGAMEENTITY t)
 	this->target = t;
 	health = TELEPORTERS_MAXHEALTH;
 	isActive = false;
-	bbARGB = 250;
+	bbARGB = 0;
 	isTransporting = true;
 	isAttacking = false;
+	isShooting = false;
 	re_tranform = true;
+	isIdling = false;
+	enoughTimeIdle = false;
+	teleTimesAttack = 0;
 }
 
 void Teleporters::AttackTarget(LPGAMEENTITY target) //tấn công nhân vật
@@ -106,7 +125,6 @@ void Teleporters::AttackTarget(LPGAMEENTITY target) //tấn công nhân vật
 	else if (!isTransporting && isAttacking && delayAttackTimer->IsTimeUp())
 	{
 		SetState(TELEPORTERS_STATE_ATTACKING);
-		isAttacking = true;
 		delayAttackTimer->Reset();
 		delayAttackTimer->Start();
 	}
@@ -124,12 +142,48 @@ void Teleporters::SetState(int state)
 		}
 		case TELEPORTERS_STATE_ATTACKING:
 		{
-			if (!isTransporting && isAttacking)
+			if (teleTimesAttack == 7)
+			{
+				if (!isIdling)
+				{
+					SetState(TELEPORTERS_STATE_TRANSFORMING);
+					isIdling = true;
+				}
+				else if (isIdling && !enoughTimeIdle)
+				{
+					SetState(TELEPORTERS_STATE_IDLE);
+					enoughTimeIdle = true;
+					delayIdleTimer->Start();
+				}
+				else if (isIdling && delayIdleTimer->IsTimeUp())
+				{
+					enoughTimeIdle = false;
+					isIdling = false;
+					teleTimesAttack = 0;
+					isAttacking = false;
+					isTransporting = true;
+					delayIdleTimer->Reset();
+					relaxAttackTimer->Start();
+				}
+			}
+			else if (isShooting)
+			{
+				shootBulletTimer->Start();
+				shootBulletToTarget();
+				isShooting = false;
+			}
+			else if (!isTransporting && isAttacking && shootBulletTimer->IsTimeUp() && relaxAttackTimer->IsTimeUp())
 			{
 				int x = 0 + rand() % (100 + 1 - 0);
 				int y = 0 + rand() % (100 + 1 - 0);
 				this->SetPosition(x, y);
-				isAttacking = false;
+				shootBulletTimer->Reset();
+				teleTimesAttack++;
+				if (teleTimesAttack == 3 || teleTimesAttack == 6)
+				{
+					isShooting = true;
+				}
+				relaxAttackTimer->Reset();
 			}
 			break;
 		}
@@ -143,3 +197,54 @@ void Teleporters::SetState(int state)
 		}
 	}
 }
+
+void Teleporters::shootBulletToTarget()
+{
+	if (target->x == x)
+	{
+		if (target->y < y)
+		{
+			Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 0, -1, target);
+			CGrid::GetInstance()->InsertGrid(bullet);
+		}
+		else if (target->y > y)
+		{
+			Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 0, 1, target);
+			CGrid::GetInstance()->InsertGrid(bullet);
+		}
+	}
+	else if (target->y == y)
+	{
+		if (target->x >= x)
+		{
+			Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 1, 0, target);
+			CGrid::GetInstance()->InsertGrid(bullet);
+		}
+		else if (target->x < x)
+		{
+			Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, -1, 0, target);
+			CGrid::GetInstance()->InsertGrid(bullet);
+		}
+	}
+	else if (target->x > x && target->y < y)
+	{
+		Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 1, -1, target);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+	else if (target->x > x && target->y > y)
+	{
+		Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 1, 1, target);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+	else if (target->x < x && target->y > y)
+	{
+		Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, -1, 1, target);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+	else if (target->x < x && target->y < y)
+	{
+		Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, -1, -1, target);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+}
+

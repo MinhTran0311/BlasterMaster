@@ -1,7 +1,7 @@
 #include "Entity.h"
 #include <map>
 #include "Timer.h"
-
+#include "Player.h"
 #pragma once
 #define ANIMATION_SET_SMALL_SOPHIA	2
 
@@ -31,6 +31,7 @@
 #define SMALL_SOPHIA_STATE_CRAWL_STOP		1000
 
 #define MAX_HEALTH						8
+#define MAX_GUNDAM						8
 
 
 #define SMALL_SOPHIA_BBOX_WIDTH				10
@@ -44,61 +45,40 @@
 
 #define LAST_FRAME_DIE	13
 
-class Small_Sophia : public Entity
+class Small_Sophia : public Player
 {
 public:
-	bool isDeath;
-	bool isDoneDeath;
 	static Small_Sophia* instance;
 
 	int level;
-	int untouchable;
 	bool isJumping = false;
 	bool isGunFlipping = false;
 	bool isJumpHandle;
-	bool isImmortaling;
-	int alpha;
-	DWORD untouchable_start;
-
-	Timer* immortalTimer = new Timer(PLAYER_IMMORTAL_DURATION);
-
-	float start_x;			// initial position of Mario at scene
-	float start_y;
-
 
 	float backup_JumpY;
 	bool isPressJump;
-	bool isPressFlipGun;
+	//bool isPressFlipGun;
 	bool isCrawl;
 
 public:
-	Small_Sophia(float x = 0.0f, float y = 0.0f);
+	Small_Sophia(float x, float y, int health, int gundam);
+	Small_Sophia() {};
 	static Small_Sophia* GetInstance();
 
-	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL, vector<LPGAMEENTITY>* coEnemies = NULL);
-	virtual void Render();
-
-	//Immortal
-	bool IsImmortaling() { return isImmortaling; }
-	void SetImmortaling(bool immo) { isImmortaling = immo; }
-	void StartImmortalingTimer() { immortalTimer->Start(); }
-
-	void SetDirection(int d) { nx = d; }
 	void SetState(int state);
 	void SetPressSpace(bool isPress) { isPressJump = isPress; }
-	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-	void GetPositionCenter(float& x, float& y) { x = this->x + SMALL_SOPHIA_BBOX_WIDTH / 2; y = this->y + SMALL_SOPHIA_BBOX_HEIGHT / 2; }
+	
 	bool GetIsCrawl() { return isCrawl; }
 	void SetIsCrawl(bool crawl) { isCrawl = crawl; }
-	void Setvx(float vx) { vx = vx; }
-	void Setvy(float vy) { vy = vy; }
-	float GetDy() { return dy; }
-	float Getvy() { return vy; }
-	void Reset();
+
 	void GetInfoForBullet(int& direct, float& playerx, float& playery) { direct = nx; playerx = x; playery = y; }
 
 	//Bullet* GetPlayerMainBullet() { return mainBullet; }
-	void SetInjured(int dame);
+	virtual void FireBullet(int type) {};
+	virtual void GetPositionCenter(float& x, float& y) { x = this->x + SMALL_SOPHIA_BBOX_WIDTH / 2; y = this->y + SMALL_SOPHIA_BBOX_HEIGHT / 2; }
+	virtual void Reset();
+	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
+	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
 

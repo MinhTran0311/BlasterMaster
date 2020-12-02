@@ -75,7 +75,8 @@ public:
 	float Gety() { return y; }
 
 	/*int GetHeight{ return texture}*/
-
+	void SetDirection(int d) { nx = d; };
+	int GetDirection() { return nx; };
 	int GetHealth() { return health; }
 	void SetHealth(int value) { health = value; }
 	int GetgunDam() { return dam; }
@@ -86,6 +87,7 @@ public:
 
 	bool isFinishDeathAni() { return isDoneDeath; };
 	bool isActiveObject() { return isActive; };
+	void setActive(bool active) { isActive = active; };
 	bool isDeath();
 	int GetState() { return this->state; }
 

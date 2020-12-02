@@ -1,7 +1,3 @@
-# Id	FilePath			R	G	B
-[TEXTURES]
-40	Resource/Enemy/enemies.png	255	0	255
-50	Resource/item.png	255	255	0
 # id	left	top	right	bottom	texture_id
 #[CLEARTEXTURES]
 #[CLEARSPRITES]
@@ -92,6 +88,6 @@
 #Gate
 #	gateX	gateY	stage	playerX	playerY	state	camera	typeplayer	camX	camY
 #back
-2	0	1130	1	8	0	11	942	143	0	1	1	754	0
+2	20	1140	1	8	0	11	946	141	0	1	1	754	0
 #go
-2	465	120	4	0	2	0	3	1	2	1	3	13	95	141.5	0	1	1	0	0
+2	465	120	4	0	2	0	3	1	2	1	3	13	90	141.5	0	1	1	0	0

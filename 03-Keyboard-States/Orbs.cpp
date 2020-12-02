@@ -19,9 +19,13 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEENTITY> bricks;
-	if (isflip == true)  SetState(ORBS_STATE_FLIP); 
-	if (time == 19)  SetState(ORBS_STATE_FLY); 
-	if (health <= 0) SetState(ORBS_STATE_DIE);
+	if (health <= 0)
+	{
+		SetState(ORBS_STATE_DIE);
+		return;
+	}
+	if (isfly) { SetState(ORBS_STATE_FLY);  }
+	if (this->pointX != this->x || this->pointY != this->y) { canflip=true; }
 	coEvents.clear();
 	bricks.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
@@ -36,9 +40,6 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 #pragma endregion
 
-
-
-#pragma endregion
 #pragma region coillision
 	if (coEvents.size() == 0)
 	{
@@ -47,46 +48,53 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 	else
 	{
-		float min_tx, min_ty, nx = 0, ny;
+		float min_tx, min_ty, nx = 0, ny=0;
 		float rdx = 0;
 		float rdy = 0;
 		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
-		x += min_tx * dx + nx * 0.4f; // ko dính vào tường
-		y += min_ty * dy + ny * 0.4f;// ko dính vào tường
+		//x += min_tx * dx + nx * 3.6f; // ko dính vào tường
+		//y += min_ty * dy + ny * 3.6f;// ko dính vào tường
 
 		//setRandomVxVy(vx, vy);
 		
-		if (!nx && !ny)
+		
+		if (!ny)
 		{
 			
-			nx = -nx;
-			vx = -vx;
-			vy = -vy;
+			this->vx = -this->vx;
+			
 		}
-		else if (!nx)
+		if (!nx)
 		{
-			isflip = true;
-			vy = -vy;
+			this->vy = -this->vy;
+			
 		}
-
-		else if (!ny)
-		{
-			isflip = true;
-			nx = -nx;
-			vx = -vx;
+		
+		if (!this->vx || !this->vy) {
+			if (canflip) {
+				isfly = false;
+				SetState(ORBS_STATE_FLIP);
+				this->pointX = this->x;
+				this->pointY = this->y;
+			}
+			
 		}
+		
 	}
 	//clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 #pragma region Active
-	/*if (!isActive) vx = 0;
-	else SetState(ORBS_STATE_FLY);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= ORBS_SITEACTIVE_PLAYER)
+	if (!isActive) return;
+	/*else SetState(ORBS_STATE_FLY);*/
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TARGET_RANGE)
 	{
-		isActive = true;
-	}*/
+		if (mode == 1) {
+			Attack(target);
+		}
+		
+	}
 #pragma endregion
 
 }
@@ -94,16 +102,24 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 void Orbs::Render()
 {
 	//RenderBoundingBox();
-	if (vx > 0)
+	if (vx >= 0)
 		nx = 1;
 	else
 		nx = -1;
+	if (vy > 0)
+		ny = 1;
+	else
+		ny = -1;
 
 
 	int ani;
 	if (this->state == ORBS_STATE_DIE)
 	{
 		ani = ORBS_ANI_DIE;
+		if (animationSet->at(ani)->GetFrame() == 3)
+		{
+			isDoneDeath = true;
+		}
 		animationSet->at(ani)->OldRender(x, y);
 	}
 	else if (this->state == ORBS_STATE_FLY )
@@ -119,6 +135,11 @@ void Orbs::Render()
 
 		ani = ORBS_ANI_FLIP;
 		animationSet->at(ani)->Render(nx, x, y);
+		if (animationSet->at(ani)->GetFrame() == 2) {
+			isfly = true;
+			canflip = false;
+		}
+
 	}
 
 
@@ -129,48 +150,42 @@ void Orbs::Render()
 	//RenderBoundingBox();
 }
 
-Orbs::Orbs(float x, float y, LPGAMEENTITY t)
+Orbs::Orbs(float x, float y, LPGAMEENTITY t, int orb_mode)
 {
-
+	this->mode = orb_mode;
 	SetState(ORBS_STATE_FLY);
 	enemyType = ORBS;
 	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
-	nx = -1;
+	nx = 1;
+	ny = -1;
 	//dam = 1;
 	isTargeting = 0;
 	this->target = t;
 	health = MAXHEALTH;
-	isActive = false;
+	isActive = true;
 	bbARGB = 250;
 }
 
 void Orbs::Attack(LPGAMEENTITY target) //đi theo nhân vật
 {
-	//if ((target->x - this->x) > 0)
-	//{
-	//	this->nx = 1;
-	//	vx = WORM_WALKING_SPEED;
-	//}
-	//else
-	//{
-	//	vx = -WORM_WALKING_SPEED;
-	//	this->nx = -1;
-	//}
-	if (canAttack)
-	{
-		if (target != NULL)
-		{
-
-		}
-		else
-		{
-
-		}
+	if (abs(target->x - this->x) < 20 && canflip) {
+		isAttack == true;
+		/*if (this->r->getRandomInt(1, 2) == 1) { this->vy = FLYING_SPEED; }
+		if (this->r->getRandomInt(1, 2) == 2) { this->vy = -FLYING_SPEED; }*/
+		//else this->vy = -FLYING_SPEED;
+		this->vy = FLYING_SPEED;
+		if (target->x - this->x < 0)nx = -1;
+		else nx = 1;
+		SetState(ORBS_STATE_FLIP);
 	}
-
-
+	else if (abs(target->y - this->y) < 40) { 
+		this->vy = -FLYING_SPEED; 
+		SetState(ORBS_STATE_FLIP);
+	}
+	else this->vy = 0;
+	
 }
 
 void Orbs::SetState(int state)
@@ -179,14 +194,18 @@ void Orbs::SetState(int state)
 	switch (state)
 	{
 	case ORBS_STATE_DIE:
-		y += BBOX_HEIGHT / 2 + 1;
+		isActive = false;
+		/*y += BBOX_HEIGHT / 2 + 1;*/
 		vx = 0;
 		vy = 0;
 		break;
 	
 	case ORBS_STATE_FLIP:
-		vx = 0;
-		time++;
+		if (isAttack) {
+			vx = 0;
+			vy = 0;
+		}
+		
 		break;
 	
 	case ORBS_STATE_ATTACK:
@@ -195,15 +214,13 @@ void Orbs::SetState(int state)
 		break;
 
 	case ORBS_STATE_FLY:
-		isflip = false;
+		isAttack = false;
+		vy = 0;
 		if (nx > 0)
-		{
 			vx = MOVING_SPEED;
-		}
 		else
-		{
 			vx = -MOVING_SPEED;
-		}
+		
 		break;
 
 	

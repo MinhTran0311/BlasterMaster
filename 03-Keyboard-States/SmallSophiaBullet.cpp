@@ -146,7 +146,6 @@ void SmallSophiaBullet::Render()
 	//if (!isHitBrick && !isHitEnemy)
 	if (state == BULLET_SMALL_SOPHIA_STATE_FLYING)
 	{
-
 		if (typeBullet == SMALL_SOPHIA_NORMAL_BULLET)
 			ani = BULLET_SMALL_SOPHIA_NORMAL_ANI_RIGHT;
 		//else if (typeBullet == JASON_UPGRADE_BULLET)
@@ -156,10 +155,10 @@ void SmallSophiaBullet::Render()
 	}
 	else if (state == BULLET_SMALL_SOPHIA_STATE_HIT_BRICK)
 	{
-		ani = BULLET_BANG;
+		ani = BULLET_SMALL_SOPHIA_NORMAL_ANI_BANG;
 		if (nx == 1 && !isAimingTop)
 		{
-			animationSet->at(ani)->OldRender(x + BULLET_SMALL_SOPHIA_NORMAL_HORIZONTAL_BBOX_WIDTH - DISTANCE_BLOWING_UP * 2, y - DISTANCE_BLOWING_UP, alpha);
+			animationSet->at(ani)->OldRender(x + BULLET_SMALL_SOPHIA_NORMAL_HORIZONTAL_BBOX_WIDTH - DISTANCE_BLOWING_UP*3, y - DISTANCE_BLOWING_UP, alpha);
 		}
 		else animationSet->at(ani)->OldRender(x - DISTANCE_BLOWING_UP, y - DISTANCE_BLOWING_UP, alpha);
 		if (animationSet->at(ani)->GetFrame() == 3)

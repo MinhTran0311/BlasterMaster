@@ -10,7 +10,7 @@ void Jumpers::GetBoundingBox(float& left, float& top, float& right, float& botto
 void Jumpers::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt);
-
+	//if (!isActive)return;
 #pragma region fall down
 	vy += JUMPER_GRAVITY * dt;
 #pragma endregion
@@ -18,7 +18,7 @@ void Jumpers::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEENTITY> bricks;
-
+	if (this->health <= 0) { SetState(JUMPER_STATE_DIE); return; }
 	coEvents.clear();
 	bricks.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
@@ -87,12 +87,9 @@ void Jumpers::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 #pragma region Active
-	if (!isActive) vx = 0;
+	if (!isActive) return;
 	else SetState(JUMPER_STATE_WALKING);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= JUMPER_SITEACTIVE_PLAYER)
-	{
-		isActive = true;
-	}
+	
 #pragma endregion
 
 }
@@ -106,21 +103,23 @@ void Jumpers::Render()
 		nx = -1;
 
 	int ani = JUMPER_ANI_WALKING;
-	if (this->state == JUMPER_STATE_DIE) {
+	if (state == JUMPER_STATE_DIE) {
 		ani = JUMPER_ANI_DIE;
+		if (animationSet->at(ani)->GetFrame() == 3)
+		{
+			isDoneDeath = true;
+		}
+		animationSet->at(ani)->Render(nx, x, y - 2);
 	}
-
-	animationSet->at(ani)->Render(nx, x, y);
-
-
-
+	else
+		animationSet->at(ani)->Render(nx, x, y);
 	//RenderBoundingBox();
 }
 
 Jumpers::Jumpers(float x, float y, LPGAMEENTITY t)
 {
 	SetState(JUMPER_STATE_WALKING);
-	enemyType = EnemyType::JUMPERS;
+	enemyType = JUMPERS;
 	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
@@ -129,7 +128,7 @@ Jumpers::Jumpers(float x, float y, LPGAMEENTITY t)
 	isFollow = 0;
 	this->target = t;
 	health = JUMPER_MAXHEALTH;
-	isActive = false;
+	isActive = true;
 	bbARGB = 250;
 }
 
@@ -165,9 +164,10 @@ void Jumpers::SetState(int state)
 	switch (state)
 	{
 	case JUMPER_STATE_DIE:
-		y += JUMPER_BBOX_HEIGHT - JUMPER_BBOX_HEIGHT_DIE + 1;
+		//y += JUMPER_BBOX_HEIGHT - JUMPER_BBOX_HEIGHT_DIE + 1;
 		vx = 0;
 		vy = 0;
+		isActive = false;
 		break;
 
 	case JUMPER_STATE_JUMP:
@@ -183,5 +183,6 @@ void Jumpers::SetState(int state)
 		{
 			vx = -JUMPER_WALKING_SPEED;
 		}
+		break;
 	}
 }

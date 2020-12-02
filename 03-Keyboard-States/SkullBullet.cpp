@@ -18,7 +18,8 @@ SkullBullet::SkullBullet(float posX, float posY, int direct)
 	x = posX;
 	y = posY;
 	
-
+	/*vy = BULLET_SKULL_BOUNCE;
+	vx = BULLET_SKULL_ROLLING;*/
 	isActive = true;
 }
 
@@ -42,7 +43,8 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 		return;
 #pragma region fall down
 	vy += BULLET_SKULL_GRAVITY * dt;
-	vx += BULLET_SKULL_FRICTIONAL * dt;
+#pragma region rolling friction
+	vx /= BULLET_SKULL_FRICTIONAL;
 #pragma region set dam and direction
 	dam = 1;
 
@@ -87,15 +89,20 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			//if (e->obj->GetType() == EntityType::TAG_BRICK)
-			//{
-			//	this->SetState(BULLET_SKULL_STATE_HIT_BRICK);
-			//	x += min_tx * dx + nx * 0.4f;
-			//	y += min_ty * dy + ny * 0.4f;
-			//	//vx = 0;
-			//	//vy = 0;
-			//	//isHitBrick = true;
-			//}
+			if (e->obj->GetType() == EntityType::TAG_BRICK)
+			{
+				isHitBrick = true;
+				x += min_tx * dx + nx * 0.4f;
+				y += min_ty * dy + ny * 0.4f;
+
+				if (!rolling) {
+					vx = BULLET_SKULL_ROLLING*this->nx;
+					rolling = true;
+				}
+
+				vy = -(BULLET_SKULL_BOUNCE- bounceIndex);
+				bounceIndex+=0.03f;
+			}
 			/*if (e->obj->GetType() == EntityType::ENEMY)
 			{
 				e->obj->AddHealth(-dam);
@@ -105,9 +112,9 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 				y += min_ty * dy + ny * 0.4f;
 				isActive = false;
 			}*/
-			if (e->obj->GetType() == EntityType::TAG_JASON || e->obj->GetType() == EntityType::TAG_SMALL_SOPHIA || e->obj->GetType() == EntityType::TAG_BIG_SOPHIA)
+			if (e->obj->GetType() == EntityType::TAG_JASON )
 			{
-				e->obj->AddHealth(-dam);
+				e->obj->AddHealth(-1);
 				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
 				isHitEnemy = true;
 				x += min_tx * dx + nx * 0.4f;
@@ -160,9 +167,10 @@ void SkullBullet::SetState(int state)
 	{
 	case BULLET_SKULL_STATE_ROLLING:
 	{
-		isHitBrick = false;
+		isHitBrick = true;
 		isHitEnemy = false;
-		vx = BULLET_SPEED *nx;
+		//vx = BULLET_SPEED *nx;
+		
 		isActive = true;
 		break;
 	}

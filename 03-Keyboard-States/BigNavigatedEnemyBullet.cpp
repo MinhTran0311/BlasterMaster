@@ -1,6 +1,6 @@
 #include "BigNavigatedEnemyBullet.h"
 
-BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y)
+BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y, LPGAMEENTITY t)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BIG_ENEMY_BULLET));
 	tag = EntityType::BULLET;
@@ -10,13 +10,30 @@ BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int typ
 	dam = 1;
 	switch (type_enemy)
 	{
-	case TAG_CANNONS:
-		typeBullet = CANNONS_BULLET;
-	default:
-		typeBullet = -1;
-		break;
+		case CANNONS:
+		{
+			typeBullet = CANNONS_BULLET;
+			break;
+		}
+		default:
+		{
+			typeBullet = BULLET;
+			break;
+		}
 	}
-	//typeBullet = type_enemy;
+	switch (typeBullet)
+	{
+		case CANNONS_BULLET:
+		{
+			bullet_speed = CANNONS_BULLET_SPEED;
+			break;
+		}
+		default:
+		{
+			bullet_speed = BULLET_SPEED;
+			break;
+		}
+	}
 	nx = direct_x;
 	ny = direct_y;
 	isActive = true;
@@ -24,6 +41,11 @@ BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int typ
 	y = posY;
 	timeDelayed = 0;
 	timeDelayedMax = BIG_BULLET_ENEMY_DELAY;
+	this->target = t;
+	xBullet= posX;
+	yBullet = posY;
+	xTarget = target->x;
+	yTarget = target->y;
 }
 
 BigNavigatedEnemyBullet::~BigNavigatedEnemyBullet()
@@ -56,23 +78,42 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_o
 		Entity::Update(dt);
 		switch (typeBullet)
 		{
-		case EntityType::CANNONS_BULLET:
-			bullet_speed = CANNONS_BULLET_SPEED;
-			break;
-		default:
-			bullet_speed = BULLET_SPEED;
-			break;
+			case CANNONS_BULLET:
+			{
+				if (ny == 0)
+				{
+					vx = bullet_speed * nx;
+					vy = 0;
+				}
+				else
+				{
+					vy = bullet_speed * ny;
+					vx = 0;
+				}
+				break;
+			}
+			default:
+			{
+				vx = bullet_speed * nx;
+				if (nx == -1)
+				{
+					vt = -vx;
+				}
+				vy = bullet_speed * ny;
+				//vy = CalPositionTarget(target, v) * ny;
+				break;
+			}
 		}
-		if (ny==0)
+		/*if (ny == 0)
 		{
-			vx = BULLET_SPEED * nx;
+			vx = bullet_speed * nx;
 			vy = 0;
 		}
 		else
 		{
-			vy = BULLET_SPEED*ny;
+			vy = bullet_speed * ny;
 			vx = 0;
-		}
+		}*/
 	}
 #pragma endregion
 #pragma region collision
@@ -84,8 +125,21 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_o
 	CalcPotentialCollisions(colliable_objects, coEvents);
 	if (coEvents.size() == 0)
 	{
-		x += dx;
-		y += dy;
+		switch (typeBullet)
+		{
+			case CANNONS_BULLET:
+			{
+				x += dx;
+				y += dy;
+				break;
+			}
+			default:
+			{
+				x += dx;
+				y = CalPositionTarget(target, x);
+				break;
+			}
+		}
 	}
 	else
 	{
@@ -142,4 +196,11 @@ void BigNavigatedEnemyBullet::Render()
 			isActive = false;
 		}
 	}
+}
+
+float BigNavigatedEnemyBullet::CalPositionTarget(LPGAMEENTITY target, float xc)
+{
+	float a = (float)(yTarget - yBullet) / (float)(xTarget - xBullet);
+	float b = yTarget - (xTarget * a);
+	return ((xc * a) + b);
 }
