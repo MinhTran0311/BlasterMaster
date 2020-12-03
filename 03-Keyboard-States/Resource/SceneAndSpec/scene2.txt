@@ -33,8 +33,8 @@
 
 #FLOATER
 12	113	1140	1	8	0	12
-
-
+12	130	1175	1	8	0	12
+12	160	1102	1	8	1	12
 # type	x	y	extra_settings per object type
 # type: 1 = Brick, 2 = Gate
 #viền trái
