@@ -88,10 +88,14 @@ void Floaters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 #pragma region Active
-	if (!isActive) vx = 0;
+	if (!isActive) {
+		vx = 0;
+		vy = 0;
+	}
 	else SetState(FLOATERS_STATE_FLY);
 	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= ACTIVE_RANGE)
 	{
+		setRandomVxVy(vx,vy);
 		isActive = true;
 	}
 #pragma endregion
