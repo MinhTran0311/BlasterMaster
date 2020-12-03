@@ -7,10 +7,34 @@
 [TEXTURES]
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+#FLOATER
+#FLY
+1200	148	406	166	421	40
+#FLIP
+1201	128	405	146	421	40
+
 [ANIMATIONS]
-# id tuan theo define
+# id tuan theo define'
+#FLOATER
+#FLY
+1200	1200	100
+#ATTACK
+1201	1202	100	1201	100
+
+
+
 [ANIMATION_SETS]
+#FLOATER
+12	1200	1201	9000
+
+
 [OBJECTS]
+# type	x	y	numberOfPairGrid	gird_row1 (y/scr_height) 	grid_column1 (x/scr_width) 	grid_row2 	grid_column2 ...	animationset_id		width		height
+
+#FLOATER
+12	113	1140	1	8	0	12
+
+
 # type	x	y	extra_settings per object type
 # type: 1 = Brick, 2 = Gate
 #viền trái

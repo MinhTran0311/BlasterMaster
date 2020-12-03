@@ -119,6 +119,7 @@ void Orbs::Render()
 		if (animationSet->at(ani)->GetFrame() == 3)
 		{
 			isDoneDeath = true;
+			animationSet->at(ani)->ResetCurrentFrame();
 		}
 		animationSet->at(ani)->OldRender(x, y);
 	}
