@@ -134,19 +134,19 @@ void Cannons::SetState(int state)
 		case CANNONS_STATE_ATTACKING_TOP:
 		{
 			//Attack
-			/*Bullet* bullet1 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH / 2 - 3.0f, y + CANNONS_BBOX_HEIGHT, CANNONS, 0, 1);
-			Bullet* bullet2 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH / 2 - 3.0f, y - 3.0f, CANNONS, 0, -1);
+			Bullet* bullet1 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH / 2 - 3.0f, y + CANNONS_BBOX_HEIGHT, CANNONS, 0, 1, target);
+			Bullet* bullet2 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH / 2 - 3.0f, y - 3.0f, CANNONS, 0, -1, target);
 			CGrid::GetInstance()->InsertGrid(bullet1);
-			CGrid::GetInstance()->InsertGrid(bullet2);*/
+			CGrid::GetInstance()->InsertGrid(bullet2);
 			break;
 		}
 		case CANNONS_STATE_ATTACKING_LEFT:
 		{
 			//Attack
-			/*Bullet* bullet1 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH, y + CANNONS_BBOX_HEIGHT / 2 - 3.0f, CANNONS, 1, 0);
-			Bullet* bullet2 = new BigNavigatedEnemyBullet(x - 3.0f, y + CANNONS_BBOX_HEIGHT / 2 - 3.0f, CANNONS, -1, 0);
+			Bullet* bullet1 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH, y + CANNONS_BBOX_HEIGHT / 2 - 3.0f, CANNONS, 1, 0, target);
+			Bullet* bullet2 = new BigNavigatedEnemyBullet(x - 3.0f, y + CANNONS_BBOX_HEIGHT / 2 - 3.0f, CANNONS, -1, 0, target);
 			CGrid::GetInstance()->InsertGrid(bullet1);
-			CGrid::GetInstance()->InsertGrid(bullet2);*/
+			CGrid::GetInstance()->InsertGrid(bullet2);
 			break;
 		}
 		case CANNONS_STATE_IDLE:

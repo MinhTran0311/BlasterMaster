@@ -14,7 +14,6 @@ class BigNavigatedEnemyBullet : public Bullet
 	float vt;
 	float xBullet, yBullet, xTarget, yTarget;
 public:
-	BigNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y);
 	BigNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y, LPGAMEENTITY t);
 	~BigNavigatedEnemyBullet();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
