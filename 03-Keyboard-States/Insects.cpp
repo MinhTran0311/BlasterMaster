@@ -11,7 +11,11 @@ void Insects::GetBoundingBox(float& left, float& top, float& right, float& botto
 void Insects::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt);
-
+	if (health <= 0)
+	{
+		this->SetState(INSECTS_STATE_DIE);
+		return;
+	}
 #pragma region fly
 	//vy += WORM_GRAVITY * dt;
 	fly(dt);
@@ -121,6 +125,10 @@ void Insects::Render()
 	if (health <= 0)
 	{
 		ani = INSECTS_ANI_DIE;
+		if (animationSet->at(ani)->GetFrame() == 3)
+		{
+			isDoneDeath = true;
+		}
 		animationSet->at(ani)->Render(nx,x, y);
 	}
 	else if (true)
@@ -139,11 +147,6 @@ void Insects::Render()
 
 	}*/
 
-
-	/*for (int i = 0; i < bullet.size(); i++)
-	{
-		bullet.at(i)->Render();
-	}*/
 	//RenderBoundingBox();
 }
 
@@ -173,7 +176,8 @@ void Insects::SetState(int state)
 	switch (state)
 	{
 	case INSECTS_STATE_DIE:
-		y += BBOX_HEIGHT / 2 + 1;
+		//y += BBOX_HEIGHT / 2 + 1;
+		isActive = false;
 		vx = 0;
 		vy = 0;
 		break;
