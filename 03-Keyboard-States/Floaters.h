@@ -28,6 +28,7 @@
 #define MAX_COOLDOWN 5000
 
 #define TARGET_RANGE 200
+#define ACTIVE_RANGE 150
 
 class Floaters : public Enemy
 {

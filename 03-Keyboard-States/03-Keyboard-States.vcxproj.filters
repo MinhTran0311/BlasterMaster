@@ -123,8 +123,6 @@
     </ClCompile>
     <ClCompile Include="Worms.cpp">
       <Filter>Objects\Enemies</Filter>
-    <ClCompile Include="SmallSophiaBullet.cpp">
-      <Filter>Objects\Bullets\Player</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Objects\Player</Filter>
