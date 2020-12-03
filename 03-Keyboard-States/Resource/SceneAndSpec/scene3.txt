@@ -1,4 +1,10 @@
 [OBJECTS]
+#SKULLS
+16	120	130	1	0	0	16
+16	294	130	2	0	1	1	1	16
+16	455	130	2	0	2	1	2	16
+
+
 # id	left	top	right	bottom	texture_id
 #viền trái
 1	0	0	2	0	0	1	0	22	64	170
