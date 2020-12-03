@@ -11,7 +11,11 @@ void Floaters::GetBoundingBox(float& left, float& top, float& right, float& bott
 void Floaters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt);
-
+	if (health <= 0)
+	{
+		this->SetState(FLOATERS_STATE_DIE);
+		return;
+	}
 #pragma region fall down
 	//vy += WORM_GRAVITY * dt;
 #pragma endregion
@@ -114,6 +118,10 @@ void Floaters::Render()
 	if (health <= 0)
 	{
 		ani = FLOATERS_ANI_DIE;
+		if (animationSet->at(ani)->GetFrame() == 3)
+		{
+			isDoneDeath = true;
+		}
 		animationSet->at(ani)->Render(nx,x, y);
 	}
 	else if (true)
@@ -187,9 +195,10 @@ void Floaters::SetState(int state)
 	switch (state)
 	{
 	case FLOATERS_STATE_DIE:
-		y += BBOX_HEIGHT/2 + 1;
+		//y += BBOX_HEIGHT/2 + 1;
 		vx = 0;
 		vy = 0;
+		isActive = false;
 		break;
 
 	case FLOATERS_STATE_FLY:

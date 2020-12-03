@@ -16,8 +16,8 @@
 #define INSECTS_STATE_DIE		300
 
 #define INSECTS_ANI_FLY		0
-#define INSECTS_ANI_ATTACK		1
-#define INSECTS_ANI_DIE		2
+//#define INSECTS_ANI_ATTACK		1
+#define INSECTS_ANI_DIE		1
 
 #define FLYING_SPEED	0.05f;
 
