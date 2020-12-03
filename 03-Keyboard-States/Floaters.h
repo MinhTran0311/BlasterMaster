@@ -34,6 +34,7 @@ class Floaters : public Enemy
 {
 	bool canAttack = true;
 	bool isTargeting;
+	bool firstTimeActive = false;
 	Random* r = new Random();
 	Timer* cooldownTimer = new Timer(r->getRandomInt(500,5000));
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

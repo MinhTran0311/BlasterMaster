@@ -88,12 +88,22 @@ void Insects::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 #pragma region Active
-	/*if (!isActive) vx = 0;
-	else SetState(INSECTS_STATE_FLY);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= WORM_SITEACTIVE_PLAYER)
+	if (!isActive)
 	{
-		isActive = true;
-	}*/
+		vx = 0;
+		vy = 0;
+	}
+	else SetState(INSECTS_STATE_FLY);
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= ACTIVE_RANGE)
+	{
+		if (!firstTimeActive)
+		{
+			setRandomVxVy(vx, vy);
+			isActive = true;
+			firstTimeActive = true;
+		}
+
+	}
 #pragma endregion
 
 }
@@ -156,32 +166,7 @@ Insects::Insects(float x, float y, LPGAMEENTITY t)
 	maxdrop = flyDropRange + originalY;
 }
 
-void Insects::Attack(LPGAMEENTITY target) //đi theo nhân vật
-{
-	//if ((target->x - this->x) > 0)
-	//{
-	//	this->nx = 1;
-	//	vx = WORM_WALKING_SPEED;
-	//}
-	//else
-	//{
-	//	vx = -WORM_WALKING_SPEED;
-	//	this->nx = -1;
-	//}
-	if (canAttack)
-	{
-		if (target != NULL)
-		{
 
-		}
-		else
-		{
-
-		}
-	}
-
-
-} 
 
 void Insects::SetState(int state)
 {
