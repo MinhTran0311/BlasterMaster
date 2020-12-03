@@ -121,6 +121,7 @@ void Floaters::Render()
 		if (animationSet->at(ani)->GetFrame() == 3)
 		{
 			isDoneDeath = true;
+			animationSet->at(ani)->ResetCurrentFrame();
 		}
 		animationSet->at(ani)->Render(nx,x, y);
 	}
