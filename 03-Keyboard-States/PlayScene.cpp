@@ -326,6 +326,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			((PlayScene*)scence)->changePlayer();
 		}*/
 		((PlayScene*)scence)->changePlayer();
+		//player->SetPressUp(false);
 		break;
 	case DIK_A:
 	{

@@ -14,7 +14,6 @@ SkullBullet::SkullBullet(float posX, float posY, int direct)
 	typeBullet = EntityType::SKULLS_BULLET;
 	dam = 1;
 	nx = direct;
-	
 	x = posX;
 	y = posY;
 	

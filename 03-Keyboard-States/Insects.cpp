@@ -11,7 +11,11 @@ void Insects::GetBoundingBox(float& left, float& top, float& right, float& botto
 void Insects::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt);
-
+	if (health <= 0)
+	{
+		this->SetState(INSECTS_STATE_DIE);
+		return;
+	}
 #pragma region fly
 	//vy += WORM_GRAVITY * dt;
 	fly(dt);
@@ -88,12 +92,22 @@ void Insects::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 #pragma region Active
-	/*if (!isActive) vx = 0;
-	else SetState(INSECTS_STATE_FLY);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= WORM_SITEACTIVE_PLAYER)
+	if (!isActive)
 	{
-		isActive = true;
-	}*/
+		vx = 0;
+		vy = 0;
+	}
+	else SetState(INSECTS_STATE_FLY);
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= ACTIVE_RANGE)
+	{
+		if (!firstTimeActive)
+		{
+			setRandomVxVy(vx, vy);
+			isActive = true;
+			firstTimeActive = true;
+		}
+
+	}
 #pragma endregion
 
 }
@@ -111,6 +125,11 @@ void Insects::Render()
 	if (health <= 0)
 	{
 		ani = INSECTS_ANI_DIE;
+		if (animationSet->at(ani)->GetFrame() == 3)
+		{
+			isDoneDeath = true;
+			animationSet->at(ani)->ResetCurrentFrame();
+		}
 		animationSet->at(ani)->Render(nx,x, y);
 	}
 	else if (true)
@@ -129,11 +148,6 @@ void Insects::Render()
 
 	}*/
 
-
-	/*for (int i = 0; i < bullet.size(); i++)
-	{
-		bullet.at(i)->Render();
-	}*/
 	//RenderBoundingBox();
 }
 
@@ -156,39 +170,15 @@ Insects::Insects(float x, float y, LPGAMEENTITY t)
 	maxdrop = flyDropRange + originalY;
 }
 
-void Insects::Attack(LPGAMEENTITY target) //đi theo nhân vật
-{
-	//if ((target->x - this->x) > 0)
-	//{
-	//	this->nx = 1;
-	//	vx = WORM_WALKING_SPEED;
-	//}
-	//else
-	//{
-	//	vx = -WORM_WALKING_SPEED;
-	//	this->nx = -1;
-	//}
-	if (canAttack)
-	{
-		if (target != NULL)
-		{
 
-		}
-		else
-		{
-
-		}
-	}
-
-
-} 
 
 void Insects::SetState(int state)
 {
 	switch (state)
 	{
 	case INSECTS_STATE_DIE:
-		y += BBOX_HEIGHT / 2 + 1;
+		//y += BBOX_HEIGHT / 2 + 1;
+		isActive = false;
 		vx = 0;
 		vy = 0;
 		break;

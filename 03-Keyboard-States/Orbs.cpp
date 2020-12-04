@@ -119,6 +119,7 @@ void Orbs::Render()
 		if (animationSet->at(ani)->GetFrame() == 3)
 		{
 			isDoneDeath = true;
+			animationSet->at(ani)->ResetCurrentFrame();
 		}
 		animationSet->at(ani)->OldRender(x, y);
 	}
@@ -180,7 +181,7 @@ void Orbs::Attack(LPGAMEENTITY target) //đi theo nhân vật
 		else nx = 1;
 		SetState(ORBS_STATE_FLIP);
 	}
-	else if (abs(target->y - this->y) < 40) { 
+	else if (abs(target->y - this->y) < 20) { 
 		this->vy = -FLYING_SPEED; 
 		SetState(ORBS_STATE_FLIP);
 	}
