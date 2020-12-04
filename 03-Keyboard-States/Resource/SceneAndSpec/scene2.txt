@@ -7,12 +7,34 @@
 [TEXTURES]
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+#SoftBrick
+#default
+700001	10	4	25	21	3
+#explosion
+700002	177	118	200	141	1	
+700003	211	88	230	107	1
+700004	190	88	209	107	1
+700005	169	88	188	107	1
+
 [ANIMATIONS]
+#SoftBrick
+#default
+70001	700001	100
+#explosion
+70002	700002	50	700003	50	700002	100	700003	80	700004	80	700005	80
+
 # id tuan theo define
 [ANIMATION_SETS]
+#SoftBrick
+7	70001	70002
 [OBJECTS]
 # type	x	y	extra_settings per object type
 # type: 1 = Brick, 2 = Gate
+#softbrick
+7	320	1167	1	8	2	7
+7	336	1167	1	8	2	7
+
+
 #viền trái
 1	0	0	11	0	0	1	0	2	0	3	0	4	0	5	0	6	0	7	0	8	0	9	0	10	0	22	31	1440
 #viền phải
@@ -88,6 +110,6 @@
 #Gate
 #	gateX	gateY	stage	playerX	playerY	state	camera	typeplayer	camX	camY
 #back
-2	20	1140	1	8	0	11	946	141	0	1	1	754	0
+2	20	1140	1	8	0	11	946	141	0	1	101	754	0
 #go
-2	465	120	4	0	2	0	3	1	2	1	3	13	90	141.5	0	1	1	0	0
+2	465	120	4	0	2	0	3	1	2	1	3	13	90	141.5	0	1	101	0	0

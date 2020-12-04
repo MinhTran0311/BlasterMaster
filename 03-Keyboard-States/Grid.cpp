@@ -12,6 +12,10 @@
 #include "Eyeballs.h"
 #include "Cannons.h"
 #include "Teleporters.h"
+#include "InjuringBrick.h"
+#include "GadBrick.h"
+#include "SoftBrick.h"
+#include "Big_Sophia.h"
 vector<LPGAMEENTITY> CGrid::FilterObjectDuplicate(vector<LPGAMEENTITY> objs)
 {
 	std::sort(objs.begin(), objs.end());
@@ -176,36 +180,51 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_BRICK:
 	{
-		obj = new Brick(atof(tokens[milestone + 2].c_str()), atof(tokens[milestone + 3].c_str()));
-		obj->SetPosition(x, y);
-		//LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-		//obj->SetAnimationSet(ani_set);
+		obj = new Brick(x,y,atof(tokens[milestone + 2].c_str()), atof(tokens[milestone + 3].c_str()));
+
 		DebugOut(L"[test] add brick !\n");
+		break;
+	}
+	case EntityType::TAG_INJURING_BRICK:
+	{
+		obj = new InjuringBrick(x, y, atof(tokens[milestone + 2].c_str()), atof(tokens[milestone + 3].c_str()));
+		//obj->SetPosition(x, y);
+
+		DebugOut(L"[test] add injuring brick !\n");
+		break;
+	}
+	case EntityType::TAG_GAD_BRICK:
+	{
+		obj = new GadBrick(x, y, atof(tokens[milestone + 2].c_str()), atof(tokens[milestone + 3].c_str()));
+		//obj->SetPosition(x, y);
+
+		DebugOut(L"[test] add gad brick !\n");
+		break;
+	}
+	case EntityType::TAG_SOFT_BRICK:
+	{
+		obj = new SoftBrick(x, y);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		DebugOut(L"[test] add soft brick !\n");
 		break;
 	}
 	case EntityType::TAG_GATE:
 	{
-
 		int switchId = atoi(tokens[milestone + 1].c_str());
-		
-		float playerPosX = atoi(tokens[milestone + 2].c_str());
-		
-		
-		float playerPosY = atoi(tokens[milestone + 3].c_str());
+		int playerPosX = atoi(tokens[milestone + 2].c_str());
+		int playerPosY = atoi(tokens[milestone + 3].c_str());
 		int playerState = atoi(tokens[milestone + 4].c_str());
-
 		int isResetCamera = atoi(tokens[milestone + 5].c_str());
-
 		int int_typePlayer = atoi(tokens[milestone + 6].c_str());
-		EntityType typePlayer = EntityType::TAG_JASON;
+		EntityType typePlayer = EntityType::TAG_JASON; 
 		switch (int_typePlayer)
 		{
 		case 102:
 			typePlayer = EntityType::TAG_SMALL_SOPHIA;
 		case 103:
 			typePlayer = EntityType::TAG_BIG_SOPHIA;
-		default:
-			break;
 		}
 		float camX = atoi(tokens[milestone + 7].c_str());
 		DebugOut(L"Tạo gate %d", camX);
@@ -358,7 +377,7 @@ bool CGrid::CheckBulletLimitation(EntityType typebullet, float xPlayerPos, float
 
 void CGrid::SetTargetForEnemies(LPGAMEPLAYER player)
 {
-	DebugOut(L"nap lai target %d\n", player->GetPlayerType());
+	//DebugOut(L"nap lai target %d\n", player->GetPlayerType());
 	for (int i = 0; i < rowGrid; i++)
 	{
 		for (int j = 0; j < columnGrid; j++)
@@ -368,7 +387,7 @@ void CGrid::SetTargetForEnemies(LPGAMEPLAYER player)
 				if (cells[i][j].at(k)->GetType() == EntityType::ENEMY)
 				{
 					dynamic_cast<Enemy*>(cells[i][j].at(k))->SetTarget(player);
-					DebugOut(L"nap lai target %d\n", dynamic_cast<Enemy*>(cells[i][j].at(k))->GetType());
+					//DebugOut(L"nap lai target %d\n", dynamic_cast<Enemy*>(cells[i][j].at(k))->GetType());
 				}
 			}
 		}

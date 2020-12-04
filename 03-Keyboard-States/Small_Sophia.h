@@ -1,8 +1,16 @@
-#include "Entity.h"
+#pragma once
 #include <map>
 #include "Timer.h"
 #include "Player.h"
-#pragma once
+#include "Game.h"
+#include "SmallSophiaBullet.h"
+#include "Grid.h"
+#include <algorithm>
+#include <assert.h>
+#include "debug.h"
+#include "Enemy.h"
+
+
 #define ANIMATION_SET_SMALL_SOPHIA	2
 
 #define SOPHIA_GRAVITY						0.0004f

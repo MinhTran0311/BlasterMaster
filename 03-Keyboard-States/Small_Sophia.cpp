@@ -1,12 +1,5 @@
-﻿#include <algorithm>
-#include <assert.h>
-#include "debug.h"
-#include "Enemy.h"
-#include "Small_Sophia.h"
-#include "Game.h"
-#include "Bullet.h"
-#include "SmallSophiaBullet.h"
-#include "Grid.h"
+﻿#include "Small_Sophia.h"
+
 Small_Sophia::Small_Sophia(float x, float y, int _health, int _gundam) : Player()
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SMALL_SOPHIA));

@@ -3,6 +3,7 @@
 0	Resource/bbox.png	255	255	0
 1	Resource/item.png	255	255	255
 2	Resource/player_jason_bullet.png	199 	200 	50
+3	Resource/softbrick.png	255	0	255
 10	Resource/sophia_die.png	176	0	248
 21	Resource/sophia.png	255	0	255
 30	Resource/jason.png	255	0	255
@@ -17,9 +18,8 @@
 16	Resource/SceneAndSpec/Scene/area_6.png	255	0	255
 17	Resource/SceneAndSpec/Scene/area_7.png	255	0	255
 18	Resource/SceneAndSpec/Scene/area_8.png	255	0	255
-19	Resource/SceneAndSpec/Scene//area_9.jpg	255	0	255
+19	Resource/SceneAndSpec/Scene/area_9.jpg	255	0	255
 20	Resource/SceneAndSpec/Scene/overworld.png	255	0	255
-
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 ##============ SOPHIA JASON =================
@@ -258,15 +258,15 @@
 60002	60002	100
 ###============SMALL SOPHIA===============#
 #idle right
-900	12000	100
+600	12000	100
 #walk right
-901	12001	200	12002	200	12003	200
+601	12001	200	12002	200	12003	200
 #crawl
-902	12004	200	12005	200
+602	12004	200	12005	200
 #die
-903	12006	70	12007	70	12008	70	12009	70	12006	70	12007	70	12008	70	12009	70	12006	70	12007	70	12008	70	12009	70	12006	300	12010	300
+603	12006	70	12007	70	12008	70	12009	70	12006	70	12007	70	12008	70	12009	70	12006	70	12007	70	12008	70	12009	70	12006	300	12010	300
 #jump right
-904	12003	100
+604	12003	100
 
 
 # id tuan theo define
@@ -274,7 +274,7 @@
 # JASON
 1	400	401	500	501	410	411	412	413	414	415	416	417	420	421	422	423	424	425	426	427	510	511	520	521	430	431	461	462	463	464	465	466	467	468	599	470
 # SMALL SOPHIA
-2	900	901	902	903	904
+2	600	601	602	603	604
 #====Bullet========#
 31	30001	30002	30003	30004	30005
 #rocket
@@ -306,4 +306,4 @@ Resource/SceneAndSpec/scene8.txt	518	275
 #Stage9
 Resource/SceneAndSpec/scene9.txt	280	275
 #Stage10
-Resource/SceneAndSpec/scene10.txt	2048	2048
+Resource/SceneAndSpec/overworld.txt	2048	2048

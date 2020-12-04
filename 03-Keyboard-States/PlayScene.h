@@ -44,9 +44,9 @@ public:
 	int _SophiaType = -1;
 	float oldPosX;
 	float oldPosY;
-	int directMoveCam = -1;
+	int CamMoveDirection = -1;
 	float posX, posY;
-
+	float xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack;
 
 
 	float nCamXGo;
