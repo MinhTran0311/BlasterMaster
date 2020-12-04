@@ -181,6 +181,7 @@ void Floaters::SetState(int state)
 		y += BBOX_HEIGHT/2 + 1;
 		vx = 0;
 		vy = 0;
+		isActive = false;
 		break;
 
 	case FLOATERS_STATE_FLY:

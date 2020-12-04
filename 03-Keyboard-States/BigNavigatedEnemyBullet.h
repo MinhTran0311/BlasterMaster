@@ -7,6 +7,7 @@
 #define BIG_NAVI_ENEMY_BULLET_ANI			0
 #define ENEMY_BULLET_BANG					1
 #define CANNONS_BULLET_SPEED			0.15f
+#define BULLET_SPEED_OTHERS				0.1f
 #define BIG_BULLET_ENEMY_DELAY			700
 class BigNavigatedEnemyBullet : public Bullet
 {

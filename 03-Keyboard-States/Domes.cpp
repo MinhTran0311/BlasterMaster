@@ -11,7 +11,7 @@ void Domes::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	bottom = y + DOMES_BBOX_HEIGHT;
 }
 
-Domes::Domes(float x, float y, LPGAMEENTITY t)
+Domes::Domes(float x, float y, LPGAMEENTITY t, int gravity)
 {
 	//SetState(DOMES_STATE_WALKING_TOP_BOTTOM_RIGHT);
 	enemyType = EnemyType::DOMES;
@@ -19,7 +19,7 @@ Domes::Domes(float x, float y, LPGAMEENTITY t)
 	this->x = x;
 	this->y = y;
 	dam = 1;
-	this->dgravity = 3;
+	this->dgravity = gravity;
 	nx = 1;
 	this->target = t;
 	health = DOMES_MAXHEALTH;
@@ -35,9 +35,17 @@ Domes::Domes(float x, float y, LPGAMEENTITY t)
 void Domes::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt);
-
+	if (health <= 0)
+	{
+		this->SetState(DOMES_STATE_DIE);
+		return;
+	}
 #pragma region Xử lý Attack
 	StartAttack();
+#pragma endregion
+
+#pragma region Ngừng bay ngang
+	stopAttackLeftRight();
 #pragma endregion
 
 #pragma region Xử lý State
@@ -93,93 +101,104 @@ void Domes::Render()
 {
 	int ani;
 
-	switch (dgravity)
+	if (state == DOMES_STATE_DIE)
 	{
-	case 1:
+		ani = DOMES_ANI_DIE;
+		if (animationSet->at(ani)->GetFrame() == 3)
+		{
+			isDoneDeath = true;
+			animationSet->at(ani)->ResetCurrentFrame();
+		}
+		animationSet->at(ani)->Render(nx, x, y - 2);
+	}
+	else {
+		switch (dgravity)
+		{
+		case 1:
 
-		if (isDamaged)
-		{
-			ani = DOMES_ANI_ATTACK_TOP_BOTTOM;
-			animationSet->at(ani)->RenderTopBottom(1, x, y);
-		}
-		else if (vx > 0)
-		{
-			ani = DOMES_ANI_WALKING_TOP_BOTTOM_LEFT;
-			animationSet->at(ani)->RenderTopBottom(1, x, y);
-		}
-		else
-		{
-			ani = DOMES_ANI_WALKING_TOP_BOTTOM_RIGHT;
-			animationSet->at(ani)->RenderTopBottom(1, x, y);
-		}
-		break;
-
-	case 2:
-		if (isDamaged)
-		{
-			if (aboveTarget)
+			if (isDamaged)
 			{
 				ani = DOMES_ANI_ATTACK_TOP_BOTTOM;
 				animationSet->at(ani)->RenderTopBottom(1, x, y);
 			}
-			else {
-				ani = DOMES_ANI_ATTACK_LEFT_RIGHT;
+			else if (vx > 0)
+			{
+				ani = DOMES_ANI_WALKING_TOP_BOTTOM_LEFT;
+				animationSet->at(ani)->RenderTopBottom(1, x, y);
+			}
+			else
+			{
+				ani = DOMES_ANI_WALKING_TOP_BOTTOM_RIGHT;
+				animationSet->at(ani)->RenderTopBottom(1, x, y);
+			}
+			break;
+
+		case 2:
+			if (isDamaged)
+			{
+				if (aboveTarget)
+				{
+					ani = DOMES_ANI_ATTACK_TOP_BOTTOM;
+					animationSet->at(ani)->RenderTopBottom(1, x, y);
+				}
+				else {
+					ani = DOMES_ANI_ATTACK_LEFT_RIGHT;
+					animationSet->at(ani)->Render(1, x, y);
+				}
+			}
+			else if (vy > 0)
+			{
+				ani = DOMES_ANI_WALKING_LEFT_RIGHT_BOTTOM;
 				animationSet->at(ani)->Render(1, x, y);
 			}
-		}
-		else if (vy > 0)
-		{
-			ani = DOMES_ANI_WALKING_LEFT_RIGHT_BOTTOM;
-			animationSet->at(ani)->Render(1, x, y);
-		}
-		else if (vy < 0)
-		{
-			ani = DOMES_ANI_WALKING_LEFT_RIGHT_TOP;
-			animationSet->at(ani)->Render(1, x, y);
-		}
-		break;
+			else if (vy < 0)
+			{
+				ani = DOMES_ANI_WALKING_LEFT_RIGHT_TOP;
+				animationSet->at(ani)->Render(1, x, y);
+			}
+			break;
 
-	case 3:
-		if (isDamaged)
-		{
-			ani = DOMES_ANI_ATTACK_TOP_BOTTOM;
-			animationSet->at(ani)->RenderTopBottom(-1, x, y);
-		}
-		else if (vx > 0)
-		{
-			ani = DOMES_ANI_WALKING_TOP_BOTTOM_LEFT;
-			animationSet->at(ani)->RenderTopBottom(-1, x, y);
-		}
-		else
-		{
-			ani = DOMES_ANI_WALKING_TOP_BOTTOM_RIGHT;
-			animationSet->at(ani)->RenderTopBottom(-1, x, y);
-		}
-		break;
+		case 3:
+			if (isDamaged)
+			{
+				ani = DOMES_ANI_ATTACK_TOP_BOTTOM;
+				animationSet->at(ani)->RenderTopBottom(-1, x, y);
+			}
+			else if (vx > 0)
+			{
+				ani = DOMES_ANI_WALKING_TOP_BOTTOM_LEFT;
+				animationSet->at(ani)->RenderTopBottom(-1, x, y);
+			}
+			else
+			{
+				ani = DOMES_ANI_WALKING_TOP_BOTTOM_RIGHT;
+				animationSet->at(ani)->RenderTopBottom(-1, x, y);
+			}
+			break;
 
-	case 4:
-		if (isDamaged)
-		{
-			ani = DOMES_ANI_ATTACK_LEFT_RIGHT;
-			animationSet->at(ani)->Render(-1, x, y);
-		}
-		else if (vy > 0)
-		{
-			ani = DOMES_ANI_WALKING_LEFT_RIGHT_BOTTOM;
-			animationSet->at(ani)->Render(-1, x, y);
-		}
-		else if (vy < 0)
-		{
-			ani = DOMES_ANI_WALKING_LEFT_RIGHT_TOP;
-			animationSet->at(ani)->Render(-1, x, y);
-		}
-		break;
+		case 4:
+			if (isDamaged)
+			{
+				ani = DOMES_ANI_ATTACK_LEFT_RIGHT;
+				animationSet->at(ani)->Render(-1, x, y);
+			}
+			else if (vy > 0)
+			{
+				ani = DOMES_ANI_WALKING_LEFT_RIGHT_BOTTOM;
+				animationSet->at(ani)->Render(-1, x, y);
+			}
+			else if (vy < 0)
+			{
+				ani = DOMES_ANI_WALKING_LEFT_RIGHT_TOP;
+				animationSet->at(ani)->Render(-1, x, y);
+			}
+			break;
 
-	default:
-		break;
+		default:
+			break;
+		}
 	}
-
-
+	
 	RenderBoundingBox();
 }
 
@@ -401,6 +420,7 @@ void Domes::StartAttack()
 			if (target->y <= y + DOMES_BBOX_HEIGHT && target->y >= y && target->x > x)
 			{
 				startAttack->Start();
+				timerAttackLeftRight->Start();
 				isDamaged = true;
 				firstFollow = false;
 			}
@@ -591,7 +611,7 @@ void Domes::SetState(int state)
 	switch (state)
 	{
 	case DOMES_STATE_DIE:
-		y += DOMES_BBOX_HEIGHT - DOMES_BBOX_HEIGHT_DIE + 1;
+		isActive = false;
 		vx = 0;
 		vy = 0;
 		break;
@@ -601,8 +621,20 @@ void Domes::SetState(int state)
 		{
 			if (startAttack->IsTimeUp())
 			{
-				vx = DOMES_ATTACK_SPEED;
-				startAttack->Reset();
+				/*timerAttackLeftRight->Start();
+				if (timerAttackLeftRight->IsTimeUp())
+				{
+					DebugOut(L"Doi trong luc %d\n", dgravity);
+					this->dgravity = 3;
+					SetState(DOMES_STATE_WALKING_TOP_BOTTOM_LEFT);
+					timerAttackLeftRight->Reset();
+					startAttack->Reset();
+				}
+				else 
+				{*/
+					vx = DOMES_ATTACK_SPEED / 3;
+					startAttack->Reset();
+				//}
 			}
 
 		}
@@ -741,4 +773,25 @@ int Domes::random_directionclock()
 		else return res = -1;
 	}
 
+}
+
+void Domes::stopAttackLeftRight()
+{
+	if (state == DOMES_STATE_ATTACK_LEFT_RIGHT)
+	{
+		if (timerAttackLeftRight->IsTimeUp())
+		{
+			
+			if (dgravity == 4)
+			{
+				SetState(DOMES_STATE_WALKING_TOP_BOTTOM_LEFT);
+			}
+			else
+			{
+				SetState(DOMES_STATE_WALKING_TOP_BOTTOM_RIGHT);
+			}
+			this->dgravity = 1;
+			timerAttackLeftRight->Reset();
+		}
+	}
 }

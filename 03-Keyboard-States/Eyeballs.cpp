@@ -135,10 +135,10 @@ void Eyeballs::Render()
 		ani = EYEBALLS_ANI_DIE;
 		if (animationSet->at(ani)->GetFrame() == 3)
 		{
-
 			isDoneDeath = true;
+			animationSet->at(ani)->ResetCurrentFrame();
 		}
-		animationSet->at(ani)->Render(nx, x, y - 3);
+		animationSet->at(ani)->Render(nx, x, y - 2);
 	}
 	else
 	{
@@ -165,7 +165,7 @@ Eyeballs::Eyeballs(float x, float y, LPGAMEENTITY t)
 	this->target = t;
 	health = EYEBALLS_MAXHEALTH;
 	isActive = false;
-	bbARGB = 250;
+	bbARGB = 0;
 	canAttack = false;
 	canFly = false;
 	canIdle = true;
@@ -254,10 +254,10 @@ void Eyeballs::SetState(int state)
 	switch (state)
 	{
 		case EYEBALLS_STATE_DIE:
+			isActive = false;
 			//y += EYEBALLS_BBOX_HEIGHT - EYEBALLS_BBOX_HEIGHT_DIE + 1;
 			vx = 0;
 			vy = 0;
-			isActive = false;
 			break;
 		case EYEBALLS_STATE_FLYING:
 		{
