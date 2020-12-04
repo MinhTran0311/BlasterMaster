@@ -67,7 +67,7 @@ void JasonBullet::GetBoundingBox(float& left, float& top, float& right, float& b
 	}
 }
 
-void JasonBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
+void JasonBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	if (!isActive)
 		return;
@@ -98,13 +98,20 @@ void JasonBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 		}
 	}
 #pragma endregion
+	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
+	for (int i = 0; i < coObjects->size(); i++)
+	{
+		if (coObjects->at(i)->GetType() == TAG_GATE || coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_SOFT_BRICK || coObjects->at(i)->GetType() == ENEMY)
+			colliable_Objects->push_back(coObjects->at(i));
+	}
+	
 #pragma region collision
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
 
-	CalcPotentialCollisions(colliable_objects, coEvents);
+	CalcPotentialCollisions(colliable_Objects, coEvents);
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -120,7 +127,7 @@ void JasonBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetType() == EntityType::TAG_BRICK)
+			if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == EntityType::TAG_GATE)
 			{
 				this->SetState(BULLET_JASON_STATE_HIT_BRICK);
 				x += min_tx * dx + nx * 0.4f;
@@ -129,7 +136,7 @@ void JasonBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 				//vy = 0;
 				//isHitBrick = true;
 			}
-			else if (e->obj->GetType() == EntityType::ENEMY)
+			else if (e->obj->GetType() == EntityType::ENEMY || e->obj->GetType() == EntityType::TAG_SOFT_BRICK)
 			{
 				e->obj->AddHealth(-dam);
 				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
@@ -153,7 +160,7 @@ void JasonBullet::Render()
 		return;
 	RenderBoundingBox();
 	int ani;
-	DebugOut(L"Jason bullet render");
+	//DebugOut(L"Jason bullet render");
 
 	//if (!isHitBrick && !isHitEnemy)
 	if (state==BULLET_JASON_STATE_FLYING)
@@ -197,7 +204,7 @@ void JasonBullet::SetState(int state)
 {
 
 	Entity::SetState(state);
-	DebugOut(L"Bullet state: %d", state);
+	//DebugOut(L"Bullet state: %d", state);
 	switch (state)
 	{
 	case BULLET_JASON_STATE_FLYING:

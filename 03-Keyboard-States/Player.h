@@ -13,7 +13,7 @@ class Player :public Entity
 protected:
 	EntityType _PlayerType;
 
-	int alpha;
+	int alpha=255;
 	bool isDeath;
 	bool isDoneDeath;
 
@@ -41,6 +41,7 @@ public:
 
 	void Setvx(float new_vx) { vx = new_vx; }
 	void Setvy(float new_vy) { vy = new_vy; };
+	float Getvy() { return vy; };
 	float GetDy() { return dy; };
 	float GetDx() { return dx; };
 	void SetIsDoneDeath(bool donedeath) { isDoneDeath = donedeath; };
