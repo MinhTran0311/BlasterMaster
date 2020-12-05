@@ -12,8 +12,11 @@ void Cannons::GetBoundingBox(float& left, float& top, float& right, float& botto
 void Cannons::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt);
-	bbARGB = 0;
-
+	if (health <= 0)
+	{
+		this->SetState(CANNONS_STATE_DIE);
+		return;
+	}
 	//#pragma region fall down
 #pragma endregion
 #pragma region Pre-collision
@@ -58,28 +61,38 @@ void Cannons::Render()
 	RenderBoundingBox();
 
 	int ani = -1;
-	if (state == CANNONS_STATE_ATTACKING_LEFT)
-	{
-		ani = CANNONS_ANI_ATTACKING_LEFT;
-		if (animationSet->at(ani)->GetFrame() == 1)
+	if (state == CANNONS_STATE_DIE) {
+		ani = CANNONS_ANI_DIE;
+		if (animationSet->at(ani)->GetFrame() == 3)
 		{
-			isAttackTop = true;
+			isDoneDeath = true;
 		}
+		animationSet->at(ani)->Render(nx, x, y - 3);
 	}
-	else if (state == CANNONS_STATE_ATTACKING_TOP)
-	{
-		ani = CANNONS_ANI_ATTACKING_TOP;
-		if (animationSet->at(ani)->GetFrame() == 1)
+	else {
+		if (state == CANNONS_STATE_ATTACKING_LEFT)
 		{
-			isAttackTop = false;
+			ani = CANNONS_ANI_ATTACKING_LEFT;
+			if (animationSet->at(ani)->GetFrame() == 1)
+			{
+				isAttackTop = true;
+			}
 		}
+		else if (state == CANNONS_STATE_ATTACKING_TOP)
+		{
+			ani = CANNONS_ANI_ATTACKING_TOP;
+			if (animationSet->at(ani)->GetFrame() == 1)
+			{
+				isAttackTop = false;
+			}
+		}
+		else if (state == CANNONS_STATE_IDLE)
+		{
+			ani = CANNONS_ANI_IDLE;
+		}
+
+		animationSet->at(ani)->OldRender(x, y);
 	}
-	else if (state == CANNONS_STATE_IDLE)
-	{
-		ani = CANNONS_ANI_IDLE;
-	}
-	
-	animationSet->at(ani)->OldRender(x, y);
 }
 
 Cannons::Cannons(float x, float y, LPGAMEENTITY t)
@@ -94,7 +107,7 @@ Cannons::Cannons(float x, float y, LPGAMEENTITY t)
 	this->target = t;
 	health = CANNONS_MAXHEALTH;
 	isActive = false;
-	bbARGB = 250;
+	bbARGB = 0;
 	isAttackTop = false;
 }
 
@@ -113,18 +126,27 @@ void Cannons::SetState(int state)
 		case CANNONS_STATE_DIE:
 		{
 			y += CANNONS_BBOX_HEIGHT - CANNONS_BBOX_HEIGHT_DIE + 1;
+			vx = 0;
+			vy = 0;
+			isActive = false;
 			break;
 		}
 		case CANNONS_STATE_ATTACKING_TOP:
 		{
 			//Attack
-
+			Bullet* bullet1 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH / 2 - 3.0f, y + CANNONS_BBOX_HEIGHT, CANNONS, 0, 1, target);
+			Bullet* bullet2 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH / 2 - 3.0f, y - 3.0f, CANNONS, 0, -1, target);
+			CGrid::GetInstance()->InsertGrid(bullet1);
+			CGrid::GetInstance()->InsertGrid(bullet2);
 			break;
 		}
 		case CANNONS_STATE_ATTACKING_LEFT:
 		{
-			//Attackz
-
+			//Attack
+			Bullet* bullet1 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH, y + CANNONS_BBOX_HEIGHT / 2 - 3.0f, CANNONS, 1, 0, target);
+			Bullet* bullet2 = new BigNavigatedEnemyBullet(x - 3.0f, y + CANNONS_BBOX_HEIGHT / 2 - 3.0f, CANNONS, -1, 0, target);
+			CGrid::GetInstance()->InsertGrid(bullet1);
+			CGrid::GetInstance()->InsertGrid(bullet2);
 			break;
 		}
 		case CANNONS_STATE_IDLE:

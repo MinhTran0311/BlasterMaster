@@ -15,6 +15,7 @@ class Bullet;
 typedef Bullet* LPBULLET;
 class Bullet : public Entity
 {
+
 public:
 	int totalTime;
 	int x_Start_Pos, y_Start_Pos;
@@ -22,6 +23,7 @@ public:
 	int isAimingTop;
 	int alpha;
 	int typeBullet;
+	float bullet_speed;
 	bool  isHitBrick, isHitEnemy;
 	float timeDelayed, timeDelayedMax;
 

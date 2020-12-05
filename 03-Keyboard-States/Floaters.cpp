@@ -11,7 +11,11 @@ void Floaters::GetBoundingBox(float& left, float& top, float& right, float& bott
 void Floaters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt);
-
+	if (health <= 0)
+	{
+		this->SetState(FLOATERS_STATE_DIE);
+		return;
+	}
 #pragma region fall down
 	//vy += WORM_GRAVITY * dt;
 #pragma endregion
@@ -88,12 +92,21 @@ void Floaters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 #pragma region Active
-	/*if (!isActive) vx = 0;
+	if (!isActive) {
+		vx = 0;
+		vy = 0;
+	}
 	else SetState(FLOATERS_STATE_FLY);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= WORM_SITEACTIVE_PLAYER)
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= ACTIVE_RANGE)
 	{
-		isActive = true;
-	}*/
+		if (!firstTimeActive)
+		{
+			setRandomVxVy(vx, vy);
+			isActive = true;
+			firstTimeActive = true;
+		}
+		
+	}
 #pragma endregion
 
 }
@@ -105,6 +118,11 @@ void Floaters::Render()
 	if (health <= 0)
 	{
 		ani = FLOATERS_ANI_DIE;
+		if (animationSet->at(ani)->GetFrame() == 3)
+		{
+			isDoneDeath = true;
+			animationSet->at(ani)->ResetCurrentFrame();
+		}
 		animationSet->at(ani)->Render(nx,x, y);
 	}
 	else if (true)
@@ -178,9 +196,10 @@ void Floaters::SetState(int state)
 	switch (state)
 	{
 	case FLOATERS_STATE_DIE:
-		y += BBOX_HEIGHT/2 + 1;
+		//y += BBOX_HEIGHT/2 + 1;
 		vx = 0;
 		vy = 0;
+		isActive = false;
 		break;
 
 	case FLOATERS_STATE_FLY:
@@ -203,7 +222,15 @@ bool Floaters::inTargetRange()
 
 void Floaters::setRandomVxVy(float& vx, float& vy)
 {
-	vx = r->getRandomFloat(0.0001f, MOVING_SPEED);
-	vy = sqrt(2 * MOVING_SPEED * MOVING_SPEED - vx * vx);
+	//vx = r->getRandomFloat(0.0001f, MOVING_SPEED);
+	//vy = sqrt(2 * MOVING_SPEED * MOVING_SPEED - vx * vx);
+	if (vx > 0)
+	{
+		vx = r->getRandomFloat(0.001f, MOVING_SPEED);
+	}
+	else vx = -r->getRandomFloat(0.001f, MOVING_SPEED);
+	if (vy > 0)
+		vy = sqrt(2 * MOVING_SPEED * MOVING_SPEED - vx * vx);
+	else vy = -sqrt(2 * MOVING_SPEED * MOVING_SPEED - vx * vx);
 }
 

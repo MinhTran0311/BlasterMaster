@@ -19,7 +19,7 @@ void Skulls::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEENTITY> bricks;
-	if (this->health <= 0)SetState(SKULLS_STATE_DIE);
+	if (this->health <= 0) { SetState(SKULLS_STATE_DIE); return; }
 	if (this->state == SKULLS_STATE_ATTACK && time == 20) SetState(SKULLS_STATE_STOP);
 	coEvents.clear();
 	bricks.clear();
@@ -101,7 +101,12 @@ void Skulls::Render()
 	if (this->state == SKULLS_STATE_DIE)
 	{
 		ani = SKULLS_ANI_DIE;
-		animationSet->at(ani)->OldRender(x, y);
+		if (animationSet->at(ani)->GetFrame() == 3)
+		{
+			isDoneDeath = true;
+			animationSet->at(ani)->ResetCurrentFrame();
+		}
+		animationSet->at(ani)->Render(nx, x, y-2);
 	}
 	else if (this->state == SKULLS_STATE_FLY)
 		//else if (cooldownTimer->IsTimeUp())
@@ -149,7 +154,8 @@ Skulls::Skulls(float x, float y, LPGAMEENTITY t)
 
 void Skulls::Attack(LPGAMEENTITY target) //tấn công tại vị trí nhân vật
 {
-	if (abs(target->x -this->x) < 20 && time < 100) {
+	if (abs(target->x -this->x) < 50 && time < 100) {
+		/* this->nx= target->nx;*/
 		SetState(SKULLS_STATE_ATTACK);
 		if (!Attacked) {
 			Bullet* bullet = new SkullBullet(this->x, this->y, this->nx);
@@ -166,9 +172,10 @@ void Skulls::SetState(int state)
 	switch (state)
 	{
 	case SKULLS_STATE_DIE:
-		y += BBOX_HEIGHT / 2 + 1;
+		//y += BBOX_HEIGHT / 2 + 1;
 		vx = 0;
 		vy = 0;
+		isActive = false;
 		break;
 
 	case SKULLS_STATE_FLY:

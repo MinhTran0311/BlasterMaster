@@ -11,7 +11,11 @@ void Eyeballs::GetBoundingBox(float& left, float& top, float& right, float& bott
 void Eyeballs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt);
-
+	if (health <= 0)
+	{
+		this->SetState(EYEBALLS_STATE_DIE);
+		return;
+	}
 #pragma region fall down
 	//vy += EYEBALLS_GRAVITY * dt;
 #pragma endregion
@@ -59,41 +63,58 @@ void Eyeballs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
+		if (!nx && !ny)
+		{
+			nx = -nx;
+			vx = -vx;
+			vy = -vy;
+		}
+		else if (!nx)
+		{
+			vy = -vy;
+		}
+
+		else if (!ny)
+		{
+			nx = -nx;
+			vx = -vx;
+		}
+
 		//follow player
-		if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= EYEBALLS_SITEFOLLOW_PLAYER)
-		{
-			//FlyAndAttackTarget();
-		}
-		else    //Wall or reaching the edges
-		{
-			if (nx != 0)
-			{
-				this->nx = -this->nx;
-			}
-			if (ny != 0)
-			{
-				vy = 0;
-				for (UINT i = 0; i < coEventsResult.size(); i++)
-				{
-					LPCOLLISIONEVENT e = coEventsResult.at(i);
-					if (e->ny != 0)
-					{
-						RECT rect = static_cast<Brick*>(e->obj)->GetBBox();
-						if (x + EYEBALLS_BBOX_WIDTH > rect.right)
-						{
-							this->nx = -this->nx;
-							x += rect.right - (x + EYEBALLS_BBOX_WIDTH) - nx * 0.4f;
-						}
-						else if (x < rect.left)
-						{
-							this->nx = -this->nx;
-							x += rect.left - x + nx * 0.4f;
-						}
-						break;
-					}
-				}
-			}
-		}
+		//if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= EYEBALLS_SITEFOLLOW_PLAYER)
+		//{
+		//	//FlyAndAttackTarget();
+		//}
+		//else    //Wall or reaching the edges
+		//{
+		//	if (nx != 0)
+		//	{
+		//		this->nx = -this->nx;
+		//	}
+		//	if (ny != 0)
+		//	{
+		//		vy = 0;
+		//		for (UINT i = 0; i < coEventsResult.size(); i++)
+		//		{
+		//			LPCOLLISIONEVENT e = coEventsResult.at(i);
+		//			if (e->ny != 0)
+		//			{
+		//				RECT rect = static_cast<Brick*>(e->obj)->GetBBox();
+		//				if (x + EYEBALLS_BBOX_WIDTH > rect.right)
+		//				{
+		//					this->nx = -this->nx;
+		//					x += rect.right - (x + EYEBALLS_BBOX_WIDTH) - nx * 0.4f;
+		//				}
+		//				else if (x < rect.left)
+		//				{
+		//					this->nx = -this->nx;
+		//					x += rect.left - x + nx * 0.4f;
+		//				}
+		//				break;
+		//			}
+		//		}
+		//	}
+		//}
 	}
 	//clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -112,16 +133,23 @@ void Eyeballs::Render()
 	int ani = -1;
 	if (state == EYEBALLS_STATE_DIE) {
 		ani = EYEBALLS_ANI_DIE;
+		if (animationSet->at(ani)->GetFrame() == 3)
+		{
+			isDoneDeath = true;
+		}
+		animationSet->at(ani)->Render(nx, x, y - 3);
 	}
-	else if (state == EYEBALLS_STATE_IDLE) {
-		ani = EYEBALLS_ANI_IDLE;
+	else
+	{
+		if (state == EYEBALLS_STATE_IDLE) {
+			ani = EYEBALLS_ANI_IDLE;
+		}
+		else if (state == EYEBALLS_STATE_FLYING || state == EYEBALLS_STATE_ATTACKING) {
+			ani = EYEBALLS_ANI_FLYING;
+		}
+		animationSet->at(ani)->Render(nx, x, y);
+		//RenderBoundingBox();
 	}
-	else if (state == EYEBALLS_STATE_FLYING || state == EYEBALLS_STATE_ATTACKING) {
-		ani = EYEBALLS_ANI_FLYING;
-	}
-
-	animationSet->at(ani)->Render(nx, x, y);
-	//RenderBoundingBox();
 }
 
 Eyeballs::Eyeballs(float x, float y, LPGAMEENTITY t)
@@ -138,16 +166,9 @@ Eyeballs::Eyeballs(float x, float y, LPGAMEENTITY t)
 	isActive = false;
 	bbARGB = 250;
 	canAttack = false;
-	canFly = true;
+	canFly = false;
+	canIdle = true;
 }
-
-//void Eyeballs::setRandomVxVy(float& vx, float& vy)
-//{
-//	//srand(static_cast <unsigned> (time(0)));
-//	//vx = 0.0001f + static_cast <float> (rand()) / (static_cast <float> (0.005f / (0.005f - 0.0001f)));
-//	vx = 0.005f + (rand()) / ((0.005f / (0.005f - 0.0001f)));
-//	vy = sqrt(2 * 0.005f * 0.005f - vx * vx);
-//}
 
 void Eyeballs::FlyAndAttackTarget()
 {
@@ -194,21 +215,19 @@ void Eyeballs::FlyAndAttackTarget()
 			idleTimer->Reset();
 		}
 	}*/
-
-	if (state == EYEBALLS_STATE_IDLE && canFly)
+	//if (canIdle)
+	//{
+	//	SetState(EYEBALLS_STATE_IDLE);
+	//	canIdle = false;
+	//	flyOrAttackTimer->Start();
+	//}
+	if (state == EYEBALLS_STATE_IDLE)
 	{
 		SetState(EYEBALLS_STATE_FLYING);
 		canAttack = true;
 		canFly = false;
+		//canIdle = true;
 		flyOrAttackTimer->Start();
-	}
-	else if (canAttack && flyOrAttackTimer->IsTimeUp())
-	{
-		SetState(EYEBALLS_STATE_ATTACKING);
-		flyOrAttackTimer->Reset();
-		flyOrAttackTimer->Start();
-		canAttack = false;
-		canFly = true;
 	}
 	else if (canFly && flyOrAttackTimer->IsTimeUp())
 	{
@@ -218,6 +237,14 @@ void Eyeballs::FlyAndAttackTarget()
 		canFly = false;
 		canAttack = true;
 	}
+	else if (canAttack && flyOrAttackTimer->IsTimeUp())
+	{
+		SetState(EYEBALLS_STATE_ATTACKING);
+		flyOrAttackTimer->Reset();
+		flyOrAttackTimer->Start();
+		canAttack = false;
+		canFly = true;
+	}
 }
 
 void Eyeballs::SetState(int state)
@@ -225,26 +252,65 @@ void Eyeballs::SetState(int state)
 	Entity::SetState(state);
 	switch (state)
 	{
-		case EYEBALLS_STATE_DIE:
+		case EYEBALLS_STATE_DIE:			
 			y += EYEBALLS_BBOX_HEIGHT - EYEBALLS_BBOX_HEIGHT_DIE + 1;
 			vx = 0;
 			vy = 0;
+			isActive = false;
 			break;
 		case EYEBALLS_STATE_FLYING:
 		{
-			/*if (nx > 0)
-			{
-				vx = EYEBALLS_FLYING_SPEED;
-			}
-			else
-			{
-				vx = -EYEBALLS_FLYING_SPEED;
-			}*/
 			setRandomVxVy(vx, vy);
 			break;
 		}
 		case EYEBALLS_STATE_ATTACKING:
 		{
+			if (target->x == x)
+			{
+				if (target->y < y)
+				{
+					Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 0, -1, target);
+					CGrid::GetInstance()->InsertGrid(bullet);
+				}
+				else if (target->y > y)
+				{
+					Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 0, 1, target);
+					CGrid::GetInstance()->InsertGrid(bullet);
+				}
+			}
+			else if (target->y == y)
+			{
+				if (target->x >= x)
+				{
+					Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, 0, target);
+					CGrid::GetInstance()->InsertGrid(bullet);
+				}
+				else if (target->x < x)
+				{
+					Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, 0, target);
+					CGrid::GetInstance()->InsertGrid(bullet);
+				}
+			}
+			else if (target->x > x && target->y < y)
+			{
+				Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, -1, target);
+				CGrid::GetInstance()->InsertGrid(bullet);
+			}
+			else if (target->x > x && target->y > y)
+			{
+				Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, 1, target);
+				CGrid::GetInstance()->InsertGrid(bullet);
+			}
+			else if (target->x < x && target->y > y)
+			{
+				Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, 1, target);
+				CGrid::GetInstance()->InsertGrid(bullet);
+			}
+			else if (target->x < x && target->y < y)
+			{
+				Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, -1, target);
+				CGrid::GetInstance()->InsertGrid(bullet);
+			}
 			vx = 0;
 			vy = 0;
 			break;

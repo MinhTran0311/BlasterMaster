@@ -1,0 +1,17 @@
+# Id	FilePath			R	G	B
+[TEXTURES]
+40	Resource/Enemy/enemies.png	255	0	255
+50	Resource/item.png	255	255	0
+# id	left	top	right	bottom	texture_id
+
+  
+[OBJECTS]
+1	0	202	22	511	56
+1	417	170	22	96	32
+
+1	0	-1	22	32	256
+1	480	-1	22	32	256
+#back
+2	465	145	17	62	141	0	1	1	0	41.92
+#go
+2	20	175	20	115	1905	400	1	2	0	745

@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+#include "Grid.h"
 #include "Jason.h"
 #include "Timer.h"
 #include "Brick.h"
