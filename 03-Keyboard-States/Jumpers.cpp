@@ -18,7 +18,7 @@ void Jumpers::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	vector<LPGAMEENTITY> bricks;
-	if (this->health <= 0) { SetState(JUMPER_STATE_DIE); }
+	if (this->health <= 0) { SetState(JUMPER_STATE_DIE); return; }
 	coEvents.clear();
 	bricks.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
@@ -96,7 +96,6 @@ void Jumpers::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Jumpers::Render()
 {
-	if (!isActive)return;
 	//RenderBoundingBox();
 	if (vx > 0)
 		nx = 1;
@@ -104,22 +103,24 @@ void Jumpers::Render()
 		nx = -1;
 
 	int ani = JUMPER_ANI_WALKING;
-	if (this->state == JUMPER_STATE_DIE) {
+	if (state == JUMPER_STATE_DIE) {
 		ani = JUMPER_ANI_DIE;
-		
+		if (animationSet->at(ani)->GetFrame() == 3)
+		{
+			isDoneDeath = true;
+			animationSet->at(ani)->ResetCurrentFrame();
+		}
+		animationSet->at(ani)->Render(nx, x, y - 2);
 	}
 	else
 		animationSet->at(ani)->Render(nx, x, y);
-
-
-
 	//RenderBoundingBox();
 }
 
 Jumpers::Jumpers(float x, float y, LPGAMEENTITY t)
 {
 	SetState(JUMPER_STATE_WALKING);
-	enemyType = EnemyType::JUMPERS;
+	enemyType = JUMPERS;
 	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
@@ -164,11 +165,10 @@ void Jumpers::SetState(int state)
 	switch (state)
 	{
 	case JUMPER_STATE_DIE:
-		y += JUMPER_BBOX_HEIGHT - JUMPER_BBOX_HEIGHT_DIE + 1;
+		//y += JUMPER_BBOX_HEIGHT - JUMPER_BBOX_HEIGHT_DIE + 1;
 		vx = 0;
 		vy = 0;
 		isActive = false;
-		this->dam = 0;
 		break;
 
 	case JUMPER_STATE_JUMP:
@@ -184,5 +184,6 @@ void Jumpers::SetState(int state)
 		{
 			vx = -JUMPER_WALKING_SPEED;
 		}
+		break;
 	}
 }

@@ -16,8 +16,8 @@
 #define INSECTS_STATE_DIE		300
 
 #define INSECTS_ANI_FLY		0
-#define INSECTS_ANI_ATTACK		1
-#define INSECTS_ANI_DIE		2
+//#define INSECTS_ANI_ATTACK		1
+#define INSECTS_ANI_DIE		1
 
 #define FLYING_SPEED	0.05f;
 
@@ -30,17 +30,18 @@
 #define MAX_COOLDOWN 5000
 
 #define TARGET_RANGE 200
+#define ACTIVE_RANGE 150
 
 #define MIN_FLY_DROP_RANGE 10
 #define MAX_FLY_DROP_RANGE 25
 
 class Insects : public Enemy
 {
+	bool firstTimeActive = false;
 	bool isDroping = true;
 	int flyDropRange;
 	int maxdrop;
 	float originalY;
-	bool canAttack = true;
 	bool isTargeting;
 	Random* r = new Random();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -53,7 +54,6 @@ class Insects : public Enemy
 	virtual void setRandomVx();
 public:
 	Insects(float x, float y, LPGAMEENTITY t);
-	virtual void Attack(LPGAMEENTITY target = NULL);
 	virtual void SetState(int state);
 	void SelfDestroy();
 };

@@ -117,7 +117,7 @@ void Worm::Render()
 		{
 			isDoneDeath = true;
 		}
-		animationSet->at(ani)->Render(nx, x, y - 3);
+		animationSet->at(ani)->Render(nx, x, y + WORM_BBOX_HEIGHT - WORM_BBOX_HEIGHT_DIE - 2);
 	}
 	else
 		animationSet->at(ani)->Render(nx, x, y);
@@ -161,7 +161,7 @@ void Worm::SetState(int state)
 	{
 	case WORM_STATE_DIE:
 	{
-		y += WORM_BBOX_HEIGHT - WORM_BBOX_HEIGHT_DIE + 1;
+		//y += WORM_BBOX_HEIGHT - WORM_BBOX_HEIGHT_DIE + 1;
 		vx = 0;
 		vy = 0;
 		isActive = false;
