@@ -210,11 +210,6 @@ void PlayScene::LoadSceneObjects(LPCWSTR path)
 
 void PlayScenceKeyHandler::KeyState(BYTE* states)
 {
-	//int _SophiaType = ((PlayScene*)scence)->_SophiaType;
-	//JASON* jason = ((PlayScene*)scence)->jason;
-	//Small_Sophia* ssophia = ((PlayScene*)scence)->ssophia;
-	//if (jason->GetState() == SOPHIA_STATE_DIE) return;
-
 	LPGAMEPLAYER player = ((PlayScene*)scence)->player;
 	if (player->GetPlayerType()==TAG_BIG_SOPHIA)
 		if(dynamic_cast<Big_Sophia*>(player)->isAutoRun())
@@ -245,11 +240,11 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 		if (player->GetPlayerType() == TAG_BIG_SOPHIA)
 			player->SetState(BIG_SOPHIA_STATE_WALKING_BOTTOM);
 	}
-	else if ((CGame::GetInstance()->IsKeyDown(DIK_UP)))
-	{
-		if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-			player->SetState(BIG_SOPHIA_STATE_WALKING_TOP);
-	}
+	//else if ((CGame::GetInstance()->IsKeyDown(DIK_UP)))
+	//{
+	//	if (player->GetPlayerType() == TAG_BIG_SOPHIA)
+	//		player->SetState(BIG_SOPHIA_STATE_WALKING_TOP);
+	//}
 	else
 	{
 		if (player->GetPlayerType() == TAG_JASON)
@@ -272,16 +267,13 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 	{
 		if (player->GetPlayerType() == EntityType::TAG_JASON)
 			dynamic_cast<JASON*>(player)->SetPressUp(true);
+		else if (player->GetPlayerType() == TAG_BIG_SOPHIA)
+			player->SetState(BIG_SOPHIA_STATE_WALKING_TOP);
 	}
 }
 
 void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
-	//int _SophiaType = ((PlayScene*)scence)->_SophiaType;
-	//Small_Sophia* ssophia = ((PlayScene*)scence)->ssophia;
-	//JASON* jason = ((PlayScene*)scence)->jason;
-	//vector<LPGAMEENTITY> listEnemies = ((PlayScene*)scence)->listEnemies;
-	//vector<LPBULLET> listBullets = ((PlayScene*)scence)->listBullets;
 	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
 	float xPos, yPos;
 	bool isAimingTop;
