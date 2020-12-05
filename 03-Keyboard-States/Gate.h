@@ -10,7 +10,7 @@ class Gate : public Entity
 public:
 	bool directionCam;
 	bool isNeedResetCam;
-	float newPlayerx, newPlayery;
+	int newPlayerx, newPlayery;
 	int newPlayerState;
 	EntityType typePlayer;
 	int camPosX, camPosY;

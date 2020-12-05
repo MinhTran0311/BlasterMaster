@@ -1,8 +1,16 @@
-#include "Entity.h"
+#pragma once
 #include <map>
 #include "Timer.h"
 #include "Player.h"
-#pragma once
+#include "Game.h"
+#include "SmallSophiaBullet.h"
+#include "Grid.h"
+#include <algorithm>
+#include <assert.h>
+#include "debug.h"
+#include "Enemy.h"
+
+
 #define ANIMATION_SET_SMALL_SOPHIA	2
 
 #define SOPHIA_GRAVITY						0.0004f
@@ -74,7 +82,7 @@ public:
 	void GetInfoForBullet(int& direct, float& playerx, float& playery) { direct = nx; playerx = x; playery = y; }
 
 	//Bullet* GetPlayerMainBullet() { return mainBullet; }
-	virtual void FireBullet(int type) {};
+	virtual void FireBullet(int type);
 	virtual void GetPositionCenter(float& x, float& y) { x = this->x + SMALL_SOPHIA_BBOX_WIDTH / 2; y = this->y + SMALL_SOPHIA_BBOX_HEIGHT / 2; }
 	virtual void Reset();
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);

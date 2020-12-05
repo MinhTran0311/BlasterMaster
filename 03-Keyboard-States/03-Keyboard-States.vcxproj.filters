@@ -91,12 +91,6 @@
     <ClCompile Include="Teleporters.cpp">
       <Filter>Objects\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Objects\Obstacles</Filter>
-    </ClCompile>
-    <ClCompile Include="Gate.cpp">
-      <Filter>Objects\Obstacles</Filter>
-    </ClCompile>
     <ClCompile Include="Utils.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
@@ -126,6 +120,27 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Stair.cpp">
+      <Filter>Objects\Obstacles</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Objects\Obstacles\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="GadBrick.cpp">
+      <Filter>Objects\Obstacles\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="InjuringBrick.cpp">
+      <Filter>Objects\Obstacles\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="Gate.cpp">
+      <Filter>Objects\Obstacles\Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="SoftBrick.cpp">
+      <Filter>Objects\Obstacles\Brick</Filter>
+    </ClCompile>
+    <ClCompile Include="GateOverworld.cpp">
+      <Filter>Objects\Obstacles\Gate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -219,12 +234,6 @@
     <ClInclude Include="SmallSophiaBullet.h">
       <Filter>Objects\Bullets\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Objects\Obstacles</Filter>
-    </ClInclude>
-    <ClInclude Include="Gate.h">
-      <Filter>Objects\Obstacles</Filter>
-    </ClInclude>
     <ClInclude Include="Utils.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -260,6 +269,27 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Stair.h">
+      <Filter>Objects\Obstacles</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Objects\Obstacles\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="GadBrick.h">
+      <Filter>Objects\Obstacles\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="InjuringBrick.h">
+      <Filter>Objects\Obstacles\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="Gate.h">
+      <Filter>Objects\Obstacles\Gate</Filter>
+    </ClInclude>
+    <ClInclude Include="SoftBrick.h">
+      <Filter>Objects\Obstacles\Brick</Filter>
+    </ClInclude>
+    <ClInclude Include="GateOverworld.h">
+      <Filter>Objects\Obstacles\Gate</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -333,6 +363,12 @@
     </Filter>
     <Filter Include="Objects\Items">
       <UniqueIdentifier>{f4134668-f929-4621-9c04-02c19f5f37ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Obstacles\Brick">
+      <UniqueIdentifier>{29b479e1-1015-48a6-90e1-830b9e37cc4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Obstacles\Gate">
+      <UniqueIdentifier>{8b97ad23-2580-44ec-8425-779faa0e5053}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

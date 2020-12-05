@@ -24,70 +24,8 @@
 #include "SceneManager.h"
 #include "PlayScene.h"
 #include "global.h"
-
-
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(200, 200, 255)
-
-
-
-
-#define ID_TEX_MARIO 0
-#define ID_TEX_ENEMY 10
-#define ID_TEX_MISC 20
-#define ID_BLASTER_MASTER_ENEMY 30
-
 CGame *game;
-//Entity* EnemyJump = new Enemy2(40.0f, 30.0f);
-//Entity* EnemyVehicle = new Enemy1();
-//
-//Entity* Worm = new CWorms();
-
-//class CSampleKeyHander: public CKeyEventHandler
-//{
-//	virtual void KeyState(BYTE *states); 
-//	virtual void OnKeyDown(int KeyCode);
-//	virtual void OnKeyUp(int KeyCode);
-//};
-//
-//CSampleKeyHander * keyHandler; 
-//
-//void CSampleKeyHander::OnKeyDown(int KeyCode)
-//{
-//	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
-//	//switch (KeyCode)
-//	//{
-//	//case DIK_SPACE:
-//	//	mario->SetState(MARIO_STATE_JUMP);
-//	//	break;
-//	//case DIK_W:
-//	//	mario->SetState(MARIO_STATE_JUMP_YELLOW);
-//	//	break;
-//	//}
-//}
-//
-//void CSampleKeyHander::OnKeyUp(int KeyCode)
-//{
-//	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
-//}
-//
-//void CSampleKeyHander::KeyState(BYTE *states)
-//{
-//	//if (game->IsKeyDown(DIK_RIGHT))
-//	//	mario->SetState(MARIO_STATE_WALKING_RIGHT);
-//	//else if (game->IsKeyDown(DIK_LEFT))
-//	//	mario->SetState(MARIO_STATE_WALKING_LEFT);
-//	//else if (game->IsKeyDown(DIK_A))
-//	//	mario->SetState(MARIO_STATE_WALKING_LEFT_YELLOW);
-//	//else if (game->IsKeyDown(DIK_D))
-//	//	mario->SetState(MARIO_STATE_WALKING_RIGHT_YELLOW);
-//	//else mario->SetState(MARIO_STATE_IDLE);
-//	if (game->IsKeyDown(DIK_A))
-//		EnemyJump->SetState(ENEMY_STATE_MOVING_LEFT);
-//	else if (game->IsKeyDown(DIK_D))
-//		EnemyJump->SetState(ENEMY_STATE_MOVING_RIGHT);
-//	else EnemyJump->SetState(ENEMY_STATE_IDLE);
-//}
-
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message) {
@@ -100,20 +38,10 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	return 0;
 }
-
-
-/*
-	Update world status for this frame
-	dt: time period between beginning of last frame and beginning of this frame
-*/
 void Update(DWORD dt)
 {
 	SceneManager::GetInstance()->Update(dt);
 }
-
-/*
-	Render a frame 
-*/
 void Render()
 {
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();

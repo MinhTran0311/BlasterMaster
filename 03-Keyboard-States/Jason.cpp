@@ -9,10 +9,12 @@
 #include "Grid.h"
 #include "JasonBullet.h"
 #include "JasonRocket.h"
+#include "InjuringBrick.h"
+#include "GadBrick.h"
 
 JASON::JASON(float x, float y, int _health, int _gundam)
 {
-	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_PLAYER));
+	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_JASON));
 	SetState(SOPHIA_STATE_IDLE);
 	_PlayerType = EntityType::TAG_JASON;
 	tag = TAG_JASON;
@@ -137,40 +139,55 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		else alpha = 255;
 	}
 #pragma endregion
-
+#pragma region Collision
 	//ABBA with objects
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType() == EntityType::ENEMY))
+		if (this->IsCollidingObject(coObjects->at(i)))
 		{
-			Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
-			//re check
-			if (isJumping)
+			switch (coObjects->at(i)->GetType())
 			{
-				this->SetState(SOPHIA_STATE_IDLE);
-				isJumping = false;
-				isJumpHandle = true;
-			}
-			SetInjured(enemy->GetDamage());
-		}
-		if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType() == EntityType::ITEM))
-		{
-			LPGAMEITEM item = dynamic_cast<LPGAMEITEM>(coObjects->at(i));
-			if (item->getItemType() == EntityType::TAG_ITEM_POWER_UP)
+
+			case EntityType::ENEMY:
 			{
-				if (this->GetHealth() + ITEM_POWER_UP_RESTORE <= MAX_HEALTH)
-					this->AddHealth(ITEM_POWER_UP_RESTORE);
-				else
-					this->SetHealth(MAX_HEALTH);
+				Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
+				//re check
+				if (isJumping)
+				{
+					this->SetState(SOPHIA_STATE_IDLE);
+					isJumping = false;
+					isJumpHandle = true;
+				}
+				SetInjured(enemy->GetDamage());
+				break;
 			}
-			else if (item->getItemType() == EntityType::TAG_ITEM_GUN_UP)
+			case EntityType::ITEM:
 			{
-				if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
-					this->AddgunDam(ITEM_GUN_UP_RESTORE);
-				else
-					this->SetgunDam(MAX_GUNDAM);
+				LPGAMEITEM item = dynamic_cast<LPGAMEITEM>(coObjects->at(i));
+				if (item->getItemType() == EntityType::TAG_ITEM_POWER_UP)
+				{
+					if (this->GetHealth() + ITEM_POWER_UP_RESTORE <= MAX_HEALTH)
+						this->AddHealth(ITEM_POWER_UP_RESTORE);
+					else
+						this->SetHealth(MAX_HEALTH);
+				}
+				else if (item->getItemType() == EntityType::TAG_ITEM_GUN_UP)
+				{
+					if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
+						this->AddgunDam(ITEM_GUN_UP_RESTORE);
+					else
+						this->SetgunDam(MAX_GUNDAM);
+				}
+				item->setActive(false);
+				break;
 			}
-			item->setActive(false);
+			case EntityType::TAG_INJURING_BRICK:
+			{
+				InjuringBrick* injuringBricks = dynamic_cast<InjuringBrick*>(coObjects->at(i));
+				SetInjured(injuringBricks->GetDamage());
+				break;
+			}
+			}
 		}
 	}
 
@@ -179,11 +196,10 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 	for (int i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE)
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE || coObjects->at(i)->GetType() == EntityType::TAG_GAD_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK)
 			colliable_Objects->push_back(coObjects->at(i));
 	}
 
-#pragma region Collision
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 		coEvents.clear();
@@ -208,7 +224,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			for (UINT i = 0; i < coEventsResult.size(); i++)
 			{
 				LPCOLLISIONEVENT e = coEventsResult[i];
-				if (e->obj->GetType() == EntityType::TAG_BRICK)
+				if (e->obj->GetType() == TAG_BRICK || e->obj->GetType() == TAG_SOFT_BRICK)
 				{
 					x += min_tx * dx + nx * 0.4f;
 					y += min_ty * dy + ny * 0.4f;
@@ -232,6 +248,26 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 					DebugOut(L"jason dung tuong loai 1");
 					GateColliding = true;
 				}
+				else if ((e->obj->GetType() == EntityType::TAG_GAD_BRICK))
+				{
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					if (e->ny != 0)
+					{
+						if (e->ny != 0)
+						{
+							vy = 0;
+							if (ny < 0)
+								isJumping = false;
+						}
+						if (e->nx != 0)
+						{
+							vx = 0;
+						}
+					}
+					//SetInjured(dynamic_cast<GadBrick*>(e->obj)->GetDamage());
+					health--;
+				}
 			}
 		}
 		//khi va cham chua xet gia tri x va y
@@ -241,14 +277,12 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void JASON::Render()
 {
-
 	if (isDoneDeath)
 		return;
 	//RenderBoundingBox();
 
 	int ani = -1;
 	int current_frame;
-		alpha = 255;
 
 	if (isDeath)
 	{
