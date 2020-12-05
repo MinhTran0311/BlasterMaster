@@ -18,6 +18,8 @@ Big_Sophia::Big_Sophia(float x, float y, int _health, int _gundam)
 	health = _health;
 	isImmortaling = false;
 	isDeath = false;
+	isVerticalMove = false;
+
 }
 
 Big_Sophia::~Big_Sophia()
@@ -205,14 +207,20 @@ void Big_Sophia::Render()
 	{
 		if (vx==0 && vy==0)
 		{
-			if (nx > 0)
-				ani = BIG_SOPHIA_ANI_IDLE_RIGHT;
-			else if (nx < 0)
-				ani = BIG_SOPHIA_ANI_IDLE_LEFT;
-			else if (ny > 0)
-				ani = BIG_SOPHIA_ANI_IDLE_BOTTOM;
-			else if (ny < 0)
-				ani = BIG_SOPHIA_ANI_IDLE_TOP;
+			if (!isVerticalMove)
+			{
+				if (nx > 0)
+					ani = BIG_SOPHIA_ANI_IDLE_RIGHT;
+				else if (nx < 0)
+					ani = BIG_SOPHIA_ANI_IDLE_LEFT;
+			}
+			else
+			{
+				if (ny > 0)
+					ani = BIG_SOPHIA_ANI_IDLE_BOTTOM;
+				else if (ny < 0)
+					ani = BIG_SOPHIA_ANI_IDLE_TOP;
+			}
 		}
 		else
 		{
@@ -225,7 +233,7 @@ void Big_Sophia::Render()
 			else if (vy < 0)
 				ani = BIG_SOPHIA_ANI_WALKING_TOP;
 		}
-		animationSet->at(ani)->Render(nx, x, y);
+		animationSet->at(ani)->Render(1, x, y);
 		
 	}
 }
@@ -244,28 +252,45 @@ void Big_Sophia::SetState(int state)
 	switch (state)
 	{
 	case BIG_SOPHIA_STATE_IDLE:
+	{
 		vx = 0;
 		vy = 0;
 		break;
+	}
 	case BIG_SOPHIA_STATE_WALKING_RIGHT:
+	{
 		nx = 1;
 		vx = BIG_SOPHIA_WALKING_SPEED;
+		isVerticalMove = false;
 		break;
+	}
 	case BIG_SOPHIA_STATE_WALKING_LEFT:
+	{
 		nx = -1;
 		vx = -BIG_SOPHIA_WALKING_SPEED;
+		isVerticalMove = false;
+
 		break;
+	}
 	case BIG_SOPHIA_STATE_WALKING_TOP:
+	{
 		ny = -1;
 		vy = -BIG_SOPHIA_WALKING_SPEED;
+		isVerticalMove = true;
 		break;
+	}
 	case BIG_SOPHIA_STATE_WALKING_BOTTOM:
+	{
 		ny = 1;
 		vy = BIG_SOPHIA_WALKING_SPEED;
+		isVerticalMove = true;
 		break;
+	}
 	case BIG_SOPHIA_STATE_DIE:
+	{
 		vx = 0;
 		vy = 0;
 		break;
+	}
 	}
 }

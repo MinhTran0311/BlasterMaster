@@ -42,7 +42,7 @@ class Big_Sophia : public Player
 	static Big_Sophia* instance;
 
 	int level;
-	
+	bool isVerticalMove;
 	float backup_x, backup_y;
 	bool _isAutoRun;
 	int directionAutoRun;
