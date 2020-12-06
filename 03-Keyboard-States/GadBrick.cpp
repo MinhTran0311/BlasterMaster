@@ -15,6 +15,7 @@ void GadBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 GadBrick::GadBrick(int x, int y, float frameW, float frameH)
 {
+	bbARGB = 120;
 	tag = EntityType::TAG_GAD_BRICK;
 	this->SetPosition(x, y);
 	this->frameH = frameH;

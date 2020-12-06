@@ -121,7 +121,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 		
 		obj->SetAnimationSet(ani_set);
-		DebugOut(L"[test] add insect !\n");
+		DebugOut(L"[test] add orbs !\n");
 		break;
 	}
 	case EntityType::TAG_JUMPERS:
@@ -144,7 +144,8 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_DOMES:
 	{
-		obj = new Domes(x, y, player);
+		int domes_gravity = atoi(tokens[milestone + 2].c_str());
+		obj = new Domes(x, y, player, domes_gravity);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 		obj->SetAnimationSet(ani_set);

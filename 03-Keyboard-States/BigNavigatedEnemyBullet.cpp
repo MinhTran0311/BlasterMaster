@@ -30,7 +30,7 @@ BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int typ
 		}
 		default:
 		{
-			bullet_speed = BULLET_SPEED;
+			bullet_speed = BULLET_SPEED_OTHERS;
 			break;
 		}
 	}
