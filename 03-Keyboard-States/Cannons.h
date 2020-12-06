@@ -25,7 +25,7 @@
 
 #define CANNONS_SITEATTACK_PLAYER 100
 
-#define CANNONS_ATTACK_DURATION 1000
+#define CANNONS_DELAY_ATTACK 500
 
 #define CANNONS_MAXHEALTH					1
 
@@ -38,7 +38,8 @@ class Cannons : public Enemy
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
 	virtual void Render();
-	Timer* attackTimer = new Timer(CANNONS_ATTACK_DURATION);
+	Timer* delayAttackTimer = new Timer(CANNONS_DELAY_ATTACK);
+	bool changeAttackToTopBottom;
 	bool isAttackTop;
 	
 public:
