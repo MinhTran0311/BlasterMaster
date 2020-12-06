@@ -55,7 +55,7 @@ public:
 	void SetImmortaling(bool immo) { isImmortaling = immo; }
 	void StartImmortalingTimer() { immortalTimer->Start(); }
 
-	virtual void FireBullet(int type) {};
+	virtual void FireBullet(int mode) {};
 	virtual void GetPositionCenter(float&, float&) {};
 	virtual void Reset() {};
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);

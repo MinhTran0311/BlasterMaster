@@ -337,28 +337,8 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	}
 	case DIK_Z:
 	{
-		player->FireBullet(0);
-		/*switch (player->GetPlayerType())
-		{
-
-		case EntityType::TAG_JASON:
-			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, player->Getx(), player->Gety(), 3))
-			{
-				Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-				CGrid::GetInstance()->InsertGrid(bullet);
-			}
-			break;
-		case EntityType::TAG_SMALL_SOPHIA:
-			if (CGrid::GetInstance()->CheckBulletLimitation(SMALL_SOPHIA_NORMAL_BULLET, player->Getx(), player->Gety(), 3))
-			{
-				Bullet* bullet = new SmallSophiaBullet(player->Getx(), player->Gety(), 0, nx);
-				CGrid::GetInstance()->InsertGrid(bullet);
-			}
-			break;
-		default:
-			break;
-		}*/
-
+		//single fire
+		player->FireBullet(1);
 		break;
 	}
 
@@ -373,15 +353,8 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	}
 	case DIK_V:
 	{
-		if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(),3))
-		{
-			Bullet* bullet1 = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-			Bullet* bullet2 = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-			Bullet* bullet3 = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-			CGrid::GetInstance()->InsertGrid(bullet1);
-			CGrid::GetInstance()->InsertGrid(bullet2);
-			CGrid::GetInstance()->InsertGrid(bullet3);
-		}
+		//burst fire
+		player->FireBullet(2);
 		break;
 	}
 	//case DIK_C:

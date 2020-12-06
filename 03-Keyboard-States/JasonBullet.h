@@ -25,7 +25,7 @@
 #define BULLET_JASON_UPGRADE_ANI_TOP					3
 #define BULLET_BANG										4
 
-#define BULLET_JASON_DELAY								650
+#define BULLET_JASON_DELAY								1000
 
 
 

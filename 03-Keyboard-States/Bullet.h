@@ -22,7 +22,7 @@ public:
 	bool able_firing;
 	int isAimingTop;
 	int alpha;
-	int typeBullet;
+	EntityType typeBullet;
 	float bullet_speed;
 	bool  isHitBrick, isHitEnemy;
 	float timeDelayed, timeDelayedMax;

@@ -298,13 +298,13 @@ void Small_Sophia::GetBoundingBox(float& left, float& top, float& right, float& 
 	}
 }
 
-void Small_Sophia::FireBullet(int type)
+void Small_Sophia::FireBullet(int mode)
 {
 	if (!canFire)
 		return;
 	if (CGrid::GetInstance()->CheckBulletLimitation(SMALL_SOPHIA_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
 	{
-		Bullet* bullet = new SmallSophiaBullet(this->Getx(), this->Gety(), type, nx);
+		Bullet* bullet = new SmallSophiaBullet(this->Getx(), this->Gety(), 0, nx);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 	FireTimer->Start();

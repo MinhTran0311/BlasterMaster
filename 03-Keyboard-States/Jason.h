@@ -145,7 +145,7 @@ public:
 	bool GetGateColliding() { return GateColliding; };
 	void SetGateColliding(bool done) { GateColliding = done; };
 #pragma endregion
-	virtual void FireBullet(int type);
+	virtual void FireBullet(int mode);
 	virtual void GetPositionCenter(float& x, float& y) { x = this->x + SOPHIA_JASON_BBOX_WIDTH / 2; y = this->y + SOPHIA_JASON_BBOX_HEIGHT / 2; }
 	virtual void Reset();
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);

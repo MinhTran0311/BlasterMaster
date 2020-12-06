@@ -234,7 +234,9 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 						{
 							vy = 0;
 							if (ny < 0)
+							{
 								isJumping = false;
+							}
 						}
 						if (e->nx != 0)
 						{
@@ -373,7 +375,6 @@ void JASON::Render()
 			animationSet->at(ani)->RenderGunFlip(x, y - SOPHIA_JASON_HEIGHT_GUN_FLIP, alpha);
 			if (animationSet->at(ani)->GetFrame() > 3)
 			{
-				//DebugOut(L"[frame]: %d;\n", animation_set->at(SOPHIA_ANI_JASON_WALKING_RIGHT)->GetFrame());
 				isGunFlipping = true;
 			}
 			return;
@@ -413,8 +414,6 @@ void JASON::Render()
 		else {
 			if (vx == 0 && vy > 0)
 			{
-				//if (nx > 0) ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT;
-				//else ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT;
 				if (nx > 0)
 				{
 					//idle theo walking
@@ -457,8 +456,6 @@ void JASON::Render()
 			}
 			else if (vx == 0 && vy <= 0)
 			{
-				//if (nx > 0) ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT;
-				//else ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT;
 				if (nx > 0)
 				{
 					//idle theo walking
@@ -552,16 +549,63 @@ void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	}
 }
 
-void JASON::FireBullet(int type)
+void JASON::FireBullet(int mode)
 {
 	if (!canFire)
 		return;
-
-	if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
+	if (mode == 1)
 	{
-		Bullet* bullet = new JasonBullet(this->Getx(), this->Gety(), type, nx, isGunFlipping);
-		CGrid::GetInstance()->InsertGrid(bullet);
+		if (dam == 1)
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
+			{
+				Bullet* bullet = new JasonBullet(this->Getx(), this->Gety(), 0 , nx, isGunFlipping);
+				CGrid::GetInstance()->InsertGrid(bullet);
+			}
+			FireTimer->Start();
+			canFire = false;
+		}
+		else
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, this->Getx(), this->Gety(), 3))
+			{
+				Bullet* bullet = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				CGrid::GetInstance()->InsertGrid(bullet);
+			}
+			FireTimer->Start();
+			canFire = false;
+		}
 	}
-	FireTimer->Start();
-	canFire = false;
+	else if (mode == 2)
+	{
+		//burst fire
+		if (dam == 1)
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
+			{
+				Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
+				Bullet* bullet2= new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
+				Bullet* bullet3 = new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
+				CGrid::GetInstance()->InsertGrid(bullet1);
+				CGrid::GetInstance()->InsertGrid(bullet2);
+				CGrid::GetInstance()->InsertGrid(bullet3);
+			}
+			FireTimer->Start();
+			canFire = false;
+		}
+		else
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, this->Getx(), this->Gety(), 3))
+			{
+				Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				Bullet* bullet2 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				Bullet* bullet3 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				CGrid::GetInstance()->InsertGrid(bullet1);
+				CGrid::GetInstance()->InsertGrid(bullet2);
+				CGrid::GetInstance()->InsertGrid(bullet3);
+			}
+			FireTimer->Start();
+			canFire = false;
+		}
+	}
 }
