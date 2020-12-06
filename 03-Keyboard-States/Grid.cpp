@@ -234,6 +234,18 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		DebugOut(L"[test] add gate !\n");
 		break;
 	}
+	case EntityType::TAG_GATE_OVERWORLD:
+	{
+		float xPosGo = float(atoi(tokens[milestone + 1].c_str()));
+		float xPosBack = float(atoi(tokens[milestone + 2].c_str()));
+		float yPosGo = float(atoi(tokens[milestone + 3].c_str()));
+		float yPosBack = float(atoi(tokens[milestone + 4].c_str()));
+		int direction = atoi(tokens[milestone + 5].c_str());
+		obj = new GateOverworld(x, y, xPosGo, xPosBack, yPosGo, yPosBack,direction);
+
+		DebugOut(L"[test] add gate Overworld!\n");
+		break;
+	}
 	//case EntityType::TAG_JASON:
 	//{
 	//	obj = new JASON(x, y);
