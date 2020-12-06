@@ -212,8 +212,11 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 {
 	LPGAMEPLAYER player = ((PlayScene*)scence)->player;
 	if (player->GetPlayerType()==TAG_BIG_SOPHIA)
-		if(dynamic_cast<Big_Sophia*>(player)->isAutoRun())
+		if (dynamic_cast<Big_Sophia*>(player)->isAutoRun())
+		{
+		//	DebugOut(L"autorun %d\n", dynamic_cast<Big_Sophia*>(player)->isAutoRun());
 			return;
+		}
 	if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
 	{
 		if (player->GetPlayerType() == TAG_JASON)
@@ -448,8 +451,10 @@ void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	LPGAMEPLAYER player = ((PlayScene*)scence)->player;
 	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
 	if (player->GetPlayerType() == TAG_BIG_SOPHIA)
+	{
 		if (dynamic_cast<Big_Sophia*>(player)->isAutoRun())
 			return;
+	}
 	switch (KeyCode)
 	{
 	case DIK_UP:
@@ -680,7 +685,6 @@ void PlayScene::CheckPlayerReachGate()
 			yPosCamGo = gate->GetYPosGo();
 			yPosCamBack = gate->GetYPosBack();
 			CamMoveDirection = gate->GetCamDirection();
-
 		}
 		break;
 	}
@@ -693,6 +697,7 @@ void PlayScene::Update(DWORD dt)
 		//DebugOut(L"done reachgete\n");
 		CheckPlayerReachGate();
 	//}
+		
 #pragma region camera
 	float cx, cy;
 	mapWidth = listWidth[idStage - 11];
@@ -810,7 +815,7 @@ void PlayScene::Update(DWORD dt)
 						CamMoveDirection = 0;
 					}
 				}
-				else if (player->GetDirctionY() < 0)
+				else if (player->GetDirctionY() > 0)
 				{
 					if (posY < yPosCamBack)
 						posY += CAMERA_SPEED_OVERWORLD * dt;

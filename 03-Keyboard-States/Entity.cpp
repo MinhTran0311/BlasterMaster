@@ -162,8 +162,6 @@ void Entity::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	this->dt = dt;
 	dx = vx*dt;
 	dy = vy*dt;
-	//x += dx;
-	//y += dy;
 }
 
 

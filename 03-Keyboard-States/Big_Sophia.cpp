@@ -14,12 +14,14 @@ Big_Sophia::Big_Sophia(float x, float y, int _health, int _gundam)
 	this->y = y;
 	start_x = this->x = x;
 	start_y = this->y = y;
+	backup_x = 0;
+	backup_y = 0;
 	dam = _gundam;
 	health = _health;
 	isImmortaling = false;
 	isDeath = false;
 	isVerticalMove = false;
-
+	_isAutoRun = false;
 }
 
 Big_Sophia::~Big_Sophia()
@@ -31,8 +33,8 @@ void Big_Sophia::AutoRun(int direction)
 	if (!_isAutoRun)
 	{
 		_isAutoRun = true;
-		backup_x = x;
-		backup_y = y;
+		backup_x = this->x;
+		backup_y = this->y;
 		directionAutoRun = direction;
 	}
 }
@@ -57,29 +59,33 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		isImmortaling = false;
 		immortalTimer->Reset();
 	}
-	if (_isAutoRun)
+	DebugOut(L"x = %f y = %f \n", x, y);
+	if (_isAutoRun==true)
 	{
-		if (directionAutoRun == 1 && abs(x - backup_x) <= 82)
+		if (directionAutoRun == 1 && abs(x - backup_x) <= GATE_HORIZONTAL_LONG)
 		{
 			if (nx != 0)
 			{
 				vx = 0.05f * nx;
-				vy = 0.0f;
+				vy = 0;
 			}
+			DebugOut(L"Sai lech x: %f\n", abs(x - backup_x));
 		}
 		else if (directionAutoRun == 2 && abs(y - backup_y) <= 125)
 		{
 			if (ny != 0)
 			{
 				vy = 0.07f * ny;
-				vx = 0.0f;
+				vx = 0;
 			}
+			DebugOut(L"Sai lech y: %f\n", abs(y - backup_y));
 		}
 		else
 		{
 			_isAutoRun = false;
+			GateColliding = false;
 		}
-		Player::Update(dt, coObjects);
+		Entity::Update(dt, coObjects);
 		x += dx;
 		y += dy;
 		return;

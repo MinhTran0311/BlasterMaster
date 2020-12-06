@@ -37,6 +37,10 @@
 
 #define MAX_GUNDAM						8
 
+#define GATE_VERTICAL_LONG		125
+#define GATE_HORIZONTAL_LONG	85
+
+
 class Big_Sophia : public Player
 {
 	static Big_Sophia* instance;
