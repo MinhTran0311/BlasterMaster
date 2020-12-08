@@ -139,7 +139,7 @@ void JasonBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			else if (e->obj->GetType() == EntityType::ENEMY || e->obj->GetType() == EntityType::TAG_SOFT_BRICK)
 			{
 				e->obj->AddHealth(-dam);
-				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
+				DebugOut(L"xxxxxxxxxxxxxxxxhitEnemy %d", e->obj->health);
 				this->SetState(BULLET_JASON_STATE_HIT_ENEMY);
 				//isHitEnemy = true;
 				x += min_tx * dx + nx * 0.4f;

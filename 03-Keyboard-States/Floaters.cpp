@@ -19,6 +19,7 @@ void Floaters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma region fall down
 	//vy += WORM_GRAVITY * dt;
 #pragma endregion
+	Attack();
 #pragma region Pre-collision
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -104,8 +105,8 @@ void Floaters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			setRandomVxVy(vx, vy);
 			isActive = true;
 			firstTimeActive = true;
+			Attack();
 		}
-		
 	}
 #pragma endregion
 
@@ -115,7 +116,7 @@ void Floaters::Render()
 {
 	//RenderBoundingBox();
 	int ani;
-	if (health <= 0)
+	if (state == FLOATERS_STATE_DIE)
 	{
 		ani = FLOATERS_ANI_DIE;
 		if (animationSet->at(ani)->GetFrame() == 3)
@@ -123,96 +124,67 @@ void Floaters::Render()
 			isDoneDeath = true;
 			animationSet->at(ani)->ResetCurrentFrame();
 		}
-		animationSet->at(ani)->Render(nx,x, y);
+		animationSet->at(ani)->Render(nx, x, y - 2);
 	}
-	else if (true)
+	else if (state == FLOATERS_STATE_FLY)
 	//else if (cooldownTimer->IsTimeUp())
 	{
 		ani = FLOATERS_ANI_FLY;
 		animationSet->at(ani)->Render(nx,x, y);
-		//animationSet->at(ani)->OldRender(x, y);
-
 	}
-	/*else 
-		if (!delayTimeranishot->IsTimeUp())
-	{
-		ani = FLOATERS_ANI_ATTACK;
-		animationSet->at(ani)->OldRender(x, y);
-
-	}*/
-
-
-	/*for (int i = 0; i < bullet.size(); i++)
-	{
-		bullet.at(i)->Render();
-	}*/
-	//RenderBoundingBox();
 }
 
 Floaters::Floaters(float x, float y, LPGAMEENTITY t)
 {
+	this->target = t;
 	SetState(FLOATERS_STATE_FLY);
 	enemyType = FLOATERS;
-	tag = EntityType::ENEMY;
+	tag = ENEMY;
 	this->x = x;
 	this->y = y;
 	nx = -1;
 	isTargeting = 0;
-	this->target = t;
 	health = MAXHEALTH;
 	isActive = false;
 	bbARGB = 250;
+	dam = 1;
+	firstTimeActive = false;
 }
 
 void Floaters::Attack(LPGAMEENTITY target) //đi theo nhân vật
 {
-	//if ((target->x - this->x) > 0)
-	//{
-	//	this->nx = 1;
-	//	vx = WORM_WALKING_SPEED;
-	//}
-	//else
-	//{
-	//	vx = -WORM_WALKING_SPEED;
-	//	this->nx = -1;
-	//}
 	if (canAttack)
 	{
-		if (target != NULL)
-		{
-
-		}
-		else
-		{
-
-		}
+		canAttack = false;
+		cooldownTimer->Start();
 	}
-	
-
+	else if (cooldownTimer->IsTimeUp())
+	{
+		cooldownTimer->Reset();
+		canAttack = true;
+		shootBulletToTarget();
+	}
 }
 
 void Floaters::SetState(int state)
 {
+	Entity::SetState(state);
 	switch (state)
 	{
-	case FLOATERS_STATE_DIE:
-		//y += BBOX_HEIGHT/2 + 1;
-		vx = 0;
-		vy = 0;
-		isActive = false;
-		break;
-
-	case FLOATERS_STATE_FLY:
-		setRandomVxVy(vx, vy);
-		break;
-
-	//case FLOATERS_STATE_ATTACK:
-	//	cooldownTimer->Reset(randomTimeAttack());
-	//	delayTimer->Start();
-	//	break;
-	
+		case FLOATERS_STATE_DIE:
+		{
+			//y += BBOX_HEIGHT/2 + 1;
+			vx = 0;
+			vy = 0;
+			isActive = false;
+			break;
+		}
+		case FLOATERS_STATE_FLY:
+		{
+			setRandomVxVy(vx, vy);
+			break;
+		}
 	}
-	
 }
 
 bool Floaters::inTargetRange()
@@ -234,3 +206,52 @@ void Floaters::setRandomVxVy(float& vx, float& vy)
 	else vy = -sqrt(2 * MOVING_SPEED * MOVING_SPEED - vx * vx);
 }
 
+void Floaters::shootBulletToTarget()
+{
+	if (target->Getx() == x)
+	{
+		if (target->Gety() < y)
+		{
+			Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 0, -1, target, 1);
+			CGrid::GetInstance()->InsertGrid(bullet);
+		}
+		else if (target->Gety() > y)
+		{
+			Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 0, 1, target, 1);
+			CGrid::GetInstance()->InsertGrid(bullet);
+		}
+	}
+	else if (target->Gety() == y)
+	{
+		if (target->Getx() >= x)
+		{
+			Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 1, 0, target, 1);
+			CGrid::GetInstance()->InsertGrid(bullet);
+		}
+		else if (target->Getx() < x)
+		{
+			Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, -1, 0, target, 1);
+			CGrid::GetInstance()->InsertGrid(bullet);
+		}
+	}
+	else if (target->Getx() > x && target->Gety() < y)
+	{
+		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 1, -1, target, 0);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+	else if (target->Getx() > x && target->Gety() > y)
+	{
+		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 1, 1, target, 0);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+	else if (target->Getx() < x && target->Gety() > y)
+	{
+		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, -1, 1, target, 0);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+	else if (target->Getx() < x && target->Gety() < y)
+	{
+		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, -1, -1, target, 0);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+}

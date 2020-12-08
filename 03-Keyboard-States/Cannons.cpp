@@ -127,7 +127,7 @@ void Cannons::SetState(int state)
 	{
 		case CANNONS_STATE_DIE:
 		{
-			y += CANNONS_BBOX_HEIGHT - CANNONS_BBOX_HEIGHT_DIE + 1;
+			//y += CANNONS_BBOX_HEIGHT - CANNONS_BBOX_HEIGHT_DIE + 1;
 			vx = 0;
 			vy = 0;
 			isActive = false;
