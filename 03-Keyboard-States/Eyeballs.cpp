@@ -131,7 +131,8 @@ void Eyeballs::Render()
 		nx = -1;
 
 	int ani = -1;
-	if (state == EYEBALLS_STATE_DIE) {
+	if (state == EYEBALLS_STATE_DIE) 
+	{
 		ani = EYEBALLS_ANI_DIE;
 		if (animationSet->at(ani)->GetFrame() == 3)
 		{
@@ -266,52 +267,7 @@ void Eyeballs::SetState(int state)
 		}
 		case EYEBALLS_STATE_ATTACKING:
 		{
-			if (target->x == x)
-			{
-				if (target->y < y)
-				{
-					Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 0, -1, target);
-					CGrid::GetInstance()->InsertGrid(bullet);
-				}
-				else if (target->y > y)
-				{
-					Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 0, 1, target);
-					CGrid::GetInstance()->InsertGrid(bullet);
-				}
-			}
-			else if (target->y == y)
-			{
-				if (target->x >= x)
-				{
-					Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, 0, target);
-					CGrid::GetInstance()->InsertGrid(bullet);
-				}
-				else if (target->x < x)
-				{
-					Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, 0, target);
-					CGrid::GetInstance()->InsertGrid(bullet);
-				}
-			}
-			else if (target->x > x && target->y < y)
-			{
-				Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, -1, target);
-				CGrid::GetInstance()->InsertGrid(bullet);
-			}
-			else if (target->x > x && target->y > y)
-			{
-				Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, 1, target);
-				CGrid::GetInstance()->InsertGrid(bullet);
-			}
-			else if (target->x < x && target->y > y)
-			{
-				Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, 1, target);
-				CGrid::GetInstance()->InsertGrid(bullet);
-			}
-			else if (target->x < x && target->y < y)
-			{
-				Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, -1, target);
-				CGrid::GetInstance()->InsertGrid(bullet);
-			}
+			shootBulletToTarget();
 			vx = 0;
 			vy = 0;
 			break;
@@ -329,4 +285,54 @@ void Eyeballs::setRandomVxVy(float& vx, float& vy)
 {
 	vx = r->getRandomFloat(0.0001f, EYEBALLS_FLYING_SPEED);
 	vy = sqrt(2 * EYEBALLS_FLYING_SPEED * EYEBALLS_FLYING_SPEED - vx * vx);
+}
+
+void Eyeballs::shootBulletToTarget()
+{
+	if (target->Getx() == x)
+	{
+		if (target->Gety() < y)
+		{
+			Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 0, -1, target);
+			CGrid::GetInstance()->InsertGrid(bullet);
+		}
+		else if (target->Gety() > y)
+		{
+			Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 0, 1, target);
+			CGrid::GetInstance()->InsertGrid(bullet);
+		}
+	}
+	else if (target->Gety() == y)
+	{
+		if (target->Getx() >= x)
+		{
+			Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, 0, target);
+			CGrid::GetInstance()->InsertGrid(bullet);
+		}
+		else if (target->Getx() < x)
+		{
+			Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, 0, target);
+			CGrid::GetInstance()->InsertGrid(bullet);
+		}
+	}
+	else if (target->Getx() > x && target->Gety() < y)
+	{
+		Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, -1, target);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+	else if (target->Getx() > x && target->Gety() > y)
+	{
+		Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, 1, target);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+	else if (target->Getx() < x && target->Gety() > y)
+	{
+		Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, 1, target);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+	else if (target->Getx() < x && target->Gety() < y)
+	{
+		Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, -1, target);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
 }

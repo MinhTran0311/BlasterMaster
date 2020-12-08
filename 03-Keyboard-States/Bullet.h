@@ -24,7 +24,7 @@ public:
 	int alpha;
 	int typeBullet;
 	float bullet_speed;
-	bool  isHitBrick, isHitEnemy;
+	bool  isHitBrick, isHitEnemy, isHitJason;
 	float timeDelayed, timeDelayedMax;
 
 	// phương thức

@@ -110,6 +110,7 @@ enum EntityType
 	TAG_SOFT_BRICK=7,
 
 	//player
+	TAG_PLAYER = 100,
 	TAG_JASON = 101,
 	TAG_SMALL_SOPHIA = 102,
 	TAG_BIG_SOPHIA = 103,

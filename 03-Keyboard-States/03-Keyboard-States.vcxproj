@@ -161,6 +161,7 @@
     <ClCompile Include="SkullBullet.cpp" />
     <ClCompile Include="Skulls.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="SmallNavigatedEnemyBullet.cpp" />
     <ClCompile Include="SmallSophiaBullet.cpp" />
     <ClCompile Include="Small_Sophia.cpp" />
     <ClCompile Include="SoftBrick.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="JasonBullet.h" />
     <ClInclude Include="JasonRocket.h" />
     <ClInclude Include="SkullBullet.h" />
+    <ClInclude Include="SmallNavigatedEnemyBullet.h" />
     <ClInclude Include="SmallSophiaBullet.h" />
     <ClInclude Include="SoftBrick.h" />
     <ClInclude Include="Stair.h" />

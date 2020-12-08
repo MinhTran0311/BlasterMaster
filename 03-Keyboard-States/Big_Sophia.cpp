@@ -9,6 +9,7 @@ Big_Sophia::Big_Sophia(float x, float y, int _health, int _gundam)
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BIG_SOPHIA));
 	_PlayerType = TAG_BIG_SOPHIA; 
 	//untouchable = 0;
+	tag = TAG_PLAYER;
 	this->SetState(BIG_SOPHIA_STATE_IDLE);
 	this->x = x;
 	this->y = y;

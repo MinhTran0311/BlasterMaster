@@ -1,11 +1,13 @@
 #pragma once
-#include "Entity.h"
 #include "Enemy.h"
 #include "Timer.h"
 #include "Brick.h"
+#include "SmallNavigatedEnemyBullet.h"
 #include <ctime>
+#include "Grid.h"
 #include <cstdlib>
 #include <cmath>
+
 #define MOVING_SPEED	0.05f
 
 
@@ -34,12 +36,13 @@ class Floaters : public Enemy
 {
 	bool canAttack = true;
 	bool isTargeting;
-	bool firstTimeActive = false;
+	bool firstTimeActive;
 	Random* r = new Random();
 	Timer* cooldownTimer = new Timer(r->getRandomInt(500,5000));
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();
+	virtual void shootBulletToTarget();
 	virtual bool inTargetRange();
 	virtual void setRandomVxVy(float& vx, float& vy);
 public:

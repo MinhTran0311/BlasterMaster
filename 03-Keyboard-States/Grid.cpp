@@ -8,6 +8,7 @@
 #include "Skulls.h"
 #include "Domes.h"
 #include "Orbs.h"
+#include "Floaters.h"
 #include "Jumpers.h"
 #include "Eyeballs.h"
 #include "Cannons.h"

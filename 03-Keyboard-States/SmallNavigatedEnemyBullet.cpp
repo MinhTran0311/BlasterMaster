@@ -1,15 +1,17 @@
-#include "BigNavigatedEnemyBullet.h"
+#include "SmallNavigatedEnemyBullet.h"
 #include "global.h"
+#include "Player.h"
 
-BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y, LPGAMEENTITY t)
+SmallNavigatedEnemyBullet::SmallNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y, LPGAMEENTITY t, int shootStraight)
 {
-	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BIG_ENEMY_BULLET));
+	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SMALL_ENEMY_BULLET));
 	tag = EntityType::BULLET;
+	straight = shootStraight;
 	alpha = 255;
 	bbARGB = 0;
 	isHitBrick = isHitJason = false;
 	dam = 1;
-	switch (type_enemy)
+	/*switch (type_enemy)
 	{
 		case CANNONS:
 		{
@@ -21,8 +23,9 @@ BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int typ
 			typeBullet = BULLET;
 			break;
 		}
-	}
-	switch (typeBullet)
+	}*/
+	typeBullet = BULLET;
+	/*switch (typeBullet)
 	{
 		case CANNONS_BULLET:
 		{
@@ -34,37 +37,38 @@ BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int typ
 			bullet_speed = BULLET_SPEED_OTHERS;
 			break;
 		}
-	}
+	}*/
+	bullet_speed = BULLET_SPEED_OTHERS;
 	nx = direct_x;
 	ny = direct_y;
 	isActive = true;
 	x = posX;
 	y = posY;
 	timeDelayed = 0;
-	timeDelayedMax = BIG_BULLET_ENEMY_DELAY;
+	timeDelayedMax = SMALL_BULLET_ENEMY_DELAY;
 	this->target = t;
-	xBullet= posX;
+	xBullet = posX;
 	yBullet = posY;
+	isMoving = true;
 	//dynamic_cast<Player*>(target)->GetPositionCenter(xTarget, yTarget);
 	xTarget = target->Getx();
 	yTarget = target->Gety();
-	isMoving = true;
 }
 
-BigNavigatedEnemyBullet::~BigNavigatedEnemyBullet()
+SmallNavigatedEnemyBullet::~SmallNavigatedEnemyBullet()
 {
 
 }
 
-void BigNavigatedEnemyBullet::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void SmallNavigatedEnemyBullet::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
 	top = y;
-	right = left + BIG_NAVI_ENEMY_BULLET_BBOX_WIDTH;
-	bottom = top + BIG_NAVI_ENEMY_BULLET_BBOX_HEIGHT;
+	right = left + SMALL_NAVI_ENEMY_BULLET_BBOX_WIDTH;
+	bottom = top + SMALL_NAVI_ENEMY_BULLET_BBOX_HEIGHT;
 }
 
-void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
+void SmallNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	if (!isActive)
 		return;
@@ -79,44 +83,8 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	{
 		timeDelayed += dt;
 		Entity::Update(dt);
-		switch (typeBullet)
-		{
-			case CANNONS_BULLET:
-			{
-				if (ny == 0)
-				{
-					vx = bullet_speed * nx;
-					vy = 0;
-				}
-				else
-				{
-					vy = bullet_speed * ny;
-					vx = 0;
-				}
-				break;
-			}
-			default:
-			{
-				vx = bullet_speed * nx;
-				if (nx == -1)
-				{
-					vt = -vx;
-				}
-				vy = bullet_speed * ny;
-				//vy = CalPositionTarget(target, v) * ny;
-				break;
-			}
-		}
-		/*if (ny == 0)
-		{
-			vx = bullet_speed * nx;
-			vy = 0;
-		}
-		else
-		{
-			vy = bullet_speed * ny;
-			vx = 0;
-		}*/
+		vx = bullet_speed * nx;
+		vy = bullet_speed * ny;
 	}
 #pragma endregion
 	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
@@ -138,15 +106,15 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	{
 		if (coEvents.size() == 0)
 		{
-			switch (typeBullet)
+			switch (straight)
 			{
-			case CANNONS_BULLET:
+			case 1:
 			{
 				x += dx;
 				y += dy;
 				break;
 			}
-			default:
+			case 0:
 			{
 				x += dx;
 				y = CalPositionTarget(target, x);
@@ -170,12 +138,12 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 					{
 						if (!isHitJason)
 						{
-							this->SetState(BIG_NAVI_ENEMY_BULLET_STATE_HIT_PLAYER);
 							isHitJason = true;
 							e->obj->AddHealth(-dam);
 						}
 						x += min_tx * dx + nx * 0.4f;
 						y += min_ty * dy + ny * 0.4f;
+						this->SetState(SMALL_NAVI_ENEMY_BULLET_STATE_HIT_PLAYER);
 						isMoving = false;
 					}
 				}
@@ -183,7 +151,7 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 				{
 					if (isMoving)
 					{
-						this->SetState(BIG_NAVI_ENEMY_BULLET_STATE_HIT_BRICK);
+						this->SetState(SMALL_NAVI_ENEMY_BULLET_STATE_HIT_BRICK);
 						x += min_tx * dx + nx * 0.4f;
 						y += min_ty * dy + ny * 0.4f;
 						isMoving = false;
@@ -192,12 +160,11 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			}
 		}
 	}
-	
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 }
 
-void BigNavigatedEnemyBullet::Render()
+void SmallNavigatedEnemyBullet::Render()
 {
 	if (!isActive)
 		return;
@@ -205,42 +172,42 @@ void BigNavigatedEnemyBullet::Render()
 	int ani;
 	if (!isHitJason && !isHitBrick)
 	{
-		ani = BIG_NAVI_ENEMY_BULLET_ANI;
+		ani = SMALL_NAVI_ENEMY_BULLET_ANI;
 		animationSet->at(ani)->OldRender(x, y);
 	}
-	else if (state == BIG_NAVI_ENEMY_BULLET_STATE_HIT_BRICK || state == BIG_NAVI_ENEMY_BULLET_STATE_HIT_PLAYER)
+	else if (state == SMALL_NAVI_ENEMY_BULLET_STATE_HIT_BRICK || state == SMALL_NAVI_ENEMY_BULLET_STATE_HIT_PLAYER)
 	{
-		ani = BIG_NAVI_ENEMY_BULLET_BANG;
+		ani = SMALL_NAVI_ENEMY_BULLET_BANG;
 		animationSet->at(ani)->OldRender(x - 6, y - 6);
 		if (animationSet->at(ani)->GetFrame() == 1)
 		{
-			isHitJason = false;
 			isActive = false;
+			isHitJason = false;
 		}
 	}
 }
 
-float BigNavigatedEnemyBullet::CalPositionTarget(LPGAMEENTITY target, float xc)
+float SmallNavigatedEnemyBullet::CalPositionTarget(LPGAMEENTITY target, float xc)
 {
 	float a = (float)(yTarget - yBullet) / (float)(xTarget - xBullet);
 	float b = yTarget - (xTarget * a);
 	return ((xc * a) + b);
 }
 
-void BigNavigatedEnemyBullet::SetState(int state)
+void SmallNavigatedEnemyBullet::SetState(int state)
 {
 	Entity::SetState(state);
 	//DebugOut(L"Bullet state: %d", state);
 	switch (state)
 	{
-		case BIG_NAVI_ENEMY_BULLET_STATE_HIT_BRICK:
+		case SMALL_NAVI_ENEMY_BULLET_STATE_HIT_BRICK:
 		{
 			isHitBrick = true;
 			vx = 0;
 			vy = 0;
 			break;
 		}
-		case BIG_NAVI_ENEMY_BULLET_STATE_HIT_PLAYER:
+		case SMALL_NAVI_ENEMY_BULLET_STATE_HIT_PLAYER:
 		{
 			vx = 0;
 			vy = 0;
