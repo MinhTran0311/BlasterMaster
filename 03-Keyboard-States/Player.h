@@ -6,7 +6,7 @@
 
 #define PLAYER_IMMORTAL_DURATION	1000
 #define PLAYER_CAN_FIRE_DURATION	120
-
+#define PLAYER_CHANGE_ALPHA		400
 class Player :public Entity
 {
 	static Player* instance;
@@ -27,6 +27,7 @@ protected:
 	Timer* immortalTimer = new Timer(PLAYER_IMMORTAL_DURATION);
 	bool canFire;
 	Timer* FireTimer = new Timer(PLAYER_CAN_FIRE_DURATION);
+	Timer* changeAlphaTimer = new Timer(PLAYER_CHANGE_ALPHA);
 	bool canChangeAlpha = false;
 public:
 	Player();
@@ -34,6 +35,7 @@ public:
 	static Player* GetInstance();
 	void SetState(int state) {Entity::SetState(state);};
 
+	void changeAlpha();
 
 	//get set functions
 

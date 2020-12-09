@@ -39,13 +39,13 @@ void Eyeballs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	bricks.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK)
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE_OVERWORLD)
 			bricks.push_back(coObjects->at(i));
 
-		// turn off collision when die 
-		if (state != EYEBALLS_STATE_DIE)
-			CalcPotentialCollisions(&bricks, coEvents);
 	}
+	// turn off collision when die 
+	if (state != EYEBALLS_STATE_DIE)
+		CalcPotentialCollisions(&bricks, coEvents);
 #pragma endregion
 #pragma region coillision
 	if (coEvents.size() == 0)

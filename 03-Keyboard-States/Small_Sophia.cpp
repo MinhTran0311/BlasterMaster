@@ -6,6 +6,7 @@ Small_Sophia::Small_Sophia(float x, float y, int _health, int _gundam) : Player(
 	untouchable = 0;
 	SetState(SMALL_SOPHIA_STATE_IDLE);
 	_PlayerType = EntityType::TAG_SMALL_SOPHIA;
+	tag = TAG_PLAYER;
 	start_x = x;
 	start_y = y;
 	this->x = x;

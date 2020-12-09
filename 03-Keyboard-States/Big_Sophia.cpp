@@ -8,6 +8,7 @@ Big_Sophia::Big_Sophia(float x, float y, int _health, int _gundam)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BIG_SOPHIA));
 	_PlayerType = TAG_BIG_SOPHIA; 
+	tag = TAG_PLAYER;
 	//untouchable = 0;
 	this->SetState(BIG_SOPHIA_STATE_IDLE);
 	this->x = x;
@@ -59,7 +60,6 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		isImmortaling = false;
 		immortalTimer->Reset();
 	}
-	DebugOut(L"x = %f y = %f \n", x, y);
 	if (_isAutoRun==true)
 	{
 		if (directionAutoRun == 1 && abs(x - backup_x) <= GATE_HORIZONTAL_LONG)
@@ -69,16 +69,16 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 				vx = 0.05f * nx;
 				vy = 0;
 			}
-			DebugOut(L"Sai lech x: %f\n", abs(x - backup_x));
+			//DebugOut(L"Sai lech x: %f\n", abs(x - backup_x));
 		}
-		else if (directionAutoRun == 2 && abs(y - backup_y) <= 125)
+		else if (directionAutoRun == 2 && abs(y - backup_y) <= GATE_VERTICAL_LONG)
 		{
 			if (ny != 0)
 			{
 				vy = 0.07f * ny;
 				vx = 0;
 			}
-			DebugOut(L"Sai lech y: %f\n", abs(y - backup_y));
+			//DebugOut(L"Sai lech y: %f\n", abs(y - backup_y));
 		}
 		else
 		{

@@ -214,7 +214,6 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 	if (player->GetPlayerType()==TAG_BIG_SOPHIA)
 		if (dynamic_cast<Big_Sophia*>(player)->isAutoRun())
 		{
-		//	DebugOut(L"autorun %d\n", dynamic_cast<Big_Sophia*>(player)->isAutoRun());
 			return;
 		}
 	if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
@@ -238,11 +237,7 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 		else if (player->GetPlayerType() == EntityType::TAG_BIG_SOPHIA)
 			player->SetState(BIG_SOPHIA_STATE_WALKING_LEFT);
 	}
-	else if ((CGame::GetInstance()->IsKeyDown(DIK_DOWN)))
-	{
-		if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-			player->SetState(BIG_SOPHIA_STATE_WALKING_BOTTOM);
-	}
+	
 	//else if ((CGame::GetInstance()->IsKeyDown(DIK_UP)))
 	//{
 	//	if (player->GetPlayerType() == TAG_BIG_SOPHIA)
@@ -272,6 +267,11 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 			dynamic_cast<JASON*>(player)->SetPressUp(true);
 		else if (player->GetPlayerType() == TAG_BIG_SOPHIA)
 			player->SetState(BIG_SOPHIA_STATE_WALKING_TOP);
+	}
+	if ((CGame::GetInstance()->IsKeyDown(DIK_DOWN)))
+	{
+		if (player->GetPlayerType() == TAG_BIG_SOPHIA)
+			player->SetState(BIG_SOPHIA_STATE_WALKING_BOTTOM);
 	}
 }
 
@@ -357,30 +357,11 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		player->FireBullet(2);
 		break;
 	}
-	//case DIK_C:
-	//	//if (listBullets.size() < 3)
-	//	//{
-	//	//	Bullet* bullet = new JasonRocket(player->Getx(), player->Gety());
-	//	//	((PlayScene*)scence)->listBullets.push_back(bullet);
-	//	//}
-	//	//break;
-	//case DIK_F2:
-	//	//if (player->GetBBARGB() == 255)
-	//	//{
-	//	//	player->SetBBARGB(0);
-	//	//}
-	//	//else player->SetBBARGB(255);
-
-	//	//for (int i = 0; i < ((PlayScene*)scence)->listBullets.size(); i++)
-	//	//{
-	//	//	if (((PlayScene*)scence)->listBullets[i]->GetBBARGB() == 255)
-	//	//	{
-	//	//		DebugOut(L"dan mat mau");
-	//	//		((PlayScene*)scence)->listBullets[i]->SetBBARGB(0);
-	//	//	}
-	//	//	else ((PlayScene*)scence)->listBullets[i]->SetBBARGB(255);
-	//	//}
-	//	//break;
+	case DIK_C:
+	{
+		player->FireBullet(3);
+		break;
+	}
 	}
 }
 
@@ -826,7 +807,7 @@ void PlayScene::Update(DWORD dt)
 	{//update obj
 		for (int i = 0; i < coObjects.size(); i++)
 		{
-			if (coObjects.at(i)->GetType()!=EntityType::TAG_BRICK && coObjects.at(i)->GetType() != EntityType::TAG_GATE)
+			if (coObjects.at(i)->GetType()!=EntityType::TAG_BRICK && coObjects.at(i)->GetType() != TAG_GATE && coObjects.at(i)->GetType() != TAG_GATE_OVERWORLD)
 			{
 				coObjects[i]->Update(dt, &coObjects);
 			}

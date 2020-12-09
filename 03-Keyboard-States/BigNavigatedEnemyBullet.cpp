@@ -61,7 +61,7 @@ void BigNavigatedEnemyBullet::GetBoundingBox(float& left, float& top, float& rig
 	bottom = top + BIG_NAVI_ENEMY_BULLET_BBOX_HEIGHT;
 }
 
-void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
+void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	if (!isActive)
 		return;
@@ -104,25 +104,23 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_o
 				break;
 			}
 		}
-		/*if (ny == 0)
-		{
-			vx = bullet_speed * nx;
-			vy = 0;
-		}
-		else
-		{
-			vy = bullet_speed * ny;
-			vx = 0;
-		}*/
 	}
 #pragma endregion
 #pragma region collision
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
+	vector<LPGAMEENTITY> colliable_objects;
 
 	coEvents.clear();
 
-	CalcPotentialCollisions(colliable_objects, coEvents);
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		if (coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD)
+			colliable_objects.push_back(coObjects->at(i));
+	}
+	//add target into coObjects list
+	colliable_objects.push_back(target);
+	CalcPotentialCollisions(&colliable_objects, coEvents);
 	if (coEvents.size() == 0)
 	{
 		switch (typeBullet)
@@ -151,23 +149,25 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_o
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetType() == EntityType::TAG_BRICK)
+			if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == EntityType::TAG_GATE_OVERWORLD)
 			{
 				isHitBrick = true;
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
 				vx = 0;
 				vy = 0;
+				DebugOut(L"hit brick %d", e->obj->health);
+
 			}
-			if (e->obj->GetType() == EntityType::TAG_JASON || e->obj->GetType() == EntityType::TAG_SMALL_SOPHIA || e->obj->GetType() == EntityType::TAG_BIG_SOPHIA)
+			else if (e->obj->GetType() == EntityType::TAG_PLAYER)
 			{
 				e->obj->AddHealth(-dam);
-				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
+				DebugOut(L"hit player %d", e->obj->health);
 				isHitEnemy = true;
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				vx = 0;
-				vy = 0;
+				//x += min_tx * dx + nx * 0.4f;
+				//y += min_ty * dy + ny * 0.4f;
+				//vx = 0;
+				//vy = 0;
 				isActive = false;
 			}
 		}

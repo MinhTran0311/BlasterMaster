@@ -3,7 +3,7 @@
 #include "Animations.h"
 #include <algorithm>
 
-JasonRocket::JasonRocket(float xPos, float yPos)
+JasonRocket::JasonRocket(float xPos, float yPos, int direct_x)
 {
 	tag = EntityType::BULLET;
 	typeBullet = EntityType::JASON_ROCKET_BULLET;
@@ -11,11 +11,13 @@ JasonRocket::JasonRocket(float xPos, float yPos)
 	alpha = 255;
 	isHitEnemy = false;
 	isActive = true;
-	nx = 1;
-	SetState(BULLET_STATE_FLYING);
+	nx = direct_x;
+	SetState(BULLET_JASON_STATE_FLYING);
 	x = xPos;
 	y = yPos;
 	dam = 1;
+	timeDelayedMax = BULLET_JASON_DELAY;
+	DebugOut(L"create rocket");
 }
 
 JasonRocket::~JasonRocket()
@@ -35,40 +37,77 @@ void JasonRocket::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	if (!isActive)
 		return;
 	Entity::Update(dt);
+	
+	timeDelayed += dt;
+
 	int check = 0;
-	objects = coObjects;
-	for (int i = 0; i < objects->size(); i++) {
-		if (objects->at(i)->GetType()==EntityType::ENEMY)
-			check++;
-	}
-	if (check == 0)
+	//objects = coObjects;
+	//for (int i = 0; i < objects->size(); i++) {
+	//	if (objects->at(i)->GetType()==EntityType::ENEMY)
+	//		check++;
+	//}
+
+	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
+	for (int i = 0; i < coObjects->size(); i++)
 	{
+		if (coObjects->at(i)->GetType() == ENEMY)
+		{
+			colliable_Objects->push_back(coObjects->at(i));
+			check++;
+		}
+	}
+
+	if (check == 0 )
+	{
+		if (timeDelayed >= timeDelayedMax)
+		{
+			isActive = false;
+			timeDelayed = 0;
+		}
+		else
+		{
+			x += nx * ROCKET_FLYING_SPEED*dt;
+		}
 		return;
 	}
-	if (identifyTarget(objects))
+	else if (identifyTarget(colliable_Objects))
 	{
 		SetNavigation();
 		vector<LPCOLLISIONEVENT> coEvents;
 		vector<LPCOLLISIONEVENT> coEventsResult;
 		coEvents.clear();
 
-		CalcPotentialCollisions(coObjects, coEvents);
+		//code lau
+		for (int i = 0; i < colliable_Objects->size(); i++)
+		{
+			if (colliable_Objects->at(i)->IsCollidingObject(this))
+			{
+				colliable_Objects->at(i)->AddHealth(-dam);
+				DebugOut(L"xxxxxxxxxxxxxxxx %d", colliable_Objects->at(i)->health);
+				this->SetState(BULLET_JASON_STATE_HIT_ENEMY);
+				//isHitEnemy = true;
+				//x += min_tx * dx + nx * 0.4f;
+				//y += min_ty * dy + ny * 0.4f;
+
+				isActive = false;
+			}
+		}
+
+		CalcPotentialCollisions(colliable_Objects, coEvents);
 
 		if (coEvents.size() == 0)
 		{
 			x += dx;
 			y += dy;
 		}
-		else {
-			float min_tx, min_ty, nx = 0, ny;
+		else 
+		{
+			float min_tx, min_ty, nx = 0, ny=0;
 
 			float rdx = 0;
 			float rdy = 0;
 
 			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-			x += dx*dt;
-			y += dy*dt;
 
 			//if (nx != 0) vx = 0;
 			//if (ny != 0) vy = 0.00f;
@@ -80,13 +119,16 @@ void JasonRocket::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 				{
 					e->obj->AddHealth(-dam);
 					DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
-					isHitEnemy = true;
-					/*x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;*/
+					this->SetState(BULLET_JASON_STATE_HIT_ENEMY);
+					//isHitEnemy = true;
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
 
 					isActive = false;
 				}
 			}
+			//x += dx * dt;
+			//y += dy * dt;
 		}
 		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 	}
@@ -101,7 +143,7 @@ void JasonRocket::Render()
 	if (!isActive)
 		return;
 	int ani;
-	if (state == BULLET_STATE_FLYING)
+	if (state == BULLET_JASON_STATE_FLYING)
 		ani = ROCKET_ANI_FLYING;
 	animationSet->at(ani)->Render(nx, x, y);
 }
@@ -114,11 +156,9 @@ float JasonRocket::GetDistance(D3DXVECTOR2 pos, D3DXVECTOR2 target)
 
 bool JasonRocket::identifyTarget(vector<LPGAMEENTITY>* objects)
 {
-
-	Entity* target = FirstTarget(objects);
+	LPGAMEENTITY target = FirstTarget(objects);
 	if (target != NULL)
 	{
-
 		float min_dis = GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety()));
 		for (int i = 0; i < objects->size(); i++)
 		{
@@ -141,7 +181,7 @@ bool JasonRocket::identifyTarget(vector<LPGAMEENTITY>* objects)
 //	this->objects = objects;
 //}
 
-Entity* JasonRocket::FirstTarget(vector<LPGAMEENTITY>* objects)
+LPGAMEENTITY JasonRocket::FirstTarget(vector<LPGAMEENTITY>* objects)
 {
 	for (int i = 0; i < objects->size(); i++)
 	{
@@ -153,7 +193,7 @@ Entity* JasonRocket::FirstTarget(vector<LPGAMEENTITY>* objects)
 			}
 		}
 	}
-	
+	return nullptr;
 }
 
 void JasonRocket::SetState(int state)
@@ -161,9 +201,20 @@ void JasonRocket::SetState(int state)
 	Entity::SetState(state);
 	switch (state)
 	{
-	case BULLET_STATE_BLOW_UP:
+	case BULLET_JASON_STATE_HIT_ENEMY:
+	{
 		vx = 0;
 		vy = 0;
+		isHitEnemy = true;
+		break;
+	}
+	case BULLET_JASON_STATE_FLYING:
+	{
+		isHitBrick = false;
+		isHitEnemy = false;
+		isActive = true;
+		break;
+	}
 	default:
 		break;
 	}
@@ -177,14 +228,14 @@ void JasonRocket::SetNavigation()
 			vx = ROCKET_FLYING_SPEED;
 			vy = ROCKET_FLYING_SPEED;
 			nx = 1;
-			SetState(BULLET_STATE_FLYING);
+			SetState(BULLET_JASON_STATE_FLYING);
 		}
 		else
 		{
 			vx = ROCKET_FLYING_SPEED;
 			vy = -ROCKET_FLYING_SPEED;
 			nx = 1;
-			SetState(BULLET_STATE_FLYING);
+			SetState(BULLET_JASON_STATE_FLYING);
 		}
 	}
 	else
@@ -193,14 +244,14 @@ void JasonRocket::SetNavigation()
 			vx = -ROCKET_FLYING_SPEED;
 			vy = ROCKET_FLYING_SPEED;
 			nx = -1;
-			SetState(BULLET_STATE_FLYING);
+			SetState(BULLET_JASON_STATE_FLYING);
 		}
 		else
 		{
 			vx = -ROCKET_FLYING_SPEED;
 			vy = -ROCKET_FLYING_SPEED;
 			nx = -1;
-			SetState(BULLET_STATE_FLYING);
+			SetState(BULLET_JASON_STATE_FLYING);
 		}
 	}
 }
