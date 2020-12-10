@@ -33,7 +33,7 @@ JASON::JASON(float x, float y, int _health, int _gundam)
 	health = _health;
 	dam = _gundam;
 	canChangeAlpha = true;
-	specialBulletType = JASON_ELECTRIC_BULLET;
+	specialBulletType = JASON_HOMING_MISSLES;
 }
 
 JASON* JASON::instance = NULL;
@@ -628,6 +628,12 @@ void JASON::FireBullet(int mode)
 			break;
 		}
 		case JASON_HOMING_MISSLES:
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_HOMING_MISSLES, this->Getx(), this->Gety(), 1))
+			{
+				Bullet* homingMissles = new HomingMissles(this->Getx(), this->Gety(), nx);
+				
+				CGrid::GetInstance()->InsertGrid(homingMissles);
+			}
 			break;
 		}
 

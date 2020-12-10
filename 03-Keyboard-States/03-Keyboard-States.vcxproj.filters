@@ -49,9 +49,6 @@
     <ClCompile Include="JasonBullet.cpp">
       <Filter>Objects\Bullets\Player</Filter>
     </ClCompile>
-    <ClCompile Include="JasonRocket.cpp">
-      <Filter>Objects\Bullets\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Big_Sophia.cpp">
       <Filter>Objects\Player</Filter>
     </ClCompile>
@@ -142,11 +139,14 @@
     <ClCompile Include="GateOverworld.cpp">
       <Filter>Objects\Obstacles\Gate</Filter>
     </ClCompile>
-    <ClCompile Include="ElectricBullet.cpp">
-      <Filter>Objects\Bullets\Player</Filter>
-    </ClCompile>
     <ClCompile Include="HomingMissles.cpp">
-      <Filter>Objects\Bullets\Player</Filter>
+      <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricBullet.cpp">
+      <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="JasonRocket.cpp">
+      <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -228,9 +228,6 @@
     <ClInclude Include="JasonBullet.h">
       <Filter>Objects\Bullets\Player</Filter>
     </ClInclude>
-    <ClInclude Include="JasonRocket.h">
-      <Filter>Objects\Bullets\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Big_Sophia.h">
       <Filter>Objects\Player</Filter>
     </ClInclude>
@@ -297,11 +294,14 @@
     <ClInclude Include="GateOverworld.h">
       <Filter>Objects\Obstacles\Gate</Filter>
     </ClInclude>
-    <ClInclude Include="ElectricBullet.h">
-      <Filter>Objects\Bullets\Player</Filter>
-    </ClInclude>
     <ClInclude Include="HomingMissles.h">
-      <Filter>Objects\Bullets\Player</Filter>
+      <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricBullet.h">
+      <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="JasonRocket.h">
+      <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -381,6 +381,9 @@
     </Filter>
     <Filter Include="Objects\Obstacles\Gate">
       <UniqueIdentifier>{8b97ad23-2580-44ec-8425-779faa0e5053}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Bullets\Player\SpecialBullet">
+      <UniqueIdentifier>{127d121c-e136-470e-8fdf-2a5786bf8ce9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

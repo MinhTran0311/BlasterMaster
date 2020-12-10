@@ -342,7 +342,6 @@ void CGrid::UnLoadGrid()
 
 void CGrid::InsertGrid(LPGAMEENTITY obj)
 {
-	
 	RECT rectObj = obj->GetBBox();
 	int minRow = int(rectObj.top) / CELL_SIZE.y;
 	int maxRow = int(rectObj.bottom) / CELL_SIZE.y;
