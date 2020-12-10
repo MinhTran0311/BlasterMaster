@@ -11,6 +11,8 @@
 #include "JasonRocket.h"
 #include "InjuringBrick.h"
 #include "GadBrick.h"
+#include "ElectricBullet.h"
+#include "HomingMissles.h"
 
 JASON::JASON(float x, float y, int _health, int _gundam)
 {
@@ -31,6 +33,7 @@ JASON::JASON(float x, float y, int _health, int _gundam)
 	health = _health;
 	dam = _gundam;
 	canChangeAlpha = true;
+	specialBulletType = JASON_ELECTRIC_BULLET;
 }
 
 JASON* JASON::instance = NULL;
@@ -604,11 +607,30 @@ void JASON::FireBullet(int mode)
 	}
 	else if (mode == 3)
 	{
-		if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ROCKET_BULLET, this->Getx(), this->Gety(), 2))
+		switch (specialBulletType)
 		{
-			Bullet* rocket = new JasonRocket(this->Getx(), this->Gety(), nx);
-			CGrid::GetInstance()->InsertGrid(rocket);
+		case JASON_ROCKET_BULLET:
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ROCKET_BULLET, this->Getx(), this->Gety(), 2))
+			{
+				Bullet* rocket = new JasonRocket(this->Getx(), this->Gety(), nx);
+				CGrid::GetInstance()->InsertGrid(rocket);
+			}
+			break;
 		}
+		case JASON_ELECTRIC_BULLET:
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ELECTRIC_BULLET, this->Getx(), this->Gety(), 1))
+			{
+				Bullet* electric = new ElectricBullet(this->Getx(), this->Gety());
+				CGrid::GetInstance()->InsertGrid(electric);
+			}
+			break;
+		}
+		case JASON_HOMING_MISSLES:
+			break;
+		}
+
 		FireTimer->Start();
 		canFire = false;
 	}

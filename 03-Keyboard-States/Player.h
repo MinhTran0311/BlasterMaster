@@ -20,6 +20,8 @@ protected:
 	float start_x;				//initial position of Jason
 	float start_y;
 
+	EntityType specialBulletType;
+	
 	//imortall
 	int untouchable;
 	bool isImmortaling;
@@ -40,7 +42,7 @@ public:
 	//get set functions
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-
+	void SetSpecialBulletType(EntityType specialbullettype) { specialBulletType = specialbullettype; };
 	void Setvx(float new_vx) { vx = new_vx; }
 	void Setvy(float new_vy) { vy = new_vy; };
 	float Getvy() { return vy; };
