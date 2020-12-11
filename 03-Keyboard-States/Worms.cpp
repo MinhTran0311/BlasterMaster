@@ -1,5 +1,5 @@
 ﻿#include "Worms.h"
-
+#include "InjuringBrick.h"
 void Worm::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -22,20 +22,28 @@ void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma region Pre-collision
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-	vector<LPGAMEENTITY> bricks;
+	vector<LPGAMEENTITY> colliable_Objects;
 
 	coEvents.clear();
-	bricks.clear();
+	colliable_Objects.clear();
+
+	
+
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK)
-			bricks.push_back(coObjects->at(i));
-
+			colliable_Objects.push_back(coObjects->at(i));
+		if (coObjects->at(i)->GetType() == TAG_INJURING_BRICK)
+		{
+			if (this->IsCollidingObject(coObjects->at(i)))
+				isContainedInLarva = true;
+		}
 		// turn off collision when die
 		if (state != WORM_STATE_DIE)
-			CalcPotentialCollisions(&bricks, coEvents);
+			CalcPotentialCollisions(&colliable_Objects, coEvents);
 	}
 #pragma endregion
+
 #pragma region coillision
 	if (coEvents.size() == 0)
 	{
@@ -61,7 +69,14 @@ void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		{
 			if (nx != 0)
 			{
-				this->nx = -this->nx;
+				if (isContainedInLarva)
+				{
+					//nhy len
+					SetState(WORM_STATE_JUMPING);
+					isContainedInLarva = false;
+				}
+				else this->nx = -this->nx;
+				
 			}
 			if (ny != 0)
 			{
@@ -139,6 +154,7 @@ Worm::Worm(float x, float y, LPGAMEENTITY t)
 	health = WORM_MAXHEALTH;
 	isActive = false;
 	bbARGB = 250;
+	isContainedInLarva = false;
 }
 
 void Worm::FollowTarget(LPGAMEENTITY target) //đi theo nhân vật
@@ -161,22 +177,30 @@ void Worm::SetState(int state)
 	Entity::SetState(state);
 	switch (state)
 	{
-	case WORM_STATE_DIE:
-	{
-		//y += WORM_BBOX_HEIGHT - WORM_BBOX_HEIGHT_DIE + 1;
-		vx = 0;
-		vy = 0;
-		isActive = false;
-		break;
-	}
-	case WORM_STATE_WALKING:
-		if (nx > 0)
+		case WORM_STATE_DIE:
 		{
-			vx = WORM_WALKING_SPEED;
+			//y += WORM_BBOX_HEIGHT - WORM_BBOX_HEIGHT_DIE + 1;
+			vx = 0;
+			vy = 0;
+			isActive = false;
+			break;
 		}
-		else
+		case WORM_STATE_WALKING:
 		{
-			vx = -WORM_WALKING_SPEED;
+			if (nx > 0)
+			{
+				vx = WORM_WALKING_SPEED;
+			}
+			else
+			{
+				vx = -WORM_WALKING_SPEED;
+			}
+			break;
+		}
+		case WORM_STATE_JUMPING:
+		{
+			vy = -WORM_JUMP_SPEED_Y;
+			break;
 		}
 	}
 }

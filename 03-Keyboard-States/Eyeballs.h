@@ -45,6 +45,7 @@ class Eyeballs : public Enemy
 	Timer* flyOrAttackTimer = new Timer(EYEBALLS_TIME_FLY_OR_ATTACK);
 	Timer* idleTimer = new Timer(EYEBALLS_TIME_IDLE);
 	virtual void Render();
+	virtual void shootBulletToTarget();
 	virtual void setRandomVxVy(float& vx, float& vy);
 public:
 	Eyeballs(float x, float y, LPGAMEENTITY t);

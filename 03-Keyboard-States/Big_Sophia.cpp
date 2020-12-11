@@ -10,6 +10,7 @@ Big_Sophia::Big_Sophia(float x, float y, int _health, int _gundam)
 	_PlayerType = TAG_BIG_SOPHIA; 
 	tag = EntityType::TAG_PLAYER;
 	//untouchable = 0;
+	tag = TAG_PLAYER;
 	this->SetState(BIG_SOPHIA_STATE_IDLE);
 	this->x = x;
 	this->y = y;

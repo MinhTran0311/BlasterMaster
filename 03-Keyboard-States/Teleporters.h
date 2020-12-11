@@ -38,6 +38,7 @@ class Teleporters : public Enemy
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
 	virtual void Render();
+	virtual void shootBulletToTarget();
 	Timer* delayAttackTimer = new Timer(TELEPORTERS_DELAY_ATTACK);
 	Timer* shootBulletTimer = new Timer(TELEPORTERS_SHOOT_BULLET);
 	Timer* relaxAttackTimer = new Timer(TELEPORTERS_RELAX_ATTACK);
@@ -53,6 +54,5 @@ public:
 	Teleporters(float x, float y, LPGAMEENTITY t);
 	void AttackTarget(LPGAMEENTITY target);
 	virtual void SetState(int state);
-	void shootBulletToTarget();
 	void SelfDestroy();
 };

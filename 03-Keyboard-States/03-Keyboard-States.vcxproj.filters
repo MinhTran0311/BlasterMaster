@@ -144,6 +144,8 @@
     </ClCompile>
     <ClCompile Include="IntroScene.cpp">
       <Filter>FrameWork\Scene</Filter>
+    <ClCompile Include="SmallNavigatedEnemyBullet.cpp">
+      <Filter>Objects\Bullets\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,6 +298,8 @@
     </ClInclude>
     <ClInclude Include="IntroScene.h">
       <Filter>FrameWork\Scene</Filter>
+    <ClInclude Include="SmallNavigatedEnemyBullet.h">
+      <Filter>Objects\Bullets\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

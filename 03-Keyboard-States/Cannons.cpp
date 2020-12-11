@@ -110,6 +110,7 @@ Cannons::Cannons(float x, float y, LPGAMEENTITY t)
 	isActive = false;
 	bbARGB = 0;
 	isAttackTop = false;
+	changeAttackToTopBottom = false;
 }
 
 void Cannons::AttackTarget(LPGAMEENTITY target) //tấn công nhân vật
@@ -126,7 +127,7 @@ void Cannons::SetState(int state)
 	{
 		case CANNONS_STATE_DIE:
 		{
-			y += CANNONS_BBOX_HEIGHT - CANNONS_BBOX_HEIGHT_DIE + 1;
+			//y += CANNONS_BBOX_HEIGHT - CANNONS_BBOX_HEIGHT_DIE + 1;
 			vx = 0;
 			vy = 0;
 			isActive = false;
@@ -135,19 +136,31 @@ void Cannons::SetState(int state)
 		case CANNONS_STATE_ATTACKING_TOP:
 		{
 			//Attack
-			Bullet* bullet1 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH / 2 - 3.0f, y + CANNONS_BBOX_HEIGHT, CANNONS, 0, 1, target);
-			Bullet* bullet2 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH / 2 - 3.0f, y - 3.0f, CANNONS, 0, -1, target);
-			CGrid::GetInstance()->InsertGrid(bullet1);
-			CGrid::GetInstance()->InsertGrid(bullet2);
+			if (delayAttackTimer->IsTimeUp() && changeAttackToTopBottom)
+			{
+				Bullet* bullet1 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH / 2 - 3.0f, y + CANNONS_BBOX_HEIGHT, CANNONS, 0, 1, target);
+				CGrid::GetInstance()->InsertGrid(bullet1);
+				Bullet* bullet2 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH / 2 - 3.0f, y - 3.0f, CANNONS, 0, -1, target);
+				CGrid::GetInstance()->InsertGrid(bullet2);
+				delayAttackTimer->Reset();
+				delayAttackTimer->Start();
+				changeAttackToTopBottom = false;
+			}
 			break;
 		}
 		case CANNONS_STATE_ATTACKING_LEFT:
 		{
 			//Attack
-			Bullet* bullet1 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH, y + CANNONS_BBOX_HEIGHT / 2 - 3.0f, CANNONS, 1, 0, target);
-			Bullet* bullet2 = new BigNavigatedEnemyBullet(x - 3.0f, y + CANNONS_BBOX_HEIGHT / 2 - 3.0f, CANNONS, -1, 0, target);
-			CGrid::GetInstance()->InsertGrid(bullet1);
-			CGrid::GetInstance()->InsertGrid(bullet2);
+			if (delayAttackTimer->IsTimeUp() && !changeAttackToTopBottom)
+			{
+				Bullet* bullet1 = new BigNavigatedEnemyBullet(x + CANNONS_BBOX_WIDTH, y + CANNONS_BBOX_HEIGHT / 2 - 3.0f, CANNONS, 1, 0, target);
+				CGrid::GetInstance()->InsertGrid(bullet1);
+				Bullet* bullet2 = new BigNavigatedEnemyBullet(x - 3.0f, y + CANNONS_BBOX_HEIGHT / 2 - 3.0f, CANNONS, -1, 0, target);
+				CGrid::GetInstance()->InsertGrid(bullet2);
+				delayAttackTimer->Reset();
+				delayAttackTimer->Start();
+				changeAttackToTopBottom = true;
+			}
 			break;
 		}
 		case CANNONS_STATE_IDLE:

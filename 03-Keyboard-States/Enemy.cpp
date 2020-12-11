@@ -26,3 +26,7 @@ float Enemy::GetDistance(D3DXVECTOR2 pos, D3DXVECTOR2 target)
 {
 	return (float)sqrt((pos.x - target.x)* (pos.x - target.x) + (pos.y - target.y)* (pos.y - target.y));
 }
+
+void Enemy::shootBulletToTarget()
+{
+}
