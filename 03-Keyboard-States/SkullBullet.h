@@ -21,7 +21,7 @@
 #define BULLET_SKULL_ANI_EXPLOSION						1
 
 
-#define BULLET_SKULL_DELAY								9000
+#define BULLET_SKULL_DELAY								3000
 //kieu dan
 
 

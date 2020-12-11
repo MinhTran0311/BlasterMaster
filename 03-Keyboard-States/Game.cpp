@@ -314,7 +314,9 @@ void CGame::Draw(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, in
 	D3DXMATRIX newMatrix;
 
 	D3DXVECTOR2 scaling;
+	//1.1852 1.0538
 	if (direction > 0)
+		//scaling = D3DXVECTOR2(1.1852, 1.0538);
 		scaling = D3DXVECTOR2(1, 1);
 	else
 		scaling = D3DXVECTOR2(-1, 1);
@@ -326,7 +328,33 @@ void CGame::Draw(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, in
 
 	spriteHandler->SetTransform(&oldMatrix);
 }
+void CGame::IntroDraw(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+{
+	D3DXVECTOR3 p(floor(x - Camera::GetInstance()->GetCamx()), floor(y - Camera::GetInstance()->GetCamy()), 0);
+	RECT r;
+	r.left = left;
+	r.top = top;
+	r.right = right;
+	r.bottom = bottom;
 
+	D3DXMATRIX oldMatrix;
+	D3DXMATRIX newMatrix;
+
+	D3DXVECTOR2 scaling;
+	//1.1852 1.0538
+	if (direction > 0)
+		scaling = D3DXVECTOR2(1.1852, 1.0538);
+		//scaling = D3DXVECTOR2(1, 1);
+	else
+		scaling = D3DXVECTOR2(-1, 1);
+
+	D3DXMatrixTransformation2D(&newMatrix, &D3DXVECTOR2( (float)(right - left) / 2-200, p.y + (float)(bottom - top) / 2)-120, 0, &scaling, NULL, 0, NULL);
+	spriteHandler->GetTransform(&oldMatrix);
+	spriteHandler->SetTransform(&newMatrix);
+	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+
+	spriteHandler->SetTransform(&oldMatrix);
+}
 
 void CGame::ProcessKeyboard()
 {

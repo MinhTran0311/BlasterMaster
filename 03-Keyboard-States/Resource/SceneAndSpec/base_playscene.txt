@@ -20,8 +20,11 @@
 18	Resource/SceneAndSpec/Scene/area_8.png	255	0	255
 19	Resource/SceneAndSpec/Scene/area_9.jpg	255	0	255
 20	Resource/SceneAndSpec/Scene/overworld.png	255	0	255
+
+
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+
 ##============ SOPHIA JASON =================
 # idle right
 10001	146	5	172	23	30
@@ -153,6 +156,8 @@
 #GUNUP
 60002	66	237	82	253	1
 
+
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 ##JASON=========================
@@ -269,6 +274,7 @@
 604	12003	100
 
 
+
 # id tuan theo define
 [ANIMATION_SETS]
 # JASON
@@ -286,6 +292,7 @@
 #=======ITEM==========#
 51	60001
 52	60002
+
 [SCENE]
 #Stage1
 Resource/SceneAndSpec/scene1.txt	1024	275
@@ -307,3 +314,4 @@ Resource/SceneAndSpec/scene8.txt	518	275
 Resource/SceneAndSpec/scene9.txt	280	275
 #Stage10
 Resource/SceneAndSpec/overworld.txt	2048	2048
+

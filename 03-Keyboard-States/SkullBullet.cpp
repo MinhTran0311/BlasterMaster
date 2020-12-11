@@ -36,7 +36,7 @@ void SkullBullet::GetBoundingBox(float& left, float& top, float& right, float& b
 	
 }
 
-void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
+void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	if (!isActive)
 		return;
@@ -70,9 +70,29 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	coEvents.clear();
+	//for (int i = 0; i < coObjects->size(); i++)
+	//{
+	//	if (this->IsCollidingObject(coObjects->at(i)) && coObjects->at(i)->GetType() == TAG_PLAYER)
+	//	{
+	//			coObjects->at(i)->AddHealth(-1);
+	//			DebugOut(L"xxxxxxxxxxxxxxxx %d", coObjects->at(i)->health);
+	//			isHitEnemy = true;
+	//			SetState(BULLET_SKULL_STATE_EXPLOSION);
+	//			vx = 0;
+	//			vy = 0;
+	//			//isActive = false;
+	//	}
+	//}
 
-	CalcPotentialCollisions(colliable_objects, coEvents);
+	//vector<LPGAMEENTITY>* colliable_objects = new vector<LPGAMEENTITY>();
+
+	//for (int i = 0; i < coObjects->size(); i++)
+	//{
+	//	if (coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_GATE)
+	//		colliable_objects->push_back(coObjects->at(i));
+	//}
+	coEvents.clear();
+	CalcPotentialCollisions(coObjects, coEvents);
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -88,11 +108,11 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetType() == EntityType::TAG_BRICK)
+			if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == EntityType::TAG_GATE)
 			{
 				isHitBrick = true;
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
+				x += min_tx * dx + nx * 1.0f;
+				y += min_ty * dy + ny * 1.0f;
 
 				if (!rolling) {
 					vx = BULLET_SKULL_ROLLING*this->nx;
@@ -100,7 +120,7 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 				}
 
 				vy = -(BULLET_SKULL_BOUNCE- bounceIndex);
-				bounceIndex+=0.03f;
+				bounceIndex += 0.03f;
 			}
 			/*if (e->obj->GetType() == EntityType::ENEMY)
 			{
@@ -111,11 +131,12 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 				y += min_ty * dy + ny * 0.4f;
 				isActive = false;
 			}*/
-			if (e->obj->GetType() == EntityType::TAG_JASON )
+			if (e->obj->GetType() == EntityType::TAG_PLAYER)
 			{
 				e->obj->AddHealth(-1);
 				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
 				isHitEnemy = true;
+				SetState(BULLET_SKULL_STATE_EXPLOSION);
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
 				vx = 0;

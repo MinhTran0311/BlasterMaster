@@ -10,7 +10,7 @@
 #include "SmallSophiaBullet.h"
 #include "Grid.h"
 #include "Big_Sophia.h"
-
+#include "IntroScene.h"
 #define ID_SMALL_SOPHIA	0
 #define ID_JASON		1
 #define ID_BIG_SOPHIA	2
@@ -910,6 +910,7 @@ void PlayScene::Render()
 	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListRenderObj(gameCamera->GetRectCam());
 	for (int i = 0; i < coObjects.size(); i++)
 		coObjects[i]->Render();
+
 	switch (player->GetPlayerType())
 	{
 	case EntityType::TAG_JASON:
