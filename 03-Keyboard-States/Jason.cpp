@@ -256,8 +256,8 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			}
 			else if ((e->obj->GetType() == EntityType::TAG_GATE))
 			{
-				gate = dynamic_cast<Gate*>(e->obj);
-				DebugOut(L"jason dung tuong loai 1");
+				gate = e->obj;
+				DebugOut(L"jason dung tuong loai 1\n");
 				GateColliding = true;
 			}
 			else if ((e->obj->GetType() == EntityType::TAG_GAD_BRICK))

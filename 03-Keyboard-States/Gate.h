@@ -8,13 +8,13 @@ class Gate : public Entity
 {
 	int gateSwitchSceneId;	//Gate nay se dan~ den scene nao
 public:
-	bool directionCam;
+	int directionCam;
 	bool isNeedResetCam;
 	int newPlayerx, newPlayery;
 	int newPlayerState;
 	int camPosX, camPosY;
 
-	Gate(float x, float y, int switchId, float playerx, float playery, int playerState, bool rsCam, int camX, int camY);
+	Gate(float x, float y, int switchId, float playerx, float playery, int playerState, int rsCam, int camX, int camY);
 
 
 	~Gate();

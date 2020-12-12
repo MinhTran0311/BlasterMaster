@@ -551,13 +551,13 @@ PlayScene::~PlayScene()
 
 void PlayScene::CheckPlayerReachGate()
 {
-	switch (player->GetPlayerType())
+	if (player->GetGateColliding())
 	{
-	case TAG_JASON:
-	{
-		if (dynamic_cast<JASON*>(player)->GetGateColliding())
+		switch (player->GetPlayerType())
 		{
-			Gate* gate = dynamic_cast<JASON*>(player)->GetGate();
+		case TAG_JASON:
+		{
+			Gate* gate = dynamic_cast<Gate*>(player->GetGate());
 			if (gate->GetIdScene() != ID_MAPOVERWORLD)
 			{
 				DebugOut(L"[Info] success\n");
@@ -570,16 +570,15 @@ void PlayScene::CheckPlayerReachGate()
 				camMap1Y = gate->camPosY;
 
 				DebugOut(L"camposX: %d, camposY: %d\n", camMap1X, camMap1Y);
-				DebugOut(L"posX: %d, posY: %d\n", playerInfo.jasonXPos, playerInfo.jasonYPos);
+				DebugOut(L"posX: %f, posY: %f\n", playerInfo.jasonXPos, playerInfo.jasonYPos);
 
 
 				playerInfo.jasonGundam = player->GetgunDam();
 				playerInfo.jasonHealth = player->GetHealth();
 				playerInfo.playerDirectionBeforePassGate = player->GetDirection();
-				
+
 				Unload();
 
-				//DebugOut(L"type %d\n", gate->typePlayer);
 				ChooseMap(playerInfo.jasonStage);
 
 				player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
@@ -587,16 +586,11 @@ void PlayScene::CheckPlayerReachGate()
 				player->SetState(tempState);
 				CGrid::GetInstance()->SetTargetForEnemies(player);
 			}
-
+			break;
 		}
-		break;
-	}
-	case TAG_SMALL_SOPHIA:
-	{
-		if (dynamic_cast<Small_Sophia*>(player)->GetGateColliding())
+		case TAG_SMALL_SOPHIA:
 		{
-			//chinh lai cai dynamic cast
-			Gate* gate = dynamic_cast<Small_Sophia*>(player)->GetGate();
+			Gate* gate = dynamic_cast<Gate*>(player->GetGate());
 
 			DebugOut(L"[Info] samll gate success\n");
 			playerInfo.sophiaStage = gate->GetIdScene();
@@ -618,16 +612,18 @@ void PlayScene::CheckPlayerReachGate()
 
 			//DebugOut(L"type %d\n", gate->typePlayer);
 			ChooseMap(playerInfo.sophiaStage);
+
 			switch (playerInfo.sophiaStage)
 			{
 			case ID_MAPOVERWORLD:
 			{
 				player = new Big_Sophia(playerInfo.sophiaXPos, playerInfo.sophiaYPos, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
+
 				break;
 			}
 			default:
 			{
-				player = new Small_Sophia(playerInfo.sophiaXPos, playerInfo.sophiaYPos, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
+				player = new Small_Sophia(playerInfo.sophiaXPos, playerInfo.sophiaYPos + 2.0f, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
 				player->SetDirection(playerInfo.playerDirectionBeforePassGate);
 				player->SetState(tempState);
 				if (playerInfo.sophiaStage == playerInfo.jasonStage)
@@ -638,37 +634,59 @@ void PlayScene::CheckPlayerReachGate()
 			}
 			}
 			CGrid::GetInstance()->SetTargetForEnemies(player);
+			
+			break;
 		}
-		break;
-	}
-	case TAG_BIG_SOPHIA:
-	{
-		if (dynamic_cast<Big_Sophia*>(player)->GetGateColliding())
+		case TAG_BIG_SOPHIA:
 		{
-			GateOverworld* gate = (dynamic_cast<Big_Sophia*>(player))->GetGate();
-			dynamic_cast<Big_Sophia*>(player)->AutoRun(gate->directionCam);
-			xPosCamGo = gate->GetXPosGo();
-			xPosCamBack = gate->GetXPosBack();
-			yPosCamGo = gate->GetYPosGo();
-			yPosCamBack = gate->GetYPosBack();
-			CamMoveDirection = gate->GetCamDirection();
+			if (dynamic_cast<GateOverworld*>(player->GetGate()))
+			{
+				GateOverworld* gate = dynamic_cast<GateOverworld*>(player->GetGate());
+				dynamic_cast<Big_Sophia*>(player)->AutoRun(gate->directionCam);
+				xPosCamGo = gate->GetXPosGo();
+				xPosCamBack = gate->GetXPosBack();
+				yPosCamGo = gate->GetYPosGo();
+				yPosCamBack = gate->GetYPosBack();
+				CamMoveDirection = gate->GetCamDirection();
+			}
+			else
+			{
+				Gate* gate = dynamic_cast<Gate*>(player->GetGate());
+
+				DebugOut(L"[Info] return gate success\n");
+				playerInfo.sophiaStage = gate->GetIdScene();
+				playerInfo.sophiaXPos = gate->newPlayerx;
+				playerInfo.sophiaYPos = gate->newPlayery;
+				tempNeed = gate->directionCam;
+				camMap1X = gate->camPosX;
+				camMap1Y = gate->camPosY;
+				playerInfo.sophiaGundam = player->GetgunDam();
+				playerInfo.sophiaHealth = player->GetHealth();
+
+				Unload();
+				ChooseMap(playerInfo.sophiaStage);
+				
+				player = new Small_Sophia(playerInfo.sophiaXPos, playerInfo.sophiaYPos, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
+				backup_player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
+				CGrid::GetInstance()->SetTargetForEnemies(player);
+			}
+			break;
 		}
-		break;
-	}
+		}
 	}
 }
 
 void PlayScene::Update(DWORD dt)
 {
-
 	CheckPlayerReachGate();		
 #pragma region camera
 	float cx, cy;
 	mapWidth = listWidth[idStage - 11];
 	mapHeight= listHeight[idStage - 11];
 	player->GetPosition(cx, cy);
-	if (tempNeed)
+	if (tempNeed==1)
 	{
+		DebugOut(L"middle\n");
 		gameCamera->SetCamPos(camMap1X, camMap1Y);
 		posY = camMap1Y;
 		tempNeed = 0;
