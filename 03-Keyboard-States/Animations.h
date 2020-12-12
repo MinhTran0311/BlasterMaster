@@ -48,13 +48,14 @@ public:
 	void SetFrame(int current_Frame) { currentFrame = current_Frame; }
 	void ResetCurrentFrame() { currentFrame = -1; }
 	void Render(int direction, float x, float y, int alpha = 255);
+	void IntroRender(int direction, float x, float y, int alpha = 255);
 	void RenderY(int direction, float x, float y, int alpha = 255);
 	void RenderTopBottom(int direction, float x, float y, int alpha = 255);
 	void OldRender(float x, float y, int alpha = 255);
 	void RenderGunFlip(float x, float y, int alpha = 255);
 	void RenderGunFlipTargetTop(float x, float y, int alpha = 255);
 	void RenderFrame(int idFrame, float x, float y, int alpha = 255);
-	int GetLastFrameIndex() { return frames.size() - 1; };
+	int GetLastFrameIndex() { return frames.size() -1; };
 };
 
 typedef CAnimation* LPANIMATION;

@@ -139,6 +139,8 @@
     <ClCompile Include="GateOverworld.cpp">
       <Filter>Objects\Obstacles\Gate</Filter>
     </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>FrameWork\Scene</Filter>
     <ClCompile Include="SmallNavigatedEnemyBullet.cpp">
       <Filter>Objects\Bullets\Enemy</Filter>
     <ClCompile Include="HomingMissles.cpp">
@@ -296,6 +298,8 @@
     <ClInclude Include="GateOverworld.h">
       <Filter>Objects\Obstacles\Gate</Filter>
     </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>FrameWork\Scene</Filter>
     <ClInclude Include="SmallNavigatedEnemyBullet.h">
       <Filter>Objects\Bullets\Enemy</Filter>
     <ClInclude Include="HomingMissles.h">

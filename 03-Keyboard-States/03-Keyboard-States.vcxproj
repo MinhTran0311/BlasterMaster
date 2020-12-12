@@ -148,6 +148,7 @@
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InjuringBrick.cpp" />
     <ClCompile Include="Insects.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Jason.cpp" />
     <ClCompile Include="JasonBullet.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="GunUp.h" />
     <ClInclude Include="HomingMissles.h" />
     <ClInclude Include="InjuringBrick.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HUD.h" />

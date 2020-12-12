@@ -23,6 +23,8 @@
 #define BGColorCrossing D3DCOLOR_XRGB(255,255,200)
 #define SCREEN_WIDTH 320	//530
 #define SCREEN_HEIGHT 274	//480
+//kich thuoc sprite intro 270 260
+// 1.1852 1.0538
 #define BOTTOM_SCREEN 450
 #define CAMERA_SPEED_WORLD1 0.223
 #define CAMERA_SPEED_OVERWORLD 0.15
@@ -45,6 +47,7 @@
 #define ID_AREA8			18
 #define ID_AREA9			19
 #define ID_MAPOVERWORLD		20
+#define ID_INTRO			21
 
 
 #define SCENE_SECTION_UNKNOWN			-1

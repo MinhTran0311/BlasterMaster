@@ -18,6 +18,7 @@ public:
 	CSprite(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex);
 
 	void Draw(int direction, float x, float y, int alpha = 255);
+	void IntroDraw(int direction, float x, float y, int alpha = 255);
 	void DrawY(int direction, float x, float y, int alpha = 255);
 	void DrawTopBottom(int direction, float x, float y, int alpha = 255);
 	void OldDraw(float x, float y, int alpha = 255);
