@@ -22,7 +22,7 @@ protected:
 
 	EntityType specialBulletType;
 	
-	bool GateColliding = false;
+	bool GateColliding;
 
 	//imortall
 	int untouchable;
@@ -33,10 +33,20 @@ protected:
 	Timer* FireTimer = new Timer(PLAYER_CAN_FIRE_DURATION);
 	Timer* changeAlphaTimer = new Timer(PLAYER_CHANGE_ALPHA);
 	bool canChangeAlpha = false;
+
+	LPGAMEENTITY gate;
 public:
 	Player();
 	~Player();
 	static Player* GetInstance();
+
+	//gate
+
+	LPGAMEENTITY GetGate() { return gate; };
+	void ResetGate() { gate = NULL; };
+	bool GetGateColliding() { return GateColliding; };
+	void SetGateColliding(bool done) { GateColliding = done; };
+
 	void SetState(int state) {Entity::SetState(state);};
 
 	void changeAlpha();

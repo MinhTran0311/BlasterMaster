@@ -7,7 +7,7 @@
 Big_Sophia::Big_Sophia(float x, float y, int _health, int _gundam)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BIG_SOPHIA));
-	_PlayerType = TAG_BIG_SOPHIA; 
+	_PlayerType = TAG_BIG_SOPHIA;
 
 	tag = EntityType::TAG_PLAYER;
 	//untouchable = 0;
@@ -62,7 +62,7 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		isImmortaling = false;
 		immortalTimer->Reset();
 	}
-	if (_isAutoRun==true)
+	if (_isAutoRun == true)
 	{
 		if (directionAutoRun == 1 && abs(x - backup_x) <= GATE_HORIZONTAL_LONG)
 		{
@@ -136,6 +136,13 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 				SetInjured(injuringBricks->GetDamage());
 				break;
 			}
+			case TAG_GATE:
+			{
+				gate = coObjects->at(i);
+				DebugOut(L"big sophia dung tuong\n");
+				GateColliding = true;
+				break;
+			}
 			}
 		}
 	}
@@ -143,14 +150,14 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 	for (int i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE_OVERWORLD)
+		if (coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD)
 			colliable_Objects->push_back(coObjects->at(i));
 	}
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
 
-	// turn off collision when die 
+	// turn off collision when die
 	if (state != BIG_SOPHIA_STATE_DIE)
 		CalcPotentialCollisions(colliable_Objects, coEvents);
 
@@ -188,8 +195,8 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			}
 			else if (e->obj->GetType() == EntityType::TAG_GATE_OVERWORLD)
 			{
-				gate = dynamic_cast<GateOverworld*>(e->obj);
-				DebugOut(L"big sophia dung tuong loai 2");
+				gate = e->obj;
+				DebugOut(L"big sophia dung tuong\n");
 				GateColliding = true;
 			}
 
@@ -215,7 +222,7 @@ void Big_Sophia::Render()
 		return;
 	else
 	{
-		if (vx==0 && vy==0)
+		if (vx == 0 && vy == 0)
 		{
 			if (!isVerticalMove)
 			{
@@ -244,7 +251,7 @@ void Big_Sophia::Render()
 				ani = BIG_SOPHIA_ANI_WALKING_TOP;
 		}
 		animationSet->at(ani)->Render(1, x, y);
-		
+
 	}
 }
 

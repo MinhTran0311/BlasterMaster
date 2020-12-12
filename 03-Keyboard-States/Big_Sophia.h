@@ -68,11 +68,11 @@ public:
 	virtual void SetState(int state);
 
 #pragma region GateOverworld
-	GateOverworld* gate;
-	GateOverworld* GetGate() { return gate; };
-	void ResetGate() { gate = NULL; };
-	bool GetGateColliding() { return GateColliding; };
-	void SetGateColliding(bool done) { GateColliding = done; };
+	//GateOverworld* gate;
+	//GateOverworld* GetGate() { return gate; };
+	//void ResetGate() { gate = NULL; };
+	//bool GetGateColliding() { return GateColliding; };
+	//void SetGateColliding(bool done) { GateColliding = done; };
 #pragma endregion
 };
 

@@ -68,11 +68,11 @@ public:
 	//bool isPressFlipGun;
 	bool isCrawl;
 
-	Gate* gate;
-	Gate* GetGate() { return gate; };
-	void ResetGate() { gate = NULL; };
-	bool GetGateColliding() { return GateColliding; };
-	void SetGateColliding(bool done) { GateColliding = done; };
+	//Gate* gate;
+	//Gate* GetGate() { return gate; };
+	//void ResetGate() { gate = NULL; };
+	//bool GetGateColliding() { return GateColliding; };
+	//void SetGateColliding(bool done) { GateColliding = done; };
 
 public:
 	Small_Sophia(float x, float y, int health, int gundam);

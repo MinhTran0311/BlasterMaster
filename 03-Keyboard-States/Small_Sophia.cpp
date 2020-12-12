@@ -132,7 +132,7 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			}
 			else if ((e->obj->GetType() == EntityType::TAG_GATE))
 			{
-				gate = dynamic_cast<Gate*>(e->obj);
+				gate = (e->obj);
 				DebugOut(L"samll dung tuong loai 1");
 				GateColliding = true;
 			}
