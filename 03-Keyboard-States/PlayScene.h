@@ -34,8 +34,12 @@ struct PlayerHealthAndGunInfo
 	int playerDirectionBeforePassGate = 1;
 	int jasonHealth = PLAYER_MAX_HEALTH;
 	int jasonGundam = PLAYER_DEFAULT_GUNDAM;
+	int jasonStage = 1;
+	float jasonXPos, jasonYPos;
 	int sophiaHealth = PLAYER_MAX_HEALTH;
 	int sophiaGundam = PLAYER_DEFAULT_GUNDAM;
+	int sophiaStage = 1;
+	float sophiaXPos, sophiaYPos;
 };
 
 class PlayScene : public Scene

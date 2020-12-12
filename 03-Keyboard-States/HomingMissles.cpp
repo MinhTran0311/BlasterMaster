@@ -88,7 +88,7 @@ void HomingMissles::Render()
 {
 	if (!isActive)
 		return;
-	RenderBoundingBox();
+
 	////DebugOut(L"So luong ten lua %d\n", missles.size());
 	//for (int i = 0; i < missles.size(); i++)
 	//{

@@ -51,7 +51,7 @@ class Big_Sophia : public Player
 	bool _isAutoRun;
 	int directionAutoRun;
 	
-	bool GateColliding = false;
+
 
 public:
 	Big_Sophia (float x, float y, int health, int gundam);

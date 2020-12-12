@@ -1,5 +1,5 @@
 ﻿#include "Small_Sophia.h"
-
+#include "Gate.h"
 Small_Sophia::Small_Sophia(float x, float y, int _health, int _gundam) : Player()
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SMALL_SOPHIA));
@@ -92,6 +92,7 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			}
 			SetInjured(enemy->GetDamage());
 		}
+
 	}
 
 
@@ -128,6 +129,12 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 					if (e->nx != 0)
 						vx = 0;
 				}
+			}
+			else if ((e->obj->GetType() == EntityType::TAG_GATE))
+			{
+				gate = dynamic_cast<Gate*>(e->obj);
+				DebugOut(L"samll dung tuong loai 1");
+				GateColliding = true;
 			}
 		}
 

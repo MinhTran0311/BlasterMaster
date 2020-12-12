@@ -218,20 +218,20 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		int playerPosY = atoi(tokens[milestone + 3].c_str());
 		int playerState = atoi(tokens[milestone + 4].c_str());
 		int isResetCamera = atoi(tokens[milestone + 5].c_str());
-		int int_typePlayer = atoi(tokens[milestone + 6].c_str());
-		EntityType typePlayer = EntityType::TAG_JASON; 
-		switch (int_typePlayer)
-		{
-		case 102:
-			typePlayer = EntityType::TAG_SMALL_SOPHIA;
-		case 103:
-			typePlayer = EntityType::TAG_BIG_SOPHIA;
-		}
-		float camX = atoi(tokens[milestone + 7].c_str());
+		//int int_typePlayer = atoi(tokens[milestone + 6].c_str());
+		//EntityType typePlayer = EntityType::TAG_JASON; 
+		//switch (int_typePlayer)
+		//{
+		//case 102:
+		//	typePlayer = EntityType::TAG_SMALL_SOPHIA;
+		//case 103:
+		//	typePlayer = EntityType::TAG_BIG_SOPHIA;
+		//}
+		float camX = atoi(tokens[milestone + 6].c_str());
 		DebugOut(L"Tạo gate %d", camX);
-		int camY = atoi(tokens[milestone + 8].c_str());
+		int camY = atoi(tokens[milestone + 7].c_str());
 
-		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isResetCamera, typePlayer, camX, camY);
+		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isResetCamera, camX, camY);
 		DebugOut(L"[test] add gate !\n");
 		break;
 	}

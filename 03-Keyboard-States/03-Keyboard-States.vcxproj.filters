@@ -385,5 +385,8 @@
     <Filter Include="Objects\Bullets\Player\SpecialBullet">
       <UniqueIdentifier>{127d121c-e136-470e-8fdf-2a5786bf8ce9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Bullets\Player\BigSophiaBullets">
+      <UniqueIdentifier>{3602dd46-c8ff-4776-9908-acfae3b31f37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

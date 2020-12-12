@@ -22,6 +22,8 @@ protected:
 
 	EntityType specialBulletType;
 	
+	bool GateColliding = false;
+
 	//imortall
 	int untouchable;
 	bool isImmortaling;

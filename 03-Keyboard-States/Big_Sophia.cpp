@@ -204,7 +204,6 @@ void Big_Sophia::Render()
 	int current_frame;
 	if (isDeath)
 	{
-
 		ani = BIG_SOPHIA_ANI_DIE;
 		animationSet->at(ani)->Render(nx, x, y, alpha);
 		if (animationSet->at(ani)->GetFrame() > LAST_FRAME_BIG_SOPHIA_DIE)
