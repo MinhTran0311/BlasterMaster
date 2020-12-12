@@ -17,20 +17,6 @@
 
 #define MAP2_SIDE	200
 
-//#define OBJECT_TYPE_BRICK		1
-//#define OBJECT_TYPE_GATE		2
-//
-//#define OBJECT_TYPE_WORM 10
-//#define OBJECT_TYPE_DOMES 11
-//#define OBJECT_TYPE_FLOATER 12
-//
-//#define OBJECT_TYPE_INSECT 13
-//
-//
-//#define OBJECT_TYPE_ORBS 14
-//#define OBJECT_TYPE_JUMPER 15
-//#define OBJECT_TYPE_SKULLS 16
-
 #define HUD_Y (SCREEN_HEIGHT/11)
 
 PlayScene::PlayScene()
@@ -41,7 +27,6 @@ PlayScene::PlayScene(int _idStage) : Scene()
 {
 	idStage = _idStage;
 	keyHandler = new PlayScenceKeyHandler(this);
-	//_SophiaType = ID_JASON;
 	LoadBaseObjects();
 	ChooseMap(idStage);
 }
@@ -55,11 +40,7 @@ void PlayScene::LoadBaseObjects()
 		player = new JASON(55, 100, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
 		DebugOut(L"[INFO] JASON CREATED!!! \n");
 	}
-	//if (ssophia == NULL)
-	//{
-	//	ssophia = new Small_Sophia(55, 100);
-	//	DebugOut(L"[INFO] SMALL SOPHIA CREATED!!! \n");
-	//}
+
 	if (gameHUD == NULL)
 	{
 		gameHUD = new HUD(player->GetHealth(), player->GetgunDam());
@@ -214,7 +195,6 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 	if (player->GetPlayerType()==TAG_BIG_SOPHIA)
 		if (dynamic_cast<Big_Sophia*>(player)->isAutoRun())
 		{
-		//	DebugOut(L"autorun %d\n", dynamic_cast<Big_Sophia*>(player)->isAutoRun());
 			return;
 		}
 	if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
@@ -238,11 +218,7 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 		else if (player->GetPlayerType() == EntityType::TAG_BIG_SOPHIA)
 			player->SetState(BIG_SOPHIA_STATE_WALKING_LEFT);
 	}
-	else if ((CGame::GetInstance()->IsKeyDown(DIK_DOWN)))
-	{
-		if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-			player->SetState(BIG_SOPHIA_STATE_WALKING_BOTTOM);
-	}
+	
 	//else if ((CGame::GetInstance()->IsKeyDown(DIK_UP)))
 	//{
 	//	if (player->GetPlayerType() == TAG_BIG_SOPHIA)
@@ -272,6 +248,11 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 			dynamic_cast<JASON*>(player)->SetPressUp(true);
 		else if (player->GetPlayerType() == TAG_BIG_SOPHIA)
 			player->SetState(BIG_SOPHIA_STATE_WALKING_TOP);
+	}
+	if ((CGame::GetInstance()->IsKeyDown(DIK_DOWN)))
+	{
+		if (player->GetPlayerType() == TAG_BIG_SOPHIA)
+			player->SetState(BIG_SOPHIA_STATE_WALKING_BOTTOM);
 	}
 }
 
@@ -337,28 +318,8 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	}
 	case DIK_Z:
 	{
-		player->FireBullet(0);
-		/*switch (player->GetPlayerType())
-		{
-
-		case EntityType::TAG_JASON:
-			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, player->Getx(), player->Gety(), 3))
-			{
-				Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-				CGrid::GetInstance()->InsertGrid(bullet);
-			}
-			break;
-		case EntityType::TAG_SMALL_SOPHIA:
-			if (CGrid::GetInstance()->CheckBulletLimitation(SMALL_SOPHIA_NORMAL_BULLET, player->Getx(), player->Gety(), 3))
-			{
-				Bullet* bullet = new SmallSophiaBullet(player->Getx(), player->Gety(), 0, nx);
-				CGrid::GetInstance()->InsertGrid(bullet);
-			}
-			break;
-		default:
-			break;
-		}*/
-
+		//single fire
+		player->FireBullet(1);
 		break;
 	}
 
@@ -373,41 +334,15 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	}
 	case DIK_V:
 	{
-		if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(),3))
-		{
-			Bullet* bullet1 = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-			Bullet* bullet2 = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-			Bullet* bullet3 = new JasonBullet(player->Getx(), player->Gety(), 0, nx, isAimingTop);
-			CGrid::GetInstance()->InsertGrid(bullet1);
-			CGrid::GetInstance()->InsertGrid(bullet2);
-			CGrid::GetInstance()->InsertGrid(bullet3);
-		}
+		//burst fire
+		player->FireBullet(2);
 		break;
 	}
-	//case DIK_C:
-	//	//if (listBullets.size() < 3)
-	//	//{
-	//	//	Bullet* bullet = new JasonRocket(player->Getx(), player->Gety());
-	//	//	((PlayScene*)scence)->listBullets.push_back(bullet);
-	//	//}
-	//	//break;
-	//case DIK_F2:
-	//	//if (player->GetBBARGB() == 255)
-	//	//{
-	//	//	player->SetBBARGB(0);
-	//	//}
-	//	//else player->SetBBARGB(255);
-
-	//	//for (int i = 0; i < ((PlayScene*)scence)->listBullets.size(); i++)
-	//	//{
-	//	//	if (((PlayScene*)scence)->listBullets[i]->GetBBARGB() == 255)
-	//	//	{
-	//	//		DebugOut(L"dan mat mau");
-	//	//		((PlayScene*)scence)->listBullets[i]->SetBBARGB(0);
-	//	//	}
-	//	//	else ((PlayScene*)scence)->listBullets[i]->SetBBARGB(255);
-	//	//}
-	//	//break;
+	case DIK_C:
+	{
+		player->FireBullet(3);
+		break;
+	}
 	}
 }
 
@@ -417,6 +352,10 @@ void PlayScene::changePlayer()
 	{
 		playerInfo.jasonHealth = player->GetHealth();
 		playerInfo.jasonGundam = player->GetgunDam();
+		playerInfo.jasonStage = idStage;
+		playerInfo.jasonXPos = player->Getx();
+		playerInfo.jasonYPos = player->Gety();
+
 		this->player->SetState(SOPHIA_STATE_OUT);
 		backup_player = player;
 		player = new Small_Sophia(backup_player->Getx(), backup_player->Gety(),playerInfo.sophiaHealth,playerInfo.sophiaGundam);
@@ -610,10 +549,6 @@ PlayScene::~PlayScene()
 {
 }
 
-//void PlayScene::SwitchScene(int scene_id)
-//{
-//	DebugOut(L"dung cong");
-//}
 void PlayScene::CheckPlayerReachGate()
 {
 	switch (player->GetPlayerType())
@@ -623,52 +558,84 @@ void PlayScene::CheckPlayerReachGate()
 		if (dynamic_cast<JASON*>(player)->GetGateColliding())
 		{
 			Gate* gate = dynamic_cast<JASON*>(player)->GetGate();
-			DebugOut(L"[Info] success\n");
-			int tempMap = gate->GetIdScene();
-			int tempx = gate->newPlayerx;
-			int tempy = gate->newPlayery;
+			if (gate->GetIdScene() != ID_MAPOVERWORLD)
+			{
+				DebugOut(L"[Info] success\n");
+				playerInfo.jasonStage = gate->GetIdScene();
+				playerInfo.jasonXPos = gate->newPlayerx;
+				playerInfo.jasonYPos = gate->newPlayery;
+				int tempState = gate->newPlayerState;
+				tempNeed = gate->directionCam;
+				camMap1X = gate->camPosX;
+				camMap1Y = gate->camPosY;
+
+				DebugOut(L"camposX: %d, camposY: %d\n", camMap1X, camMap1Y);
+				DebugOut(L"posX: %d, posY: %d\n", playerInfo.jasonXPos, playerInfo.jasonYPos);
+
+
+				playerInfo.jasonGundam = player->GetgunDam();
+				playerInfo.jasonHealth = player->GetHealth();
+				playerInfo.playerDirectionBeforePassGate = player->GetDirection();
+				
+				Unload();
+
+				//DebugOut(L"type %d\n", gate->typePlayer);
+				ChooseMap(playerInfo.jasonStage);
+
+				player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
+				player->SetDirection(playerInfo.playerDirectionBeforePassGate);
+				player->SetState(tempState);
+				CGrid::GetInstance()->SetTargetForEnemies(player);
+			}
+
+		}
+		break;
+	}
+	case TAG_SMALL_SOPHIA:
+	{
+		if (dynamic_cast<Small_Sophia*>(player)->GetGateColliding())
+		{
+			//chinh lai cai dynamic cast
+			Gate* gate = dynamic_cast<Small_Sophia*>(player)->GetGate();
+
+			DebugOut(L"[Info] samll gate success\n");
+			playerInfo.sophiaStage = gate->GetIdScene();
+			playerInfo.sophiaXPos = gate->newPlayerx;
+			playerInfo.sophiaYPos = gate->newPlayery;
 			int tempState = gate->newPlayerState;
 			tempNeed = gate->directionCam;
 			camMap1X = gate->camPosX;
 			camMap1Y = gate->camPosY;
 
 			DebugOut(L"camposX: %d, camposY: %d\n", camMap1X, camMap1Y);
-			DebugOut(L"posX: %d, posY: %d\n", tempx, tempy);
+			DebugOut(L"posX: %d, posY: %d\n", playerInfo.sophiaXPos, playerInfo.sophiaYPos);
 
-			if (player->GetPlayerType() == TAG_JASON)
-			{
-				playerInfo.jasonGundam = player->GetgunDam();
-				playerInfo.jasonHealth = player->GetHealth();
-			}
-			else
-			{
-				playerInfo.sophiaGundam = player->GetgunDam();
-				playerInfo.sophiaHealth = player->GetHealth();
-			}
+			playerInfo.sophiaGundam = player->GetgunDam();
+			playerInfo.sophiaHealth = player->GetHealth();
 			playerInfo.playerDirectionBeforePassGate = player->GetDirection();
+
 			Unload();
-			DebugOut(L"type %d\n", gate->typePlayer);
-			ChooseMap(tempMap);
-			switch (gate->typePlayer)
+
+			//DebugOut(L"type %d\n", gate->typePlayer);
+			ChooseMap(playerInfo.sophiaStage);
+			switch (playerInfo.sophiaStage)
 			{
-			case EntityType::TAG_JASON:
+			case ID_MAPOVERWORLD:
 			{
-				player = new JASON(tempx, tempy, playerInfo.jasonHealth, playerInfo.jasonGundam);
-				player->SetDirection(playerInfo.playerDirectionBeforePassGate);
-				player->SetState(tempState);
-				break;
-			}
-			case TAG_BIG_SOPHIA:
-			{
-				player = new Big_Sophia(tempx, tempy, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
-				//player->SetDirection(playerInfo.playerDirectionBeforePassGate);
-				//player->SetState(tempState);
-				DebugOut(L" after posX: %d, posY: %d\n", player->Getx(), player->Gety());
-				DebugOut(L"tao big big love %d\n", gameCamera->GetCamy());
+				player = new Big_Sophia(playerInfo.sophiaXPos, playerInfo.sophiaYPos, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
 				break;
 			}
 			default:
+			{
+				player = new Small_Sophia(playerInfo.sophiaXPos, playerInfo.sophiaYPos, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
+				player->SetDirection(playerInfo.playerDirectionBeforePassGate);
+				player->SetState(tempState);
+				if (playerInfo.sophiaStage == playerInfo.jasonStage)
+				{
+					backup_player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
+				}
 				break;
+			}
 			}
 			CGrid::GetInstance()->SetTargetForEnemies(player);
 		}
@@ -690,14 +657,11 @@ void PlayScene::CheckPlayerReachGate()
 	}
 	}
 }
+
 void PlayScene::Update(DWORD dt)
 {
-	//if (player->GetPlayerType() == EntityType::TAG_JASON)
-	//{
-		//DebugOut(L"done reachgete\n");
-		CheckPlayerReachGate();
-	//}
-		
+
+	CheckPlayerReachGate();		
 #pragma region camera
 	float cx, cy;
 	mapWidth = listWidth[idStage - 11];
@@ -853,7 +817,7 @@ void PlayScene::Update(DWORD dt)
 	{//update obj
 		for (int i = 0; i < coObjects.size(); i++)
 		{
-			if (coObjects.at(i)->GetType()!=EntityType::TAG_BRICK && coObjects.at(i)->GetType() != EntityType::TAG_GATE)
+			if (coObjects.at(i)->GetType()!=EntityType::TAG_BRICK && coObjects.at(i)->GetType() != TAG_GATE && coObjects.at(i)->GetType() != TAG_GATE_OVERWORLD)
 			{
 				coObjects[i]->Update(dt, &coObjects);
 			}

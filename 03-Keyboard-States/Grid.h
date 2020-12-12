@@ -11,8 +11,10 @@
 #include "Jason.h"
 #include "Gate.h"
 #include "Player.h"
+
 #define CELL_SIZE D3DXVECTOR2(160,137)
 #define MAX_NUMBER_OF_JASON_BULLET 3
+
 class CGrid
 {
 	LPGAMEPLAYER player;

@@ -131,6 +131,7 @@
     <ClCompile Include="BigNavigatedEnemyBullet.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Domes.cpp" />
+    <ClCompile Include="ElectricBullet.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Eyeballs.cpp" />
     <ClCompile Include="Floaters.cpp" />
@@ -143,6 +144,7 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GunUp.cpp" />
     <ClCompile Include="HealthBar.cpp" />
+    <ClCompile Include="HomingMissles.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InjuringBrick.cpp" />
     <ClCompile Include="Insects.cpp" />
@@ -179,6 +181,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Cannons.h" />
     <ClInclude Include="BigNavigatedEnemyBullet.h" />
+    <ClInclude Include="ElectricBullet.h" />
     <ClInclude Include="GadBrick.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gate.h" />
@@ -193,6 +196,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GunUp.h" />
+    <ClInclude Include="HomingMissles.h" />
     <ClInclude Include="InjuringBrick.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="HealthBar.h" />

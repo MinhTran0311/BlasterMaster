@@ -111,7 +111,7 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 				y += min_ty * dy + ny * 0.4f;
 				isActive = false;
 			}*/
-			if (e->obj->GetType() == EntityType::TAG_JASON )
+			if (e->obj->GetType() == EntityType::TAG_PLAYER)
 			{
 				e->obj->AddHealth(-1);
 				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);

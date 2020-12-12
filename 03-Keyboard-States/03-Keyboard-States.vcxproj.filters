@@ -49,9 +49,6 @@
     <ClCompile Include="JasonBullet.cpp">
       <Filter>Objects\Bullets\Player</Filter>
     </ClCompile>
-    <ClCompile Include="JasonRocket.cpp">
-      <Filter>Objects\Bullets\Player</Filter>
-    </ClCompile>
     <ClCompile Include="Big_Sophia.cpp">
       <Filter>Objects\Player</Filter>
     </ClCompile>
@@ -144,6 +141,14 @@
     </ClCompile>
     <ClCompile Include="SmallNavigatedEnemyBullet.cpp">
       <Filter>Objects\Bullets\Enemy</Filter>
+    <ClCompile Include="HomingMissles.cpp">
+      <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="ElectricBullet.cpp">
+      <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="JasonRocket.cpp">
+      <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -225,9 +230,6 @@
     <ClInclude Include="JasonBullet.h">
       <Filter>Objects\Bullets\Player</Filter>
     </ClInclude>
-    <ClInclude Include="JasonRocket.h">
-      <Filter>Objects\Bullets\Player</Filter>
-    </ClInclude>
     <ClInclude Include="Big_Sophia.h">
       <Filter>Objects\Player</Filter>
     </ClInclude>
@@ -296,6 +298,14 @@
     </ClInclude>
     <ClInclude Include="SmallNavigatedEnemyBullet.h">
       <Filter>Objects\Bullets\Enemy</Filter>
+    <ClInclude Include="HomingMissles.h">
+      <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="ElectricBullet.h">
+      <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="JasonRocket.h">
+      <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -375,6 +385,12 @@
     </Filter>
     <Filter Include="Objects\Obstacles\Gate">
       <UniqueIdentifier>{8b97ad23-2580-44ec-8425-779faa0e5053}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Bullets\Player\SpecialBullet">
+      <UniqueIdentifier>{127d121c-e136-470e-8fdf-2a5786bf8ce9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Bullets\Player\BigSophiaBullets">
+      <UniqueIdentifier>{3602dd46-c8ff-4776-9908-acfae3b31f37}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
 ﻿#include "Small_Sophia.h"
-
+#include "Gate.h"
 Small_Sophia::Small_Sophia(float x, float y, int _health, int _gundam) : Player()
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SMALL_SOPHIA));
@@ -92,6 +92,7 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			}
 			SetInjured(enemy->GetDamage());
 		}
+
 	}
 
 
@@ -128,6 +129,12 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 					if (e->nx != 0)
 						vx = 0;
 				}
+			}
+			else if ((e->obj->GetType() == EntityType::TAG_GATE))
+			{
+				gate = dynamic_cast<Gate*>(e->obj);
+				DebugOut(L"samll dung tuong loai 1");
+				GateColliding = true;
 			}
 		}
 
@@ -299,13 +306,13 @@ void Small_Sophia::GetBoundingBox(float& left, float& top, float& right, float& 
 	}
 }
 
-void Small_Sophia::FireBullet(int type)
+void Small_Sophia::FireBullet(int mode)
 {
 	if (!canFire)
 		return;
 	if (CGrid::GetInstance()->CheckBulletLimitation(SMALL_SOPHIA_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
 	{
-		Bullet* bullet = new SmallSophiaBullet(this->Getx(), this->Gety(), type, nx);
+		Bullet* bullet = new SmallSophiaBullet(this->Getx(), this->Gety(), 0, nx);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 	FireTimer->Start();

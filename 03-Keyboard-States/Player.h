@@ -6,7 +6,7 @@
 
 #define PLAYER_IMMORTAL_DURATION	1000
 #define PLAYER_CAN_FIRE_DURATION	120
-
+#define PLAYER_CHANGE_ALPHA		400
 class Player :public Entity
 {
 	static Player* instance;
@@ -20,6 +20,10 @@ protected:
 	float start_x;				//initial position of Jason
 	float start_y;
 
+	EntityType specialBulletType;
+	
+	bool GateColliding = false;
+
 	//imortall
 	int untouchable;
 	bool isImmortaling;
@@ -27,6 +31,7 @@ protected:
 	Timer* immortalTimer = new Timer(PLAYER_IMMORTAL_DURATION);
 	bool canFire;
 	Timer* FireTimer = new Timer(PLAYER_CAN_FIRE_DURATION);
+	Timer* changeAlphaTimer = new Timer(PLAYER_CHANGE_ALPHA);
 	bool canChangeAlpha = false;
 public:
 	Player();
@@ -34,11 +39,12 @@ public:
 	static Player* GetInstance();
 	void SetState(int state) {Entity::SetState(state);};
 
+	void changeAlpha();
 
 	//get set functions
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-
+	void SetSpecialBulletType(EntityType specialbullettype) { specialBulletType = specialbullettype; };
 	void Setvx(float new_vx) { vx = new_vx; }
 	void Setvy(float new_vy) { vy = new_vy; };
 	float Getvy() { return vy; };
@@ -55,7 +61,7 @@ public:
 	void SetImmortaling(bool immo) { isImmortaling = immo; }
 	void StartImmortalingTimer() { immortalTimer->Start(); }
 
-	virtual void FireBullet(int type) {};
+	virtual void FireBullet(int mode) {};
 	virtual void GetPositionCenter(float&, float&) {};
 	virtual void Reset() {};
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);

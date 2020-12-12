@@ -22,7 +22,7 @@ public:
 	bool able_firing;
 	int isAimingTop;
 	int alpha;
-	int typeBullet;
+	EntityType typeBullet;
 	float bullet_speed;
 	bool  isHitBrick, isHitEnemy, isHitJason;
 	float timeDelayed, timeDelayedMax;
@@ -34,36 +34,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render() {};
 
-	//void Fire(int type,
-	//	int direct,
-	//	int isGunFlip,
-	//	float posX,
-	//	float posY) {
-	//	typeBullet = type;
-	//	nx = direct;
-	//	isAimingTop = isGunFlip;
-	//	x = posX + DISTANCE_FIRING_WIDTH;
-	//	y = posY + DISTANCE_FIRING_HEIGHT;
-	//	alpha = 255; able_firing = false;
-	//	isHitBrick = 0;
-	//	isHitEnemy = 0;
-	//}
-	//void BigSophiaFire(int direct, int directY, float posX, float posY, int dame) {
-	//	nx = direct;
-	//	ny = directY;
-	//	x = posX + DISTANCE_FIRING_WIDTH;
-	//	y = posY + DISTANCE_FIRING_HEIGHT;
-	//	alpha = 255; able_firing = false;
-	//	isHitBrick = 0;
-	//	isHitEnemy = 0;
-	//	dam = dame;
-	//	x_Start_Pos = posX + DISTANCE_FIRING_WIDTH;
-	//	y_Start_Pos = posY + DISTANCE_FIRING_HEIGHT;
-	//	totalTime = 0;
-	//}
 	void ResetDelay() { timeDelayed = 0; }
-	bool GetisActive() { return isActive; }
-	//void SetIsDone(bool isdone) { isDone = isdone; }
 	int GetDamage() { return dam; }
 	int GetBulletType() { return typeBullet; };
 };

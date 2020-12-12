@@ -11,6 +11,8 @@
 #include "JasonRocket.h"
 #include "InjuringBrick.h"
 #include "GadBrick.h"
+#include "ElectricBullet.h"
+#include "HomingMissles.h"
 
 JASON::JASON(float x, float y, int _health, int _gundam)
 {
@@ -30,7 +32,8 @@ JASON::JASON(float x, float y, int _health, int _gundam)
 	bbARGB = 250;
 	health = _health;
 	dam = _gundam;
-	canChangeAlpha = false;
+	canChangeAlpha = true;
+	specialBulletType = JASON_HOMING_MISSLES;
 }
 
 JASON* JASON::instance = NULL;
@@ -121,10 +124,8 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma region Timer
 	if (isImmortaling && immortalTimer->IsTimeUp())
 	{
-		canChangeAlpha = false;
 		isImmortaling = false;
 		immortalTimer->Reset();
-		//changeAlphaTimer->Reset();
 	}
 
 	if (!canFire && FireTimer->IsTimeUp())
@@ -132,14 +133,16 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		canFire = true;
 		FireTimer->Reset();
 	}
-	if (canChangeAlpha)
+	if (!canChangeAlpha && changeAlphaTimer->IsTimeUp())
 	{
-		if (alpha == 255)
-			alpha = 140;
-		else alpha = 255;
+		changeAlphaTimer->Reset();
+		canChangeAlpha = true;
+		if (!isImmortaling)
+			alpha = 255;
 	}
 #pragma endregion
 #pragma region Collision
+	bool isInjured = false;
 	//ABBA with objects
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
@@ -158,11 +161,15 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 					isJumping = false;
 					isJumpHandle = true;
 				}
+				this->changeAlpha();
+				DebugOut(L"alpha %d\n", alpha);
+				isInjured = true;
 				SetInjured(enemy->GetDamage());
 				break;
 			}
 			case EntityType::ITEM:
 			{
+				
 				LPGAMEITEM item = dynamic_cast<LPGAMEITEM>(coObjects->at(i));
 				if (item->getItemType() == EntityType::TAG_ITEM_POWER_UP)
 				{
@@ -185,12 +192,15 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			{
 				InjuringBrick* injuringBricks = dynamic_cast<InjuringBrick*>(coObjects->at(i));
 				SetInjured(injuringBricks->GetDamage());
+				this->changeAlpha();
+				isInjured = true;
 				break;
 			}
 			}
 		}
 	}
-
+	if (!isInjured)
+		alpha = 255;
 	//filter brick and gate object before collision handle
 	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
 
@@ -200,78 +210,80 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			colliable_Objects->push_back(coObjects->at(i));
 	}
 
-		vector<LPCOLLISIONEVENT> coEvents;
-		vector<LPCOLLISIONEVENT> coEventsResult;
-		coEvents.clear();
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	coEvents.clear();
 
-		// turn off collision when player dies
-		if (state != SOPHIA_STATE_DIE)
-			CalcPotentialCollisions(colliable_Objects, coEvents);
+	// turn off collision when player dies
+	if (state != SOPHIA_STATE_DIE)
+		CalcPotentialCollisions(colliable_Objects, coEvents);
 
-		// No collision occured, proceed normally
-		if (coEvents.size() == 0)
+	// No collision occured, proceed normally
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
-			x += dx;
-			y += dy;
-		}
-		else
-		{
-			float min_tx, min_ty, nx = 0, ny;
-			float rdx = 0;
-			float rdy = 0;
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-			for (UINT i = 0; i < coEventsResult.size(); i++)
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (e->obj->GetType() == TAG_BRICK || e->obj->GetType() == TAG_SOFT_BRICK)
 			{
-				LPCOLLISIONEVENT e = coEventsResult[i];
-				if (e->obj->GetType() == TAG_BRICK || e->obj->GetType() == TAG_SOFT_BRICK)
+				x += min_tx * dx + nx * 0.4f;
+				y += min_ty * dy + ny * 0.4f;
+				if (e->ny != 0)
 				{
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
 					if (e->ny != 0)
 					{
-						if (e->ny != 0)
+						vy = 0;
+						if (ny < 0)
 						{
-							vy = 0;
-							if (ny < 0)
-								isJumping = false;
-						}
-						if (e->nx != 0)
-						{
-							vx = 0;
+							isJumping = false;
 						}
 					}
-				}
-				else if ((e->obj->GetType() == EntityType::TAG_GATE))
-				{
-					gate = dynamic_cast<Gate*>(e->obj);
-					DebugOut(L"jason dung tuong loai 1");
-					GateColliding = true;
-				}
-				else if ((e->obj->GetType() == EntityType::TAG_GAD_BRICK))
-				{
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-					if (e->ny != 0)
+					if (e->nx != 0)
 					{
-						if (e->ny != 0)
-						{
-							vy = 0;
-							if (ny < 0)
-								isJumping = false;
-						}
-						if (e->nx != 0)
-						{
-							vx = 0;
-						}
+						vx = 0;
 					}
-					//SetInjured(dynamic_cast<GadBrick*>(e->obj)->GetDamage());
-					health--;
 				}
 			}
+			else if ((e->obj->GetType() == EntityType::TAG_GATE))
+			{
+				gate = dynamic_cast<Gate*>(e->obj);
+				DebugOut(L"jason dung tuong loai 1");
+				GateColliding = true;
+			}
+			else if ((e->obj->GetType() == EntityType::TAG_GAD_BRICK))
+			{
+				x += min_tx * dx + nx * 0.4f;
+				y += min_ty * dy + ny * 0.4f;
+				if (e->ny != 0)
+				{
+					if (e->ny != 0)
+					{
+						vy = 0;
+						if (ny < 0)
+							isJumping = false;
+					}
+					if (e->nx != 0)
+					{
+						vx = 0;
+					}
+				}
+				//SetInjured(dynamic_cast<GadBrick*>(e->obj)->GetDamage());
+				health--;
+			}
 		}
-		//khi va cham chua xet gia tri x va y
-		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	}
+	//khi va cham chua xet gia tri x va y
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 }
 
@@ -373,7 +385,6 @@ void JASON::Render()
 			animationSet->at(ani)->RenderGunFlip(x, y - SOPHIA_JASON_HEIGHT_GUN_FLIP, alpha);
 			if (animationSet->at(ani)->GetFrame() > 3)
 			{
-				//DebugOut(L"[frame]: %d;\n", animation_set->at(SOPHIA_ANI_JASON_WALKING_RIGHT)->GetFrame());
 				isGunFlipping = true;
 			}
 			return;
@@ -413,8 +424,6 @@ void JASON::Render()
 		else {
 			if (vx == 0 && vy > 0)
 			{
-				//if (nx > 0) ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT;
-				//else ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT;
 				if (nx > 0)
 				{
 					//idle theo walking
@@ -457,8 +466,6 @@ void JASON::Render()
 			}
 			else if (vx == 0 && vy <= 0)
 			{
-				//if (nx > 0) ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT;
-				//else ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT;
 				if (nx > 0)
 				{
 					//idle theo walking
@@ -527,19 +534,6 @@ void JASON::Reset()
 	SetSpeed(0, 0);
 }
 
-//void JASON::SetInjured(int dame)
-//{
-//	canChangeAlpha = true;
-//	if (isImmortaling)
-//		return;
-//	health -= dame;
-//	dam -= dame;
-//
-//	StartUntouchable();
-//	immortalTimer->Start();
-//	isImmortaling = true;
-//}
-
 void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 
@@ -552,16 +546,98 @@ void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 	}
 }
 
-void JASON::FireBullet(int type)
+void JASON::FireBullet(int mode)
 {
 	if (!canFire)
 		return;
-
-	if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
+	if (mode == 1)
 	{
-		Bullet* bullet = new JasonBullet(this->Getx(), this->Gety(), type, nx, isGunFlipping);
-		CGrid::GetInstance()->InsertGrid(bullet);
+		if (dam == 1)
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
+			{
+				Bullet* bullet = new JasonBullet(this->Getx(), this->Gety(), 0 , nx, isGunFlipping);
+				CGrid::GetInstance()->InsertGrid(bullet);
+			}
+			FireTimer->Start();
+			canFire = false;
+		}
+		else
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, this->Getx(), this->Gety(), 3))
+			{
+				Bullet* bullet = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				CGrid::GetInstance()->InsertGrid(bullet);
+			}
+			FireTimer->Start();
+			canFire = false;
+		}
 	}
-	FireTimer->Start();
-	canFire = false;
+	else if (mode == 2)
+	{
+		//burst fire
+		if (dam == 1)
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
+			{
+				Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
+				Bullet* bullet2= new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
+				Bullet* bullet3 = new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
+				CGrid::GetInstance()->InsertGrid(bullet1);
+				CGrid::GetInstance()->InsertGrid(bullet2);
+				CGrid::GetInstance()->InsertGrid(bullet3);
+			}
+			FireTimer->Start();
+			canFire = false;
+		}
+		else
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, this->Getx(), this->Gety(), 3))
+			{
+				Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				Bullet* bullet2 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				Bullet* bullet3 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				CGrid::GetInstance()->InsertGrid(bullet1);
+				CGrid::GetInstance()->InsertGrid(bullet2);
+				CGrid::GetInstance()->InsertGrid(bullet3);
+			}
+			FireTimer->Start();
+			canFire = false;
+		}
+	}
+	else if (mode == 3)
+	{
+		switch (specialBulletType)
+		{
+		case JASON_ROCKET_BULLET:
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ROCKET_BULLET, this->Getx(), this->Gety(), 2))
+			{
+				Bullet* rocket = new JasonRocket(this->Getx(), this->Gety(), nx);
+				CGrid::GetInstance()->InsertGrid(rocket);
+			}
+			break;
+		}
+		case JASON_ELECTRIC_BULLET:
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ELECTRIC_BULLET, this->Getx(), this->Gety(), 1))
+			{
+				Bullet* electric = new ElectricBullet(this->Getx(), this->Gety());
+				CGrid::GetInstance()->InsertGrid(electric);
+			}
+			break;
+		}
+		case JASON_HOMING_MISSLES:
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_HOMING_MISSLES, this->Getx(), this->Gety(), 1))
+			{
+				Bullet* homingMissles = new HomingMissles(this->Getx(), this->Gety(), nx);
+				
+				CGrid::GetInstance()->InsertGrid(homingMissles);
+			}
+			break;
+		}
+
+		FireTimer->Start();
+		canFire = false;
+	}
 }

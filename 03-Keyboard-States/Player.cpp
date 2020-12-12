@@ -15,9 +15,20 @@ Player* Player::GetInstance()
 	return instance;
 }
 
+void Player::changeAlpha()
+{
+	if (canChangeAlpha==false)
+		return;
+	if (alpha == 255)
+		alpha = 140;
+	else alpha = 255;
+	changeAlphaTimer->Start();
+	canChangeAlpha = false;
+}
+
 void Player::SetInjured(int dame)
 {
-	canChangeAlpha = true;
+	
 	if (isImmortaling)
 		return;
 	health -= dame;
