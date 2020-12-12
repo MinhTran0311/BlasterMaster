@@ -719,7 +719,7 @@ CGame::~CGame()
 	if (backBuffer != NULL) backBuffer->Release();
 	if (d3ddv != NULL) d3ddv->Release();
 	if (d3d != NULL) d3d->Release();
+	
 }
-
 
 

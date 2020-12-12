@@ -43,6 +43,9 @@ class CGame
 	DIDEVICEOBJECTDATA keyEvents[KEYBOARD_BUFFER_SIZE];		// Buffered keyboard data
 
 	LPKEYEVENTHANDLER keyHandler;
+	ID3DXFont* font;
+	RECT fRectangle;
+	std::string message;
 
 public:
 
@@ -100,6 +103,7 @@ public:
 	static CGame* GetInstance();
 	CGame();
 	~CGame();
+
 };
 
 

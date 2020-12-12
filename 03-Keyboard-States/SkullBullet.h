@@ -27,11 +27,13 @@
 
 class SkullBullet : public Bullet
 {
+	LPGAMEENTITY target;
+
 	bool rolling = false;
 	bool bounce = false;
 	float bounceIndex = 0;
 public:
-	SkullBullet(float posX, float posY, int direct);
+	SkullBullet(float posX, float posY, int direct, LPGAMEENTITY t);
 	~SkullBullet();
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
