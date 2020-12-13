@@ -26,40 +26,6 @@
 #define SOPHIA_STATE_OUT				600
 #pragma endregion
 
-#pragma region animation define
-//
-//#define SOPHIA_ANI_JASON_IDLE_RIGHT					0
-//#define SOPHIA_ANI_JASON_IDLE_LEFT					1
-//
-//#define SOPHIA_ANI_JASON_WALKING_RIGHT				2
-//#define SOPHIA_ANI_JASON_WALKING_LEFT				3
-//
-//#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT			4
-//#define SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT			5
-//#define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT		6
-//#define SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT		7
-//#define SOPHIA_ANI_JASON_JUMP_UP_WALKING_RIGHT		8
-//#define SOPHIA_ANI_JASON_JUMP_UP_WALKING_LEFT		9
-//#define SOPHIA_ANI_JASON_JUMP_DOWN_WALKING_RIGHT	10
-//#define SOPHIA_ANI_JASON_JUMP_DOWN_WALKING_LEFT		11
-//
-//#define SOPHIA_ANI_GUN_FLIP_RIGHT					12
-//#define SOPHIA_ANI_GUN_FLIP_LEFT					13
-//
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_1			14
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_2			15
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_3			16
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_4			17
-//
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_1				18
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_2				19
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_3				20
-//#define SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_4				21
-//
-//#define SOPHIA_JASON_ANI_DIE						22
-//#define SOPHIA_JASON_ANI_EJECTING					23
-#pragma endregion
-
 #define DURATION_X_TO_DIE	14
 #define DURATION_Y_TO_DIE	30
 #define DISTANCE_TO_OUT		8
@@ -134,7 +100,7 @@ public:
 	void SetPressSpace(bool isPress) { isPressJump = isPress; };
 	void SetPressUp(bool a) { isPressFlipGun = a; }
 	//void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-	bool isGunFlippingg() { return isGunFlipping; }
+	bool isGunFlip() { return isGunFlipping; }
 	void GetInfoForBullet(int& direct, bool& isTargetTop, float& playerx, float& playery) { direct = nx; isTargetTop = isGunFlipping; playerx = x; playery = y; }
 
 #pragma region sceneswitching

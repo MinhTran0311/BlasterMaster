@@ -111,7 +111,7 @@ enum EntityType
 	TAG_STAIRS = 4,
 	TAG_INJURING_BRICK = 5,
 	TAG_GAD_BRICK = 6,
-	TAG_SOFT_BRICK=7,
+	TAG_SOFT_BRICK = 7,
 
 	//player
 	TAG_PLAYER = 100,

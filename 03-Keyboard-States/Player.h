@@ -13,7 +13,7 @@ class Player :public Entity
 protected:
 	EntityType _PlayerType;
 
-	int alpha=255;
+	int alpha = 255;
 	bool isDeath;
 	bool isDoneDeath;
 
@@ -21,7 +21,7 @@ protected:
 	float start_y;
 
 	EntityType specialBulletType;
-	
+
 	bool GateColliding;
 
 	//imortall
@@ -47,7 +47,7 @@ public:
 	bool GetGateColliding() { return GateColliding; };
 	void SetGateColliding(bool done) { GateColliding = done; };
 
-	void SetState(int state) {Entity::SetState(state);};
+	void SetState(int state) { Entity::SetState(state); };
 
 	void changeAlpha();
 
@@ -62,7 +62,7 @@ public:
 	float GetDx() { return dx; };
 	void SetIsDoneDeath(bool donedeath) { isDoneDeath = donedeath; };
 	void SetIsDeath(bool death) { isDeath = death; };
-
+	bool IsDoneDeath(){return isDoneDeath;};
 	EntityType GetPlayerType() { return _PlayerType; };
 	void SetPlayerType(EntityType type) { _PlayerType = type; };
 	void SetInjured(int dame);

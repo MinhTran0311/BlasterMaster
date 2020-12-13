@@ -92,7 +92,6 @@ protected:
 
 	friend class PlayScenceKeyHandler;
 protected:
-	Camera* gameCamera;
 	vector<LPCWSTR> listSceneFilePath;
 #pragma region lists
 	vector<int> listWidth;
