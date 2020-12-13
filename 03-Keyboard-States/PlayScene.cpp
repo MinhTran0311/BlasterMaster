@@ -11,9 +11,7 @@
 #include "Grid.h"
 #include "Big_Sophia.h"
 #include "IntroScene.h"
-#define ID_SMALL_SOPHIA	0
-#define ID_JASON		1
-#define ID_BIG_SOPHIA	2
+
 
 #define MAP2_SIDE	200
 
@@ -584,7 +582,7 @@ void PlayScene::CheckPlayerReachGate()
 				player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
 				player->SetDirection(playerInfo.playerDirectionBeforePassGate);
 				player->SetState(tempState);
-				CGrid::GetInstance()->SetTargetForEnemies(player);
+				//CGrid::GetInstance()->SetTargetForEnemies(player);
 			}
 			break;
 		}
@@ -633,7 +631,7 @@ void PlayScene::CheckPlayerReachGate()
 				break;
 			}
 			}
-			CGrid::GetInstance()->SetTargetForEnemies(player);
+			//CGrid::GetInstance()->SetTargetForEnemies(player);
 			
 			break;
 		}
@@ -651,6 +649,8 @@ void PlayScene::CheckPlayerReachGate()
 			}
 			else
 			{
+				CamMoveDirection = -1;
+
 				Gate* gate = dynamic_cast<Gate*>(player->GetGate());
 
 				DebugOut(L"[Info] return gate success\n");
@@ -668,7 +668,7 @@ void PlayScene::CheckPlayerReachGate()
 				
 				player = new Small_Sophia(playerInfo.sophiaXPos, playerInfo.sophiaYPos, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
 				backup_player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
-				CGrid::GetInstance()->SetTargetForEnemies(player);
+				//CGrid::GetInstance()->SetTargetForEnemies(player);
 			}
 			break;
 		}
@@ -688,6 +688,7 @@ void PlayScene::Update(DWORD dt)
 	{
 		DebugOut(L"middle\n");
 		gameCamera->SetCamPos(camMap1X, camMap1Y);
+		DebugOut(L"y: %d \n",camMap1Y);
 		posY = camMap1Y;
 		tempNeed = 0;
 	}
@@ -757,8 +758,8 @@ void PlayScene::Update(DWORD dt)
 			//camera
 			if (CamMoveDirection == -1)
 			{
-				posX = 0;
-				posY = 1800;
+				posX = camMap1X;
+				posY = camMap1Y;
 				CamMoveDirection = 0;
 			}
 			//PlayerGotGateV2();
@@ -816,17 +817,15 @@ void PlayScene::Update(DWORD dt)
 	}
 #pragma endregion
 #pragma region sceneswitching
+	
 
-	//DebugOut(L"middle\n");
 #pragma endregion
 	if (isUnloaded)
 	{
 		CGrid::GetInstance()->SetTargetForEnemies(player);
 		isUnloaded = false;
 	}
-
 	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(gameCamera->GetRectCam());
-	//DebugOut(L"before - player update\n");
 	if (player != NULL)
 	{
 		player->Update(dt, &coObjects);
@@ -877,6 +876,7 @@ void PlayScene::Update(DWORD dt)
 			}
 		}
 	}
+
 	CGrid::GetInstance()->UpdateGrid(coObjects);
 	//player
 

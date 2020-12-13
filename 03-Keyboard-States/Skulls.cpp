@@ -117,24 +117,17 @@ void Skulls::Render()
 			nx = -1;
 		ani = SKULLS_ANI_FLY;
 		animationSet->at(ani)->Render(nx, x, y);
-
-
 	}
 	else if (this->state == SKULLS_STATE_ATTACK)
 	{
-		
 		ani = SKULLS_ANI_ATTACK;
 		animationSet->at(ani)->Render(nx, x, y);
-
 	}
 	else if (this->state ==SKULLS_STATE_STOP)
 	{
-
 		ani = SKULLS_ANI_FLY;
 		animationSet->at(ani)->Render(nx, x, y);
-
 	}
-	
 }
 
 Skulls::Skulls(float x, float y, LPGAMEENTITY t)
@@ -154,7 +147,7 @@ Skulls::Skulls(float x, float y, LPGAMEENTITY t)
 
 void Skulls::Attack(LPGAMEENTITY target) //tấn công tại vị trí nhân vật
 {
-	if (abs(target->x -this->x) < 50 && time < 100) {
+	if (abs(target->Getx() - this->x) < 50 && time < 100) {
 		/* this->nx= target->nx;*/
 		SetState(SKULLS_STATE_ATTACK);
 		if (!Attacked) {
@@ -162,7 +155,6 @@ void Skulls::Attack(LPGAMEENTITY target) //tấn công tại vị trí nhân v�
 			CGrid::GetInstance()->InsertGrid(bullet);
 			Attacked = true;
 		}
-		
 	}
 }
 
@@ -190,25 +182,20 @@ void Skulls::SetState(int state)
 		break;
 
 	case SKULLS_STATE_ATTACK:
-			
 		vx = 0;
 		vy = -MOVING_SPEED;
 		if(time <30)
 		time++;
 		break;
-
-	
 	case SKULLS_STATE_STOP:
 		time = 120;
 		vx = 0;
 		vy = 0;
 		break;
-
 	}
-
 }
 
 bool Skulls::inTargetRange()
 {
-	return GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TARGET_RANGE;
+	return GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= TARGET_RANGE;
 }

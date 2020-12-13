@@ -3,6 +3,7 @@
 
 SkullBullet::SkullBullet(float posX, float posY, int direct, LPGAMEENTITY t)
 {
+	this->target = t;
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SKULL_ENEMY_BULLET));
 	alpha = 255;
 	bbARGB = 0;
@@ -21,7 +22,7 @@ SkullBullet::SkullBullet(float posX, float posY, int direct, LPGAMEENTITY t)
 	/*vy = BULLET_SKULL_BOUNCE;
 	vx = BULLET_SKULL_ROLLING;*/
 	isActive = true;
-	this->target = t;
+
 }
 
 SkullBullet::~SkullBullet()
@@ -126,22 +127,14 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 				y += min_ty * dy + ny * 1.0f;
 
 				if (!rolling) {
-					vx = BULLET_SKULL_ROLLING*this->nx;
+					vx = BULLET_SKULL_ROLLING * this->nx;
 					rolling = true;
 				}
 
 				vy = -(BULLET_SKULL_BOUNCE- bounceIndex);
 				bounceIndex += 0.03f;
 			}
-			/*if (e->obj->GetType() == EntityType::ENEMY)
-			{
-				e->obj->AddHealth(-dam);
-				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
-				this->SetState(BULLET_SKULL_STATE_EXPLOSION);
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				isActive = false;
-			}*/
+
 			if (e->obj->GetType() == EntityType::TAG_PLAYER)
 			{
 				e->obj->AddHealth(-dam);
