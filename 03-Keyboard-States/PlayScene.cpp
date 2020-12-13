@@ -689,14 +689,18 @@ void PlayScene::Update(DWORD dt)
 	{
 		DebugOut(L"middle\n");
 		Camera::GetInstance()->SetCamPos(camMap1X, camMap1Y);
-		DebugOut(L"y: %d \n",camMap1Y);
-		posY = camMap1Y;
+		//DebugOut(L"y: %d \n",camMap1Y);
+		//posY = camMap1Y;
 		tempNeed = 0;
 	}
 	else
 	{
 		if (!player->IsDoneDeath())
-			Camera::GetInstance()->Update(cx, cy, player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirctionY(), player->GetDirection(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
+		{
+			DebugOut(L"nx playscene: %d\n", player->GetDirection());
+			Camera::GetInstance()->Update(cx, cy, player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
+
+		}
 		//switch (player->GetPlayerType())
 		//{
 		//case EntityType::TAG_JASON:
@@ -881,7 +885,6 @@ void PlayScene::Update(DWORD dt)
 	}
 
 	CGrid::GetInstance()->UpdateGrid(coObjects);
-	DebugOut(L"after cam 4\n");
 	//player
 
 	gameHUD->Update(Camera::GetInstance()->GetCamx(), HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam());

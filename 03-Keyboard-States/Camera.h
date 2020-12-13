@@ -12,7 +12,7 @@ public:
 
 	static Camera* GetInstance();
 
-	void Update(float xPos, float yPos, EntityType playertype, DWORD dt, int mapWidth, int mapHeight, int nx, int ny, float xPosGo, float xPosBack, float yPosGo, float yPosBack, int AutoMoveDirection);
+	void Update(float xPos, float yPos, EntityType playertype, DWORD dt, int mapWidth, int mapHeight, int nx, int ny, float xPosGo, float xPosBack, float yPosGo, float yPosBack, int &AutoMoveDirection);
 
 	void SetCamPos(float x, float y) { camx = x; camy = y; }
 	float GetCamx() { return camx; }

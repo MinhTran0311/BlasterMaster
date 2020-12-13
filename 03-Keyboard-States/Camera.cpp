@@ -8,7 +8,7 @@ Camera* Camera::GetInstance()
 	return __instance;
 }
 
-void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int mapWidth, int mapHeight,int nx, int ny, float xPosGo, float xPosBack,float yPosGo,float yPosBack, int AutoMoveDirection)
+void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int mapWidth, int mapHeight,int nx, int ny, float xPosGo, float xPosBack,float yPosGo,float yPosBack, int &AutoMoveDirection)
 {
 	if (playertype==TAG_JASON || playertype==TAG_SMALL_SOPHIA)
 	{	//phương ngang
@@ -45,11 +45,14 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 	}
 	else if (playertype == TAG_BIG_SOPHIA)
 	{
+		//DebugOut(L"big sophia section \n");
+		//DebugOut(L"xgo: %f, xback: %f, camx: %f, nx: %d, nxplayer: %d", xPosGo, xPosBack, camx, AutoMoveDirection,nx);
+		DebugOut(L"auto: %d, y: %f, nx: %d\n", AutoMoveDirection,camy,nx);
 		if (AutoMoveDirection == 1)
 		{
 			if (nx > 0)
 			{
-				if (xPos<xPosGo)
+				if (camx < xPosGo)
 					camx += CAMERA_SPEED_OVERWORLD * dt;
 				else
 				{
@@ -59,7 +62,7 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 			}
 			else if (nx < 0)
 			{
-				if (camx > xPosBack)
+				if (camx >= xPosBack)
 					camx -= CAMERA_SPEED_OVERWORLD * dt;
 				else
 				{
@@ -72,7 +75,7 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 		{
 			if (ny < 0)
 			{
-				if (camy > yPosGo)
+				if (camy >= yPosGo)
 					camy -= CAMERA_SPEED_OVERWORLD * dt;
 				else
 				{
@@ -82,7 +85,7 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 			}
 			else if (ny > 0)
 			{
-				if (camy < yPosBack)
+				if (camy <= yPosBack)
 					camy += CAMERA_SPEED_OVERWORLD * dt;
 				else
 				{
