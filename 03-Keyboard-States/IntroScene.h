@@ -21,10 +21,25 @@ using namespace std;
 
 
 #define Intro_Scene 700
+#define Ending_Scene 701
 #define Intro_Animation_Logo 0
 #define Intro_Animation_Frog 1
 #define Intro_Animation_Car 2
-#define Intro_Endding 5
+#define Endding_Background1 0
+
+#define Endding_Background2 6
+#define Endding_Text1 8
+#define Endding_Text2 7
+
+#define Endding_Mountain 1
+#define Endding_Frog 2
+#define Endding_Hair 3
+#define Endding_Cloud 4
+#define Endding_Forest 5
+
+
+#define Endding_Bg2 1
+
 #define Intro_Done 4
 
 struct IntroHealthAndGunInfo
@@ -39,11 +54,12 @@ struct IntroHealthAndGunInfo
 class IntroScene : public Scene
 {
 public:
-	int _SophiaType = -1;
-	float oldPosX;
-	float oldPosY;
 	int CamMoveDirection = -1;
 	float posX, posY;
+	int time = 0;
+	float moutainY=0;
+	float textY = 0;
+	int setEndding = 0;
 	float xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack;
 
 
