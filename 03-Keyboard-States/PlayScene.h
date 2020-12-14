@@ -31,6 +31,7 @@ using namespace std;
 
 struct PlayerHealthAndGunInfo
 {
+	int life = 2;
 	int playerDirectionBeforePassGate = 1;
 	int jasonHealth = PLAYER_MAX_HEALTH;
 	int jasonGundam = PLAYER_DEFAULT_GUNDAM;
@@ -59,7 +60,7 @@ public:
 	float nCamYBack;
 	int camMap1X;
 	int camMap1Y;
-	bool tempNeed;
+	bool isNeedResetCamera;
 	//Entity* currentPlayer;
 	PlayScene();
 	DWORD timeResetCam;

@@ -1,23 +1,18 @@
 ﻿#include "Small_Sophia.h"
 #include "Gate.h"
-Small_Sophia::Small_Sophia(float x, float y, int _health, int _gundam) : Player()
+Small_Sophia::Small_Sophia(float x, float y, int _health, int _gundam)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SMALL_SOPHIA));
-	untouchable = 0;
 	SetState(SMALL_SOPHIA_STATE_IDLE);
 	_PlayerType = EntityType::TAG_SMALL_SOPHIA;
-	tag = EntityType::TAG_PLAYER;
+	backup_JumpY = 0;
 	start_x = x;
 	start_y = y;
 	this->x = x;
 	this->y = y;
-	backup_JumpY = 0;
 	dam = _gundam;
 	health = _health;
-	isImmortaling = false;
-	canFire = true;
 	isCrawl = false;
-	alpha = 255;
 }
 Small_Sophia* Small_Sophia::instance = NULL;
 Small_Sophia* Small_Sophia::GetInstance()
@@ -30,15 +25,7 @@ Small_Sophia* Small_Sophia::GetInstance()
 void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Player::Update(dt, coObjects);
-	//if (isDoneDeath)
-	//	return;
-	//if (health <= 0)
-	//{
-	//	isDeath = true;
-	//	vx = 0;
-	//	vy = 0;
-	//}
-	//Entity::Update(dt);
+
 #pragma region fall down 
 	vy += SOPHIA_GRAVITY * dt;
 	//check player's height
@@ -51,51 +38,51 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma endregion
 
 #pragma region Timer
-	if (isImmortaling && immortalTimer->IsTimeUp())
-	{
-		isImmortaling = false;
-		immortalTimer->Reset();
-	}
+	//if (isImmortaling && immortalTimer->IsTimeUp())
+	//{
+	//	isImmortaling = false;
+	//	immortalTimer->Reset();
+	//}
 #pragma endregion
-	if (!canFire && FireTimer->IsTimeUp())
-	{
-		canFire = true;
-		FireTimer->Reset();
-	}
+	//if (!canFire && FireTimer->IsTimeUp())
+	//{
+	//	canFire = true;
+	//	FireTimer->Reset();
+	//}
 
+
+#pragma region Collision
+	bool isInjured = false;
 	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
-	for (int i = 0; i < coObjects->size(); i++)
+
+	//ABBA with objects
+	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE)
+		//if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType() == EntityType::ENEMY))
+		//{
+		//	Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
+		//	//re check
+		//	if (isJumping)
+		//	{
+		//		this->SetState(SMALL_SOPHIA_STATE_IDLE);
+		//		isJumping = false;
+		//		isJumpHandle = true;
+		//	}
+		//	SetInjured(enemy->GetDamage());
+		//}
+		CollideWithObject(coObjects->at(i), isInjured);
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE)
 			colliable_Objects->push_back(coObjects->at(i));
 	}
-#pragma region Collision
+	if (!isInjured)
+		alpha = 255;
+
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
 	// turn off collision when die 
 	if (state != SMALL_SOPHIA_STATE_DIE)
 		CalcPotentialCollisions(colliable_Objects, coEvents);
-
-	//ABBA with objects
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType() == EntityType::ENEMY))
-		{
-			Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
-			//re check
-			if (isJumping)
-			{
-				this->SetState(SMALL_SOPHIA_STATE_IDLE);
-				isJumping = false;
-				isJumpHandle = true;
-			}
-			SetInjured(enemy->GetDamage());
-		}
-
-	}
-
-
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -112,7 +99,7 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetType() == EntityType::TAG_BRICK)
+			if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == TAG_SOFT_BRICK)
 			{
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
@@ -164,8 +151,6 @@ void Small_Sophia::Render()
 #pragma region Khai báo biến
 	int ani = -1;
 	int current_frame; //luu frame khi dang di chuyen ma dung lai
-	alpha = 255;
-	if (isImmortaling) alpha = 128;
 #pragma endregion
 
 	if (isDeath)

@@ -14,8 +14,8 @@ protected:
 	EntityType _PlayerType;
 
 	int alpha = 255;
-	bool isDeath;
-	bool isDoneDeath;
+	bool isDeath = false;
+	bool isDoneDeath=false;
 
 	float start_x;				//initial position of Jason
 	float start_y;
@@ -26,7 +26,7 @@ protected:
 
 	//imortall
 	int untouchable;
-	bool isImmortaling;
+	bool isImmortaling = false;
 	DWORD untouchable_start;
 	Timer* immortalTimer = new Timer(PLAYER_IMMORTAL_DURATION);
 	bool canFire;
@@ -51,6 +51,8 @@ public:
 
 	void changeAlpha();
 
+	
+
 	//get set functions
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
@@ -66,6 +68,7 @@ public:
 	EntityType GetPlayerType() { return _PlayerType; };
 	void SetPlayerType(EntityType type) { _PlayerType = type; };
 	void SetInjured(int dame);
+
 	//Immortal
 	bool IsImmortaling() { return isImmortaling; }
 	void SetImmortaling(bool immo) { isImmortaling = immo; }
@@ -78,5 +81,6 @@ public:
 	virtual void Render() {};
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
 
+	void CollideWithObject(LPGAMEENTITY object, bool& isInjured);
 };
 typedef Player* LPGAMEPLAYER;

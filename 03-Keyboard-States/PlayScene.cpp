@@ -566,7 +566,7 @@ void PlayScene::CheckPlayerReachGate()
 				playerInfo.jasonXPos = gate->newPlayerx;
 				playerInfo.jasonYPos = gate->newPlayery;
 				int tempState = gate->newPlayerState;
-				tempNeed = gate->directionCam;
+				isNeedResetCamera = gate->directionCam;
 				camMap1X = gate->camPosX;
 				camMap1Y = gate->camPosY;
 
@@ -598,7 +598,7 @@ void PlayScene::CheckPlayerReachGate()
 			playerInfo.sophiaXPos = gate->newPlayerx;
 			playerInfo.sophiaYPos = gate->newPlayery;
 			int tempState = gate->newPlayerState;
-			tempNeed = gate->directionCam;
+			isNeedResetCamera = gate->directionCam;
 			camMap1X = gate->camPosX;
 			camMap1Y = gate->camPosY;
 
@@ -660,7 +660,7 @@ void PlayScene::CheckPlayerReachGate()
 				playerInfo.sophiaStage = gate->GetIdScene();
 				playerInfo.sophiaXPos = gate->newPlayerx;
 				playerInfo.sophiaYPos = gate->newPlayery;
-				tempNeed = gate->directionCam;
+				isNeedResetCamera = gate->directionCam;
 				camMap1X = gate->camPosX;
 				camMap1Y = gate->camPosY;
 				playerInfo.sophiaGundam = player->GetgunDam();
@@ -684,21 +684,31 @@ void PlayScene::Update(DWORD dt)
 #pragma region mạng và reset
 	if (player->IsDoneDeath())
 	{
-		isReset = true;
-		Unload();
-
-		if (player->GetPlayerType() == TAG_JASON)
+		if (playerInfo.life < 0)
 		{
-			ChooseMap(playerInfo.jasonStage);
-			player->Reset(playerInfo.jasonHealth, playerInfo.jasonGundam);
+			//ending
 		}
 		else
 		{
-			ChooseMap(playerInfo.sophiaStage);
-			player->Reset(playerInfo.sophiaHealth, playerInfo.sophiaGundam);
+			isReset = true;
+			Unload();
+
+			//hiển thị số mạng còn dựa vào playerInfo.life
 			
+
+			if (player->GetPlayerType() == TAG_JASON)
+			{
+				ChooseMap(playerInfo.jasonStage);
+				player->Reset(playerInfo.jasonHealth, playerInfo.jasonGundam);
+			}
+			else
+			{
+				ChooseMap(playerInfo.sophiaStage);
+				player->Reset(playerInfo.sophiaHealth, playerInfo.sophiaGundam);
+
+			}
+			isNeedResetCamera = true;
 		}
-		tempNeed = 1;
 	}
 #pragma endregion
 
@@ -708,13 +718,13 @@ void PlayScene::Update(DWORD dt)
 	mapWidth = listWidth[idStage - 11];
 	mapHeight= listHeight[idStage - 11];
 	player->GetPosition(cx, cy);
-	if (tempNeed==1)
+	if (isNeedResetCamera)
 	{
 		DebugOut(L"middle\n");
 		Camera::GetInstance()->SetCamPos(camMap1X, camMap1Y);
 		//DebugOut(L"y: %d \n",camMap1Y);
 		//posY = camMap1Y;
-		tempNeed = 0;
+		isNeedResetCamera = false;
 	}
 	else
 	{

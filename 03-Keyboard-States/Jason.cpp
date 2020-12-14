@@ -19,20 +19,13 @@ JASON::JASON(float x, float y, int _health, int _gundam)
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_JASON));
 	SetState(SOPHIA_STATE_IDLE);
 	_PlayerType = EntityType::TAG_JASON;
-	tag = TAG_PLAYER;
+	current_Jumpy = 0;
 	start_x = x;
 	start_y = y;
 	this->x = x;
 	this->y = y;
-	current_Jumpy = 0;
-	isImmortaling = false;
-	canFire = true;
-	isDeath = false;
-	alpha = 255;
-	bbARGB = 250;
 	health = _health;
 	dam = _gundam;
-	canChangeAlpha = true;
 	specialBulletType = JASON_HOMING_MISSLES;
 	isJumping = true;
 }
@@ -123,93 +116,88 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 #pragma endregion
 #pragma region Timer
-	if (isImmortaling && immortalTimer->IsTimeUp())
-	{
-		isImmortaling = false;
-		immortalTimer->Reset();
-	}
+	//if (isImmortaling && immortalTimer->IsTimeUp())
+	//{
+	//	isImmortaling = false;
+	//	immortalTimer->Reset();
+	//}
 
-	if (!canFire && FireTimer->IsTimeUp())
-	{
-		canFire = true;
-		FireTimer->Reset();
-	}
-	if (!canChangeAlpha && changeAlphaTimer->IsTimeUp())
-	{
-		changeAlphaTimer->Reset();
-		canChangeAlpha = true;
-		if (!isImmortaling)
-			alpha = 255;
-	}
+	//if (!canFire && FireTimer->IsTimeUp())
+	//{
+	//	canFire = true;
+	//	FireTimer->Reset();
+	//}
+	//if (!canChangeAlpha && changeAlphaTimer->IsTimeUp())
+	//{
+	//	changeAlphaTimer->Reset();
+	//	canChangeAlpha = true;
+	//	if (!isImmortaling)
+	//		alpha = 255;
+	//}
 #pragma endregion
 #pragma region Collision
+	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
 	bool isInjured = false;
 	//ABBA with objects
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (this->IsCollidingObject(coObjects->at(i)))
-		{
-			switch (coObjects->at(i)->GetType())
-			{
-
-			case EntityType::ENEMY:
-			{
-				Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
-				//re check
-				if (isJumping)
-				{
-					this->SetState(SOPHIA_STATE_IDLE);
-					isJumping = false;
-					isJumpHandle = true;
-				}
-				this->changeAlpha();
-				DebugOut(L"alpha %d\n", alpha);
-				isInjured = true;
-				SetInjured(enemy->GetDamage());
-				break;
-			}
-			case EntityType::ITEM:
-			{
-				
-				LPGAMEITEM item = dynamic_cast<LPGAMEITEM>(coObjects->at(i));
-				if (item->getItemType() == EntityType::TAG_ITEM_POWER_UP)
-				{
-					if (this->GetHealth() + ITEM_POWER_UP_RESTORE <= MAX_HEALTH)
-						this->AddHealth(ITEM_POWER_UP_RESTORE);
-					else
-						this->SetHealth(MAX_HEALTH);
-				}
-				else if (item->getItemType() == EntityType::TAG_ITEM_GUN_UP)
-				{
-					if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
-						this->AddgunDam(ITEM_GUN_UP_RESTORE);
-					else
-						this->SetgunDam(MAX_GUNDAM);
-				}
-				item->setActive(false);
-				break;
-			}
-			case EntityType::TAG_INJURING_BRICK:
-			{
-				InjuringBrick* injuringBricks = dynamic_cast<InjuringBrick*>(coObjects->at(i));
-				SetInjured(injuringBricks->GetDamage());
-				this->changeAlpha();
-				isInjured = true;
-				break;
-			}
-			}
-		}
+		//if (this->IsCollidingObject(coObjects->at(i)))
+		//{
+		//	switch (coObjects->at(i)->GetType())
+		//	{
+		//	case EntityType::ENEMY:
+		//	{
+		//		Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
+		//		//re check
+		//		//if (isJumping)
+		//		//{
+		//		//	this->SetState(SOPHIA_STATE_IDLE);
+		//		//	isJumping = false;
+		//		//	isJumpHandle = true;
+		//		//}
+		//		this->changeAlpha();
+		//		DebugOut(L"alpha %d\n", alpha);
+		//		isInjured = true;
+		//		SetInjured(enemy->GetDamage());
+		//		break;
+		//	}
+		//	case EntityType::ITEM:
+		//	{
+		//		
+		//		LPGAMEITEM item = dynamic_cast<LPGAMEITEM>(coObjects->at(i));
+		//		if (item->getItemType() == EntityType::TAG_ITEM_POWER_UP)
+		//		{
+		//			if (this->GetHealth() + ITEM_POWER_UP_RESTORE <= MAX_HEALTH)
+		//				this->AddHealth(ITEM_POWER_UP_RESTORE);
+		//			else
+		//				this->SetHealth(MAX_HEALTH);
+		//		}
+		//		else if (item->getItemType() == EntityType::TAG_ITEM_GUN_UP)
+		//		{
+		//			if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
+		//				this->AddgunDam(ITEM_GUN_UP_RESTORE);
+		//			else
+		//				this->SetgunDam(MAX_GUNDAM);
+		//		}
+		//		item->setActive(false);
+		//		break;
+		//	}
+		//	case EntityType::TAG_INJURING_BRICK:
+		//	{
+		//		InjuringBrick* injuringBricks = dynamic_cast<InjuringBrick*>(coObjects->at(i));
+		//		SetInjured(injuringBricks->GetDamage());
+		//		this->changeAlpha();
+		//		isInjured = true;
+		//		break;
+		//	}
+		//	}
+		//}
+		CollideWithObject(coObjects->at(i), isInjured);
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK)
+			colliable_Objects->push_back(coObjects->at(i));
 	}
 	if (!isInjured)
 		alpha = 255;
-	//filter brick and gate object before collision handle
-	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
-
-	for (int i = 0; i < coObjects->size(); i++)
-	{
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE || coObjects->at(i)->GetType() == EntityType::TAG_GAD_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK)
-			colliable_Objects->push_back(coObjects->at(i));
-	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -261,29 +249,8 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 				DebugOut(L"jason dung tuong loai 1\n");
 				GateColliding = true;
 			}
-			else if ((e->obj->GetType() == EntityType::TAG_GAD_BRICK))
-			{
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				if (e->ny != 0)
-				{
-					if (e->ny != 0)
-					{
-						vy = 0;
-						if (ny < 0)
-							isJumping = false;
-					}
-					if (e->nx != 0)
-					{
-						vx = 0;
-					}
-				}
-				//SetInjured(dynamic_cast<GadBrick*>(e->obj)->GetDamage());
-				health--;
-			}
 		}
 	}
-	//khi va cham chua xet gia tri x va y
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 }

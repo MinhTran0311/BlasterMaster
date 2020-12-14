@@ -67,13 +67,6 @@ public:
 	bool isPressJump;
 	//bool isPressFlipGun;
 	bool isCrawl;
-
-	//Gate* gate;
-	//Gate* GetGate() { return gate; };
-	//void ResetGate() { gate = NULL; };
-	//bool GetGateColliding() { return GateColliding; };
-	//void SetGateColliding(bool done) { GateColliding = done; };
-
 public:
 	Small_Sophia(float x, float y, int health, int gundam);
 	Small_Sophia() {};
@@ -90,7 +83,6 @@ public:
 	//Bullet* GetPlayerMainBullet() { return mainBullet; }
 	virtual void FireBullet(int mode);
 	virtual void GetPositionCenter(float& x, float& y) { x = this->x + SMALL_SOPHIA_BBOX_WIDTH / 2; y = this->y + SMALL_SOPHIA_BBOX_HEIGHT / 2; }
-	//virtual void Reset();
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

@@ -58,18 +58,9 @@ public:
 	void GetInfoBigSophia(int& direct, int& directY, float& playerx, float& playery, int& dame) { direct = nx; directY = ny; playerx = x; playery = y; dame = dam; }
 	virtual void FireBullet(int type);
 	virtual void GetPositionCenter(float&, float&) { x = this->x + BIG_SOPHIA_BBOX_WIDTH / 2; y = this->y + BIG_SOPHIA_BBOX_HEIGHT / 2; };
-	virtual void Reset();
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void SetState(int state);
-
-#pragma region GateOverworld
-	//GateOverworld* gate;
-	//GateOverworld* GetGate() { return gate; };
-	//void ResetGate() { gate = NULL; };
-	//bool GetGateColliding() { return GateColliding; };
-	//void SetGateColliding(bool done) { GateColliding = done; };
-#pragma endregion
 };
 

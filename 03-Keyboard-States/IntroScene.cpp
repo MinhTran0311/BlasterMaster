@@ -68,8 +68,8 @@ void IntroScene::LoadBaseObjects()
 	//	DebugOut(L"[INFO] HUD CREATED! %d \n", player->GetHealth());
 	//}
 #pragma endregion
-	gameCamera = Camera::GetInstance();
-	gameCamera->SetCamPos(0.0f, 0.0f);	//initial camera
+	//gameCamera = Camera::GetInstance();
+	Camera::GetInstance()->SetCamPos(0.0f, 0.0f);	//initial camera
 }
 void IntroScene::LoadBaseTextures()
 {
@@ -318,10 +318,10 @@ void IntroScene::Update(DWORD dt)
 	switch (idStage)
 	{
 	case ID_INTRO:
-		gameCamera->SetCamPos(0, 0); 
+		Camera::GetInstance()->SetCamPos(0, 0);
 		break;
 	case ID_INTROENDING:
-		gameCamera->SetCamPos(this->posX,0);
+		Camera::GetInstance()->SetCamPos(this->posX,0);
 		break;
 
 	default:
