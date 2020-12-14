@@ -65,7 +65,7 @@ public:
 	void DrawY(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha);
 	void DrawTopBottom(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha);
 
-	void SwitchScene(int id_scene);
+	//void SwitchScene(int id_scene);
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }

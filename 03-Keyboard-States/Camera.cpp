@@ -35,7 +35,7 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 			{
 				if ((yPos-camy)<(SCREEN_HEIGHT / 4))
 					camy -= CAMERA_SPEED_WORLD1 * dt;
-				else if((yPos - camy) > (SCREEN_HEIGHT / 4))
+				else if((yPos - camy) > (SCREEN_HEIGHT / 2))
 					camy += CAMERA_SPEED_WORLD1 * dt;
 			}
 		}
@@ -45,9 +45,6 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 	}
 	else if (playertype == TAG_BIG_SOPHIA)
 	{
-		//DebugOut(L"big sophia section \n");
-		//DebugOut(L"xgo: %f, xback: %f, camx: %f, nx: %d, nxplayer: %d", xPosGo, xPosBack, camx, AutoMoveDirection,nx);
-		DebugOut(L"auto: %d, y: %f, nx: %d\n", AutoMoveDirection,camy,nx);
 		if (AutoMoveDirection == 1)
 		{
 			if (nx > 0)
@@ -97,7 +94,6 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 		
 	}
 	this->SetCamPos(camx, camy);
-	DebugOut(L"xzczx");
 }
 
 RECT Camera::GetRectCam()

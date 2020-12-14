@@ -37,6 +37,8 @@ void PlayScene::LoadBaseObjects()
 	{
 		player = new JASON(55, 100, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
 		DebugOut(L"[INFO] JASON CREATED!!! \n");
+		playerInfo.jasonStage = ID_AREA1;
+
 	}
 
 	if (gameHUD == NULL)
@@ -346,13 +348,14 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 void PlayScene::changePlayer()
 {
 	
-	if (player->GetPlayerType() == EntityType::TAG_JASON && !dynamic_cast<JASON*>(player)->isGunFlip())
+	if (player->GetPlayerType() == EntityType::TAG_JASON && !dynamic_cast<JASON*>(player)->IsGunFlip() && !dynamic_cast<JASON*>(player)->IsJumping())
 	{
 		playerInfo.jasonHealth = player->GetHealth();
 		playerInfo.jasonGundam = player->GetgunDam();
 		playerInfo.jasonStage = idStage;
 		playerInfo.jasonXPos = player->Getx();
 		playerInfo.jasonYPos = player->Gety();
+		playerInfo.sophiaStage = idStage;
 
 		this->player->SetState(SOPHIA_STATE_OUT);
 		backup_player = player;
@@ -678,7 +681,27 @@ void PlayScene::CheckPlayerReachGate()
 
 void PlayScene::Update(DWORD dt)
 {
-	
+#pragma region mạng và reset
+	if (player->IsDoneDeath())
+	{
+		isReset = true;
+		Unload();
+
+		if (player->GetPlayerType() == TAG_JASON)
+		{
+			ChooseMap(playerInfo.jasonStage);
+			player->Reset(playerInfo.jasonHealth, playerInfo.jasonGundam);
+		}
+		else
+		{
+			ChooseMap(playerInfo.sophiaStage);
+			player->Reset(playerInfo.sophiaHealth, playerInfo.sophiaGundam);
+			
+		}
+		tempNeed = 1;
+	}
+#pragma endregion
+
 	CheckPlayerReachGate();		
 #pragma region camera
 	float cx, cy;
@@ -697,7 +720,6 @@ void PlayScene::Update(DWORD dt)
 	{
 		if (!player->IsDoneDeath())
 		{
-			DebugOut(L"nx playscene: %d\n", player->GetDirection());
 			Camera::GetInstance()->Update(cx, cy, player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
 
 		}
@@ -822,10 +844,10 @@ void PlayScene::Update(DWORD dt)
 		//}
 	}
 #pragma endregion
-#pragma region sceneswitching
-	
 
-#pragma endregion
+#pragma region update objects
+
+
 	if (isUnloaded)
 	{
 		CGrid::GetInstance()->SetTargetForEnemies(player);
@@ -889,6 +911,7 @@ void PlayScene::Update(DWORD dt)
 
 	gameHUD->Update(Camera::GetInstance()->GetCamx(), HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam());
 
+#pragma endregion
 }
 
 void PlayScene::Render()
@@ -921,8 +944,10 @@ void PlayScene::Unload()
 	CGrid::GetInstance()->UnLoadGrid();
 
 	posX = posY = 0;
-	delete player;
+	if (!isReset)
+		delete player;
 	isUnloaded = true;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
+	isReset = false;
 }

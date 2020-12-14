@@ -73,7 +73,7 @@ public:
 
 	virtual void FireBullet(int mode) {};
 	virtual void GetPositionCenter(float&, float&) {};
-	virtual void Reset() {};
+	virtual void Reset(int health, int gundam);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	virtual void Render() {};
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};

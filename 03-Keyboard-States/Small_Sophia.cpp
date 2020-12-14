@@ -172,7 +172,7 @@ void Small_Sophia::Render()
 	{
 		ani = SOPHIA_ANI_SMALL_DIE;
 		animationSet->at(ani)->Render(nx, x, y, alpha);
-		if (animationSet->at(ani)->GetFrame() > LAST_FRAME_DIE)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 			isDoneDeath = true;
 	}
 	else
@@ -319,9 +319,9 @@ void Small_Sophia::FireBullet(int mode)
 	canFire = false;
 }
 
-void Small_Sophia::Reset()
-{
-	SetState(SMALL_SOPHIA_STATE_IDLE);
-	SetPosition(start_x, start_y);
-	SetSpeed(0, 0);
-}
+//void Small_Sophia::Reset()
+//{
+//	SetState(SMALL_SOPHIA_STATE_IDLE);
+//	SetPosition(start_x, start_y);
+//	SetSpeed(0, 0);
+//}

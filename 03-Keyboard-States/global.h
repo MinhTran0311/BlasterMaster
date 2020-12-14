@@ -26,7 +26,7 @@
 //kich thuoc sprite intro 270 260
 // 1.1852 1.0538
 #define BOTTOM_SCREEN 450
-#define CAMERA_SPEED_WORLD1 0.223
+#define CAMERA_SPEED_WORLD1 0.15
 #define CAMERA_SPEED_OVERWORLD 0.2
 #define MAX_FRAME_RATE 600	//default Frame Rate is the truth
 

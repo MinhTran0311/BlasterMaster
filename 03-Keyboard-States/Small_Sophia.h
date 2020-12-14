@@ -27,10 +27,10 @@
 #define SOPHIA_ANI_SMALL_JUMP					4
 
 #define SMALL_SOPHIA_STATE_IDLE			    0
-#define SMALL_SOPHIA_STATE_WALKING_RIGHT		100
+#define SMALL_SOPHIA_STATE_WALKING_RIGHT	100
 #define SMALL_SOPHIA_STATE_WALKING_LEFT		200
 #define SMALL_SOPHIA_STATE_CRAWLING_RIGHT	300
-#define SMALL_SOPHIA_STATE_CRAWLING_LEFT		400
+#define SMALL_SOPHIA_STATE_CRAWLING_LEFT	400
 #define SMALL_SOPHIA_STATE_JUMP				500
 #define SMALL_SOPHIA_STATE_DIE				600
 #define SMALL_SOPHIA_STATE_IN				700
@@ -90,7 +90,7 @@ public:
 	//Bullet* GetPlayerMainBullet() { return mainBullet; }
 	virtual void FireBullet(int mode);
 	virtual void GetPositionCenter(float& x, float& y) { x = this->x + SMALL_SOPHIA_BBOX_WIDTH / 2; y = this->y + SMALL_SOPHIA_BBOX_HEIGHT / 2; }
-	virtual void Reset();
+	//virtual void Reset();
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
