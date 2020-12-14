@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Entity.h"
 
-#define DISTANCE_FIRING_WIDTH	10
+#define DISTANCE_FIRING_WIDTH	5
 #define DISTANCE_FIRING_HEIGHT	3
 #define DISTANCE_BLOWING_UP		4
 #define BULLET_SPEED			0.2f

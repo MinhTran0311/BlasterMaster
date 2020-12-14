@@ -11,9 +11,7 @@
 #include "Grid.h"
 #include "Big_Sophia.h"
 #include "IntroScene.h"
-#define ID_SMALL_SOPHIA	0
-#define ID_JASON		1
-#define ID_BIG_SOPHIA	2
+
 
 #define MAP2_SIDE	200
 
@@ -39,6 +37,8 @@ void PlayScene::LoadBaseObjects()
 	{
 		player = new JASON(55, 100, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
 		DebugOut(L"[INFO] JASON CREATED!!! \n");
+		playerInfo.jasonStage = ID_AREA1;
+
 	}
 
 	if (gameHUD == NULL)
@@ -47,8 +47,7 @@ void PlayScene::LoadBaseObjects()
 		DebugOut(L"[INFO] HUD CREATED! %d \n", player->GetHealth());
 	}
 #pragma endregion
-	gameCamera = Camera::GetInstance();
-	gameCamera->SetCamPos(0.0f, 0.0f);	//initial camera
+	Camera::GetInstance()->SetCamPos(0.0f, 0.0f);	//initial camera
 }
 void PlayScene::LoadBaseTextures()
 {
@@ -348,13 +347,15 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 void PlayScene::changePlayer()
 {
-	if (player->GetPlayerType() == EntityType::TAG_JASON)
+	
+	if (player->GetPlayerType() == EntityType::TAG_JASON && !dynamic_cast<JASON*>(player)->IsGunFlip() && !dynamic_cast<JASON*>(player)->IsJumping())
 	{
 		playerInfo.jasonHealth = player->GetHealth();
 		playerInfo.jasonGundam = player->GetgunDam();
 		playerInfo.jasonStage = idStage;
 		playerInfo.jasonXPos = player->Getx();
 		playerInfo.jasonYPos = player->Gety();
+		playerInfo.sophiaStage = idStage;
 
 		this->player->SetState(SOPHIA_STATE_OUT);
 		backup_player = player;
@@ -584,7 +585,7 @@ void PlayScene::CheckPlayerReachGate()
 				player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
 				player->SetDirection(playerInfo.playerDirectionBeforePassGate);
 				player->SetState(tempState);
-				CGrid::GetInstance()->SetTargetForEnemies(player);
+				//CGrid::GetInstance()->SetTargetForEnemies(player);
 			}
 			break;
 		}
@@ -633,7 +634,7 @@ void PlayScene::CheckPlayerReachGate()
 				break;
 			}
 			}
-			CGrid::GetInstance()->SetTargetForEnemies(player);
+			//CGrid::GetInstance()->SetTargetForEnemies(player);
 			
 			break;
 		}
@@ -651,6 +652,8 @@ void PlayScene::CheckPlayerReachGate()
 			}
 			else
 			{
+				CamMoveDirection = -1;
+
 				Gate* gate = dynamic_cast<Gate*>(player->GetGate());
 
 				DebugOut(L"[Info] return gate success\n");
@@ -668,7 +671,7 @@ void PlayScene::CheckPlayerReachGate()
 				
 				player = new Small_Sophia(playerInfo.sophiaXPos, playerInfo.sophiaYPos, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
 				backup_player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
-				CGrid::GetInstance()->SetTargetForEnemies(player);
+				//CGrid::GetInstance()->SetTargetForEnemies(player);
 			}
 			break;
 		}
@@ -678,6 +681,27 @@ void PlayScene::CheckPlayerReachGate()
 
 void PlayScene::Update(DWORD dt)
 {
+#pragma region mạng và reset
+	if (player->IsDoneDeath())
+	{
+		isReset = true;
+		Unload();
+
+		if (player->GetPlayerType() == TAG_JASON)
+		{
+			ChooseMap(playerInfo.jasonStage);
+			player->Reset(playerInfo.jasonHealth, playerInfo.jasonGundam);
+		}
+		else
+		{
+			ChooseMap(playerInfo.sophiaStage);
+			player->Reset(playerInfo.sophiaHealth, playerInfo.sophiaGundam);
+			
+		}
+		tempNeed = 1;
+	}
+#pragma endregion
+
 	CheckPlayerReachGate();		
 #pragma region camera
 	float cx, cy;
@@ -687,146 +711,150 @@ void PlayScene::Update(DWORD dt)
 	if (tempNeed==1)
 	{
 		DebugOut(L"middle\n");
-		gameCamera->SetCamPos(camMap1X, camMap1Y);
-		posY = camMap1Y;
+		Camera::GetInstance()->SetCamPos(camMap1X, camMap1Y);
+		//DebugOut(L"y: %d \n",camMap1Y);
+		//posY = camMap1Y;
 		tempNeed = 0;
 	}
 	else
 	{
-		switch (player->GetPlayerType())
+		if (!player->IsDoneDeath())
 		{
-		case EntityType::TAG_JASON:
-		{
-			if (player->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
-				cx = mapWidth - SCREEN_WIDTH;
-			else
-			{
-				if (player->Getx() < SCREEN_WIDTH / 2)
-					cx = 0;
-				else
-					cx -= SCREEN_WIDTH / 2;
-			}
-			if (cy - posY > SCREEN_HEIGHT)
-			{
-				posY = cy - SCREEN_HEIGHT / 2;
-			}
-			if (cy + SCREEN_HEIGHT / 1.85 >= mapHeight)
-			{
-				cy = mapHeight - SCREEN_HEIGHT;
-				posY = cy;
-			}
-			else
-			{
-				if (cy < SCREEN_HEIGHT / 4)
-				{
-					posY = 0;
-				}
-				else
-				{
-					if ((cy - posY) < (SCREEN_HEIGHT / 4))
-					{
-						posY -= CAMERA_SPEED_WORLD1 * dt;
-					}
-					if ((cy - posY) > (SCREEN_HEIGHT / 2))
-					{
-						posY += CAMERA_SPEED_WORLD1 * dt;
-					}
-				}
-			}
-			gameCamera->SetCamPos(cx, posY);
+			Camera::GetInstance()->Update(cx, cy, player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
 
-			break;
 		}
-		case TAG_SMALL_SOPHIA:
-		{
-			if (player->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
-				cx = mapWidth - SCREEN_WIDTH;
-			else
-			{
-				if (player->Getx() < SCREEN_WIDTH / 2)
-					cx = 0;
-				else
-					cx -= SCREEN_WIDTH / 2;
-			}
-			cy -= SCREEN_HEIGHT / 2;
-			gameCamera->SetCamPos(cx, cy);//cy khi muon camera move theo y player
-			break;
-		}
-		case TAG_BIG_SOPHIA:
-		{
-			//camera
-			if (CamMoveDirection == -1)
-			{
-				posX = 0;
-				posY = 1800;
-				CamMoveDirection = 0;
-			}
-			//PlayerGotGateV2();
-			if (CamMoveDirection == 1)
-			{
-				if (player->GetDirection() > 0)
-				{
-					if (posX < xPosCamGo)
-						posX += CAMERA_SPEED_OVERWORLD * dt;
-					else
-					{
-						posX = xPosCamGo + 1;
-						CamMoveDirection = 0;
-					}
-				}
-				else if (player->GetDirection() < 0)
-				{
-					if (posX > xPosCamBack)
-						posX -= CAMERA_SPEED_OVERWORLD * dt;
-					else
-					{
-						posX = xPosCamBack - 1;
-						CamMoveDirection = 0;
-					}
-				}
-			}
-			else if (CamMoveDirection == 2)
-			{
-				if (player->GetDirctionY() < 0)
-				{
-					if (posY > yPosCamGo)
-						posY -= CAMERA_SPEED_OVERWORLD * dt;
-					else
-					{
-						posY = yPosCamGo - 1;
-						CamMoveDirection = 0;
-					}
-				}
-				else if (player->GetDirctionY() > 0)
-				{
-					if (posY < yPosCamBack)
-						posY += CAMERA_SPEED_OVERWORLD * dt;
-					else
-					{
-						posY = yPosCamBack + 1;
-						CamMoveDirection = 0;
-					}
-				}
-			}
-			cx = posX;
-			gameCamera->SetCamPos(posX, posY);
-			break;
-		}
-		}
+		//switch (player->GetPlayerType())
+		//{
+		//case EntityType::TAG_JASON:
+		//{
+		//	if (player->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
+		//		cx = mapWidth - SCREEN_WIDTH;
+		//	else
+		//	{
+		//		if (player->Getx() < SCREEN_WIDTH / 2)
+		//			cx = 0;
+		//		else
+		//			cx -= SCREEN_WIDTH / 2;
+		//	}
+		//	if (cy - posY > SCREEN_HEIGHT)
+		//	{
+		//		posY = cy - SCREEN_HEIGHT / 2;
+		//	}
+		//	if (cy + SCREEN_HEIGHT / 1.85 >= mapHeight)
+		//	{
+		//		cy = mapHeight - SCREEN_HEIGHT;
+		//		posY = cy;
+		//	}
+		//	else
+		//	{
+		//		if (cy < SCREEN_HEIGHT / 4)
+		//		{
+		//			posY = 0;
+		//		}
+		//		else
+		//		{
+		//			if ((cy - posY) < (SCREEN_HEIGHT / 4))
+		//			{
+		//				posY -= CAMERA_SPEED_WORLD1 * dt;
+		//			}
+		//			if ((cy - posY) > (SCREEN_HEIGHT / 2))
+		//			{
+		//				posY += CAMERA_SPEED_WORLD1 * dt;
+		//			}
+		//		}
+		//	}
+		//	Camera::GetInstance()->SetCamPos(cx, posY);
+		//	break;
+		//}
+		//case TAG_SMALL_SOPHIA:
+		//{
+		//	if (player->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
+		//		cx = mapWidth - SCREEN_WIDTH;
+		//	else
+		//	{
+		//		if (player->Getx() < SCREEN_WIDTH / 2)
+		//			cx = 0;
+		//		else
+		//			cx -= SCREEN_WIDTH / 2;
+		//	}
+		//	cy -= SCREEN_HEIGHT / 2;
+		//	Camera::GetInstance()->SetCamPos(cx, cy);//cy khi muon camera move theo y player
+		//	break;
+		//}
+		//case TAG_BIG_SOPHIA:
+		//{
+		//	//camera
+		//	if (CamMoveDirection == -1)
+		//	{
+		//		posX = camMap1X;
+		//		posY = camMap1Y;
+		//		CamMoveDirection = 0;
+		//	}
+		//	//PlayerGotGateV2();
+		//	if (CamMoveDirection == 1)
+		//	{
+		//		if (player->GetDirection() > 0)
+		//		{
+		//			if (posX < xPosCamGo)
+		//				posX += CAMERA_SPEED_OVERWORLD * dt;
+		//			else
+		//			{
+		//				posX = xPosCamGo + 1;
+		//				CamMoveDirection = 0;
+		//			}
+		//		}
+		//		else if (player->GetDirection() < 0)
+		//		{
+		//			if (posX > xPosCamBack)
+		//				posX -= CAMERA_SPEED_OVERWORLD * dt;
+		//			else
+		//			{
+		//				posX = xPosCamBack - 1;
+		//				CamMoveDirection = 0;
+		//			}
+		//		}
+		//	}
+		//	else if (CamMoveDirection == 2)
+		//	{
+		//		if (player->GetDirctionY() < 0)
+		//		{
+		//			if (posY > yPosCamGo)
+		//				posY -= CAMERA_SPEED_OVERWORLD * dt;
+		//			else
+		//			{
+		//				posY = yPosCamGo - 1;
+		//				CamMoveDirection = 0;
+		//			}
+		//		}
+		//		else if (player->GetDirctionY() > 0)
+		//		{
+		//			if (posY < yPosCamBack)
+		//				posY += CAMERA_SPEED_OVERWORLD * dt;
+		//			else
+		//			{
+		//				posY = yPosCamBack + 1;
+		//				CamMoveDirection = 0;
+		//			}
+		//		}
+		//	}
+		//	cx = posX;
+		//	Camera::GetInstance()->SetCamPos(posX, posY);
+		//	break;
+		//}
+		//}
 	}
 #pragma endregion
-#pragma region sceneswitching
 
-	//DebugOut(L"middle\n");
-#pragma endregion
+#pragma region update objects
+
+
 	if (isUnloaded)
 	{
 		CGrid::GetInstance()->SetTargetForEnemies(player);
 		isUnloaded = false;
 	}
 
-	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(gameCamera->GetRectCam());
-	//DebugOut(L"before - player update\n");
+	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(Camera::GetInstance()->GetRectCam());
 	if (player != NULL)
 	{
 		player->Update(dt, &coObjects);
@@ -877,11 +905,13 @@ void PlayScene::Update(DWORD dt)
 			}
 		}
 	}
+
 	CGrid::GetInstance()->UpdateGrid(coObjects);
 	//player
 
-	gameHUD->Update(cx, HUD_Y + posY, player->GetHealth(), player->GetgunDam());
+	gameHUD->Update(Camera::GetInstance()->GetCamx(), HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam());
 
+#pragma endregion
 }
 
 void PlayScene::Render()
@@ -889,7 +919,7 @@ void PlayScene::Render()
 	LPDIRECT3DTEXTURE9 maptexture = CTextures::GetInstance()->Get(idStage);
 	CGame::GetInstance()->OldDraw(0, 0, maptexture, 0, 0, mapWidth, mapHeight);
 
-	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListRenderObj(gameCamera->GetRectCam());
+	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListRenderObj(Camera::GetInstance()->GetRectCam());
 	for (int i = 0; i < coObjects.size(); i++)
 		coObjects[i]->Render();
 
@@ -914,8 +944,10 @@ void PlayScene::Unload()
 	CGrid::GetInstance()->UnLoadGrid();
 
 	posX = posY = 0;
-	delete player;
+	if (!isReset)
+		delete player;
 	isUnloaded = true;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
+	isReset = false;
 }

@@ -34,6 +34,7 @@ JASON::JASON(float x, float y, int _health, int _gundam)
 	dam = _gundam;
 	canChangeAlpha = true;
 	specialBulletType = JASON_HOMING_MISSLES;
+	isJumping = true;
 }
 
 JASON* JASON::instance = NULL;
@@ -300,9 +301,10 @@ void JASON::Render()
 	{
 		ani = SOPHIA_JASON_ANI_DIE;
 		animationSet->at(ani)->Render(nx, x - DURATION_X_TO_DIE, y - DURATION_Y_TO_DIE, alpha);
-		if (animationSet->at(ani)->GetFrame() > 1)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
 			isDoneDeath = true;
+			animationSet->at(ani)->ResetCurrentFrame();
 		}
 	}
 	else if (isEjecting)
@@ -522,16 +524,6 @@ void JASON::Render()
 		}
 	}
 
-}
-
-void JASON::Reset()
-{
-	//health = MAX_HEALTH;
-	isDoneDeath = false;
-	isDeath = false;
-	SetState(SOPHIA_STATE_IDLE);
-	SetPosition(start_x, start_y);
-	SetSpeed(0, 0);
 }
 
 void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)

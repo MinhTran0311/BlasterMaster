@@ -1,5 +1,4 @@
 #pragma once
-#include "Entity.h"
 #include "Enemy.h"
 #include "Bullet.h"
 #include "Grid.h"

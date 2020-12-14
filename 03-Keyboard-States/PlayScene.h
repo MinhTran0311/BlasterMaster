@@ -45,7 +45,7 @@ struct PlayerHealthAndGunInfo
 class PlayScene : public Scene
 {
 public:
-	int _SophiaType = -1;
+	bool isReset = false;
 	float oldPosX;
 	float oldPosY;
 	int CamMoveDirection = -1;
@@ -92,7 +92,6 @@ protected:
 
 	friend class PlayScenceKeyHandler;
 protected:
-	Camera* gameCamera;
 	vector<LPCWSTR> listSceneFilePath;
 #pragma region lists
 	vector<int> listWidth;

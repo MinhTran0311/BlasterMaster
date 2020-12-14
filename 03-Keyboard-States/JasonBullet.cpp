@@ -7,8 +7,6 @@ JasonBullet::JasonBullet(float posX, float posY, int level, int direct, bool isG
 	bbARGB = 0;
 	tag = EntityType::BULLET;
 	this->SetState(BULLET_JASON_STATE_FLYING);
-	//isHitBrick = false;
-	//isHitEnemy = false;
 	dam = 1;
 	timeDelayed = 0;
 	timeDelayedMax = BULLET_JASON_DELAY;
@@ -24,11 +22,9 @@ JasonBullet::JasonBullet(float posX, float posY, int level, int direct, bool isG
 	}
 	else
 	{
-		x = posX + DISTANCE_FIRING_WIDTH;
+		x = posX + 2 * DISTANCE_FIRING_WIDTH;
 		y = posY - DISTANCE_FIRING_HEIGHT*2;
 	}
-	
-	//isActive = true;
 }
 
 JasonBullet::~JasonBullet()
@@ -189,9 +185,12 @@ void JasonBullet::Render()
 		ani = BULLET_BANG;
 		if (nx == 1 && !isAimingTop)
 		{
-			animationSet->at(ani)->OldRender(x + BULLET_JASON_NORMAL_HORIZONTAL_BBOX_WIDTH - DISTANCE_BLOWING_UP*2, y -DISTANCE_BLOWING_UP, alpha);
+			if (typeBullet == JASON_NORMAL_BULLET)
+				animationSet->at(ani)->Render(1, x - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_WIDTH, y - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_HEIGHT);
+			else if (typeBullet == JASON_UPGRADE_BULLET)
+				animationSet->at(ani)->Render(1, x  - BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_WIDTH, y - BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_HEIGHT);
 		}
-		else animationSet->at(ani)->OldRender(x - DISTANCE_BLOWING_UP, y - DISTANCE_BLOWING_UP, alpha);
+		else animationSet->at(ani)->Render(1, x - BULLET_JASON_UPGRADE_VERTICAL_BBOX_WIDTH, y - DISTANCE_BLOWING_UP);
 		if (animationSet->at(ani)->GetFrame() == 3)
 		{
 			isActive = false;

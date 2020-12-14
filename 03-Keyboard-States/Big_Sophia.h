@@ -50,9 +50,6 @@ class Big_Sophia : public Player
 	float backup_x, backup_y;
 	bool _isAutoRun;
 	int directionAutoRun;
-	
-
-
 public:
 	Big_Sophia (float x, float y, int health, int gundam);
 	~Big_Sophia ();

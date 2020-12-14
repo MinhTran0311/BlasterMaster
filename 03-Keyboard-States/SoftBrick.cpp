@@ -21,12 +21,11 @@ void SoftBrick::Render()
 	{
 		animationSet->at(ani)->Render(1, x, y);
 	}
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void SoftBrick::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
-	DebugOut(L"healt: %d\n", health);
 	Entity::Update(dt);
 	if (health <= 0)
 	{
