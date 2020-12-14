@@ -48,6 +48,7 @@
 #define ID_AREA9			19
 #define ID_MAPOVERWORLD		20
 #define ID_INTRO			21
+#define ID_INTROENDING			22
 
 
 #define SCENE_SECTION_UNKNOWN			-1

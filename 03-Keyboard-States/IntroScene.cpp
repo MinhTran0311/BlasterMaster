@@ -14,11 +14,42 @@ IntroScene::IntroScene(int _idStage) : Scene()
 	keyHandler = new IntroScenceKeyHandler(this);
 	CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
 	LoadBaseObjects();
-	intro_ani_set = CAnimationSets::GetInstance()->Get(Intro_Scene);
+	switch (idStage)
+	{
+	case ID_INTRO: {
+		
+		intro_ani_set = CAnimationSets::GetInstance()->Get(Intro_Scene);
+		break;
+	}
+	case ID_INTROENDING: {
+		
+		intro_ani_set = CAnimationSets::GetInstance()->Get(Ending_Scene);
+		break;
+	}
+	default:
+		break;
+	}
 }
 void IntroScene::LoadBaseObjects()
 {
-	texturesFilePath = ToLPCWSTR("Resource\\SceneAndSpec\\Intro_Scene.txt");
+
+	
+	switch (idStage)
+	{
+	case ID_INTRO: {
+		texturesFilePath = ToLPCWSTR("Resource\\SceneAndSpec\\Intro_Scene.txt");
+		//intro_ani_set = CAnimationSets::GetInstance()->Get(Intro_Scene);
+		break;
+	}
+	case ID_INTROENDING: {
+		texturesFilePath = ToLPCWSTR("Resource\\SceneAndSpec\\Ending.txt"); 
+		//intro_ani_set = CAnimationSets::GetInstance()->Get(701);
+		break;
+	}
+
+	default:
+		break;
+	}
 	LoadBaseTextures();
 #pragma region create_base_objects
 	//if (player == NULL)
@@ -261,9 +292,41 @@ void IntroScene::Update(DWORD dt)
 		//DebugOut(L"done reachgete\n");
 
 	//}
-
+	
 #pragma region camera
-	gameCamera->SetCamPos(0, 0);
+	if (this->moutainY > 30)setEndding = 1;
+	if (this->time == 40)setEndding = 2;
+
+	switch (setEndding)
+	{
+	case 0:
+		this->moutainY += 0.1;
+		break;
+	case 1:
+		if (this->posX < 250)this->posX += 1;
+		else time++;
+		break;
+	case 2:
+		if(this->textY< 272+326)
+			this->textY += 0.5;
+		break;
+	default:
+		break;
+	}
+	
+	
+	switch (idStage)
+	{
+	case ID_INTRO:
+		gameCamera->SetCamPos(0, 0); 
+		break;
+	case ID_INTROENDING:
+		gameCamera->SetCamPos(this->posX,0);
+		break;
+
+	default:
+		break;
+	}
 #pragma endregion
 #pragma region sceneswitching
 
@@ -278,29 +341,61 @@ void IntroScene::Render()
 	//LPDIRECT3DTEXTURE9 maptexture = CTextures::GetInstance()->Get(idStage);
 	//CGame::GetInstance()->OldDraw(0, 0, maptexture, 0, 0, mapWidth, mapHeight);
 	
-	
-	switch (setAnimation)
-	{
-	case Intro_Animation_Logo: 
-		intro_ani_set->at(Intro_Animation_Logo)->IntroRender(1, 0, 0); 
-		if (intro_ani_set->at(Intro_Animation_Logo)->GetFrame() == intro_ani_set->at(Intro_Animation_Logo)->GetLastFrameIndex()) { 
-			setAnimation = Intro_Animation_Frog; 
-		} 
-		break;
-	case Intro_Animation_Frog: 
-		intro_ani_set->at(Intro_Animation_Frog)->IntroRender(1, 0, 0); 
-		if (intro_ani_set->at(Intro_Animation_Frog)->GetFrame() == intro_ani_set->at(Intro_Animation_Frog)->GetLastFrameIndex()) {
-			setAnimation = Intro_Animation_Car; 
-		} 
-		break;
-	case Intro_Animation_Car:
-		intro_ani_set->at(Intro_Animation_Car)->IntroRender(1, 0, 0);
-		if (intro_ani_set->at(Intro_Animation_Car)->GetFrame() == intro_ani_set->at(Intro_Animation_Car)->GetLastFrameIndex()) { 
-			setAnimation = Intro_Done;
-		} 
-		break;
-	default:
-		break;
+	if (this->idStage == ID_INTRO) {
+
+		switch (setAnimation)
+		{
+		case Intro_Animation_Logo: 
+			intro_ani_set->at(Intro_Animation_Logo)->IntroRender(1, 0, 0); 
+			if (intro_ani_set->at(Intro_Animation_Logo)->GetFrame() == intro_ani_set->at(Intro_Animation_Logo)->GetLastFrameIndex()) { 
+				setAnimation = Intro_Animation_Frog; 
+			} 
+			break;
+		case Intro_Animation_Frog: 
+			intro_ani_set->at(Intro_Animation_Frog)->IntroRender(1, 0, 0); 
+			if (intro_ani_set->at(Intro_Animation_Frog)->GetFrame() == intro_ani_set->at(Intro_Animation_Frog)->GetLastFrameIndex()) {
+				setAnimation = Intro_Animation_Car; 
+			} 
+			break;
+		case Intro_Animation_Car:
+			intro_ani_set->at(Intro_Animation_Car)->IntroRender(1, 0, 0);
+			if (intro_ani_set->at(Intro_Animation_Car)->GetFrame() == intro_ani_set->at(Intro_Animation_Car)->GetLastFrameIndex()) { 
+				setAnimation = Intro_Done;
+			} 
+			break;
+		default:
+			break;
+		}
+	}
+	else if (this->idStage == ID_INTROENDING) {
+		
+		//intro_ani_set->at(Endding_Background1)->IntroRender(1, 0, 0);
+		switch (setEndding)
+		{
+		case 0:
+			intro_ani_set->at(Endding_Cloud)->IntroRender(1, 0, 0);
+			intro_ani_set->at(Endding_Mountain)->IntroRender(1, 123, 115 + this->moutainY);
+			intro_ani_set->at(Endding_Forest)->IntroRender(1, 0, 105);
+			break;
+		case 1:
+			intro_ani_set->at(Endding_Background1)->IntroRender(1, 0, 0);
+			intro_ani_set->at(Endding_Frog)->IntroRender(1, 423, 107);
+			intro_ani_set->at(Endding_Hair)->IntroRender(1, 408, 91);
+			break;
+		case 2:
+			intro_ani_set->at(Endding_Background2)->Render(1, 250, 0);
+			if(this->textY<272+326)
+				intro_ani_set->at(Endding_Text1)->Render(1, 360, 272 - this->textY);
+			else
+				intro_ani_set->at(Endding_Text2)->Render(1, 360, 0);
+			break;
+		default:
+			break;
+		}
+		
+
+
+		
 	}
 }
 void IntroScene::Unload()

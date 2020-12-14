@@ -35,6 +35,15 @@ void CGame::InitWindow(int nCmdShow)
 {
 }
 
+void CGame::DrawTextInScene(LPCWSTR str, float l, float r,float t,float b) {
+	
+	font = NULL;
+	//LPCWSTR strfont = "Arial";
+	//D3DXCreateFont(NULL, 40, 0, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FF_DONTCARE, "Arial", &font);
+	SetRect(&fRectangle, l, r, t, b);
+	
+	font->DrawText(NULL, str, -1, &fRectangle, DT_LEFT,D3DCOLOR_XRGB(255,255,255));
+}
 /*
 	Initialize DirectX, create a Direct3D device for rendering within the window, initial Sprite library for 
 	rendering 2D images
@@ -161,7 +170,6 @@ void CGame::DrawY(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, i
 	spriteHandler->SetTransform(&oldMatrix);
 
 }
-
 void CGame::DrawTopBottom(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
 	D3DXVECTOR3 p(floor(x - Camera::GetInstance()->GetCamx()), floor(y - Camera::GetInstance()->GetCamy()), 0);
@@ -187,6 +195,7 @@ void CGame::DrawTopBottom(int direction, float x, float y, LPDIRECT3DTEXTURE9 te
 
 	spriteHandler->SetTransform(&oldMatrix);
 }
+
 
 //void CGame::MapDraw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 //{
