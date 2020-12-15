@@ -136,122 +136,120 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	//}
 #pragma endregion
 #pragma region Collision
-	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
-	bool isInjured = false;
-	//ABBA with objects
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		//if (this->IsCollidingObject(coObjects->at(i)))
-		//{
-		//	switch (coObjects->at(i)->GetType())
-		//	{
-		//	case EntityType::ENEMY:
-		//	{
-		//		Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
-		//		//re check
-		//		//if (isJumping)
-		//		//{
-		//		//	this->SetState(SOPHIA_STATE_IDLE);
-		//		//	isJumping = false;
-		//		//	isJumpHandle = true;
-		//		//}
-		//		this->changeAlpha();
-		//		DebugOut(L"alpha %d\n", alpha);
-		//		isInjured = true;
-		//		SetInjured(enemy->GetDamage());
-		//		break;
-		//	}
-		//	case EntityType::ITEM:
-		//	{
-		//		
-		//		LPGAMEITEM item = dynamic_cast<LPGAMEITEM>(coObjects->at(i));
-		//		if (item->getItemType() == EntityType::TAG_ITEM_POWER_UP)
-		//		{
-		//			if (this->GetHealth() + ITEM_POWER_UP_RESTORE <= MAX_HEALTH)
-		//				this->AddHealth(ITEM_POWER_UP_RESTORE);
-		//			else
-		//				this->SetHealth(MAX_HEALTH);
-		//		}
-		//		else if (item->getItemType() == EntityType::TAG_ITEM_GUN_UP)
-		//		{
-		//			if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
-		//				this->AddgunDam(ITEM_GUN_UP_RESTORE);
-		//			else
-		//				this->SetgunDam(MAX_GUNDAM);
-		//		}
-		//		item->setActive(false);
-		//		break;
-		//	}
-		//	case EntityType::TAG_INJURING_BRICK:
-		//	{
-		//		InjuringBrick* injuringBricks = dynamic_cast<InjuringBrick*>(coObjects->at(i));
-		//		SetInjured(injuringBricks->GetDamage());
-		//		this->changeAlpha();
-		//		isInjured = true;
-		//		break;
-		//	}
-		//	}
-		//}
-		CollideWithObject(coObjects->at(i), isInjured);
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK)
-			colliable_Objects->push_back(coObjects->at(i));
-	}
-	if (!isInjured)
-		alpha = 255;
+	CollisionHandle(coObjects);
+	//vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
+	//bool isInjured = false;
+	////ABBA with objects
+	//for (UINT i = 0; i < coObjects->size(); i++)
+	//{
+	//	//if (this->IsCollidingObject(coObjects->at(i)))
+	//	//{
+	//	//	switch (coObjects->at(i)->GetType())
+	//	//	{
+	//	//	case EntityType::ENEMY:
+	//	//	{
+	//	//		Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
+	//	//		//re check
+	//	//		//if (isJumping)
+	//	//		//{
+	//	//		//	this->SetState(SOPHIA_STATE_IDLE);
+	//	//		//	isJumping = false;
+	//	//		//	isJumpHandle = true;
+	//	//		//}
+	//	//		this->changeAlpha();
+	//	//		DebugOut(L"alpha %d\n", alpha);
+	//	//		isInjured = true;
+	//	//		SetInjured(enemy->GetDamage());
+	//	//		break;
+	//	//	}
+	//	//	case EntityType::ITEM:
+	//	//	{
+	//	//		
+	//	//		LPGAMEITEM item = dynamic_cast<LPGAMEITEM>(coObjects->at(i));
+	//	//		if (item->getItemType() == EntityType::TAG_ITEM_POWER_UP)
+	//	//		{
+	//	//			if (this->GetHealth() + ITEM_POWER_UP_RESTORE <= MAX_HEALTH)
+	//	//				this->AddHealth(ITEM_POWER_UP_RESTORE);
+	//	//			else
+	//	//				this->SetHealth(MAX_HEALTH);
+	//	//		}
+	//	//		else if (item->getItemType() == EntityType::TAG_ITEM_GUN_UP)
+	//	//		{
+	//	//			if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
+	//	//				this->AddgunDam(ITEM_GUN_UP_RESTORE);
+	//	//			else
+	//	//				this->SetgunDam(MAX_GUNDAM);
+	//	//		}
+	//	//		item->setActive(false);
+	//	//		break;
+	//	//	}
+	//	//	case EntityType::TAG_INJURING_BRICK:
+	//	//	{
+	//	//		InjuringBrick* injuringBricks = dynamic_cast<InjuringBrick*>(coObjects->at(i));
+	//	//		SetInjured(injuringBricks->GetDamage());
+	//	//		this->changeAlpha();
+	//	//		isInjured = true;
+	//	//		break;
+	//	//	}
+	//	//	}
+	//	//}
+	//	CollideWithObject(coObjects->at(i), isInjured);
+	//	if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK)
+	//		colliable_Objects->push_back(coObjects->at(i));
+	//}
+	//if (!isInjured)
+	//	alpha = 255;
+	//vector<LPCOLLISIONEVENT> coEvents;
+	//vector<LPCOLLISIONEVENT> coEventsResult;
+	//coEvents.clear();
+	//// turn off collision when player dies
+	//if (state != SOPHIA_STATE_DIE)
+	//	CalcPotentialCollisions(colliable_Objects, coEvents);
+	//// No collision occured, proceed normally
+	//if (coEvents.size() == 0)
+	//{
+	//	x += dx;
+	//	y += dy;
+	//}
+	//else
+	//{
+	//	float min_tx, min_ty, nx = 0, ny;
+	//	float rdx = 0;
+	//	float rdy = 0;
+	//	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEvents.clear();
-
-	// turn off collision when player dies
-	if (state != SOPHIA_STATE_DIE)
-		CalcPotentialCollisions(colliable_Objects, coEvents);
-
-	// No collision occured, proceed normally
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetType() == TAG_BRICK || e->obj->GetType() == TAG_SOFT_BRICK)
-			{
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				if (e->ny != 0)
-				{
-					if (e->ny != 0)
-					{
-						vy = 0;
-						if (ny < 0)
-						{
-							isJumping = false;
-						}
-					}
-					if (e->nx != 0)
-					{
-						vx = 0;
-					}
-				}
-			}
-			else if ((e->obj->GetType() == EntityType::TAG_GATE))
-			{
-				gate = e->obj;
-				DebugOut(L"jason dung tuong loai 1\n");
-				GateColliding = true;
-			}
-		}
-	}
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	//	for (UINT i = 0; i < coEventsResult.size(); i++)
+	//	{
+	//		LPCOLLISIONEVENT e = coEventsResult[i];
+	//		if (e->obj->GetType() == TAG_BRICK || e->obj->GetType() == TAG_SOFT_BRICK)
+	//		{
+	//			x += min_tx * dx + nx * 0.4f;
+	//			y += min_ty * dy + ny * 0.4f;
+	//			if (e->ny != 0)
+	//			{
+	//				if (e->ny != 0)
+	//				{
+	//					vy = 0;
+	//					if (ny < 0)
+	//					{
+	//						isJumping = false;
+	//					}
+	//				}
+	//				if (e->nx != 0)
+	//				{
+	//					vx = 0;
+	//				}
+	//			}
+	//		}
+	//		else if ((e->obj->GetType() == EntityType::TAG_GATE))
+	//		{
+	//			gate = e->obj;
+	//			DebugOut(L"jason dung tuong loai 1\n");
+	//			GateColliding = true;
+	//		}
+	//	}
+	//}
+	//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 }
 

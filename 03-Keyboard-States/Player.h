@@ -7,6 +7,9 @@
 #define PLAYER_IMMORTAL_DURATION	1000
 #define PLAYER_CAN_FIRE_DURATION	120
 #define PLAYER_CHANGE_ALPHA		400
+
+#define PLAYER_STATE_IDLE	0
+#define PLAYER_STATE_DIE	100
 class Player :public Entity
 {
 	static Player* instance;
@@ -82,5 +85,6 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
 
 	void CollideWithObject(LPGAMEENTITY object, bool& isInjured);
+	void CollisionHandle(vector<LPGAMEENTITY>* coObjects);
 };
 typedef Player* LPGAMEPLAYER;

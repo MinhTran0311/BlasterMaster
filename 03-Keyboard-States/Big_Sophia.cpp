@@ -81,112 +81,107 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 #pragma endregion
 #pragma region Xử lý va chạm
-	//ABBA with objects
-	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
-	bool isInjured = false;
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		//if (this->IsCollidingObject(coObjects->at(i)))
-		//{
-		//	switch (coObjects->at(i)->GetType())
-		//	{
-		//	case ENEMY:
-		//	{
-		//		Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
-		//		//re check
-		//		SetInjured(enemy->GetDamage());
-		//		break;
-		//	}
-		//	case ITEM:
-		//	{
-		//		LPGAMEITEM item = dynamic_cast<LPGAMEITEM>(coObjects->at(i));
-		//		if (item->getItemType() == EntityType::TAG_ITEM_POWER_UP)
-		//		{
-		//			if (this->GetHealth() + ITEM_POWER_UP_RESTORE <= MAX_HEALTH)
-		//				this->AddHealth(ITEM_POWER_UP_RESTORE);
-		//			else
-		//				this->SetHealth(MAX_HEALTH);
-		//		}
-		//		else if (item->getItemType() == EntityType::TAG_ITEM_GUN_UP)
-		//		{
-		//			if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
-		//				this->AddgunDam(ITEM_GUN_UP_RESTORE);
-		//			else
-		//				this->SetgunDam(MAX_GUNDAM);
-		//		}
-		//		item->setActive(false);
-		//		break;
-		//	}
-		//	case TAG_INJURING_BRICK:
-		//	{
-		//		InjuringBrick* injuringBricks = dynamic_cast<InjuringBrick*>(coObjects->at(i));
-		//		SetInjured(injuringBricks->GetDamage());
-		//		break;
-		//	}
-		//	//case TAG_GATE:
-		//	//{
-		//	//	gate = coObjects->at(i);
-		//	//	DebugOut(L"big sophia dung tuong\n");
-		//	//	GateColliding = true;
-		//	//	break;
-		//	//}
-		//	}
-		//}
-		CollideWithObject(coObjects->at(i), isInjured);
-		if (coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD || coObjects->at(i)->GetType() == TAG_SOFT_BRICK || coObjects->at(i)->GetType() == TAG_GATE)
-			colliable_Objects->push_back(coObjects->at(i));
-	}
-	if (!isInjured)
-		alpha = 255;
-
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEvents.clear();
-
-	// turn off collision when die
-	if (state != BIG_SOPHIA_STATE_DIE)
-		CalcPotentialCollisions(colliable_Objects, coEvents);
-
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == EntityType::TAG_SOFT_BRICK)
-			{
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				if (e->ny != 0)
-				{
-					if (e->ny != 0)
-					{
-						vy = 0;
-					}
-
-					if (e->nx != 0)
-						vx = 0;
-				}
-			}
-			else if (e->obj->GetType() == EntityType::TAG_GATE_OVERWORLD || e->obj->GetType() == EntityType::TAG_GATE)
-			{
-				gate = e->obj;
-				DebugOut(L"big sophia dung tuong\n");
-				GateColliding = true;
-			}
-		}
-	}
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	CollisionHandle(coObjects);
+	////ABBA with objects
+	//vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
+	//bool isInjured = false;
+	//for (UINT i = 0; i < coObjects->size(); i++)
+	//{
+	//	//if (this->IsCollidingObject(coObjects->at(i)))
+	//	//{
+	//	//	switch (coObjects->at(i)->GetType())
+	//	//	{
+	//	//	case ENEMY:
+	//	//	{
+	//	//		Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
+	//	//		//re check
+	//	//		SetInjured(enemy->GetDamage());
+	//	//		break;
+	//	//	}
+	//	//	case ITEM:
+	//	//	{
+	//	//		LPGAMEITEM item = dynamic_cast<LPGAMEITEM>(coObjects->at(i));
+	//	//		if (item->getItemType() == EntityType::TAG_ITEM_POWER_UP)
+	//	//		{
+	//	//			if (this->GetHealth() + ITEM_POWER_UP_RESTORE <= MAX_HEALTH)
+	//	//				this->AddHealth(ITEM_POWER_UP_RESTORE);
+	//	//			else
+	//	//				this->SetHealth(MAX_HEALTH);
+	//	//		}
+	//	//		else if (item->getItemType() == EntityType::TAG_ITEM_GUN_UP)
+	//	//		{
+	//	//			if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
+	//	//				this->AddgunDam(ITEM_GUN_UP_RESTORE);
+	//	//			else
+	//	//				this->SetgunDam(MAX_GUNDAM);
+	//	//		}
+	//	//		item->setActive(false);
+	//	//		break;
+	//	//	}
+	//	//	case TAG_INJURING_BRICK:
+	//	//	{
+	//	//		InjuringBrick* injuringBricks = dynamic_cast<InjuringBrick*>(coObjects->at(i));
+	//	//		SetInjured(injuringBricks->GetDamage());
+	//	//		break;
+	//	//	}
+	//	//	//case TAG_GATE:
+	//	//	//{
+	//	//	//	gate = coObjects->at(i);
+	//	//	//	DebugOut(L"big sophia dung tuong\n");
+	//	//	//	GateColliding = true;
+	//	//	//	break;
+	//	//	//}
+	//	//	}
+	//	//}
+	//	CollideWithObject(coObjects->at(i), isInjured);
+	//	if (coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD || coObjects->at(i)->GetType() == TAG_SOFT_BRICK || coObjects->at(i)->GetType() == TAG_GATE)
+	//		colliable_Objects->push_back(coObjects->at(i));
+	//}
+	//if (!isInjured)
+	//	alpha = 255;
+	//vector<LPCOLLISIONEVENT> coEvents;
+	//vector<LPCOLLISIONEVENT> coEventsResult;
+	//coEvents.clear();
+	//// turn off collision when die
+	//if (state != BIG_SOPHIA_STATE_DIE)
+	//	CalcPotentialCollisions(colliable_Objects, coEvents);
+	//if (coEvents.size() == 0)
+	//{
+	//	x += dx;
+	//	y += dy;
+	//}
+	//else
+	//{
+	//	float min_tx, min_ty, nx = 0, ny;
+	//	float rdx = 0;
+	//	float rdy = 0;
+	//	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+	//	for (UINT i = 0; i < coEventsResult.size(); i++)
+	//	{
+	//		LPCOLLISIONEVENT e = coEventsResult[i];
+	//		if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == EntityType::TAG_SOFT_BRICK)
+	//		{
+	//			x += min_tx * dx + nx * 0.4f;
+	//			y += min_ty * dy + ny * 0.4f;
+	//			if (e->ny != 0)
+	//			{
+	//				if (e->ny != 0)
+	//				{
+	//					vy = 0;
+	//				}
+	//				if (e->nx != 0)
+	//					vx = 0;
+	//			}
+	//		}
+	//		else if (e->obj->GetType() == EntityType::TAG_GATE_OVERWORLD || e->obj->GetType() == EntityType::TAG_GATE)
+	//		{
+	//			gate = e->obj;
+	//			DebugOut(L"big sophia dung tuong\n");
+	//			GateColliding = true;
+	//		}
+	//	}
+	//}
+	//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 }
 
@@ -234,7 +229,7 @@ void Big_Sophia::Render()
 			else if (vy < 0)
 				ani = BIG_SOPHIA_ANI_WALKING_TOP;
 		}
-		animationSet->at(ani)->Render(1, x, y);
+		animationSet->at(ani)->Render(1, x, y,alpha);
 
 	}
 }
