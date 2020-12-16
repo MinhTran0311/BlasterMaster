@@ -161,7 +161,7 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		CollideWithObject(coObjects->at(i), isInjured);
-		if (coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD || coObjects->at(i)->GetType() == TAG_SOFT_BRICK || coObjects->at(i)->GetType() == TAG_GATE)
+		if ((coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD || coObjects->at(i)->GetType() == TAG_SOFT_BRICK || coObjects->at(i)->GetType() == TAG_GATE) && !coObjects->at(i)->IsDeath())
 			colliable_Objects->push_back(coObjects->at(i));
 	}
 	if (!isInjured)

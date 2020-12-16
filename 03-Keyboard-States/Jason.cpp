@@ -530,9 +530,8 @@ void JASON::FireBullet(int mode)
 			canFire = false;
 		}
 	}
-	else if (mode == 2)
+	else if (mode == 2)		//burst fire
 	{
-		//burst fire
 		if (dam == 1)
 		{
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
@@ -562,7 +561,7 @@ void JASON::FireBullet(int mode)
 			canFire = false;
 		}
 	}
-	else if (mode == 3)
+	else if (mode == 3) //special bullets
 	{
 		switch (specialBulletType)
 		{

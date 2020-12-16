@@ -36,12 +36,9 @@ void Big_Sophia::AutoRun(int direction)
 	}
 }
 
-void Big_Sophia::FireBullet(int type)
-{
-}
-
 void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
+	DebugOut(L"nx: %d, ny: %d\n", nx, ny);
 	Player::Update(dt, coObjects);
 #pragma region Timer
 	//if (isImmortaling && immortalTimer->IsTimeUp())
@@ -245,6 +242,7 @@ void Big_Sophia::GetBoundingBox(float& left, float& top, float& right, float& bo
 void Big_Sophia::SetState(int state)
 {
 	Entity::SetState(state);
+
 	switch (state)
 	{
 	case BIG_SOPHIA_STATE_IDLE:
@@ -255,6 +253,7 @@ void Big_Sophia::SetState(int state)
 	}
 	case BIG_SOPHIA_STATE_WALKING_RIGHT:
 	{
+		ny = 0;
 		nx = 1;
 		vx = BIG_SOPHIA_WALKING_SPEED;
 		isVerticalMove = false;
@@ -262,6 +261,7 @@ void Big_Sophia::SetState(int state)
 	}
 	case BIG_SOPHIA_STATE_WALKING_LEFT:
 	{
+		ny = 0;
 		nx = -1;
 		vx = -BIG_SOPHIA_WALKING_SPEED;
 		isVerticalMove = false;
@@ -270,6 +270,7 @@ void Big_Sophia::SetState(int state)
 	}
 	case BIG_SOPHIA_STATE_WALKING_TOP:
 	{
+		nx = 0;
 		ny = -1;
 		vy = -BIG_SOPHIA_WALKING_SPEED;
 		isVerticalMove = true;
@@ -277,6 +278,7 @@ void Big_Sophia::SetState(int state)
 	}
 	case BIG_SOPHIA_STATE_WALKING_BOTTOM:
 	{
+		nx = 0;
 		ny = 1;
 		vy = BIG_SOPHIA_WALKING_SPEED;
 		isVerticalMove = true;
@@ -289,4 +291,14 @@ void Big_Sophia::SetState(int state)
 		break;
 	}
 	}
+}
+void Big_Sophia::FireBullet(int mode)
+{
+	DebugOut(L"dan big tao duoc");
+	if (!canFire)
+		return;
+	Bullet* bullet = new BigSophiaBullet(this->Getx(), this->Gety(), dam, nx, ny);
+	CGrid::GetInstance()->InsertGrid(bullet);
+	FireTimer->Start();
+	canFire = false;
 }

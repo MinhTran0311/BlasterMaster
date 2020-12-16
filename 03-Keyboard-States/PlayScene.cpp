@@ -217,12 +217,6 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 		else if (player->GetPlayerType() == EntityType::TAG_BIG_SOPHIA)
 			player->SetState(BIG_SOPHIA_STATE_WALKING_LEFT);
 	}
-	
-	//else if ((CGame::GetInstance()->IsKeyDown(DIK_UP)))
-	//{
-	//	if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-	//		player->SetState(BIG_SOPHIA_STATE_WALKING_TOP);
-	//}
 	else
 	{
 		if (player->GetPlayerType() == TAG_JASON)
@@ -882,7 +876,7 @@ void PlayScene::Update(DWORD dt)
 		int k = 0;
 		for (int i = 0; i<coObjects.size()-k; i++)
 		{
-			if ((coObjects.at(i)->isDeath()))
+			if ((coObjects.at(i)->IsDeath()))
 			{
 				float xPos, yPos;
 				coObjects.at(i)->GetPosition(xPos, yPos);

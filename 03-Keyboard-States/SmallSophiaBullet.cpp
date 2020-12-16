@@ -1,5 +1,4 @@
 #include "SmallSophiaBullet.h"
-#include "global.h"
 SmallSophiaBullet::SmallSophiaBullet(float posX, float posY, int level, int direct)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SMALL_SOPHIA_BULLET));
@@ -7,7 +6,7 @@ SmallSophiaBullet::SmallSophiaBullet(float posX, float posY, int level, int dire
 	bbARGB = 0;
 	isAimingTop = false;
 	tag = EntityType::BULLET;
-	this->SetState(BULLET_SMALL_SOPHIA_STATE_FLYING);
+	this->SetState(BULLET_STATE_FLYING);
 	//isHitBrick = false;
 	//isHitEnemy = false;
 	dam = 1;
@@ -55,7 +54,7 @@ void SmallSophiaBullet::GetBoundingBox(float& left, float& top, float& right, fl
 	
 }
 
-void SmallSophiaBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
+void SmallSophiaBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	if (!isActive)
 		return;
@@ -87,51 +86,50 @@ void SmallSophiaBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects
 	}
 #pragma endregion
 #pragma region collision
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
+	HandlePlayerBulletCollision(coObjects);
 
-	coEvents.clear();
-
-	CalcPotentialCollisions(colliable_objects, coEvents);
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetType() == EntityType::TAG_BRICK)
-			{
-				this->SetState(BULLET_SMALL_SOPHIA_STATE_HIT_BRICK);
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				//vx = 0;
-				//vy = 0;
-				//isHitBrick = true;
-			}
-			else if (e->obj->GetType() == EntityType::ENEMY)
-			{
-				e->obj->AddHealth(-dam);
-				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
-				this->SetState(BULLET_SMALL_SOPHIA_STATE_HIT_ENEMY);
-				//isHitEnemy = true;
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				//vx = 0;
-				//vy = 0;
-				isActive = false;
-			}
-		}
-	}
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	//vector<LPCOLLISIONEVENT> coEvents;
+	//vector<LPCOLLISIONEVENT> coEventsResult;
+	//coEvents.clear();
+	//CalcPotentialCollisions(colliable_objects, coEvents);
+	//if (coEvents.size() == 0)
+	//{
+	//	x += dx;
+	//	y += dy;
+	//}
+	//else
+	//{
+	//	float min_tx, min_ty, nx = 0, ny;
+	//	float rdx = 0;
+	//	float rdy = 0;
+	//	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+	//	for (UINT i = 0; i < coEventsResult.size(); i++)
+	//	{
+	//		LPCOLLISIONEVENT e = coEventsResult[i];
+	//		if (e->obj->GetType() == EntityType::TAG_BRICK)
+	//		{
+	//			this->SetState(BULLET_SMALL_SOPHIA_STATE_HIT_BRICK);
+	//			x += min_tx * dx + nx * 0.4f;
+	//			y += min_ty * dy + ny * 0.4f;
+	//			//vx = 0;
+	//			//vy = 0;
+	//			//isHitBrick = true;
+	//		}
+	//		else if (e->obj->GetType() == EntityType::ENEMY)
+	//		{
+	//			e->obj->AddHealth(-dam);
+	//			DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
+	//			this->SetState(BULLET_SMALL_SOPHIA_STATE_HIT_ENEMY);
+	//			//isHitEnemy = true;
+	//			x += min_tx * dx + nx * 0.4f;
+	//			y += min_ty * dy + ny * 0.4f;
+	//			//vx = 0;
+	//			//vy = 0;
+	//			isActive = false;
+	//		}
+	//	}
+	//}
+	//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 }
 
@@ -144,7 +142,7 @@ void SmallSophiaBullet::Render()
 	DebugOut(L"Small Sophia bullet render");
 
 	//if (!isHitBrick && !isHitEnemy)
-	if (state == BULLET_SMALL_SOPHIA_STATE_FLYING)
+	if (state == BULLET_STATE_FLYING)
 	{
 		if (typeBullet == SMALL_SOPHIA_NORMAL_BULLET)
 			ani = BULLET_SMALL_SOPHIA_NORMAL_ANI_RIGHT;
@@ -153,7 +151,7 @@ void SmallSophiaBullet::Render()
 		animationSet->at(ani)->Render(nx, x, y, alpha);
 		
 	}
-	else if (state == BULLET_SMALL_SOPHIA_STATE_HIT_BRICK)
+	else if (state == BULLET_STATE_HIT_BRICK)
 	{
 		ani = BULLET_SMALL_SOPHIA_NORMAL_ANI_BANG;
 		if (nx == 1 && !isAimingTop)
@@ -167,35 +165,4 @@ void SmallSophiaBullet::Render()
 		}
 	}
 
-}
-
-void SmallSophiaBullet::SetState(int state)
-{
-
-	Entity::SetState(state);
-	DebugOut(L"Bullet state: %d", state);
-	switch (state)
-	{
-	case BULLET_SMALL_SOPHIA_STATE_FLYING:
-	{
-		isHitBrick = false;
-		isHitEnemy = false;
-		isActive = true;
-		break;
-	}
-	case BULLET_SMALL_SOPHIA_STATE_HIT_BRICK:
-	{
-		vx = 0;
-		vy = 0;
-		isHitBrick = true;
-	}
-	case BULLET_SMALL_SOPHIA_STATE_HIT_ENEMY:
-	{
-		vx = 0;
-		vy = 0;
-		isHitEnemy = true;
-		//isActive = false;
-		break;
-	}
-	}
 }

@@ -141,8 +141,10 @@
     </ClCompile>
     <ClCompile Include="IntroScene.cpp">
       <Filter>FrameWork\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="SmallNavigatedEnemyBullet.cpp">
       <Filter>Objects\Bullets\Enemy</Filter>
+    </ClCompile>
     <ClCompile Include="HomingMissles.cpp">
       <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClCompile>
@@ -152,6 +154,7 @@
     <ClCompile Include="JasonRocket.cpp">
       <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClCompile>
+    <ClCompile Include="BigSophiaBullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -300,8 +303,10 @@
     </ClInclude>
     <ClInclude Include="IntroScene.h">
       <Filter>FrameWork\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="SmallNavigatedEnemyBullet.h">
       <Filter>Objects\Bullets\Enemy</Filter>
+    </ClInclude>
     <ClInclude Include="HomingMissles.h">
       <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClInclude>
@@ -311,6 +316,7 @@
     <ClInclude Include="JasonRocket.h">
       <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClInclude>
+    <ClInclude Include="BigSophiaBullet.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\mario.png">

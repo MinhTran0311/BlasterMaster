@@ -8,7 +8,7 @@
 #include "Sprites.h"
 
 
-bool Entity::isDeath()
+bool Entity::IsDeath()
 {
 	if ((this->GetType()==EntityType::ENEMY && isFinishDeathAni()) || ((this->GetType()==EntityType::BULLET || this->GetType() == EntityType::ITEM || this->GetType() == TAG_SOFT_BRICK) && isActiveObject()==false))
 		return true;

@@ -89,7 +89,7 @@ public:
 	bool isFinishDeathAni() { return isDoneDeath; };
 	bool isActiveObject() { return isActive; };
 	void setActive(bool active) { isActive = active; };
-	bool isDeath();
+	bool IsDeath();
 	int GetState() { return this->state; }
 
 	RECT GetBBox();
