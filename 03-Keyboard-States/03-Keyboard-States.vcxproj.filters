@@ -1,6 +1,77 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="FrameWork">
+      <UniqueIdentifier>{9972c5a2-562c-4cd2-a08f-b2ae788fc5b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Camera">
+      <UniqueIdentifier>{65ccab71-cc57-49ad-8ec2-99bfba257f61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Grid">
+      <UniqueIdentifier>{cd93c76f-806e-4afc-879b-194ca61fa11e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Render">
+      <UniqueIdentifier>{012be368-624a-4903-b7bd-f3385bedf246}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FrameWork\Scene">
+      <UniqueIdentifier>{6bfebfa2-c56c-4d3a-82df-8c13ed03d789}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{9cc364b8-2942-4f10-953f-8c9d28eefa00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\EnemyHeader">
+      <UniqueIdentifier>{7bb05a4d-af0a-4280-8a58-95b52ed71c6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HUD">
+      <UniqueIdentifier>{eaf15186-972b-42d8-9392-da596c51208c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{233d57fa-39ff-40d6-b6b7-5486bf3d0bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Bullets">
+      <UniqueIdentifier>{f7c8e5f8-f4b4-4f1c-b38c-e55a584bfff3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Bullets\Enemy">
+      <UniqueIdentifier>{ee120cec-ce48-4ea9-9145-2de19b45ebc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Bullets\Player">
+      <UniqueIdentifier>{6c73ffc4-121d-4b7a-b52f-42cdf26c1699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Enemies">
+      <UniqueIdentifier>{94f15287-436c-4332-819a-61a807f4978c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Player">
+      <UniqueIdentifier>{b403ffd3-4b4b-4538-a022-3765e89cc380}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Obstacles">
+      <UniqueIdentifier>{ee0d00d3-8eed-4ebe-a1ae-03927b9b5abe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{5f581e51-ad14-4769-a7f8-bb87ff4ae333}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{236027b7-cedb-4eb8-90dc-d6632ed5b0fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{700863b6-37a9-4b8e-a60d-a485d2aeae9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Items">
+      <UniqueIdentifier>{f4134668-f929-4621-9c04-02c19f5f37ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Obstacles\Brick">
+      <UniqueIdentifier>{29b479e1-1015-48a6-90e1-830b9e37cc4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Obstacles\Gate">
+      <UniqueIdentifier>{8b97ad23-2580-44ec-8425-779faa0e5053}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Bullets\Player\SpecialBullet">
+      <UniqueIdentifier>{127d121c-e136-470e-8fdf-2a5786bf8ce9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects\Bullets\Player\BigSophiaBullets">
+      <UniqueIdentifier>{3602dd46-c8ff-4776-9908-acfae3b31f37}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="Animations.cpp">
       <Filter>FrameWork\Render</Filter>
     </ClCompile>
@@ -141,8 +212,10 @@
     </ClCompile>
     <ClCompile Include="IntroScene.cpp">
       <Filter>FrameWork\Scene</Filter>
+	</ClCompile>
     <ClCompile Include="SmallNavigatedEnemyBullet.cpp">
       <Filter>Objects\Bullets\Enemy</Filter>
+	</ClCompile>
     <ClCompile Include="HomingMissles.cpp">
       <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClCompile>
@@ -300,8 +373,10 @@
     </ClInclude>
     <ClInclude Include="IntroScene.h">
       <Filter>FrameWork\Scene</Filter>
+	</ClInclude>
     <ClInclude Include="SmallNavigatedEnemyBullet.h">
       <Filter>Objects\Bullets\Enemy</Filter>
+	</ClInclude>
     <ClInclude Include="HomingMissles.h">
       <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClInclude>
@@ -325,76 +400,5 @@
     <Image Include="textures\area_1.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="FrameWork">
-      <UniqueIdentifier>{9972c5a2-562c-4cd2-a08f-b2ae788fc5b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FrameWork\Camera">
-      <UniqueIdentifier>{65ccab71-cc57-49ad-8ec2-99bfba257f61}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FrameWork\Grid">
-      <UniqueIdentifier>{cd93c76f-806e-4afc-879b-194ca61fa11e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FrameWork\Render">
-      <UniqueIdentifier>{012be368-624a-4903-b7bd-f3385bedf246}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FrameWork\Scene">
-      <UniqueIdentifier>{6bfebfa2-c56c-4d3a-82df-8c13ed03d789}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{9cc364b8-2942-4f10-953f-8c9d28eefa00}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\EnemyHeader">
-      <UniqueIdentifier>{7bb05a4d-af0a-4280-8a58-95b52ed71c6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="HUD">
-      <UniqueIdentifier>{eaf15186-972b-42d8-9392-da596c51208c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects">
-      <UniqueIdentifier>{233d57fa-39ff-40d6-b6b7-5486bf3d0bc5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Bullets">
-      <UniqueIdentifier>{f7c8e5f8-f4b4-4f1c-b38c-e55a584bfff3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Bullets\Enemy">
-      <UniqueIdentifier>{ee120cec-ce48-4ea9-9145-2de19b45ebc0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Bullets\Player">
-      <UniqueIdentifier>{6c73ffc4-121d-4b7a-b52f-42cdf26c1699}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Enemies">
-      <UniqueIdentifier>{94f15287-436c-4332-819a-61a807f4978c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Player">
-      <UniqueIdentifier>{b403ffd3-4b4b-4538-a022-3765e89cc380}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Obstacles">
-      <UniqueIdentifier>{ee0d00d3-8eed-4ebe-a1ae-03927b9b5abe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utils">
-      <UniqueIdentifier>{5f581e51-ad14-4769-a7f8-bb87ff4ae333}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{236027b7-cedb-4eb8-90dc-d6632ed5b0fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{700863b6-37a9-4b8e-a60d-a485d2aeae9b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Items">
-      <UniqueIdentifier>{f4134668-f929-4621-9c04-02c19f5f37ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Obstacles\Brick">
-      <UniqueIdentifier>{29b479e1-1015-48a6-90e1-830b9e37cc4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Obstacles\Gate">
-      <UniqueIdentifier>{8b97ad23-2580-44ec-8425-779faa0e5053}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Bullets\Player\SpecialBullet">
-      <UniqueIdentifier>{127d121c-e136-470e-8fdf-2a5786bf8ce9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Objects\Bullets\Player\BigSophiaBullets">
-      <UniqueIdentifier>{3602dd46-c8ff-4776-9908-acfae3b31f37}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
 </Project>
