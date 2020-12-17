@@ -39,7 +39,7 @@ void CGame::DrawTextInScene(LPCWSTR str, float l, float r,float t,float b) {
 	
 	font = NULL;
 	//LPCWSTR strfont = "Arial";
-	//D3DXCreateFont(NULL, 40, 0, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FF_DONTCARE, "Arial", &font);
+	D3DXCreateFont(NULL, 40, 0, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FF_DONTCARE, L"Arial", &font);
 	SetRect(&fRectangle, l, r, t, b);
 	
 	font->DrawText(NULL, str, -1, &fRectangle, DT_LEFT,D3DCOLOR_XRGB(255,255,255));
