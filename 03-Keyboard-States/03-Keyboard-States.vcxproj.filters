@@ -212,10 +212,10 @@
     </ClCompile>
     <ClCompile Include="IntroScene.cpp">
       <Filter>FrameWork\Scene</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="SmallNavigatedEnemyBullet.cpp">
       <Filter>Objects\Bullets\Enemy</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="HomingMissles.cpp">
       <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClCompile>
@@ -224,6 +224,9 @@
     </ClCompile>
     <ClCompile Include="JasonRocket.cpp">
       <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
+    </ClCompile>
+    <ClCompile Include="ChooseWeaponScene.cpp">
+      <Filter>FrameWork\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -373,10 +376,10 @@
     </ClInclude>
     <ClInclude Include="IntroScene.h">
       <Filter>FrameWork\Scene</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="SmallNavigatedEnemyBullet.h">
       <Filter>Objects\Bullets\Enemy</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="HomingMissles.h">
       <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClInclude>
@@ -385,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="JasonRocket.h">
       <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
+    </ClInclude>
+    <ClInclude Include="ChooseWeaponScene.h">
+      <Filter>FrameWork\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

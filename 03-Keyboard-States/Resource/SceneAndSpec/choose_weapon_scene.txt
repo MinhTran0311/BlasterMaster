@@ -1,0 +1,19 @@
+[TEXTURES]
+31	Resource/SceneAndSpec/InformationDisplay/select_waapon.png	255	0	255
+32	Resource/SceneAndSpec/InformationDisplay/item_select.png	255	230	255
+
+[SPRITES]
+#Scene
+50000	0	0	320	300	31
+#ItemSelect
+50101	0	0	10	17	32
+#flip
+50103	12	0	22	17	32
+#black
+50102	0	18	10	35	32
+[ANIMATIONS]
+51000	50000	999
+51001	50101	50	50102	50
+51002	50103	50	50102	50
+[ANIMATION_SETS]
+52000	51000	51001	51002

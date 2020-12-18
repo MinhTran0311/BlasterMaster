@@ -29,8 +29,12 @@
 #include <fstream>
 using namespace std;
 
+#define LIFE_DISPLAY			1
+#define CHOOSING_WEAPON_DISPLAY	2
+
 struct PlayerHealthAndGunInfo
 {
+
 	int life = 2;
 	int playerDirectionBeforePassGate = 1;
 	int jasonHealth = PLAYER_MAX_HEALTH;
@@ -41,6 +45,7 @@ struct PlayerHealthAndGunInfo
 	int sophiaGundam = PLAYER_DEFAULT_GUNDAM;
 	int sophiaStage = 1;
 	float sophiaXPos, sophiaYPos;
+	int specialWeapon = 1;
 };
 
 class PlayScene : public Scene
@@ -67,6 +72,13 @@ public:
 	PlayScene (int idStage);
 	~PlayScene();
 	bool isUnloaded = false;
+	
+	int inforDisplay = 0;
+
+	/*void SetKeyhandler(Scene* scene) {
+		keyHandler = new PlayScenceKeyHandler(scene);
+		CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
+	}*/
 protected:
 	LPGAMEPLAYER player;
 	LPGAMEPLAYER backup_player;
@@ -78,10 +90,12 @@ protected:
 	void LoadBaseTextures();
 	int mapWidth, mapHeight;
 	int camMaxWidth;
-
+	void SetInforDisplay(int type) { inforDisplay = type; };
+	int GetInforDisplay() { return inforDisplay; };
 	void CheckPlayerReachGate();
 
 	void ChooseMap(int whatStage);
+
 
 	virtual void Update(DWORD dt);
 	virtual void Render();

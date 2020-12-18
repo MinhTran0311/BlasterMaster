@@ -1,4 +1,4 @@
-#include "SceneManager.h"
+﻿#include "SceneManager.h"
 
 SceneManager::SceneManager() {}
 
@@ -8,7 +8,9 @@ SceneManager* SceneManager::__instance = NULL;
 SceneManager* SceneManager::GetInstance()
 {
 	if (__instance == NULL)
+	{
 		__instance = new SceneManager();
+	}
 	return __instance;
 }
 

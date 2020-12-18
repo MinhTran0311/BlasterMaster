@@ -129,6 +129,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Cannons.cpp" />
     <ClCompile Include="BigNavigatedEnemyBullet.cpp" />
+    <ClCompile Include="ChooseWeaponScene.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Domes.cpp" />
     <ClCompile Include="ElectricBullet.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Cannons.h" />
     <ClInclude Include="BigNavigatedEnemyBullet.h" />
+    <ClInclude Include="ChooseWeaponScene.h" />
     <ClInclude Include="ElectricBullet.h" />
     <ClInclude Include="GadBrick.h" />
     <ClInclude Include="Game.h" />

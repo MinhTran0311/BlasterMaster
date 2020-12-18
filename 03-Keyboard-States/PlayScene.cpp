@@ -11,7 +11,7 @@
 #include "Grid.h"
 #include "Big_Sophia.h"
 #include "IntroScene.h"
-
+#include "ChooseWeaponScene.h"
 
 #define MAP2_SIDE	200
 
@@ -257,91 +257,100 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 
 void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
+	
 	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
-	float xPos, yPos;
-	bool isAimingTop;
-	int nx, ny, dam;
-	LPGAMEPLAYER player = ((PlayScene*)scence)->player;
-	if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-		if (dynamic_cast<Big_Sophia*>(player)->isAutoRun())
-			return;
-	switch (player->GetPlayerType())
+	if (KeyCode == DIK_RETURN)
 	{
-	case EntityType::TAG_JASON:
-		dynamic_cast<JASON*>(player)->GetInfoForBullet(nx, isAimingTop, xPos, yPos);
-		break;
-	case EntityType::TAG_SMALL_SOPHIA:
-		dynamic_cast<Small_Sophia*>(player)->GetInfoForBullet(nx, xPos, yPos);
-		break;
-	default:
-		break;
+		if (playScene->GetInforDisplay() != CHOOSING_WEAPON_DISPLAY)
+			playScene->SetInforDisplay(CHOOSING_WEAPON_DISPLAY);
 	}
-
-	switch (KeyCode)
+	else
 	{
-	case DIK_ESCAPE:
-		DestroyWindow(CGame::GetInstance()->GetWindowHandle());
-		break;
-	case DIK_SPACE:
+		float xPos, yPos;
+		bool isAimingTop;
+		int nx, ny, dam;
+		LPGAMEPLAYER player = ((PlayScene*)scence)->player;
+		if (player->GetPlayerType() == TAG_BIG_SOPHIA)
+			if (dynamic_cast<Big_Sophia*>(player)->isAutoRun())
+				return;
 		switch (player->GetPlayerType())
 		{
 		case EntityType::TAG_JASON:
-			player->SetState(SOPHIA_STATE_JUMP);
+			dynamic_cast<JASON*>(player)->GetInfoForBullet(nx, isAimingTop, xPos, yPos);
 			break;
 		case EntityType::TAG_SMALL_SOPHIA:
-			player->SetState(SMALL_SOPHIA_STATE_JUMP);
+			dynamic_cast<Small_Sophia*>(player)->GetInfoForBullet(nx, xPos, yPos);
+			break;
+		default:
 			break;
 		}
-		break;
-	case DIK_LSHIFT:
-		/*if (_SophiaType == ID_JASON)
-			((PlayScene*)scence)->changePlayer();
-		else if (_SophiaType== ID_SMALL_SOPHIA)
-		{
-			((PlayScene*)scence)->changePlayer();
-		}*/
-		((PlayScene*)scence)->changePlayer();
-		//player->SetPressUp(false);
-		break;
-	case DIK_A:
-	{
-		playScene->Unload();
-		((PlayScene*)scence)->player = new JASON(30, 60, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
-		
-		//((PlayScene*)scence)->player->SetHealth(PLAYER_MAX_HEALTH);
-		((PlayScene*)scence)->player->SetIsDoneDeath(false);
-		((PlayScene*)scence)->player->SetIsDeath(false);
-		playScene->ChooseMap(ID_AREA1);
 
-		break;
-	}
-	case DIK_Z:
-	{
-		//single fire
-		player->FireBullet(1);
-		break;
-	}
-
-	case DIK_X:
-	{
-		if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(),3))
+		switch (KeyCode)
 		{
-			Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
-			CGrid::GetInstance()->InsertGrid(bullet);
+		case DIK_ESCAPE:
+			DestroyWindow(CGame::GetInstance()->GetWindowHandle());
+			break;
+		case DIK_SPACE:
+			switch (player->GetPlayerType())
+			{
+			case EntityType::TAG_JASON:
+				player->SetState(SOPHIA_STATE_JUMP);
+				break;
+			case EntityType::TAG_SMALL_SOPHIA:
+				player->SetState(SMALL_SOPHIA_STATE_JUMP);
+				break;
+			}
+			break;
+		case DIK_LSHIFT:
+			/*if (_SophiaType == ID_JASON)
+				((PlayScene*)scence)->changePlayer();
+			else if (_SophiaType== ID_SMALL_SOPHIA)
+			{
+				((PlayScene*)scence)->changePlayer();
+			}*/
+			((PlayScene*)scence)->changePlayer();
+			//player->SetPressUp(false);
+			break;
+		case DIK_A:
+		{
+			playScene->Unload();
+			((PlayScene*)scence)->player = new JASON(30, 60, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
+
+			//((PlayScene*)scence)->player->SetHealth(PLAYER_MAX_HEALTH);
+			((PlayScene*)scence)->player->SetIsDoneDeath(false);
+			((PlayScene*)scence)->player->SetIsDeath(false);
+			playScene->ChooseMap(ID_AREA1);
+
+			break;
 		}
-		break;
-	}
-	case DIK_V:
-	{
-		//burst fire
-		player->FireBullet(2);
-		break;
-	}
-	case DIK_C:
-	{
-		player->FireBullet(3);
-		break;
-	}
+		case DIK_Z:
+		{
+			//single fire
+			player->FireBullet(1);
+			break;
+		}
+
+		case DIK_X:
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3))
+			{
+				Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
+				CGrid::GetInstance()->InsertGrid(bullet);
+			}
+			break;
+		}
+		case DIK_V:
+		{
+			//burst fire
+			player->FireBullet(2);
+			break;
+		}
+		case DIK_C:
+		{
+			player->FireBullet(3);
+			break;
+		}
+		}
 	}
 }
 
@@ -681,254 +690,272 @@ void PlayScene::CheckPlayerReachGate()
 
 void PlayScene::Update(DWORD dt)
 {
-#pragma region mạng và reset
-	if (player->IsDoneDeath())
+
+	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY)
 	{
-		if (playerInfo.life < 0)
-		{
-			//ending
-		}
-		else
-		{
-			isReset = true;
-			Unload();
+		SceneManager::GetInstance()->SetHolderScene(SceneManager::GetInstance()->GetScene());
+		/*if (SceneManager::GetInstance()->GetHolderScene() == nullptr)*/
+		DebugOut(L"khong null: %d\n", SceneManager::GetInstance()->GetHolderScene());
+		inforDisplay = 0;
+		SceneManager::GetInstance()->SetScene(new ChooseWeaponScene(2));
 
-			//hiển thị số mạng còn dựa vào playerInfo.life
-			
+	}
+	else if (this->inforDisplay == LIFE_DISPLAY)
+	{
 
-			if (player->GetPlayerType() == TAG_JASON)
+	}
+	else
+#pragma region mạng và reset
+	{
+		/*SetKeyhandler(this);*/
+		if (player->IsDoneDeath())
+		{
+			if (playerInfo.life < 0)
 			{
-				ChooseMap(playerInfo.jasonStage);
-				player->Reset(playerInfo.jasonHealth, playerInfo.jasonGundam);
+				//ending
 			}
 			else
 			{
-				ChooseMap(playerInfo.sophiaStage);
-				player->Reset(playerInfo.sophiaHealth, playerInfo.sophiaGundam);
+				isReset = true;
+				Unload();
 
+				//hiển thị số mạng còn dựa vào playerInfo.life
+
+
+				if (player->GetPlayerType() == TAG_JASON)
+				{
+					ChooseMap(playerInfo.jasonStage);
+					player->Reset(playerInfo.jasonHealth, playerInfo.jasonGundam);
+				}
+				else
+				{
+					ChooseMap(playerInfo.sophiaStage);
+					player->Reset(playerInfo.sophiaHealth, playerInfo.sophiaGundam);
+
+				}
+				isNeedResetCamera = true;
 			}
-			isNeedResetCamera = true;
 		}
-	}
 #pragma endregion
 
-	CheckPlayerReachGate();		
+		CheckPlayerReachGate();
 #pragma region camera
-	float cx, cy;
-	mapWidth = listWidth[idStage - 11];
-	mapHeight= listHeight[idStage - 11];
-	player->GetPosition(cx, cy);
-	if (isNeedResetCamera)
-	{
-		DebugOut(L"middle\n");
-		Camera::GetInstance()->SetCamPos(camMap1X, camMap1Y);
-		//DebugOut(L"y: %d \n",camMap1Y);
-		//posY = camMap1Y;
-		isNeedResetCamera = false;
-	}
-	else
-	{
-		if (!player->IsDoneDeath())
+		float cx, cy;
+		mapWidth = listWidth[idStage - 11];
+		mapHeight = listHeight[idStage - 11];
+		player->GetPosition(cx, cy);
+		if (isNeedResetCamera)
 		{
-			Camera::GetInstance()->Update(cx, cy, player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
-
+			DebugOut(L"middle\n");
+			Camera::GetInstance()->SetCamPos(camMap1X, camMap1Y);
+			//DebugOut(L"y: %d \n",camMap1Y);
+			//posY = camMap1Y;
+			isNeedResetCamera = false;
 		}
-		//switch (player->GetPlayerType())
-		//{
-		//case EntityType::TAG_JASON:
-		//{
-		//	if (player->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
-		//		cx = mapWidth - SCREEN_WIDTH;
-		//	else
-		//	{
-		//		if (player->Getx() < SCREEN_WIDTH / 2)
-		//			cx = 0;
-		//		else
-		//			cx -= SCREEN_WIDTH / 2;
-		//	}
-		//	if (cy - posY > SCREEN_HEIGHT)
-		//	{
-		//		posY = cy - SCREEN_HEIGHT / 2;
-		//	}
-		//	if (cy + SCREEN_HEIGHT / 1.85 >= mapHeight)
-		//	{
-		//		cy = mapHeight - SCREEN_HEIGHT;
-		//		posY = cy;
-		//	}
-		//	else
-		//	{
-		//		if (cy < SCREEN_HEIGHT / 4)
-		//		{
-		//			posY = 0;
-		//		}
-		//		else
-		//		{
-		//			if ((cy - posY) < (SCREEN_HEIGHT / 4))
-		//			{
-		//				posY -= CAMERA_SPEED_WORLD1 * dt;
-		//			}
-		//			if ((cy - posY) > (SCREEN_HEIGHT / 2))
-		//			{
-		//				posY += CAMERA_SPEED_WORLD1 * dt;
-		//			}
-		//		}
-		//	}
-		//	Camera::GetInstance()->SetCamPos(cx, posY);
-		//	break;
-		//}
-		//case TAG_SMALL_SOPHIA:
-		//{
-		//	if (player->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
-		//		cx = mapWidth - SCREEN_WIDTH;
-		//	else
-		//	{
-		//		if (player->Getx() < SCREEN_WIDTH / 2)
-		//			cx = 0;
-		//		else
-		//			cx -= SCREEN_WIDTH / 2;
-		//	}
-		//	cy -= SCREEN_HEIGHT / 2;
-		//	Camera::GetInstance()->SetCamPos(cx, cy);//cy khi muon camera move theo y player
-		//	break;
-		//}
-		//case TAG_BIG_SOPHIA:
-		//{
-		//	//camera
-		//	if (CamMoveDirection == -1)
-		//	{
-		//		posX = camMap1X;
-		//		posY = camMap1Y;
-		//		CamMoveDirection = 0;
-		//	}
-		//	//PlayerGotGateV2();
-		//	if (CamMoveDirection == 1)
-		//	{
-		//		if (player->GetDirection() > 0)
-		//		{
-		//			if (posX < xPosCamGo)
-		//				posX += CAMERA_SPEED_OVERWORLD * dt;
-		//			else
-		//			{
-		//				posX = xPosCamGo + 1;
-		//				CamMoveDirection = 0;
-		//			}
-		//		}
-		//		else if (player->GetDirection() < 0)
-		//		{
-		//			if (posX > xPosCamBack)
-		//				posX -= CAMERA_SPEED_OVERWORLD * dt;
-		//			else
-		//			{
-		//				posX = xPosCamBack - 1;
-		//				CamMoveDirection = 0;
-		//			}
-		//		}
-		//	}
-		//	else if (CamMoveDirection == 2)
-		//	{
-		//		if (player->GetDirctionY() < 0)
-		//		{
-		//			if (posY > yPosCamGo)
-		//				posY -= CAMERA_SPEED_OVERWORLD * dt;
-		//			else
-		//			{
-		//				posY = yPosCamGo - 1;
-		//				CamMoveDirection = 0;
-		//			}
-		//		}
-		//		else if (player->GetDirctionY() > 0)
-		//		{
-		//			if (posY < yPosCamBack)
-		//				posY += CAMERA_SPEED_OVERWORLD * dt;
-		//			else
-		//			{
-		//				posY = yPosCamBack + 1;
-		//				CamMoveDirection = 0;
-		//			}
-		//		}
-		//	}
-		//	cx = posX;
-		//	Camera::GetInstance()->SetCamPos(posX, posY);
-		//	break;
-		//}
-		//}
-	}
+		else
+		{
+			if (!player->IsDoneDeath())
+			{
+				Camera::GetInstance()->Update(cx, cy, player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
+
+			}
+			//switch (player->GetPlayerType())
+			//{
+			//case EntityType::TAG_JASON:
+			//{
+			//	if (player->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
+			//		cx = mapWidth - SCREEN_WIDTH;
+			//	else
+			//	{
+			//		if (player->Getx() < SCREEN_WIDTH / 2)
+			//			cx = 0;
+			//		else
+			//			cx -= SCREEN_WIDTH / 2;
+			//	}
+			//	if (cy - posY > SCREEN_HEIGHT)
+			//	{
+			//		posY = cy - SCREEN_HEIGHT / 2;
+			//	}
+			//	if (cy + SCREEN_HEIGHT / 1.85 >= mapHeight)
+			//	{
+			//		cy = mapHeight - SCREEN_HEIGHT;
+			//		posY = cy;
+			//	}
+			//	else
+			//	{
+			//		if (cy < SCREEN_HEIGHT / 4)
+			//		{
+			//			posY = 0;
+			//		}
+			//		else
+			//		{
+			//			if ((cy - posY) < (SCREEN_HEIGHT / 4))
+			//			{
+			//				posY -= CAMERA_SPEED_WORLD1 * dt;
+			//			}
+			//			if ((cy - posY) > (SCREEN_HEIGHT / 2))
+			//			{
+			//				posY += CAMERA_SPEED_WORLD1 * dt;
+			//			}
+			//		}
+			//	}
+			//	Camera::GetInstance()->SetCamPos(cx, posY);
+			//	break;
+			//}
+			//case TAG_SMALL_SOPHIA:
+			//{
+			//	if (player->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
+			//		cx = mapWidth - SCREEN_WIDTH;
+			//	else
+			//	{
+			//		if (player->Getx() < SCREEN_WIDTH / 2)
+			//			cx = 0;
+			//		else
+			//			cx -= SCREEN_WIDTH / 2;
+			//	}
+			//	cy -= SCREEN_HEIGHT / 2;
+			//	Camera::GetInstance()->SetCamPos(cx, cy);//cy khi muon camera move theo y player
+			//	break;
+			//}
+			//case TAG_BIG_SOPHIA:
+			//{
+			//	//camera
+			//	if (CamMoveDirection == -1)
+			//	{
+			//		posX = camMap1X;
+			//		posY = camMap1Y;
+			//		CamMoveDirection = 0;
+			//	}
+			//	//PlayerGotGateV2();
+			//	if (CamMoveDirection == 1)
+			//	{
+			//		if (player->GetDirection() > 0)
+			//		{
+			//			if (posX < xPosCamGo)
+			//				posX += CAMERA_SPEED_OVERWORLD * dt;
+			//			else
+			//			{
+			//				posX = xPosCamGo + 1;
+			//				CamMoveDirection = 0;
+			//			}
+			//		}
+			//		else if (player->GetDirection() < 0)
+			//		{
+			//			if (posX > xPosCamBack)
+			//				posX -= CAMERA_SPEED_OVERWORLD * dt;
+			//			else
+			//			{
+			//				posX = xPosCamBack - 1;
+			//				CamMoveDirection = 0;
+			//			}
+			//		}
+			//	}
+			//	else if (CamMoveDirection == 2)
+			//	{
+			//		if (player->GetDirctionY() < 0)
+			//		{
+			//			if (posY > yPosCamGo)
+			//				posY -= CAMERA_SPEED_OVERWORLD * dt;
+			//			else
+			//			{
+			//				posY = yPosCamGo - 1;
+			//				CamMoveDirection = 0;
+			//			}
+			//		}
+			//		else if (player->GetDirctionY() > 0)
+			//		{
+			//			if (posY < yPosCamBack)
+			//				posY += CAMERA_SPEED_OVERWORLD * dt;
+			//			else
+			//			{
+			//				posY = yPosCamBack + 1;
+			//				CamMoveDirection = 0;
+			//			}
+			//		}
+			//	}
+			//	cx = posX;
+			//	Camera::GetInstance()->SetCamPos(posX, posY);
+			//	break;
+			//}
+			//}
+		}
 #pragma endregion
 
 #pragma region update objects
 
 
-	if (isUnloaded)
-	{
-		CGrid::GetInstance()->SetTargetForEnemies(player);
-		isUnloaded = false;
-	}
-
-	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(Camera::GetInstance()->GetRectCam());
-	if (player != NULL)
-	{
-		player->Update(dt, &coObjects);
-	}
-	if (coObjects.size() != 0)
-	{//update obj
-		for (int i = 0; i < coObjects.size(); i++)
+		if (isUnloaded)
 		{
-			if (coObjects.at(i)->GetType()!=EntityType::TAG_BRICK && coObjects.at(i)->GetType() != TAG_GATE && coObjects.at(i)->GetType() != TAG_GATE_OVERWORLD)
-			{
-				coObjects[i]->Update(dt, &coObjects);
-			}
+			CGrid::GetInstance()->SetTargetForEnemies(player);
+			isUnloaded = false;
 		}
-		//sua cho nay
-		int k = 0;
-		for (int i = 0; i<coObjects.size()-k; i++)
+
+		vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(Camera::GetInstance()->GetRectCam());
+		if (player != NULL)
 		{
-			if ((coObjects.at(i)->isDeath()))
+			player->Update(dt, &coObjects);
+		}
+		if (coObjects.size() != 0)
+		{//update obj
+			for (int i = 0; i < coObjects.size(); i++)
 			{
-				float xPos, yPos;
-				coObjects.at(i)->GetPosition(xPos, yPos);
-				LPGAMEENTITY backup = coObjects.at(i);
+				if (coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != TAG_GATE && coObjects.at(i)->GetType() != TAG_GATE_OVERWORLD)
+				{
+					coObjects[i]->Update(dt, &coObjects);
+				}
+			}
+			//sua cho nay
+			int k = 0;
+			for (int i = 0; i < coObjects.size() - k; i++)
+			{
+				if ((coObjects.at(i)->isDeath()))
+				{
+					float xPos, yPos;
+					coObjects.at(i)->GetPosition(xPos, yPos);
+					LPGAMEENTITY backup = coObjects.at(i);
 
-				coObjects.erase(coObjects.begin() + i);
+					coObjects.erase(coObjects.begin() + i);
 
-				float _xtemp, _ytemp;
-				backup->GetPosition(_xtemp, _ytemp);
+					float _xtemp, _ytemp;
+					backup->GetPosition(_xtemp, _ytemp);
 #pragma region add item into grid
-				switch (backup->GetType())
-				{
-				case EntityType::ENEMY:
-				{
-					LPGAMEENTITY _PowerUp = new PowerUp(xPos, yPos);
-					CGrid::GetInstance()->InsertGrid(_PowerUp);
-					break;
-				}
-				default:
-					break;
-				}
+					switch (backup->GetType())
+					{
+					case EntityType::ENEMY:
+					{
+						LPGAMEENTITY _PowerUp = new PowerUp(xPos, yPos);
+						CGrid::GetInstance()->InsertGrid(_PowerUp);
+						break;
+					}
+					default:
+						break;
+					}
 #pragma endregion
-				CGrid::GetInstance()->RemoveObj(backup,true);
-				k = 1;
-				i--;
-			}
-			//item effect
-			else {
-				k = 0;
+					CGrid::GetInstance()->RemoveObj(backup, true);
+					k = 1;
+					i--;
+				}
+				//item effect
+				else {
+					k = 0;
+				}
 			}
 		}
+
+		CGrid::GetInstance()->UpdateGrid(coObjects);
+		//player
+
+		gameHUD->Update(Camera::GetInstance()->GetCamx(), HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam());
 	}
-
-	CGrid::GetInstance()->UpdateGrid(coObjects);
-	//player
-
-	gameHUD->Update(Camera::GetInstance()->GetCamx(), HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam());
-
 #pragma endregion
 }
 
 void PlayScene::Render()
 {
 	LPDIRECT3DTEXTURE9 maptexture = CTextures::GetInstance()->Get(idStage);
-	CGame::GetInstance()->OldDraw(0, 0, maptexture, 0, 0, mapWidth, mapHeight);
 
+	CGame::GetInstance()->OldDraw(0, 0, maptexture, 0, 0, mapWidth, mapHeight);
+	//CGame::GetInstance()->DrawTextInScene(L"Homies Game", 20, 20, 100, 100);
 	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListRenderObj(Camera::GetInstance()->GetRectCam());
 	for (int i = 0; i < coObjects.size(); i++)
 		coObjects[i]->Render();

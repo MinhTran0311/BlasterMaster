@@ -33,7 +33,6 @@ protected:
 	Timer* FireTimer = new Timer(PLAYER_CAN_FIRE_DURATION);
 	Timer* changeAlphaTimer = new Timer(PLAYER_CHANGE_ALPHA);
 	bool canChangeAlpha = false;
-
 	LPGAMEENTITY gate;
 public:
 	Player();
