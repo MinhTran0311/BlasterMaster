@@ -20,11 +20,12 @@
 18	Resource/SceneAndSpec/Scene/area_8.png	255	0	255
 19	Resource/SceneAndSpec/Scene/area_9.jpg	255	0	255
 20	Resource/SceneAndSpec/Scene/overworld.png	255	0	255
-
+41	Resource/select_continue.png	255	0	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
-
+#select_continue
+60000	0	0	10	10	41
 ##============ SOPHIA JASON =================
 # idle right
 10001	146	5	172	23	30
@@ -161,6 +162,8 @@
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
+#select_continue
+60100	60000	100
 ##JASON=========================
 #idle right
 400	10001	100
@@ -280,6 +283,8 @@
 
 # id tuan theo define
 [ANIMATION_SETS]
+#select_continue
+61000	60100
 # JASON
 1	400	401	500	501	410	411	412	413	414	415	416	417	420	421	422	423	424	425	426	427	510	511	520	521	430	431	461	462	463	464	465	466	467	468	599	470
 # SMALL SOPHIA

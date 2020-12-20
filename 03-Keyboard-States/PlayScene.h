@@ -51,12 +51,16 @@ struct PlayerHealthAndGunInfo
 class PlayScene : public Scene
 {
 public:
+	bool select_end = false;
+	bool death = false;
+	int time_drawlife = 0;
 	bool isReset = false;
 	float oldPosX;
 	float oldPosY;
 	int CamMoveDirection = -1;
 	float posX, posY;
 	float xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack;
+
 
 
 	float nCamXGo;
@@ -80,6 +84,8 @@ public:
 		CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
 	}*/
 protected:
+
+	LPANIMATION_SET animation_set;
 	LPGAMEPLAYER player;
 	LPGAMEPLAYER backup_player;
 	PlayerHealthAndGunInfo playerInfo;

@@ -257,8 +257,16 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 
 void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
-	
 	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
+	if (playScene->death == true)
+	{
+		if (playScene->playerInfo.life < 0) {
+			if(KeyCode == DIK_DOWN)playScene->select_end = true;
+			if(KeyCode == DIK_UP)playScene->select_end = false;
+			
+		}
+	}
+	
 	if (KeyCode == DIK_RETURN)
 	{
 		if (playScene->GetInforDisplay() != CHOOSING_WEAPON_DISPLAY)
@@ -713,6 +721,7 @@ void PlayScene::Update(DWORD dt)
 			if (playerInfo.life < 0)
 			{
 				//ending
+				this->death = true;
 			}
 			else
 			{
@@ -720,7 +729,7 @@ void PlayScene::Update(DWORD dt)
 				Unload();
 
 				//hiển thị số mạng còn dựa vào playerInfo.life
-
+				this->death = true;
 
 				if (player->GetPlayerType() == TAG_JASON)
 				{
@@ -952,29 +961,53 @@ void PlayScene::Update(DWORD dt)
 
 void PlayScene::Render()
 {
-	LPDIRECT3DTEXTURE9 maptexture = CTextures::GetInstance()->Get(idStage);
-
-	CGame::GetInstance()->OldDraw(0, 0, maptexture, 0, 0, mapWidth, mapHeight);
-	//CGame::GetInstance()->DrawTextInScene(L"Homies Game", 20, 20, 100, 100);
-	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListRenderObj(Camera::GetInstance()->GetRectCam());
-	for (int i = 0; i < coObjects.size(); i++)
-		coObjects[i]->Render();
-
-	switch (player->GetPlayerType())
+	if (this->death==true)
 	{
-	case EntityType::TAG_JASON:
-		player->Render();
-		break;
-	case EntityType::TAG_SMALL_SOPHIA:
-		backup_player->Render();
-		player->Render();
-		break;
-	case EntityType::TAG_BIG_SOPHIA:
-		player->Render();
-		break;
+		if (this->playerInfo.life < 0) {
+			
+			CGame::GetInstance()->DrawTextInScene(L"CONTINUE", 100, 100, 400, 400);
+			CGame::GetInstance()->DrawTextInScene(L"END", 100, 130, 400, 400);
+			this->animation_set = CAnimationSets::GetInstance()->Get(61000);
+			this->animation_set->at(0)->Render(1, 80, 115 + 30*this->select_end);
+			this->time_drawlife++;
+			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  this->playerInfo.life--; this->player->health = 8; }
+		}
+		else {
+			wchar_t buffer[256];
+			wsprintfW(buffer, L"LEFT %d", this->playerInfo.life);
+			CGame::GetInstance()->DrawTextInScene(buffer, 100, 100, 400, 400);
+			this->time_drawlife++;
+			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  this->playerInfo.life--; this->player->health = 1; }
+		}
+		//LPCWSTR Life = L"LEFT %d" + this->playerInfo.life;
+		
 	}
-	gameHUD->Render(player);
+	else {
+		LPDIRECT3DTEXTURE9 maptexture = CTextures::GetInstance()->Get(idStage);
 
+		CGame::GetInstance()->OldDraw(0, 0, maptexture, 0, 0, mapWidth, mapHeight);
+
+		vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListRenderObj(Camera::GetInstance()->GetRectCam());
+		for (int i = 0; i < coObjects.size(); i++)
+			coObjects[i]->Render();
+
+		switch (player->GetPlayerType())
+		{
+		case EntityType::TAG_JASON:
+			player->Render();
+			break;
+		case EntityType::TAG_SMALL_SOPHIA:
+			backup_player->Render();
+			player->Render();
+			break;
+		case EntityType::TAG_BIG_SOPHIA:
+			player->Render();
+			break;
+		}
+		gameHUD->Render(player);
+
+	}
+	
 }
 void PlayScene::Unload()
 {
