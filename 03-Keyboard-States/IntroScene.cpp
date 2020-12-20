@@ -287,8 +287,8 @@ void IntroScene::Update(DWORD dt)
 	}
 	
 #pragma region camera
-	if (this->moutainY > 30)setEndding = 1;
-	if (this->time == 40)setEndding = 2;
+	if (this->moutainY > 40)setEndding = 1;
+	if (this->time == 60)setEndding = 2;
 
 	switch (setEndding)
 	{
@@ -296,7 +296,7 @@ void IntroScene::Update(DWORD dt)
 		this->moutainY += 0.1;
 		break;
 	case 1:
-		if (this->posX < 250)this->posX += 1;
+		if (this->posX < 230)this->posX += 1;
 		else time++;
 		break;
 	case 2:
@@ -314,7 +314,14 @@ void IntroScene::Update(DWORD dt)
 		Camera::GetInstance()->SetCamPos(0, 0);
 		break;
 	case ID_INTROENDING:
-		Camera::GetInstance()->SetCamPos(this->posX,0);
+		if (setEndding == 0 && this->moutainY < 30)
+		{
+			Camera::GetInstance()->SetCamPos(this->posX, -15 + 1 * dt);
+		}
+		else
+		{
+			Camera::GetInstance()->SetCamPos(this->posX,0);
+		}
 		break;
 	default:
 		break;
@@ -360,13 +367,13 @@ void IntroScene::Render()
 		{
 		case 0:
 			intro_ani_set->at(Endding_Cloud)->IntroRender(1, 0, 0);
-			intro_ani_set->at(Endding_Mountain)->Render(1, 123, 115 + this->moutainY);
+			intro_ani_set->at(Endding_Mountain)->Render(1, 123, 120 + this->moutainY);
 			intro_ani_set->at(Endding_Forest)->IntroRender(1, 0, 105);
 			break;
 		case 1:
 			intro_ani_set->at(Endding_Background1)->IntroRender(1, 0, 0);
-			intro_ani_set->at(Endding_Frog)->Render(1, 423, 107);
-			intro_ani_set->at(Endding_Hair)->IntroRender(1, 408, 91);
+			intro_ani_set->at(Endding_Frog)->IntroRender(1, 384, 107);
+			intro_ani_set->at(Endding_Hair)->IntroRender(1, 369, 91);
 			break;
 		case 2:
 			intro_ani_set->at(Endding_Background2)->Render(1, 250, 0);
