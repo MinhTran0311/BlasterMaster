@@ -13,6 +13,7 @@
 #include "IntroScene.h"
 #include "ChooseWeaponScene.h"
 
+
 #define MAP2_SIDE	200
 
 #define HUD_Y (SCREEN_HEIGHT/11)
@@ -27,6 +28,7 @@ PlayScene::PlayScene(int _idStage) : Scene()
 	keyHandler = new PlayScenceKeyHandler(this);
 	LoadBaseObjects();
 	ChooseMap(idStage);
+	Sound::GetInstance()->LoadSoundResource(SOUND_RESOURCE_UNDERWORLD);
 }
 void PlayScene::LoadBaseObjects()
 {
@@ -47,7 +49,7 @@ void PlayScene::LoadBaseObjects()
 		DebugOut(L"[INFO] HUD CREATED! %d \n", player->GetHealth());
 	}
 #pragma endregion
-	Sound::GetInstance()->LoadSound("Resource\\Sound\\01Opening.wav", "BackgroundMusic");
+	//Sound::GetInstance()->LoadSound("Resource\\Sound\\01Opening.wav", "BackgroundMusic");
 
 	Camera::GetInstance()->SetCamPos(0.0f, 0.0f);	//initial camera
 }
@@ -733,7 +735,7 @@ void PlayScene::Update(DWORD dt)
 			}
 		}
 	}
-	Sound::GetInstance()->Play("BackgroundMusic", 1, 10000);
+	Sound::GetInstance()->Play("MusicMap", 1, 10000);
 
 #pragma endregion
 
@@ -860,7 +862,7 @@ void PlayScene::Render()
 void PlayScene::Unload()
 {
 	CGrid::GetInstance()->UnLoadGrid();
-	Sound::GetInstance()->UnLoadSound("BackgroundMusic");
+	//Sound::GetInstance()->UnLoadSound("BackgroundMusic");
 	posX = posY = 0;
 	if (!isReset)
 		delete player;

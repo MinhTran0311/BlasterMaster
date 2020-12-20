@@ -351,11 +351,10 @@ void CGame::IntroDraw(int direction, float x, float y, LPDIRECT3DTEXTURE9 textur
 	//1.1852 1.0538
 	if (direction > 0)
 		scaling = D3DXVECTOR2(1.1852, 1.0538);
-		//scaling = D3DXVECTOR2(1, 1);
 	else
 		scaling = D3DXVECTOR2(-1, 1);
 
-	D3DXMatrixTransformation2D(&newMatrix, &D3DXVECTOR2( (float)(right - left) / 2-200, p.y + (float)(bottom - top) / 2)-120, 0, &scaling, NULL, 0, NULL);
+	D3DXMatrixTransformation2D(&newMatrix, &D3DXVECTOR2( (float)(right - left) / 2 - 130, p.y + (float)(bottom - top) / 2 - 75), 0, &scaling, NULL, 0, NULL);
 	spriteHandler->GetTransform(&oldMatrix);
 	spriteHandler->SetTransform(&newMatrix);
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));

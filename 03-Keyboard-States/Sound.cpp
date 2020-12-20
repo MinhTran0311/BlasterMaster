@@ -45,7 +45,6 @@ Sound::Sound(HWND hWnd)
 	volume = 100.0f;
 	isMute = false;
 
-	LoadSoundResource();
 }
 
 void Sound::Create(HWND hWnd)
@@ -58,7 +57,6 @@ void Sound::Create(HWND hWnd)
 
 void Sound::LoadSound(std::string fileName, std::string name)
 {
-	DebugOut(L"load sound\n");
 	if (soundBufferMap.find(name) != soundBufferMap.end())
 		return;
 	FILE* filePtr;
@@ -73,7 +71,7 @@ void Sound::LoadSound(std::string fileName, std::string name)
 	int error = fopen_s(&filePtr, fileName.c_str(), "rb");
 	if (error != 0)
 	{
-		DebugOut(L"[Sound]Can not load: %s", fileName);
+		DebugOut(L"[Sound]Can not load: %s\n", fileName);
 		return;
 	}
 
@@ -171,12 +169,12 @@ void Sound::UnLoadSound(std::string name)
 	}
 }
 
-void Sound::LoadSoundResource()
+void Sound::LoadSoundResource(const char* filePath)
 {
-	TiXmlDocument doc("Resource/Sound/Sound.xml");
+	TiXmlDocument doc(filePath);
 	if (!doc.LoadFile())
 	{
-		DebugOut(L"[Sound] %s", doc.ErrorDesc());
+		DebugOut(L"[Sound] failure %s", doc.ErrorDesc());
 	}
 
 	TiXmlElement* root = doc.RootElement();
@@ -185,6 +183,7 @@ void Sound::LoadSoundResource()
 	string name;
 	string path;
 
+	soundBufferMap.clear();
 
 	for (sound = root->FirstChildElement(); sound != NULL; sound = sound->NextSiblingElement())
 	{
@@ -199,7 +198,7 @@ void Sound::Play(std::string name, bool infiniteLoop, int times)
 	{
 		return;
 	}
-	std::map< std::string, IDirectSoundBuffer8*> ::iterator it;
+	std::map<std::string, IDirectSoundBuffer8*> ::iterator it;
 	it = soundBufferMap.find(name);
 	if (it == soundBufferMap.end())
 		return;

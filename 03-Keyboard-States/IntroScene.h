@@ -7,7 +7,6 @@
 #include "SceneManager.h"
 #include "Game.h"
 #include "Camera.h"
-#include "HUD.h"
 #include "global.h"
 #include "Textures.h"
 #include "Utils.h"
@@ -48,39 +47,19 @@ using namespace std;
 class IntroScene : public Scene
 {
 public:
-	int CamMoveDirection = -1;
 	float posX, posY;
 	int time = 0;
 	float moutainY=0;
 	float textY = 0;
 	int setEndding = 0;
-	float xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack;
-
-
-	float nCamXGo;
-	float nCamXBack;
-	float nCamYGo;
-	float nCamYBack;
-	int camMap1X;
-	int camMap1Y;
-	bool tempNeed;
-	//Entity* currentPlayer;
 	IntroScene();
-	DWORD timeResetCam;
 	IntroScene(int idStage);
 	~IntroScene();
-	bool isUnloaded = false;
 	int setAnimation = 0;
+	int soundSension=0;
 protected:
-	LPGAMEPLAYER player;
-	LPGAMEPLAYER backup_player;
-	JASON* jason;
-
-	HUD* gameHUD;
 	void LoadBaseObjects();
 	void LoadBaseTextures();
-	int mapWidth, mapHeight;
-	int camMaxWidth;
 
 	LPANIMATION_SET intro_ani_set;
 	int GetAnimation() { return setAnimation; }
@@ -95,10 +74,6 @@ protected:
 	friend class IntroScenceKeyHandler;
 protected:
 	Camera* gameCamera;
-	vector<LPCWSTR> listSceneFilePath;
-#pragma region lists
-	vector<int> listWidth;
-	vector<int> listHeight;
 #pragma endregion
 
 	int idStage;
