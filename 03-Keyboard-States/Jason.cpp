@@ -61,6 +61,7 @@ void JASON::SetState(int state)
 			isJumping = true;
 			vy = -SOPHIA_JUMP_SPEED_Y;
 			current_Jumpy = y;
+			Sound::GetInstance()->Play("Jump", 0, 1);
 		}
 		break;
 	case SOPHIA_STATE_IDLE:
@@ -529,6 +530,7 @@ void JASON::FireBullet(int mode)
 			FireTimer->Start();
 			canFire = false;
 		}
+		Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 	}
 	else if (mode == 2)		//burst fire
 	{
@@ -571,7 +573,9 @@ void JASON::FireBullet(int mode)
 			{
 				Bullet* rocket = new JasonRocket(this->Getx(), this->Gety(), nx);
 				CGrid::GetInstance()->InsertGrid(rocket);
+				Sound::GetInstance()->Play("FireRocket", 0, 1);
 			}
+
 			break;
 		}
 		case JASON_ELECTRIC_BULLET:
@@ -587,9 +591,10 @@ void JASON::FireBullet(int mode)
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_HOMING_MISSLES, this->Getx(), this->Gety(), 1))
 			{
 				Bullet* homingMissles = new HomingMissles(this->Getx(), this->Gety(), nx);
-				
 				CGrid::GetInstance()->InsertGrid(homingMissles);
+				Sound::GetInstance()->Play("FireHomingMissles", 0, 1);
 			}
+
 			break;
 		}
 
