@@ -49,6 +49,7 @@ void Player::SetInjured(int dame)
 	
 	if (isImmortaling)
 		return;
+	Sound::GetInstance()->Play("PlayerInjured", 0, 1);
 	health -= dame;
 	dam -= dame;
 
@@ -142,6 +143,7 @@ void Player::CollideWithObject(LPGAMEENTITY object,bool &isInjured)
 			}
 			item->setActive(false);
 			break;
+			Sound::GetInstance()->Play("PickingItems", 0, 1);
 		}
 		case EntityType::TAG_INJURING_BRICK:
 		{

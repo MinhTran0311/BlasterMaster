@@ -154,6 +154,7 @@ void Skulls::Attack(LPGAMEENTITY target) //tấn công tại vị trí nhân v�
 			Bullet* bullet = new SkullBullet(this->x, this->y, this->nx, target);
 			CGrid::GetInstance()->InsertGrid(bullet);
 			Attacked = true;
+			Sound::GetInstance()->Play("SkullFire", 0, 1);
 		}
 	}
 }

@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <vector>
-
+#include "Sound.h"
 #include "Sprites.h"
 #include "Animations.h"
 #include "debug.h"
