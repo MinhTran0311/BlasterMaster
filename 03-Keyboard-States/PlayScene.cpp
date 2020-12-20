@@ -788,7 +788,7 @@ void PlayScene::Update(DWORD dt)
 			int k = 0;
 			for (int i = 0; i < coObjects.size() - k; i++)
 			{
-				if ((coObjects.at(i)->isDeath()))
+				if ((coObjects.at(i)->IsDeath()))
 				{
 					float xPos, yPos;
 					coObjects.at(i)->GetPosition(xPos, yPos);
@@ -820,14 +820,15 @@ void PlayScene::Update(DWORD dt)
 					k = 0;
 				}
 			}
-		}
+		
 
 		CGrid::GetInstance()->UpdateGrid(coObjects);
 		//player
 
 		gameHUD->Update(Camera::GetInstance()->GetCamx(), HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam());
-	}
+		}
 #pragma endregion
+
 }
 
 void PlayScene::Render()
