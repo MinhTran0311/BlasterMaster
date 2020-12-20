@@ -25,6 +25,7 @@
 
 #include "GunUp.h"
 #include "PowerUp.h"
+#include "Sound.h"
 #include <iostream>
 #include <fstream>
 using namespace std;

@@ -155,6 +155,11 @@
       <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClCompile>
     <ClCompile Include="BigSophiaBullet.cpp" />
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="tinystr.cpp" />
+    <ClCompile Include="tinyxml.cpp" />
+    <ClCompile Include="tinyxmlerror.cpp" />
+    <ClCompile Include="tinyxmlparser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -317,6 +322,9 @@
       <Filter>Objects\Bullets\Player\SpecialBullet</Filter>
     </ClInclude>
     <ClInclude Include="BigSophiaBullet.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="tinystr.h" />
+    <ClInclude Include="tinyxml.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\mario.png">

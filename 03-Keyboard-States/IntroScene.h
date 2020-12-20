@@ -17,6 +17,7 @@
 #include "PlayScene.h"
 #include <iostream>
 #include <fstream>
+#include "Sound.h"
 using namespace std;
 
 

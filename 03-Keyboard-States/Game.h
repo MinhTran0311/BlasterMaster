@@ -70,7 +70,7 @@ public:
 	void ProcessKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void LoadResources();
-
+	HWND GetHWND() {return hWnd;};
 	static bool IsCollidingAABB(
 		float ml,			// move left 
 		float mt,

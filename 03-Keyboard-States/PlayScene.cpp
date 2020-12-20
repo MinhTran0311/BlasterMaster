@@ -47,6 +47,8 @@ void PlayScene::LoadBaseObjects()
 		DebugOut(L"[INFO] HUD CREATED! %d \n", player->GetHealth());
 	}
 #pragma endregion
+	Sound::GetInstance()->LoadSound("Resource\\Sound\\01Opening.wav", "BackgroundMusic");
+
 	Camera::GetInstance()->SetCamPos(0.0f, 0.0f);	//initial camera
 }
 void PlayScene::LoadBaseTextures()
@@ -684,6 +686,7 @@ void PlayScene::Update(DWORD dt)
 		}
 		else
 		{
+
 			isReset = true;
 			Unload();
 
@@ -704,6 +707,8 @@ void PlayScene::Update(DWORD dt)
 			isNeedResetCamera = true;
 		}
 	}
+	Sound::GetInstance()->Play("BackgroundMusic", 1, 10000);
+
 #pragma endregion
 
 	CheckPlayerReachGate();		
@@ -725,7 +730,6 @@ void PlayScene::Update(DWORD dt)
 		if (!player->IsDoneDeath())
 		{
 			Camera::GetInstance()->Update(cx, cy, player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
-
 		}
 		//switch (player->GetPlayerType())
 		//{
@@ -850,8 +854,6 @@ void PlayScene::Update(DWORD dt)
 #pragma endregion
 
 #pragma region update objects
-
-
 	if (isUnloaded)
 	{
 		CGrid::GetInstance()->SetTargetForEnemies(player);
@@ -946,7 +948,7 @@ void PlayScene::Render()
 void PlayScene::Unload()
 {
 	CGrid::GetInstance()->UnLoadGrid();
-
+	Sound::GetInstance()->UnLoadSound("BackgroundMusic");
 	posX = posY = 0;
 	if (!isReset)
 		delete player;

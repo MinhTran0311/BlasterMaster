@@ -1,9 +1,5 @@
 ﻿#pragma once
 #include "IntroScene.h"
-
-
-
-
 IntroScene::IntroScene()
 {
 }
@@ -32,13 +28,12 @@ IntroScene::IntroScene(int _idStage) : Scene()
 }
 void IntroScene::LoadBaseObjects()
 {
-
-	
 	switch (idStage)
 	{
 	case ID_INTRO: {
 		texturesFilePath = ToLPCWSTR("Resource\\SceneAndSpec\\Intro_Scene.txt");
 		//intro_ani_set = CAnimationSets::GetInstance()->Get(Intro_Scene);
+		//Sound::GetInstance()->LoadSound("Resource\\Sound\\Intro.wav","BackgroundMusic");
 		break;
 	}
 	case ID_INTROENDING: {
@@ -51,24 +46,6 @@ void IntroScene::LoadBaseObjects()
 		break;
 	}
 	LoadBaseTextures();
-#pragma region create_base_objects
-	//if (player == NULL)
-	//{
-	//	player = new JASON(55, 100, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
-	//	DebugOut(L"[INFO] JASON CREATED!!! \n");
-	//}
-	////if (ssophia == NULL)
-	////{
-	////	ssophia = new Small_Sophia(55, 100);
-	////	DebugOut(L"[INFO] SMALL SOPHIA CREATED!!! \n");
-	////}
-	//if (gameHUD == NULL)
-	//{
-	//	gameHUD = new HUD(player->GetHealth(), player->GetgunDam());
-	//	DebugOut(L"[INFO] HUD CREATED! %d \n", player->GetHealth());
-	//}
-#pragma endregion
-	//gameCamera = Camera::GetInstance();
 	Camera::GetInstance()->SetCamPos(0.0f, 0.0f);	//initial camera
 }
 void IntroScene::LoadBaseTextures()
@@ -285,13 +262,11 @@ IntroScene::~IntroScene()
 void IntroScene::Update(DWORD dt)
 {
 	if (setAnimation == Intro_Done) {
+		//Sound::GetInstance()->Stop("BackgroundMusic");
+		Unload();
 		SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
 	}
-	//if (player->GetPlayerType() == EntityType::TAG_JASON)
-	//{
-		//DebugOut(L"done reachgete\n");
-
-	//}
+	//else Sound::GetInstance()->Play("BackgroundMusic", 1, 10000);
 	
 #pragma region camera
 	if (this->moutainY > 30)setEndding = 1;
@@ -328,10 +303,7 @@ void IntroScene::Update(DWORD dt)
 		break;
 	}
 #pragma endregion
-#pragma region sceneswitching
 
-	//DebugOut(L"middle\n");
-#pragma endregion
 	
 
 }
@@ -401,9 +373,6 @@ void IntroScene::Render()
 void IntroScene::Unload()
 {
 	
-	posX = posY = 0;
-	delete player;
-	isUnloaded = true;
-
+	//Sound::GetInstance()->UnLoadSound("BackgroundMusic");
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
