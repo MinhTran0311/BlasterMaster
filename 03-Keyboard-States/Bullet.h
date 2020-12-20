@@ -6,10 +6,9 @@
 #define DISTANCE_BLOWING_UP		4
 #define BULLET_SPEED			0.2f
 
-#define BULLET_STATE_FLYING			100
-#define BULLET_STATE_BLOW_UP		200
-#define BULLET_STATE_FLYING_TOP		300
-#define BULLET_STATE_DISAPPEAR		400
+#define BULLET_STATE_FLYING			0
+#define BULLET_STATE_HIT_BRICK		100
+#define BULLET_STATE_ENEMY			200
 
 class Bullet;
 typedef Bullet* LPBULLET;
@@ -33,7 +32,9 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render() {};
+	virtual void SetState(int state);
 
+	void HandlePlayerBulletCollision(vector<LPGAMEENTITY>* coObjects);
 	void ResetDelay() { timeDelayed = 0; }
 	int GetDamage() { return dam; }
 	int GetBulletType() { return typeBullet; };

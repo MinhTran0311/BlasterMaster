@@ -47,6 +47,8 @@ void PlayScene::LoadBaseObjects()
 		DebugOut(L"[INFO] HUD CREATED! %d \n", player->GetHealth());
 	}
 #pragma endregion
+	Sound::GetInstance()->LoadSound("Resource\\Sound\\01Opening.wav", "BackgroundMusic");
+
 	Camera::GetInstance()->SetCamPos(0.0f, 0.0f);	//initial camera
 }
 void PlayScene::LoadBaseTextures()
@@ -217,12 +219,6 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 		else if (player->GetPlayerType() == EntityType::TAG_BIG_SOPHIA)
 			player->SetState(BIG_SOPHIA_STATE_WALKING_LEFT);
 	}
-	
-	//else if ((CGame::GetInstance()->IsKeyDown(DIK_UP)))
-	//{
-	//	if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-	//		player->SetState(BIG_SOPHIA_STATE_WALKING_TOP);
-	//}
 	else
 	{
 		if (player->GetPlayerType() == TAG_JASON)
@@ -257,7 +253,7 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 
 void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
-	
+
 	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
 	if (KeyCode == DIK_RETURN)
 	{
@@ -356,7 +352,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 void PlayScene::changePlayer()
 {
-	
+
 	if (player->GetPlayerType() == EntityType::TAG_JASON && !dynamic_cast<JASON*>(player)->IsGunFlip() && !dynamic_cast<JASON*>(player)->IsJumping())
 	{
 		playerInfo.jasonHealth = player->GetHealth();
@@ -396,7 +392,7 @@ void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 {
 	//JASON* jason = ((PlayScene*)scence)->jason;
 	//Small_Sophia* ssophia = ((PlayScene*)scence)->ssophia;
-	
+
 	LPGAMEPLAYER player = ((PlayScene*)scence)->player;
 	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
 	if (player->GetPlayerType() == TAG_BIG_SOPHIA)
@@ -644,7 +640,7 @@ void PlayScene::CheckPlayerReachGate()
 			}
 			}
 			//CGrid::GetInstance()->SetTargetForEnemies(player);
-			
+
 			break;
 		}
 		case TAG_BIG_SOPHIA:
@@ -677,7 +673,7 @@ void PlayScene::CheckPlayerReachGate()
 
 				Unload();
 				ChooseMap(playerInfo.sophiaStage);
-				
+
 				player = new Small_Sophia(playerInfo.sophiaXPos, playerInfo.sophiaYPos, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
 				backup_player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
 				//CGrid::GetInstance()->SetTargetForEnemies(player);
@@ -736,6 +732,9 @@ void PlayScene::Update(DWORD dt)
 				isNeedResetCamera = true;
 			}
 		}
+	}
+	Sound::GetInstance()->Play("BackgroundMusic", 1, 10000);
+
 #pragma endregion
 
 		CheckPlayerReachGate();
@@ -759,125 +758,6 @@ void PlayScene::Update(DWORD dt)
 				Camera::GetInstance()->Update(cx, cy, player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
 
 			}
-			//switch (player->GetPlayerType())
-			//{
-			//case EntityType::TAG_JASON:
-			//{
-			//	if (player->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
-			//		cx = mapWidth - SCREEN_WIDTH;
-			//	else
-			//	{
-			//		if (player->Getx() < SCREEN_WIDTH / 2)
-			//			cx = 0;
-			//		else
-			//			cx -= SCREEN_WIDTH / 2;
-			//	}
-			//	if (cy - posY > SCREEN_HEIGHT)
-			//	{
-			//		posY = cy - SCREEN_HEIGHT / 2;
-			//	}
-			//	if (cy + SCREEN_HEIGHT / 1.85 >= mapHeight)
-			//	{
-			//		cy = mapHeight - SCREEN_HEIGHT;
-			//		posY = cy;
-			//	}
-			//	else
-			//	{
-			//		if (cy < SCREEN_HEIGHT / 4)
-			//		{
-			//			posY = 0;
-			//		}
-			//		else
-			//		{
-			//			if ((cy - posY) < (SCREEN_HEIGHT / 4))
-			//			{
-			//				posY -= CAMERA_SPEED_WORLD1 * dt;
-			//			}
-			//			if ((cy - posY) > (SCREEN_HEIGHT / 2))
-			//			{
-			//				posY += CAMERA_SPEED_WORLD1 * dt;
-			//			}
-			//		}
-			//	}
-			//	Camera::GetInstance()->SetCamPos(cx, posY);
-			//	break;
-			//}
-			//case TAG_SMALL_SOPHIA:
-			//{
-			//	if (player->Getx() + SCREEN_WIDTH / 2 >= mapWidth)
-			//		cx = mapWidth - SCREEN_WIDTH;
-			//	else
-			//	{
-			//		if (player->Getx() < SCREEN_WIDTH / 2)
-			//			cx = 0;
-			//		else
-			//			cx -= SCREEN_WIDTH / 2;
-			//	}
-			//	cy -= SCREEN_HEIGHT / 2;
-			//	Camera::GetInstance()->SetCamPos(cx, cy);//cy khi muon camera move theo y player
-			//	break;
-			//}
-			//case TAG_BIG_SOPHIA:
-			//{
-			//	//camera
-			//	if (CamMoveDirection == -1)
-			//	{
-			//		posX = camMap1X;
-			//		posY = camMap1Y;
-			//		CamMoveDirection = 0;
-			//	}
-			//	//PlayerGotGateV2();
-			//	if (CamMoveDirection == 1)
-			//	{
-			//		if (player->GetDirection() > 0)
-			//		{
-			//			if (posX < xPosCamGo)
-			//				posX += CAMERA_SPEED_OVERWORLD * dt;
-			//			else
-			//			{
-			//				posX = xPosCamGo + 1;
-			//				CamMoveDirection = 0;
-			//			}
-			//		}
-			//		else if (player->GetDirection() < 0)
-			//		{
-			//			if (posX > xPosCamBack)
-			//				posX -= CAMERA_SPEED_OVERWORLD * dt;
-			//			else
-			//			{
-			//				posX = xPosCamBack - 1;
-			//				CamMoveDirection = 0;
-			//			}
-			//		}
-			//	}
-			//	else if (CamMoveDirection == 2)
-			//	{
-			//		if (player->GetDirctionY() < 0)
-			//		{
-			//			if (posY > yPosCamGo)
-			//				posY -= CAMERA_SPEED_OVERWORLD * dt;
-			//			else
-			//			{
-			//				posY = yPosCamGo - 1;
-			//				CamMoveDirection = 0;
-			//			}
-			//		}
-			//		else if (player->GetDirctionY() > 0)
-			//		{
-			//			if (posY < yPosCamBack)
-			//				posY += CAMERA_SPEED_OVERWORLD * dt;
-			//			else
-			//			{
-			//				posY = yPosCamBack + 1;
-			//				CamMoveDirection = 0;
-			//			}
-			//		}
-			//	}
-			//	cx = posX;
-			//	Camera::GetInstance()->SetCamPos(posX, posY);
-			//	break;
-			//}
-			//}
 		}
 #pragma endregion
 
@@ -979,7 +859,7 @@ void PlayScene::Render()
 void PlayScene::Unload()
 {
 	CGrid::GetInstance()->UnLoadGrid();
-
+	Sound::GetInstance()->UnLoadSound("BackgroundMusic");
 	posX = posY = 0;
 	if (!isReset)
 		delete player;

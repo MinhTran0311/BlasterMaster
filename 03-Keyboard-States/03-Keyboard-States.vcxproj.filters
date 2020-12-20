@@ -228,6 +228,12 @@
     <ClCompile Include="ChooseWeaponScene.cpp">
       <Filter>FrameWork\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="BigSophiaBullet.cpp" />
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="tinystr.cpp" />
+    <ClCompile Include="tinyxml.cpp" />
+    <ClCompile Include="tinyxmlerror.cpp" />
+    <ClCompile Include="tinyxmlparser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -392,6 +398,10 @@
     <ClInclude Include="ChooseWeaponScene.h">
       <Filter>FrameWork\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="BigSophiaBullet.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="tinystr.h" />
+    <ClInclude Include="tinyxml.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\mario.png">

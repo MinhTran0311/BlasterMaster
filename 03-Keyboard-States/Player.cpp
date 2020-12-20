@@ -13,9 +13,9 @@
 #include "GadBrick.h"
 #include "ElectricBullet.h"
 #include "HomingMissles.h"
+#include "Big_Sophia.h"
 Player::Player()
 {
-	DebugOut(L"Lop cha");
 	tag = EntityType::TAG_PLAYER;
 	alpha = 255;
 	bbARGB = 250;
@@ -153,4 +153,70 @@ void Player::CollideWithObject(LPGAMEENTITY object,bool &isInjured)
 		}
 		}
 	}
+}
+void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
+{
+	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
+	bool isInjured = false;
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		CollideWithObject(coObjects->at(i), isInjured);
+		if ((coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD || coObjects->at(i)->GetType() == TAG_SOFT_BRICK || coObjects->at(i)->GetType() == TAG_GATE) && !coObjects->at(i)->IsDeath())
+			colliable_Objects->push_back(coObjects->at(i));
+	}
+	if (!isInjured)
+		alpha = 255;
+
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	coEvents.clear();
+	if (state != PLAYER_STATE_DIE)
+		CalcPotentialCollisions(colliable_Objects, coEvents);
+
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == EntityType::TAG_SOFT_BRICK)
+			{
+				x += min_tx * dx + nx * 0.4f;
+				y += min_ty * dy + ny * 0.4f;
+				if (e->ny != 0)
+				{
+					if (e->ny != 0)
+					{
+						vy = 0;
+						if (this->GetPlayerType() == TAG_JASON)
+						{
+							dynamic_cast<JASON*>(this)->SetIsJumping(false);
+						}
+						else if (this->GetPlayerType() == TAG_SMALL_SOPHIA)
+							dynamic_cast<Small_Sophia*>(this)->SetIsJumping(false);
+					}
+
+					if (e->nx != 0)
+						vx = 0;
+				}
+			}
+			else if (e->obj->GetType() == EntityType::TAG_GATE_OVERWORLD || e->obj->GetType() == EntityType::TAG_GATE)
+			{
+				gate = e->obj;
+				DebugOut(L"big sophia dung tuong\n");
+				GateColliding = true;
+			}
+		}
+	}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
