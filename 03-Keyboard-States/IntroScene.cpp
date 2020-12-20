@@ -1,9 +1,6 @@
 ﻿#pragma once
 #include "IntroScene.h"
-
-
-
-
+#include "debug.h"
 IntroScene::IntroScene()
 {
 }
@@ -19,11 +16,14 @@ IntroScene::IntroScene(int _idStage) : Scene()
 	case ID_INTRO: {
 		
 		intro_ani_set = CAnimationSets::GetInstance()->Get(Intro_Scene);
+		Sound::GetInstance()->LoadSoundResource(SOUND_RESOURCE_INTRO);
 		break;
 	}
 	case ID_INTROENDING: {
 		
 		intro_ani_set = CAnimationSets::GetInstance()->Get(Ending_Scene);
+		Sound::GetInstance()->LoadSoundResource(SOUND_RESOURCE_ENDING);
+
 		break;
 	}
 	default:
@@ -32,13 +32,12 @@ IntroScene::IntroScene(int _idStage) : Scene()
 }
 void IntroScene::LoadBaseObjects()
 {
-
-	
 	switch (idStage)
 	{
 	case ID_INTRO: {
 		texturesFilePath = ToLPCWSTR("Resource\\SceneAndSpec\\Intro_Scene.txt");
 		//intro_ani_set = CAnimationSets::GetInstance()->Get(Intro_Scene);
+		//Sound::GetInstance()->LoadSound("Resource\\Sound\\Intro.wav","BackgroundMusic");
 		break;
 	}
 	case ID_INTROENDING: {
@@ -51,24 +50,6 @@ void IntroScene::LoadBaseObjects()
 		break;
 	}
 	LoadBaseTextures();
-#pragma region create_base_objects
-	//if (player == NULL)
-	//{
-	//	player = new JASON(55, 100, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
-	//	DebugOut(L"[INFO] JASON CREATED!!! \n");
-	//}
-	////if (ssophia == NULL)
-	////{
-	////	ssophia = new Small_Sophia(55, 100);
-	////	DebugOut(L"[INFO] SMALL SOPHIA CREATED!!! \n");
-	////}
-	//if (gameHUD == NULL)
-	//{
-	//	gameHUD = new HUD(player->GetHealth(), player->GetgunDam());
-	//	DebugOut(L"[INFO] HUD CREATED! %d \n", player->GetHealth());
-	//}
-#pragma endregion
-	//gameCamera = Camera::GetInstance();
 	Camera::GetInstance()->SetCamPos(0.0f, 0.0f);	//initial camera
 }
 void IntroScene::LoadBaseTextures()
@@ -266,10 +247,6 @@ void IntroScene::_ParseSection_SCENEFILEPATH(string line)
 	vector<string> tokens = split(line);
 
 	if (tokens.size() < 3) return;
-
-	listSceneFilePath.push_back(ToLPCWSTR(tokens[0]));
-	listWidth.push_back(atoi(tokens[1].c_str()));
-	listHeight.push_back(atoi(tokens[2].c_str()));
 }
 #pragma endregion
 
@@ -284,14 +261,30 @@ IntroScene::~IntroScene()
 
 void IntroScene::Update(DWORD dt)
 {
+	switch (setAnimation)
+	{
+	case Intro_Animation_Frog:
+	{
+		Sound::GetInstance()->Play("Opening", 1, 10000);
+		break;
+	}
+	case Intro_Animation_Car:
+	{
+		Sound::GetInstance()->Stop("Opening");
+		Sound::GetInstance()->Play("CarBackground", 1, 10000);
+		if (intro_ani_set->at(Intro_Animation_Car)->GetFrame() == 23)
+			Sound::GetInstance()->Play("CarSplash", 0, 1);
+		break;
+	}
+	default:
+		break;
+	}
+	
+
 	if (setAnimation == Intro_Done) {
+		Unload();
 		SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
 	}
-	//if (player->GetPlayerType() == EntityType::TAG_JASON)
-	//{
-		//DebugOut(L"done reachgete\n");
-
-	//}
 	
 #pragma region camera
 	if (this->moutainY > 30)setEndding = 1;
@@ -323,36 +316,29 @@ void IntroScene::Update(DWORD dt)
 	case ID_INTROENDING:
 		Camera::GetInstance()->SetCamPos(this->posX,0);
 		break;
-
 	default:
 		break;
 	}
 #pragma endregion
-#pragma region sceneswitching
 
-	//DebugOut(L"middle\n");
-#pragma endregion
-	
 
 }
 
 void IntroScene::Render()
 {
-	//LPDIRECT3DTEXTURE9 maptexture = CTextures::GetInstance()->Get(idStage);
-	//CGame::GetInstance()->OldDraw(0, 0, maptexture, 0, 0, mapWidth, mapHeight);
-	
+
 	if (this->idStage == ID_INTRO) {
 
 		switch (setAnimation)
 		{
 		case Intro_Animation_Logo: 
-			intro_ani_set->at(Intro_Animation_Logo)->IntroRender(1, 0, 0); 
+			intro_ani_set->at(Intro_Animation_Logo)->IntroRender(1, 0, 0);
 			if (intro_ani_set->at(Intro_Animation_Logo)->GetFrame() == intro_ani_set->at(Intro_Animation_Logo)->GetLastFrameIndex()) { 
 				setAnimation = Intro_Animation_Frog; 
 			} 
 			break;
 		case Intro_Animation_Frog: 
-			intro_ani_set->at(Intro_Animation_Frog)->IntroRender(1, 0, 0); 
+			intro_ani_set->at(Intro_Animation_Frog)->IntroRender(1, 0, 0);
 			if (intro_ani_set->at(Intro_Animation_Frog)->GetFrame() == intro_ani_set->at(Intro_Animation_Frog)->GetLastFrameIndex()) {
 				setAnimation = Intro_Animation_Car; 
 			} 
@@ -374,12 +360,12 @@ void IntroScene::Render()
 		{
 		case 0:
 			intro_ani_set->at(Endding_Cloud)->IntroRender(1, 0, 0);
-			intro_ani_set->at(Endding_Mountain)->IntroRender(1, 123, 115 + this->moutainY);
+			intro_ani_set->at(Endding_Mountain)->Render(1, 123, 115 + this->moutainY);
 			intro_ani_set->at(Endding_Forest)->IntroRender(1, 0, 105);
 			break;
 		case 1:
 			intro_ani_set->at(Endding_Background1)->IntroRender(1, 0, 0);
-			intro_ani_set->at(Endding_Frog)->IntroRender(1, 423, 107);
+			intro_ani_set->at(Endding_Frog)->Render(1, 423, 107);
 			intro_ani_set->at(Endding_Hair)->IntroRender(1, 408, 91);
 			break;
 		case 2:
@@ -400,10 +386,9 @@ void IntroScene::Render()
 }
 void IntroScene::Unload()
 {
-	
-	posX = posY = 0;
-	delete player;
-	isUnloaded = true;
+	Sound::GetInstance()->UnLoadSound("Opening");
+	Sound::GetInstance()->UnLoadSound("CarSplash");
+	Sound::GetInstance()->UnLoadSound("CarBackground");
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }

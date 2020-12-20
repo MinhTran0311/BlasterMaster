@@ -52,81 +52,75 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 
 #pragma region Collision
-	bool isInjured = false;
-	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
-
-	//ABBA with objects
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		//if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType() == EntityType::ENEMY))
-		//{
-		//	Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
-		//	//re check
-		//	if (isJumping)
-		//	{
-		//		this->SetState(SMALL_SOPHIA_STATE_IDLE);
-		//		isJumping = false;
-		//		isJumpHandle = true;
-		//	}
-		//	SetInjured(enemy->GetDamage());
-		//}
-		CollideWithObject(coObjects->at(i), isInjured);
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE)
-			colliable_Objects->push_back(coObjects->at(i));
-	}
-	if (!isInjured)
-		alpha = 255;
-
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	coEvents.clear();
-	// turn off collision when die 
-	if (state != SMALL_SOPHIA_STATE_DIE)
-		CalcPotentialCollisions(colliable_Objects, coEvents);
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
-	}
-	else
-	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
-
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == TAG_SOFT_BRICK)
-			{
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				if (e->ny != 0)
-				{
-
-					if (e->ny != 0)
-					{
-						vy = 0;
-						if (ny < 0)
-							isJumping = false;
-					}
-
-					if (e->nx != 0)
-						vx = 0;
-				}
-			}
-			else if ((e->obj->GetType() == EntityType::TAG_GATE))
-			{
-				gate = (e->obj);
-				DebugOut(L"samll dung tuong loai 1");
-				GateColliding = true;
-			}
-		}
-
-	}
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	CollisionHandle(coObjects);
+	//bool isInjured = false;
+	//vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
+	////ABBA with objects
+	//for (UINT i = 0; i < coObjects->size(); i++)
+	//{
+	//	//if (this->IsCollidingObject(coObjects->at(i)) && (coObjects->at(i)->GetType() == EntityType::ENEMY))
+	//	//{
+	//	//	Enemy* enemy = dynamic_cast<Enemy*>(coObjects->at(i));
+	//	//	//re check
+	//	//	if (isJumping)
+	//	//	{
+	//	//		this->SetState(SMALL_SOPHIA_STATE_IDLE);
+	//	//		isJumping = false;
+	//	//		isJumpHandle = true;
+	//	//	}
+	//	//	SetInjured(enemy->GetDamage());
+	//	//}
+	//	CollideWithObject(coObjects->at(i), isInjured);
+	//	if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE)
+	//		colliable_Objects->push_back(coObjects->at(i));
+	//}
+	//if (!isInjured)
+	//	alpha = 255;
+	//vector<LPCOLLISIONEVENT> coEvents;
+	//vector<LPCOLLISIONEVENT> coEventsResult;
+	//coEvents.clear();
+	//// turn off collision when die 
+	//if (state != SMALL_SOPHIA_STATE_DIE)
+	//	CalcPotentialCollisions(colliable_Objects, coEvents);
+	//if (coEvents.size() == 0)
+	//{
+	//	x += dx;
+	//	y += dy;
+	//}
+	//else
+	//{
+	//	float min_tx, min_ty, nx = 0, ny;
+	//	float rdx = 0;
+	//	float rdy = 0;
+	//	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+	//	for (UINT i = 0; i < coEventsResult.size(); i++)
+	//	{
+	//		LPCOLLISIONEVENT e = coEventsResult[i];
+	//		if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == TAG_SOFT_BRICK)
+	//		{
+	//			x += min_tx * dx + nx * 0.4f;
+	//			y += min_ty * dy + ny * 0.4f;
+	//			if (e->ny != 0)
+	//			{
+	//				if (e->ny != 0)
+	//				{
+	//					vy = 0;
+	//					if (ny < 0)
+	//						isJumping = false;
+	//				}
+	//				if (e->nx != 0)
+	//					vx = 0;
+	//			}
+	//		}
+	//		else if ((e->obj->GetType() == EntityType::TAG_GATE))
+	//		{
+	//			gate = (e->obj);
+	//			DebugOut(L"samll dung tuong loai 1");
+	//			GateColliding = true;
+	//		}
+	//	}
+	//}
+	//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 }
 

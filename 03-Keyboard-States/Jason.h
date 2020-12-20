@@ -18,10 +18,10 @@
 
 #pragma region State define
 #define SOPHIA_STATE_IDLE				0
-#define SOPHIA_STATE_WALKING_RIGHT		100
-#define SOPHIA_STATE_WALKING_LEFT		200
-#define SOPHIA_STATE_JUMP				300
-#define SOPHIA_STATE_DIE				400
+#define SOPHIA_STATE_DIE				100
+#define SOPHIA_STATE_WALKING_RIGHT		200
+#define SOPHIA_STATE_WALKING_LEFT		300
+#define SOPHIA_STATE_JUMP				400
 #define SOPHIA_STATE_GUN_UNFLIP			500
 #define SOPHIA_STATE_OUT				600
 #pragma endregion
@@ -102,6 +102,7 @@ public:
 	//void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	bool IsGunFlip() { return isGunFlipping; }
 	bool IsJumping() { return isJumping; };
+	void SetIsJumping(bool jump) { isJumping = jump; };
 	void GetInfoForBullet(int& direct, bool& isTargetTop, float& playerx, float& playery) { direct = nx; isTargetTop = isGunFlipping; playerx = x; playery = y; }
 
 #pragma region sceneswitching

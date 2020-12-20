@@ -27,12 +27,12 @@
 #define SOPHIA_ANI_SMALL_JUMP					4
 
 #define SMALL_SOPHIA_STATE_IDLE			    0
-#define SMALL_SOPHIA_STATE_WALKING_RIGHT	100
-#define SMALL_SOPHIA_STATE_WALKING_LEFT		200
-#define SMALL_SOPHIA_STATE_CRAWLING_RIGHT	300
-#define SMALL_SOPHIA_STATE_CRAWLING_LEFT	400
-#define SMALL_SOPHIA_STATE_JUMP				500
-#define SMALL_SOPHIA_STATE_DIE				600
+#define SMALL_SOPHIA_STATE_DIE				100
+#define SMALL_SOPHIA_STATE_WALKING_RIGHT	200
+#define SMALL_SOPHIA_STATE_WALKING_LEFT		300
+#define SMALL_SOPHIA_STATE_CRAWLING_RIGHT	400
+#define SMALL_SOPHIA_STATE_CRAWLING_LEFT	500
+#define SMALL_SOPHIA_STATE_JUMP				600
 #define SMALL_SOPHIA_STATE_IN				700
 #define SMALL_SOPHIA_STATE_OUT				800
 #define SMALL_SOPHIA_STATE_CRAWL				900
@@ -74,7 +74,7 @@ public:
 
 	void SetState(int state);
 	void SetPressSpace(bool isPress) { isPressJump = isPress; }
-	
+	void SetIsJumping(bool jump) { isJumping = jump; };
 	bool GetIsCrawl() { return isCrawl; }
 	void SetIsCrawl(bool crawl) { isCrawl = crawl; }
 
