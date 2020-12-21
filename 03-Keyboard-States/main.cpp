@@ -164,7 +164,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	game->InitKeyboard();
 
 
-	SceneManager::GetInstance()->SetScene(new IntroScene(ID_INTRO));
+	SceneManager::GetInstance()->SetScene(new IntroScene(ID_INTROENDING));
 	//SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
