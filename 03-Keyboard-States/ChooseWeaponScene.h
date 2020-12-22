@@ -28,8 +28,8 @@ public:
 	ChooseWeaponScene(int idStage);
 	~ChooseWeaponScene();
 	bool isUnloaded = false;
-	void setidStage(int _idStage) { idStage = _idStage; };
-	int getidStage() { return idStage; };
+	void SetWeaponId(int _weaponId) { weaponId = _weaponId; };
+	int GetWeaponId() { return weaponId; };
 	void SetIsFinished(bool finished){ isfished =finished;}
 protected:
 	bool isfished = false;
@@ -62,7 +62,7 @@ protected:
 	vector<int> listHeight;
 #pragma endregion
 
-	int idStage;
+	int weaponId;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);

@@ -367,7 +367,7 @@ void IntroScene::Render()
 		{
 		case 0:
 			intro_ani_set->at(Endding_Cloud)->IntroRender(1, 0, 0);
-			intro_ani_set->at(Endding_Mountain)->IntroRender(1, 115, 80 + this->moutainY);
+			intro_ani_set->at(Endding_Mountain)->IntroRender(1, 85, 115 + this->moutainY);
 			intro_ani_set->at(Endding_Forest)->IntroRender(1, 0, 105);
 			break;
 		case 1:

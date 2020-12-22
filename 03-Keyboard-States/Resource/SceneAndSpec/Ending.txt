@@ -4,7 +4,7 @@
 27	Resource/SceneAndSpec/Intro/Ending2.jpg	255	0	255
 28	Resource/SceneAndSpec/Intro/Ending3.png	63	72	204
 29	Resource/SceneAndSpec/Intro/Cloud_Ending.png	63	72	204
-30	Resource/SceneAndSpec/Intro/Ending4.jpg	255	255	255
+30	Resource/SceneAndSpec/Intro/Ending_Color.png	73	80	198
 
 [SPRITES]
 #end
