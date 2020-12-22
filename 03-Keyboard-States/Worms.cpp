@@ -71,36 +71,52 @@ void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			{
 				if (isContainedInLarva)
 				{
-					//nhy len
+					//nhay len
 					SetState(WORM_STATE_JUMPING);
 					isContainedInLarva = false;
 				}
 				else this->nx = -this->nx;
-				
 			}
-			if (ny != 0)
-			{
-				vy = 0;
-				for (UINT i = 0; i < coEventsResult.size(); i++)
-				{
-					LPCOLLISIONEVENT e = coEventsResult.at(i);
-					if (e->ny != 0)
-					{
-						RECT rect = static_cast<Brick*>(e->obj)->GetBBox();
-						if (x + WORM_BBOX_WIDTH > rect.right)
-						{
-							this->nx = -this->nx;
-							x += rect.right - (x + WORM_BBOX_WIDTH) - nx * 0.4f;
-						}
-						else if (x < rect.left)
-						{
-							this->nx = -this->nx;
-							x += rect.left - x + nx * 0.4f;
-						}
-						break;
-					}
-				}
-			}
+			//if (ny != 0)
+			//{
+			//	vy = 0;
+			//	for (UINT i = 0; i < coEventsResult.size(); i++)
+			//	{
+			//		LPCOLLISIONEVENT e = coEventsResult.at(i);
+			//		if (e->ny != 0)
+			//		{
+			//			RECT rect = static_cast<Brick*>(e->obj)->GetBBox();
+			//			if (x + WORM_BBOX_WIDTH > rect.right)
+			//			{
+			//				if (isContainedInLarva)
+			//				{
+			//					//nhay len
+			//					SetState(WORM_STATE_JUMPING);
+			//					isContainedInLarva = false;
+			//				}
+			//				else
+			//				{
+			//					this->nx = -this->nx;
+			//					x += rect.right - (x + WORM_BBOX_WIDTH) - nx * 0.4f;
+			//				}
+			//			}
+			//			else if (x < rect.left)
+			//			{
+			//				if (isContainedInLarva)
+			//				{
+			//					//nhay len
+			//					SetState(WORM_STATE_JUMPING);
+			//					isContainedInLarva = false;
+			//				}
+			//				else {
+			//					this->nx = -this->nx;
+			//					x += rect.left - x + nx * 0.4f;
+			//				}
+			//			}
+			//			break;
+			//		}
+			//	}
+			//}
 		}
 	}
 	//clean up collision events
@@ -113,6 +129,7 @@ void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	{
 		isActive = true;
 	}
+	else isActive = false;
 #pragma endregion
 
 }
@@ -136,7 +153,7 @@ void Worm::Render()
 		}
 		animationSet->at(ani)->Render(nx, x, y  + WORM_BBOX_HEIGHT - WORM_BBOX_HEIGHT_DIE-3);
 	}
-	else
+	else if (state == WORM_STATE_JUMPING || state == WORM_STATE_WALKING)
 		animationSet->at(ani)->Render(nx, x, y);
 	//RenderBoundingBox();
 }
@@ -159,7 +176,7 @@ Worm::Worm(float x, float y, LPGAMEENTITY t)
 
 void Worm::FollowTarget(LPGAMEENTITY target) //đi theo nhân vật
 {
-	if ((target->x - this->x) > 0)
+	/*if ((target->x - this->x) > 0)
 	{
 		this->nx = 1;
 		vx = WORM_WALKING_SPEED;
@@ -168,7 +185,7 @@ void Worm::FollowTarget(LPGAMEENTITY target) //đi theo nhân vật
 	{
 		vx = -WORM_WALKING_SPEED;
 		this->nx = -1;
-	}
+	}*/
 
 }
 
@@ -179,7 +196,6 @@ void Worm::SetState(int state)
 	{
 		case WORM_STATE_DIE:
 		{
-			//y += WORM_BBOX_HEIGHT - WORM_BBOX_HEIGHT_DIE + 1;
 			vx = 0;
 			vy = 0;
 			isActive = false;
@@ -199,6 +215,7 @@ void Worm::SetState(int state)
 		}
 		case WORM_STATE_JUMPING:
 		{
+			vx = 0;
 			vy = -WORM_JUMP_SPEED_Y;
 			break;
 		}
