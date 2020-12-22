@@ -15,7 +15,11 @@ void CSprite::Draw(int direction, float x, float y, int alpha)
 	CGame* game = CGame::GetInstance();
 	game->Draw(direction, x, y, texture, left, top, right, bottom, alpha);
 }
-
+void CSprite::IntroDraw(int direction, float x, float y, int alpha)
+{
+	CGame* game = CGame::GetInstance();
+	game->IntroDraw(direction, x, y, texture, left, top, right, bottom, alpha);
+}
 CSprites* CSprites::__instance = NULL;
 
 CSprites* CSprites::GetInstance()

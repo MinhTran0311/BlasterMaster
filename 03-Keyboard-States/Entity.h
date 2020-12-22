@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include <d3dx9.h>
 #include <vector>
-
+#include "Sound.h"
 #include "Sprites.h"
 #include "Animations.h"
 #include "debug.h"
@@ -89,7 +89,7 @@ public:
 	bool isFinishDeathAni() { return isDoneDeath; };
 	bool isActiveObject() { return isActive; };
 	void setActive(bool active) { isActive = active; };
-	bool isDeath();
+	bool IsDeath();
 	int GetState() { return this->state; }
 
 	RECT GetBBox();

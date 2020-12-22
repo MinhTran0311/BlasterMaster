@@ -24,7 +24,8 @@
 #include "SceneManager.h"
 #include "PlayScene.h"
 #include "global.h"
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(200, 200, 255)
+#include "IntroScene.h"
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(0, 0, 0)
 CGame *game;
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -101,7 +102,7 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 			hInstance,
 			NULL);
 
-	if (!hWnd) 
+	if (!hWnd)
 	{
 		OutputDebugString(L"[ERROR] CreateWindow failed");
 		DWORD ErrCode = GetLastError();
@@ -142,12 +143,12 @@ int Run()
 			frameStart = now;
 
 			game->ProcessKeyboard();
-			
+
 			Update(dt);
 			Render();
 		}
 		else
-			Sleep(tickPerFrame - dt);	
+			Sleep(tickPerFrame - dt);
 	}
 
 	return 1;
@@ -159,9 +160,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	game = CGame::GetInstance();
 	game->InitDirectX(hWnd);
-
+	
 	game->InitKeyboard();
-	SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA4));
+
+	SceneManager::GetInstance()->SetScene(new IntroScene(ID_INTROENDING));
+	//SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
+
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
 	Run();
 

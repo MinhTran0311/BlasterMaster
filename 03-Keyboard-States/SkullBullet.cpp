@@ -1,7 +1,9 @@
 #include "SkullBullet.h"
 #include "global.h"
-SkullBullet::SkullBullet(float posX, float posY, int direct)
+
+SkullBullet::SkullBullet(float posX, float posY, int direct, LPGAMEENTITY t)
 {
+	this->target = t;
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SKULL_ENEMY_BULLET));
 	alpha = 255;
 	bbARGB = 0;
@@ -20,6 +22,7 @@ SkullBullet::SkullBullet(float posX, float posY, int direct)
 	/*vy = BULLET_SKULL_BOUNCE;
 	vx = BULLET_SKULL_ROLLING;*/
 	isActive = true;
+
 }
 
 SkullBullet::~SkullBullet()
@@ -30,13 +33,12 @@ void SkullBullet::GetBoundingBox(float& left, float& top, float& right, float& b
 {
 	left = x;
 	top = y;
-	
 	right = left + BULLET_SKULL_BBOX_WIDTH;
 	bottom = top + BULLET_SKULL_BBOX_HEIGHT;
 	
 }
 
-void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
+void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	if (!isActive)
 		return;
@@ -46,9 +48,11 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 	vx /= BULLET_SKULL_FRICTIONAL;
 #pragma region set dam and direction
 	dam = 1;
+	if (isHitEnemy) {
 
+		this->SetState(BULLET_SKULL_STATE_EXPLOSION);
+	}
 	 
-	this->SetState(BULLET_SKULL_STATE_ROLLING);
 	if (timeDelayed >= timeDelayedMax)
 	{
 		isActive = false;
@@ -66,13 +70,41 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 		Entity::Update(dt);
 	}
 #pragma endregion
+	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
+	for (int i = 0; i < coObjects->size(); i++)
+	{
+		if (coObjects->at(i)->GetType() == TAG_GATE || coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_PLAYER)
+			colliable_Objects->push_back(coObjects->at(i));
+	}
+	colliable_Objects->push_back(target);
 #pragma region collision
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
-	coEvents.clear();
+	
+	//for (int i = 0; i < coObjects->size(); i++)
+	//{
+	//	if (this->IsCollidingObject(coObjects->at(i)) && coObjects->at(i)->GetType() == TAG_PLAYER)
+	//	{
+	//			coObjects->at(i)->AddHealth(-1);
+	//			DebugOut(L"xxxxxxxxxxxxxxxx %d", coObjects->at(i)->health);
+	//			isHitEnemy = true;
+	//			SetState(BULLET_SKULL_STATE_EXPLOSION);
+	//			vx = 0;
+	//			vy = 0;
+	//			//isActive = false;
+	//	}
+	//}
 
-	CalcPotentialCollisions(colliable_objects, coEvents);
+	//vector<LPGAMEENTITY>* colliable_objects = new vector<LPGAMEENTITY>();
+
+	//for (int i = 0; i < coObjects->size(); i++)
+	//{
+	//	if (coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_GATE)
+	//		colliable_objects->push_back(coObjects->at(i));
+	//}
+	coEvents.clear();
+	CalcPotentialCollisions(colliable_Objects, coEvents);
 	if (coEvents.size() == 0)
 	{
 		x += dx;
@@ -88,38 +120,28 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetType() == EntityType::TAG_BRICK)
+			if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == EntityType::TAG_GATE)
 			{
 				isHitBrick = true;
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
+				x += min_tx * dx + nx * 1.0f;
+				y += min_ty * dy + ny * 1.0f;
 
 				if (!rolling) {
-					vx = BULLET_SKULL_ROLLING*this->nx;
+					vx = BULLET_SKULL_ROLLING * this->nx;
 					rolling = true;
 				}
 
 				vy = -(BULLET_SKULL_BOUNCE- bounceIndex);
-				bounceIndex+=0.03f;
+				bounceIndex += 0.03f;
 			}
-			/*if (e->obj->GetType() == EntityType::ENEMY)
+
+			if (e->obj->GetType() == EntityType::TAG_PLAYER)
 			{
 				e->obj->AddHealth(-dam);
-				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
-				this->SetState(BULLET_SKULL_STATE_EXPLOSION);
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				isActive = false;
-			}*/
-			if (e->obj->GetType() == EntityType::TAG_JASON )
-			{
-				e->obj->AddHealth(-1);
-				DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
+				DebugOut(L"Dinh target1 %d", e->obj->health);
 				isHitEnemy = true;
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
-				vx = 0;
-				vy = 0;
 				//isActive = false;
 			}
 		}
@@ -144,12 +166,15 @@ void SkullBullet::Render()
 
 		animationSet->at(ani)->OldRender(x, y);
 	}
-	if (state == BULLET_SKULL_STATE_EXPLOSION)
+	else if (state == BULLET_SKULL_STATE_EXPLOSION)
 	{
+		DebugOut(L"Dinh target2");
 		ani = BULLET_SKULL_ANI_EXPLOSION;
+		DebugOut(L"Dinh target3 %d", ani);
 		animationSet->at(ani)->OldRender(x, y);
 		if (animationSet->at(ani)->GetFrame() == 2)
 		{
+			DebugOut(L"Dinh target4");
 			isActive = false;
 		}
 	}
@@ -164,20 +189,20 @@ void SkullBullet::SetState(int state)
 	DebugOut(L"Bullet state: %d", state);
 	switch (state)
 	{
-	case BULLET_SKULL_STATE_ROLLING:
-	{
-		isHitBrick = true;
-		isHitEnemy = false;
-		//vx = BULLET_SPEED *nx;
-		
-		isActive = true;
-		break;
-	}
-	case BULLET_SKULL_STATE_EXPLOSION:
-	{
-		isHitBrick = false;
-		this->dam = 1;
-		break;
-	}
+		case BULLET_SKULL_STATE_ROLLING:
+		{
+			isHitBrick = true;
+			isHitEnemy = false;
+			//vx = BULLET_SPEED *nx;
+			isActive = true;
+			break;
+		}
+		case BULLET_SKULL_STATE_EXPLOSION:
+		{
+			vx = 0;
+			vy = 0;
+			isHitBrick = false;
+			break;
+		}
 	}
 }

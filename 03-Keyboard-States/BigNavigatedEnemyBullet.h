@@ -30,4 +30,3 @@ public:
 	float CalPositionTarget(LPGAMEENTITY target, float v);
 	virtual void SetState(int state);
 };
-

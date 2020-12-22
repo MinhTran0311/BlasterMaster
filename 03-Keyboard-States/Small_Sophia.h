@@ -27,12 +27,12 @@
 #define SOPHIA_ANI_SMALL_JUMP					4
 
 #define SMALL_SOPHIA_STATE_IDLE			    0
-#define SMALL_SOPHIA_STATE_WALKING_RIGHT		100
-#define SMALL_SOPHIA_STATE_WALKING_LEFT		200
-#define SMALL_SOPHIA_STATE_CRAWLING_RIGHT	300
-#define SMALL_SOPHIA_STATE_CRAWLING_LEFT		400
-#define SMALL_SOPHIA_STATE_JUMP				500
-#define SMALL_SOPHIA_STATE_DIE				600
+#define SMALL_SOPHIA_STATE_DIE				100
+#define SMALL_SOPHIA_STATE_WALKING_RIGHT	200
+#define SMALL_SOPHIA_STATE_WALKING_LEFT		300
+#define SMALL_SOPHIA_STATE_CRAWLING_RIGHT	400
+#define SMALL_SOPHIA_STATE_CRAWLING_LEFT	500
+#define SMALL_SOPHIA_STATE_JUMP				600
 #define SMALL_SOPHIA_STATE_IN				700
 #define SMALL_SOPHIA_STATE_OUT				800
 #define SMALL_SOPHIA_STATE_CRAWL				900
@@ -67,7 +67,6 @@ public:
 	bool isPressJump;
 	//bool isPressFlipGun;
 	bool isCrawl;
-
 public:
 	Small_Sophia(float x, float y, int health, int gundam);
 	Small_Sophia() {};
@@ -75,16 +74,15 @@ public:
 
 	void SetState(int state);
 	void SetPressSpace(bool isPress) { isPressJump = isPress; }
-	
+	void SetIsJumping(bool jump) { isJumping = jump; };
 	bool GetIsCrawl() { return isCrawl; }
 	void SetIsCrawl(bool crawl) { isCrawl = crawl; }
 
 	void GetInfoForBullet(int& direct, float& playerx, float& playery) { direct = nx; playerx = x; playery = y; }
 
 	//Bullet* GetPlayerMainBullet() { return mainBullet; }
-	virtual void FireBullet(int type);
+	virtual void FireBullet(int mode);
 	virtual void GetPositionCenter(float& x, float& y) { x = this->x + SMALL_SOPHIA_BBOX_WIDTH / 2; y = this->y + SMALL_SOPHIA_BBOX_HEIGHT / 2; }
-	virtual void Reset();
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);

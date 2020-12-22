@@ -124,13 +124,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="BigSophiaBullet.cpp" />
     <ClCompile Include="Big_Sophia.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Cannons.cpp" />
     <ClCompile Include="BigNavigatedEnemyBullet.cpp" />
+    <ClCompile Include="ChooseWeaponScene.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Domes.cpp" />
+    <ClCompile Include="ElectricBullet.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Eyeballs.cpp" />
     <ClCompile Include="Floaters.cpp" />
@@ -143,9 +146,11 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GunUp.cpp" />
     <ClCompile Include="HealthBar.cpp" />
+    <ClCompile Include="HomingMissles.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InjuringBrick.cpp" />
     <ClCompile Include="Insects.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Jason.cpp" />
     <ClCompile Include="JasonBullet.cpp" />
@@ -165,20 +170,28 @@
     <ClCompile Include="SmallSophiaBullet.cpp" />
     <ClCompile Include="Small_Sophia.cpp" />
     <ClCompile Include="SoftBrick.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Stair.cpp" />
     <ClCompile Include="Teleporters.cpp" />
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="tinystr.cpp" />
+    <ClCompile Include="tinyxml.cpp" />
+    <ClCompile Include="tinyxmlerror.cpp" />
+    <ClCompile Include="tinyxmlparser.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="Worms.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="BigSophiaBullet.h" />
     <ClInclude Include="Big_Sophia.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Cannons.h" />
     <ClInclude Include="BigNavigatedEnemyBullet.h" />
+    <ClInclude Include="ChooseWeaponScene.h" />
+    <ClInclude Include="ElectricBullet.h" />
     <ClInclude Include="GadBrick.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gate.h" />
@@ -193,7 +206,9 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GunUp.h" />
+    <ClInclude Include="HomingMissles.h" />
     <ClInclude Include="InjuringBrick.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HUD.h" />
@@ -206,6 +221,7 @@
     <ClInclude Include="SmallNavigatedEnemyBullet.h" />
     <ClInclude Include="SmallSophiaBullet.h" />
     <ClInclude Include="SoftBrick.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Teleporters.h" />
     <ClInclude Include="Timer.h" />
@@ -221,6 +237,8 @@
     <ClInclude Include="Small_Sophia.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
+    <ClInclude Include="tinystr.h" />
+    <ClInclude Include="tinyxml.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="Worms.h" />
   </ItemGroup>

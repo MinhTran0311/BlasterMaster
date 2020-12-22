@@ -20,8 +20,12 @@
 18	Resource/SceneAndSpec/Scene/area_8.png	255	0	255
 19	Resource/SceneAndSpec/Scene/area_9.jpg	255	0	255
 20	Resource/SceneAndSpec/Scene/overworld.png	255	0	255
+41	Resource/select_continue.png	255	0	255
+
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+#select_continue
+60000	0	0	10	10	41
 ##============ SOPHIA JASON =================
 # idle right
 10001	146	5	172	23	30
@@ -141,7 +145,8 @@
 300103	211	88	230	107	1
 #rocket
 320001	114	3	128	9	2
-
+#electric
+320002	96	17	111	80	2
 #===========HEALTH_BAR====================#
 50001	30	35	50	127	50
 50002	55	37	71	45	50
@@ -153,8 +158,12 @@
 #GUNUP
 60002	66	237	82	253	1
 
+
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
+#select_continue
+60100	60000	100
 ##JASON=========================
 #idle right
 400	10001	100
@@ -239,6 +248,8 @@
 30005	300101	100	300102	100 	300103	100
 #rocket
 30006	320001	100
+#electric
+30007	320002	100
 #small sophia
 34001	340001	100
 ###============HealthBar==================#
@@ -269,8 +280,11 @@
 604	12003	100
 
 
+
 # id tuan theo define
 [ANIMATION_SETS]
+#select_continue
+61000	60100
 # JASON
 1	400	401	500	501	410	411	412	413	414	415	416	417	420	421	422	423	424	425	426	427	510	511	520	521	430	431	461	462	463	464	465	466	467	468	599	470
 # SMALL SOPHIA
@@ -279,6 +293,8 @@
 31	30001	30002	30003	30004	30005
 #rocket
 32	30006
+#electric
+33	30007
 #small sophia bullet
 34	34001	30005
 #=== HEALTH BAR ===
@@ -286,6 +302,7 @@
 #=======ITEM==========#
 51	60001
 52	60002
+
 [SCENE]
 #Stage1
 Resource/SceneAndSpec/scene1.txt	1024	275
@@ -307,3 +324,4 @@ Resource/SceneAndSpec/scene8.txt	518	275
 Resource/SceneAndSpec/scene9.txt	280	275
 #Stage10
 Resource/SceneAndSpec/overworld.txt	2048	2048
+

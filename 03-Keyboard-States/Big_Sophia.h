@@ -9,7 +9,7 @@
 #include "debug.h"
 #include "Enemy.h"
 #include "GateOverworld.h"
-
+#include "BigSophiaBullet.h"
 
 #define BIG_SOPHIA_BBOX_WIDTH		22
 #define BIG_SOPHIA_BBOX_HEIGHT		32
@@ -17,11 +17,11 @@
 #define BIG_SOPHIA_WALKING_SPEED			0.1f 
 
 #define BIG_SOPHIA_STATE_IDLE					0
-#define BIG_SOPHIA_STATE_WALKING_RIGHT			100
-#define BIG_SOPHIA_STATE_WALKING_LEFT			200
-#define BIG_SOPHIA_STATE_WALKING_TOP			300
-#define BIG_SOPHIA_STATE_WALKING_BOTTOM			400
-#define BIG_SOPHIA_STATE_DIE					500		
+#define BIG_SOPHIA_STATE_DIE					100
+#define BIG_SOPHIA_STATE_WALKING_RIGHT			200
+#define BIG_SOPHIA_STATE_WALKING_LEFT			300
+#define BIG_SOPHIA_STATE_WALKING_TOP			400
+#define BIG_SOPHIA_STATE_WALKING_BOTTOM			500
 #define BIG_SOPHIA_STATE_AUTO_RUN				600
 
 #define BIG_SOPHIA_ANI_IDLE_RIGHT				0
@@ -50,9 +50,6 @@ class Big_Sophia : public Player
 	float backup_x, backup_y;
 	bool _isAutoRun;
 	int directionAutoRun;
-	
-	bool GateColliding = false;
-
 public:
 	Big_Sophia (float x, float y, int health, int gundam);
 	~Big_Sophia ();
@@ -61,18 +58,9 @@ public:
 	void GetInfoBigSophia(int& direct, int& directY, float& playerx, float& playery, int& dame) { direct = nx; directY = ny; playerx = x; playery = y; dame = dam; }
 	virtual void FireBullet(int type);
 	virtual void GetPositionCenter(float&, float&) { x = this->x + BIG_SOPHIA_BBOX_WIDTH / 2; y = this->y + BIG_SOPHIA_BBOX_HEIGHT / 2; };
-	virtual void Reset();
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void SetState(int state);
-
-#pragma region GateOverworld
-	GateOverworld* gate;
-	GateOverworld* GetGate() { return gate; };
-	void ResetGate() { gate = NULL; };
-	bool GetGateColliding() { return GateColliding; };
-	void SetGateColliding(bool done) { GateColliding = done; };
-#pragma endregion
 };
 

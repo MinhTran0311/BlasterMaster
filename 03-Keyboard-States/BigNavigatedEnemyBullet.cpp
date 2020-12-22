@@ -107,22 +107,12 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 				break;
 			}
 		}
-		/*if (ny == 0)
-		{
-			vx = bullet_speed * nx;
-			vy = 0;
-		}
-		else
-		{
-			vy = bullet_speed * ny;
-			vx = 0;
-		}*/
 	}
 #pragma endregion
 	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
 	for (int i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->GetType() == TAG_GATE || coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_PLAYER)
+		if (coObjects->at(i)->GetType() == TAG_GATE || coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_PLAYER||coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD)
 			colliable_Objects->push_back(coObjects->at(i));
 	}
 #pragma region collision
@@ -130,6 +120,7 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
+	vector<LPGAMEENTITY> colliable_objects;
 
 	coEvents.clear();
 
@@ -179,7 +170,7 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 						isMoving = false;
 					}
 				}
-				if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == EntityType::TAG_GATE)
+				if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == EntityType::TAG_GATE|| e->obj->GetType() == EntityType::TAG_GATE_OVERWORLD)
 				{
 					if (isMoving)
 					{
@@ -192,7 +183,7 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			}
 		}
 	}
-	
+
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
 }

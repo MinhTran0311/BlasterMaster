@@ -43,6 +43,9 @@ class CGame
 	DIDEVICEOBJECTDATA keyEvents[KEYBOARD_BUFFER_SIZE];		// Buffered keyboard data
 
 	LPKEYEVENTHANDLER keyHandler;
+	ID3DXFont* font;
+	RECT fRectangle;
+	std::string message;
 
 public:
 
@@ -52,7 +55,8 @@ public:
 	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom);
 
 	void Draw(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha);
-
+	void IntroDraw(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha);
+	void DrawTextInScene(LPCWSTR str, float l, float r,float t,float b);
 
 	void OldDraw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255);
 	//void MapDraw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255);
@@ -61,12 +65,12 @@ public:
 	void DrawY(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha);
 	void DrawTopBottom(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha);
 
-	void SwitchScene(int id_scene);
+	//void SwitchScene(int id_scene);
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void LoadResources();
-
+	HWND GetHWND() {return hWnd;};
 	static bool IsCollidingAABB(
 		float ml,			// move left 
 		float mt,
@@ -99,6 +103,7 @@ public:
 	static CGame* GetInstance();
 	CGame();
 	~CGame();
+
 };
 
 

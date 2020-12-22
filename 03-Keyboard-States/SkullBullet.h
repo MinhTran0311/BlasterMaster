@@ -21,17 +21,19 @@
 #define BULLET_SKULL_ANI_EXPLOSION						1
 
 
-#define BULLET_SKULL_DELAY								9000
+#define BULLET_SKULL_DELAY								3000
 //kieu dan
 
 
 class SkullBullet : public Bullet
 {
+	LPGAMEENTITY target;
+
 	bool rolling = false;
 	bool bounce = false;
 	float bounceIndex = 0;
 public:
-	SkullBullet(float posX, float posY, int direct);
+	SkullBullet(float posX, float posY, int direct, LPGAMEENTITY t);
 	~SkullBullet();
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

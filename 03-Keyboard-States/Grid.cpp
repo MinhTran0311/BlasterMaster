@@ -81,7 +81,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		posGrid.push_back(make_pair(atof(tokens[3 + 2 * i-1].c_str()), atof(tokens[3 + 2 * i].c_str())));
 	}
 	int milestone =	3 + 2 * number_of_grid;
-	int ani_set_id = atoi(tokens[milestone+1].c_str());
+	//int ani_set_id = atoi(tokens[milestone+1].c_str());
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
 	LPGAMEENTITY obj = NULL;
@@ -89,6 +89,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	{
 	case EntityType::TAG_WORM:
 	{
+		int ani_set_id = atoi(tokens[milestone + 1].c_str());
 		obj = new Worm(x, y, player);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
@@ -99,6 +100,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	//doi voi brick thi milestone bang 5
 	case EntityType::TAG_FLOATER:
 	{
+		int ani_set_id = atoi(tokens[milestone + 1].c_str());
 		obj = new Floaters(x, y, player);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
@@ -108,6 +110,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_INSECT:
 	{
+		int ani_set_id = atoi(tokens[milestone + 1].c_str());
 		obj = new Insects(x, y, player);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
@@ -117,6 +120,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_ORBS:
 	{
+		int ani_set_id = atoi(tokens[milestone + 1].c_str());
 		int orb_mode = atoi(tokens[milestone + 2].c_str());
 		obj = new Orbs(x, y, player, orb_mode);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
@@ -127,6 +131,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_JUMPERS:
 	{
+		int ani_set_id = atoi(tokens[milestone + 1].c_str());
 		obj = new Jumpers(x, y, player);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
@@ -136,6 +141,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_SKULLS:
 	{
+		int ani_set_id = atoi(tokens[milestone + 1].c_str());
 		obj = new Skulls(x, y, player);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
@@ -145,6 +151,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_DOMES:
 	{
+		int ani_set_id = atoi(tokens[milestone + 1].c_str());
 		int domes_gravity = atoi(tokens[milestone + 2].c_str());
 		obj = new Domes(x, y, player, domes_gravity);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
@@ -155,6 +162,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_EYEBALLS:
 	{
+		int ani_set_id = atoi(tokens[milestone + 1].c_str());
 		obj = new Eyeballs(x, y, player);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
@@ -164,6 +172,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_TELEPORTERS:
 	{
+		int ani_set_id = atoi(tokens[milestone + 1].c_str());
 		obj = new Teleporters(x, y, player);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
@@ -173,6 +182,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_CANNONS:
 	{
+		int ani_set_id = atoi(tokens[milestone + 1].c_str());
 		obj = new Cannons(x, y, player);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
@@ -182,14 +192,14 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_BRICK:
 	{
-		obj = new Brick(x,y,atof(tokens[milestone + 2].c_str()), atof(tokens[milestone + 3].c_str()));
+		obj = new Brick(x,y,atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
 
 		DebugOut(L"[test] add brick !\n");
 		break;
 	}
 	case EntityType::TAG_INJURING_BRICK:
 	{
-		obj = new InjuringBrick(x, y, atof(tokens[milestone + 2].c_str()), atof(tokens[milestone + 3].c_str()));
+		obj = new InjuringBrick(x, y, atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
 		//obj->SetPosition(x, y);
 
 		DebugOut(L"[test] add injuring brick !\n");
@@ -197,7 +207,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_GAD_BRICK:
 	{
-		obj = new GadBrick(x, y, atof(tokens[milestone + 2].c_str()), atof(tokens[milestone + 3].c_str()));
+		obj = new GadBrick(x, y, atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
 		//obj->SetPosition(x, y);
 
 		DebugOut(L"[test] add gad brick !\n");
@@ -205,6 +215,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	}
 	case EntityType::TAG_SOFT_BRICK:
 	{
+		int ani_set_id = atoi(tokens[milestone + 1].c_str());
 		obj = new SoftBrick(x, y);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
@@ -219,20 +230,12 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		int playerPosY = atoi(tokens[milestone + 3].c_str());
 		int playerState = atoi(tokens[milestone + 4].c_str());
 		int isResetCamera = atoi(tokens[milestone + 5].c_str());
-		int int_typePlayer = atoi(tokens[milestone + 6].c_str());
-		EntityType typePlayer = EntityType::TAG_JASON; 
-		switch (int_typePlayer)
-		{
-		case 102:
-			typePlayer = EntityType::TAG_SMALL_SOPHIA;
-		case 103:
-			typePlayer = EntityType::TAG_BIG_SOPHIA;
-		}
-		float camX = atoi(tokens[milestone + 7].c_str());
+		
+		float camX = atoi(tokens[milestone + 6].c_str());
 		DebugOut(L"Tạo gate %d", camX);
-		int camY = atoi(tokens[milestone + 8].c_str());
+		int camY = atoi(tokens[milestone + 7].c_str());
 
-		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isResetCamera, typePlayer, camX, camY);
+		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isResetCamera, camX, camY);
 		DebugOut(L"[test] add gate !\n");
 		break;
 	}
@@ -258,10 +261,8 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	//}
 	default:
 		obj = nullptr;
-	//	DebugOut(L"[ERRO] Invalid object type: %d\n", object_type);
 		return;
 	}
-//	DebugOut(L"number of grid pairs: %d\n", posGrid.size());
 	for (int i = 0; i < posGrid.size(); i++)
 	//	DebugOut(L"Entity added at grid row %d collumn %d \n", posGrid.at(i).first, posGrid.at(i).second);
 	if (obj != nullptr)
@@ -343,7 +344,6 @@ void CGrid::UnLoadGrid()
 
 void CGrid::InsertGrid(LPGAMEENTITY obj)
 {
-	
 	RECT rectObj = obj->GetBBox();
 	int minRow = int(rectObj.top) / CELL_SIZE.y;
 	int maxRow = int(rectObj.bottom) / CELL_SIZE.y;
@@ -382,11 +382,14 @@ bool CGrid::CheckBulletLimitation(EntityType typebullet, float xPlayerPos, float
 			for (int k = 0; k < cells[i][j].size(); k++)
 			{
 				if (static_cast<Bullet*>(cells[i][j].at(k))->GetBulletType() == typebullet)
+				{
 					bullet_count++;
+					if (bullet_count >= limit) return false;
+				}
 			}
-	if (bullet_count < limit)
-		return true;
-	return false;
+//	if (bullet_count < limit)
+	return true;
+//	return false;
 }
 
 void CGrid::SetTargetForEnemies(LPGAMEPLAYER player)

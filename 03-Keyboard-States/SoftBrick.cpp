@@ -2,18 +2,19 @@
 
 void SoftBrick::Render()
 {
-	/*if (!isActive)
-		return;*/
+	if (!isActive)
+		return;
 	int ani = SOFTBRICK_ANI_IDLE;
 
 	if (state == SOFTBRICK_STATE_EXPLOSION)
 	{
 		ani = SOFTBRICK_ANI_EXPLOSION;
-		DebugOut(L"Soft brick exp");
-		if (animationSet->at(ani)->GetFrame() == 5)
+		DebugOut(L"Soft brick exp\n");
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
-			animationSet->at(ani)->ResetCurrentFrame();
 			isActive = false;
+			animationSet->at(ani)->ResetCurrentFrame();
+
 		}
 		animationSet->at(ani)->Render(1, x - abs(EXPLOSION_BBOX_WIDTH - SOFT_BRICK_BBOX_WIDTH)/2, y);
 	}
@@ -26,7 +27,6 @@ void SoftBrick::Render()
 
 void SoftBrick::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
-	DebugOut(L"healt: %d\n", health);
 	Entity::Update(dt);
 	if (health <= 0)
 	{

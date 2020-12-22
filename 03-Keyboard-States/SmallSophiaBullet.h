@@ -7,11 +7,11 @@
 #define BULLET_SMALL_SOPHIA_NORMAL_HORIZONTAL_BBOX_WIDTH		5
 #define BULLET_SMALL_SOPHIA_NORMAL_HORIZONTAL_BBOX_HEIGHT		5
 #define BULLET_SMALL_SOPHIA_NORMAL_VERTICAL_BBOX_WIDTH			5
-#define BULLET_SMALL_SOPHIA_NORMAL_VERTICAL_BBOX_HEIGHT		5
+#define BULLET_SMALL_SOPHIA_NORMAL_VERTICAL_BBOX_HEIGHT			5
 //state
-#define BULLET_SMALL_SOPHIA_STATE_FLYING						0
-#define BULLET_SMALL_SOPHIA_STATE_HIT_BRICK					100
-#define BULLET_SMALL_SOPHIA_STATE_HIT_ENEMY					200
+//#define BULLET_SMALL_SOPHIA_STATE_FLYING						0
+//#define BULLET_SMALL_SOPHIA_STATE_HIT_BRICK						100
+//#define BULLET_SMALL_SOPHIA_STATE_HIT_ENEMY						200
 
 //animation
 #define BULLET_SMALL_SOPHIA_NORMAL_ANI_RIGHT					0
@@ -34,5 +34,5 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	void Render();
-	virtual void SetState(int state);
+	//virtual void SetState(int state);
 };

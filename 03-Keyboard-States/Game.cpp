@@ -35,6 +35,15 @@ void CGame::InitWindow(int nCmdShow)
 {
 }
 
+void CGame::DrawTextInScene(LPCWSTR str, float l, float r,float t,float b) {
+	
+	/*font = NULL;*/
+	//LPCWSTR strfont = "Arial";
+	D3DXCreateFont(GetDirect3DDevice(), 25, 0, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FF_DONTCARE, L"Maven Pro", &font);
+	SetRect(&fRectangle, l, r, t, b);
+	
+	font->DrawText(NULL, str, -1, &fRectangle, DT_LEFT,D3DCOLOR_XRGB(255,255,255));
+}
 /*
 	Initialize DirectX, create a Direct3D device for rendering within the window, initial Sprite library for 
 	rendering 2D images
@@ -161,7 +170,6 @@ void CGame::DrawY(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, i
 	spriteHandler->SetTransform(&oldMatrix);
 
 }
-
 void CGame::DrawTopBottom(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
 	D3DXVECTOR3 p(floor(x - Camera::GetInstance()->GetCamx()), floor(y - Camera::GetInstance()->GetCamy()), 0);
@@ -188,6 +196,7 @@ void CGame::DrawTopBottom(int direction, float x, float y, LPDIRECT3DTEXTURE9 te
 	spriteHandler->SetTransform(&oldMatrix);
 }
 
+
 //void CGame::MapDraw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 //{
 //	D3DXVECTOR3 p(floor(x - Camera::GetInstance()->GetCamx()), floor(y - Camera::GetInstance()->GetCamy()), 0);
@@ -211,21 +220,21 @@ void CGame::DrawTopBottom(int direction, float x, float y, LPDIRECT3DTEXTURE9 te
 //	spriteHandler->SetTransform(&oldMatrix);
 //}
 
-void CGame::SwitchScene(int id_scene)
-{
-	DebugOut(L"[Info] Switching to scene %d\n", id_scene);
-
-	scenes[current_scene]->Unload();
-	CTextures::GetInstance()->Clear();
-	CSprites::GetInstance()->Clear();
-	CAnimations::GetInstance()->Clear();
-
-	current_scene = id_scene;
-	LPSCENE s = scenes[id_scene];
-	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
-	
-
-}
+//void CGame::SwitchScene(int id_scene)
+//{
+//	DebugOut(L"[Info] Switching to scene %d\n", id_scene);
+//
+//	scenes[current_scene]->Unload();
+//	CTextures::GetInstance()->Clear();
+//	CSprites::GetInstance()->Clear();
+//	CAnimations::GetInstance()->Clear();
+//
+//	current_scene = id_scene;
+//	LPSCENE s = scenes[id_scene];
+//	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
+//	
+//
+//}
 
 int CGame::IsKeyDown(int KeyCode)
 { 
@@ -326,7 +335,32 @@ void CGame::Draw(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, in
 
 	spriteHandler->SetTransform(&oldMatrix);
 }
+void CGame::IntroDraw(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+{
+	D3DXVECTOR3 p(floor(x - Camera::GetInstance()->GetCamx()), floor(y - Camera::GetInstance()->GetCamy()), 0);
+	RECT r;
+	r.left = left;
+	r.top = top;
+	r.right = right;
+	r.bottom = bottom;
 
+	D3DXMATRIX oldMatrix;
+	D3DXMATRIX newMatrix;
+
+	D3DXVECTOR2 scaling;
+	//1.1852 1.0538
+	if (direction > 0)
+		scaling = D3DXVECTOR2(1.1852, 1.0538);
+	else
+		scaling = D3DXVECTOR2(-1, 1);
+
+	D3DXMatrixTransformation2D(&newMatrix, &D3DXVECTOR2( (float)(right - left) / 2 - 130, p.y + (float)(bottom - top) / 2 - 150), 0, &scaling, NULL, 0, NULL);
+	spriteHandler->GetTransform(&oldMatrix);
+	spriteHandler->SetTransform(&newMatrix);
+	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+
+	spriteHandler->SetTransform(&oldMatrix);
+}
 
 void CGame::ProcessKeyboard()
 {
@@ -691,7 +725,7 @@ CGame::~CGame()
 	if (backBuffer != NULL) backBuffer->Release();
 	if (d3ddv != NULL) d3ddv->Release();
 	if (d3d != NULL) d3d->Release();
+	
 }
-
 
 

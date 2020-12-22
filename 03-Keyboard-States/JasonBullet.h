@@ -13,10 +13,6 @@
 #define BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_HEIGHT		6
 #define BULLET_JASON_UPGRADE_VERTICAL_BBOX_WIDTH		6
 #define BULLET_JASON_UPGRADE_VERTICAL_BBOX_HEIGHT		24
-//state
-#define BULLET_JASON_STATE_FLYING						0
-#define BULLET_JASON_STATE_HIT_BRICK					100
-#define BULLET_JASON_STATE_HIT_ENEMY					200
 
 //animation
 #define BULLET_JASON_NORMAL_ANI_RIGHT					0
@@ -25,7 +21,7 @@
 #define BULLET_JASON_UPGRADE_ANI_TOP					3
 #define BULLET_BANG										4
 
-#define BULLET_JASON_DELAY								650
+#define BULLET_JASON_DELAY								1000
 
 
 
@@ -38,5 +34,4 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	void Render();
-	virtual void SetState(int state);
 };

@@ -90,6 +90,10 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	/*else SetState(ORBS_STATE_FLY);*/
 	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TARGET_RANGE)
 	{
+		/*if (((-this->x + target->x) < 18) && ((-this->x + target->x) > 0) && ((-this->y + target->y) < 15) && ((-this->y + target->y) > 0)) {
+			this->health = 0;
+			
+		}*/
 		if (mode == 1) {
 			Attack(target);
 		}
@@ -171,7 +175,8 @@ Orbs::Orbs(float x, float y, LPGAMEENTITY t, int orb_mode)
 
 void Orbs::Attack(LPGAMEENTITY target) //đi theo nhân vật
 {
-	if (abs(target->x - this->x) < 20 && canflip) {
+	
+	if (abs(target->x - this->x) < 20 && canflip && abs(target->y - this->y) < 60) {
 		isAttack == true;
 		/*if (this->r->getRandomInt(1, 2) == 1) { this->vy = FLYING_SPEED; }
 		if (this->r->getRandomInt(1, 2) == 2) { this->vy = -FLYING_SPEED; }*/

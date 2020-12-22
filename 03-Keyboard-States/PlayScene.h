@@ -25,28 +25,43 @@
 
 #include "GunUp.h"
 #include "PowerUp.h"
+#include "Sound.h"
 #include <iostream>
 #include <fstream>
 using namespace std;
 
+#define LIFE_DISPLAY			1
+#define CHOOSING_WEAPON_DISPLAY	2
+
 struct PlayerHealthAndGunInfo
 {
+
+	int life = 2;
 	int playerDirectionBeforePassGate = 1;
 	int jasonHealth = PLAYER_MAX_HEALTH;
 	int jasonGundam = PLAYER_DEFAULT_GUNDAM;
+	int jasonStage = 1;
+	float jasonXPos, jasonYPos;
 	int sophiaHealth = PLAYER_MAX_HEALTH;
 	int sophiaGundam = PLAYER_DEFAULT_GUNDAM;
+	int sophiaStage = 1;
+	float sophiaXPos, sophiaYPos;
+	int specialWeapon = 1;
 };
 
 class PlayScene : public Scene
 {
 public:
-	int _SophiaType = -1;
+	bool select_end = false;
+	bool death = false;
+	int time_drawlife = 0;
+	bool isReset = false;
 	float oldPosX;
 	float oldPosY;
 	int CamMoveDirection = -1;
 	float posX, posY;
 	float xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack;
+
 
 
 	float nCamXGo;
@@ -55,14 +70,23 @@ public:
 	float nCamYBack;
 	int camMap1X;
 	int camMap1Y;
-	bool tempNeed;
+	bool isNeedResetCamera;
 	//Entity* currentPlayer;
 	PlayScene();
 	DWORD timeResetCam;
 	PlayScene (int idStage);
 	~PlayScene();
 	bool isUnloaded = false;
+	
+	int inforDisplay = 0;
+
+	/*void SetKeyhandler(Scene* scene) {
+		keyHandler = new PlayScenceKeyHandler(scene);
+		CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
+	}*/
 protected:
+
+	LPANIMATION_SET animation_set;
 	LPGAMEPLAYER player;
 	LPGAMEPLAYER backup_player;
 	PlayerHealthAndGunInfo playerInfo;
@@ -73,10 +97,12 @@ protected:
 	void LoadBaseTextures();
 	int mapWidth, mapHeight;
 	int camMaxWidth;
-
+	void SetInforDisplay(int type) { inforDisplay = type; };
+	int GetInforDisplay() { return inforDisplay; };
 	void CheckPlayerReachGate();
 
 	void ChooseMap(int whatStage);
+
 
 	virtual void Update(DWORD dt);
 	virtual void Render();
@@ -88,7 +114,6 @@ protected:
 
 	friend class PlayScenceKeyHandler;
 protected:
-	Camera* gameCamera;
 	vector<LPCWSTR> listSceneFilePath;
 #pragma region lists
 	vector<int> listWidth;

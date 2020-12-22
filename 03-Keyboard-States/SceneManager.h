@@ -8,6 +8,7 @@ class SceneManager
 {
 	static SceneManager* __instance;
 	Scene* currentScene;
+	Scene* holderScene;
 public:
 	SceneManager();
 	~SceneManager();
@@ -15,6 +16,9 @@ public:
 	static SceneManager* GetInstance();
 	void SetScene(Scene* scene) { currentScene = scene; }
 	Scene* GetScene() { return currentScene; }
+
+	void SetHolderScene(Scene* scene) { holderScene = scene; }
+	Scene* GetHolderScene() { return holderScene; }
 
 	void Load(LPCWSTR path);
 	void Unload();
