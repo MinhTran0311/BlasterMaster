@@ -2,7 +2,7 @@
 #include "Bullet.h"
 #include "JasonRocket.h"
 #include <vector>
-#define HOMING_MISSLES_DELAY	2000
+#define HOMING_MISSLES_DELAY	1500
 
 #define HOMING_MISSLES_JASON_STATE_FIRE	0
 #define HOMING_MISSLES_JASON_STATE_DONE	100

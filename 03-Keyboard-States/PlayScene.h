@@ -90,8 +90,6 @@ protected:
 	LPGAMEPLAYER player;
 	LPGAMEPLAYER backup_player;
 	PlayerHealthAndGunInfo playerInfo;
-	JASON* jason;
-	Small_Sophia* ssophia;
 	HUD* gameHUD;
 	void LoadBaseObjects();
 	void LoadBaseTextures();

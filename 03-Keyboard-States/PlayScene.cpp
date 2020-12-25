@@ -338,7 +338,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 		case DIK_X:
 		{
-			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3))
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3) && player->GetPlayerType()!=TAG_BIG_SOPHIA)
 			{
 				Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
 				CGrid::GetInstance()->InsertGrid(bullet);
@@ -348,12 +348,12 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		case DIK_V:
 		{
 			//burst fire
-			player->FireBullet(2);
+		//	player->FireBullet(2);
 			break;
 		}
 		case DIK_C:
 		{
-			player->FireBullet(3);
+		//	player->FireBullet(3);
 			break;
 		}
 		}
