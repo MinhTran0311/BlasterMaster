@@ -5,13 +5,17 @@
 //#include "PlayScence.h"
 //#include "EnemyBullet.h"
 #include "Vec2.h"
-CBoss::CBoss(float x, float y) :
+
+CBoss::CBoss(float xPos, float yPos) :
 	BigClawLeft(ANIMATION_SET_BOSS_CLAW_LEFT),
 	BigClawRight(ANIMATION_SET_BOSS_CLAW_RIGHT)
 
 {
-	startX = x;
-	startY = y;
+	x = xPos;
+	y = yPos;
+	startX = xPos;
+	startY = yPos;
+
 	isActive = true;
 	dam = 1;
 	health = 30;
@@ -48,7 +52,7 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 	x += dx;
 	y += dy;
-
+	DebugOut(L"x: %f, y: %f", x, y);
 
 	if (vx < 0 && x < (startX - 100)) {
 		x = startX - 100;
