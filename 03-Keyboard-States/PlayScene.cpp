@@ -16,7 +16,7 @@
 
 #define MAP2_SIDE	200
 
-#define HUD_Y (SCREEN_HEIGHT/11)
+#define HUD_Y (SCREEN_HEIGHT/2.5)
 
 PlayScene::PlayScene()
 {
@@ -43,11 +43,12 @@ void PlayScene::LoadBaseObjects()
 
 	}
 
-	if (gameHUD == NULL)
+	/*if (gameHUD == NULL)
 	{
 		gameHUD = new HUD(player->GetHealth(), player->GetgunDam());
 		DebugOut(L"[INFO] HUD CREATED! %d \n", player->GetHealth());
-	}
+	}*/
+	HUD::GetInstance()->HUDInit(player->GetHealth(), player->GetgunDam());
 #pragma endregion
 	//Sound::GetInstance()->LoadSound("Resource\\Sound\\01Opening.wav", "BackgroundMusic");
 
@@ -839,7 +840,7 @@ void PlayScene::Update(DWORD dt)
 		CGrid::GetInstance()->UpdateGrid(coObjects);
 		//player
 
-		gameHUD->Update(Camera::GetInstance()->GetCamx(), HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam());
+		HUD::GetInstance()->Update(Camera::GetInstance()->GetCamx()+20, HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam(), player->GetPlayerType());
 		}
 #pragma endregion
 
@@ -890,7 +891,7 @@ void PlayScene::Render()
 			player->Render();
 			break;
 		}
-		gameHUD->Render(player);
+		HUD::GetInstance()->Render(player);
 
 	}
 	

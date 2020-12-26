@@ -197,7 +197,7 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 				y += min_ty * dy + ny * 0.4f;
 				if (e->ny != 0)
 				{
-					if (e->ny != 0)
+					if (e->ny == -1)
 					{
 						vy = 0;
 						if (this->GetPlayerType() == TAG_JASON)

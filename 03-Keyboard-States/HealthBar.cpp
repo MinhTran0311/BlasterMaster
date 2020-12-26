@@ -16,12 +16,20 @@ HealthBar::HealthBar(int maxHealth, int isGun)
 HealthBar::~HealthBar()
 {}
 
-void HealthBar::Update(int currentHealth, float X, float Y)
+void HealthBar::Update(int currentHealth, float xPos, float yPos)
 {
 	currentPlayerHealth = currentHealth;
 	if (currentHealth <= 0) return;
-	x = X;
-	y = Y;
+	x = xPos + 1.5;
+	if (isGun)
+	{
+		
+		y = yPos;
+	}
+	else
+	{
+		y = yPos + float(HEALTH_BAR_HEIGHT + HEALTH_CHAR_HEIGHT + HEALTH_BLANK_SPACE * 2);
+	}
 }
 
 void HealthBar::Render()
@@ -33,11 +41,11 @@ void HealthBar::Render()
 		{
 			if (isGun)
 			{
-				health[i]->at(HEALTH_TYPE_GUN_UNIT)->Render(1, x, y + 57 - i * HEALTH_SPACE_UNIT);
+				health[i]->at(HEALTH_TYPE_UNIT)->Render(1, x, y + 29 - i * HEALTH_SPACE_UNIT);
 			}
 			else
 			{
-				health[i]->at(HEALTH_TYPE_PLAYER_UNIT)->Render(1, x, y + 57 - i * HEALTH_SPACE_UNIT);
+				health[i]->at(HEALTH_TYPE_UNIT)->Render(1, x, y + 29 - i * HEALTH_SPACE_UNIT);
 			}
 		}
 	}

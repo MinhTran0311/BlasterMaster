@@ -56,7 +56,6 @@ public:
 	
 
 	//get set functions
-
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 
 	void Setvx(float new_vx) { vx = new_vx; }

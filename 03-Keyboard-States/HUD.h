@@ -16,17 +16,21 @@ using namespace std;
 
 class HUD
 {
+private:
+	static HUD* instance;
+
 	float x, y;
 
-	LPANIMATION_SET UIanimationSet;
+	LPANIMATION_SET animationSet;
 
 	HealthBar* playerHB;
 	HealthBar* gunHB;
 
 public:
-	HUD(int initPlayerHealth = 8, int initGunHealth = 8);
+	static HUD* GetInstance();
+	HUD() {};
 	~HUD();
-
-	void Update(float x, float y, int currentPlayerHealth, int currentGunHealth);
+	void HUDInit(int initPlayerHealth = 8, int initGunHealth = 8);
+	void Update(float x, float y, int currentPlayerHealth, int currentGunHealth, EntityType playerType);
 	void Render(LPGAMEPLAYER playerInfo);
 };
