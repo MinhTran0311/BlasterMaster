@@ -38,7 +38,6 @@ void Big_Sophia::AutoRun(int direction)
 
 void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
-	DebugOut(L"nx: %d, ny: %d\n", nx, ny);
 	Player::Update(dt, coObjects);
 #pragma region Timer
 	//if (isImmortaling && immortalTimer->IsTimeUp())

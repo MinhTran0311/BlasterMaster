@@ -41,5 +41,6 @@ BossArm::BossArm(CBoss* boss, int _type)
 	this->Boss = boss;
 	x = Boss->x;
 	y = Boss->y;
+	isActive = true;
 
 }

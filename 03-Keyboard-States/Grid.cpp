@@ -202,7 +202,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 		obj->SetAnimationSet(ani_set);
-		DebugOut(L"[test] add cannons !\n");
+		DebugOut(L"[test] add Boss !\n");
 		break;
 	}
 
@@ -284,7 +284,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	//	DebugOut(L"Entity added at grid row %d collumn %d \n", posGrid.at(i).first, posGrid.at(i).second);
 	if (obj != nullptr)
 	{
-		
+		InsertGrid(obj, posGrid);
 		if (hasBoss)
 		{
 			hasBoss = false;

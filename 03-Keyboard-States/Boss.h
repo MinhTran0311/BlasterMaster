@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "Vec2.h"
 #include <cmath>
+#include "global.h"
 #define BOSS_WALKING_SPEED 0.05f;
 
 #define BOSS_BBOX_WIDTH 60

@@ -6,11 +6,13 @@
 //#include "EnemyBullet.h"
 #include "Vec2.h"
 CBoss::CBoss(float x, float y) :
-	BigClawLeft(22),
-	BigClawRight(23)
+	BigClawLeft(ANIMATION_SET_BOSS_CLAW_LEFT),
+	BigClawRight(ANIMATION_SET_BOSS_CLAW_RIGHT)
 
 {
-
+	startX = x;
+	startY = y;
+	isActive = true;
 	dam = 1;
 	health = 30;
 	nx = -1;
@@ -18,8 +20,7 @@ CBoss::CBoss(float x, float y) :
 	vx = -BOSS_WALKING_SPEED;
 	vy = BOSS_WALKING_SPEED;
 	Init();
-	startX = x;
-	startY = y;
+
 }
 
 void CBoss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -147,8 +148,7 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void CBoss::Render()
 {
-
-	
+	DebugOut(L"Boss render x: %f, y: %f \n",x,y);
 	animationSet->at(0)->OldRender(x, y);
 	//animationSet->at(0)->Render(x, y);
 
@@ -156,9 +156,7 @@ void CBoss::Render()
 		return;
 	}*/
 
-
-
-	//RenderBoundingBox();
+	RenderBoundingBox();
 	BigClawLeft.Render();
 	BigClawRight.Render();
 	for (int i = 0; i < 4; i++)
@@ -306,7 +304,6 @@ void CBoss::Init()
 		this->LeftArm[i].calculateEndpoint();
 		this->RightArm[i].setStartPoint(Vec2(x + 60 + i * 15, 120 + i * 15));
 		this->RightArm[i].calculateEndpoint();
-
 	}
 
 }
@@ -384,7 +381,7 @@ CBoss::BossClawSection::BossClawSection(int anisetid)
 }
 CBoss::BossClawSection::BossClawSection()
 {
-	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(17));
+	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BOSS_CLAW));
 	this->Angle = 0;
 	this->startPoint = Vec2(200, 30);
 	this->calculateEndpoint();
@@ -393,7 +390,7 @@ CBoss::BossClawSection::BossClawSection()
 
 CBoss::BossClawSection::BossClawSection(Vec2 start, float angle)
 {
-	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(17));
+	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BOSS_CLAW));
 	this->Angle = angle;
 	this->startPoint = start;
 	this->calculateEndpoint();
