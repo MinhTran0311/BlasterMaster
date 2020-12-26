@@ -70,6 +70,9 @@
     <Filter Include="Objects\Bullets\Player\BigSophiaBullets">
       <UniqueIdentifier>{3602dd46-c8ff-4776-9908-acfae3b31f37}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Objects\Boss">
+      <UniqueIdentifier>{da25b7d6-335f-408d-87bd-4a2fe31870f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -234,6 +237,15 @@
     <ClCompile Include="tinyxml.cpp" />
     <ClCompile Include="tinyxmlerror.cpp" />
     <ClCompile Include="tinyxmlparser.cpp" />
+    <ClCompile Include="Boss.cpp">
+      <Filter>Objects\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="BossArm.cpp">
+      <Filter>Objects\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Vec2.cpp">
+      <Filter>FrameWork</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -402,6 +414,15 @@
     <ClInclude Include="Sound.h" />
     <ClInclude Include="tinystr.h" />
     <ClInclude Include="tinyxml.h" />
+    <ClInclude Include="Boss.h">
+      <Filter>Objects\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="BossArm.h">
+      <Filter>Objects\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Vec2.h">
+      <Filter>FrameWork</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="textures\mario.png">

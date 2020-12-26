@@ -126,6 +126,8 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BigSophiaBullet.cpp" />
     <ClCompile Include="Big_Sophia.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BossArm.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Cannons.cpp" />
@@ -180,12 +182,15 @@
     <ClCompile Include="tinyxmlerror.cpp" />
     <ClCompile Include="tinyxmlparser.cpp" />
     <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Vec2.cpp" />
     <ClCompile Include="Worms.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
     <ClInclude Include="BigSophiaBullet.h" />
     <ClInclude Include="Big_Sophia.h" />
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="BossArm.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Cannons.h" />
@@ -240,6 +245,7 @@
     <ClInclude Include="tinystr.h" />
     <ClInclude Include="tinyxml.h" />
     <ClInclude Include="Utils.h" />
+    <ClInclude Include="Vec2.h" />
     <ClInclude Include="Worms.h" />
   </ItemGroup>
   <ItemGroup>

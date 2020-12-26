@@ -17,6 +17,8 @@
 #include "GadBrick.h"
 #include "SoftBrick.h"
 #include "Big_Sophia.h"
+#include "Boss.h"
+#include "BossArm.h"
 vector<LPGAMEENTITY> CGrid::FilterObjectDuplicate(vector<LPGAMEENTITY> objs)
 {
 	std::sort(objs.begin(), objs.end());
@@ -85,6 +87,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
 	LPGAMEENTITY obj = NULL;
+	bool hasBoss = false;
 	switch (object_type)
 	{
 	case EntityType::TAG_WORM:
@@ -190,6 +193,20 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		DebugOut(L"[test] add cannons !\n");
 		break;
 	}
+
+	case EntityType::TAG_BOSS:
+	{
+		int ani_set_id = atoi(tokens[milestone + 1].c_str());
+		obj = new CBoss(x, y);
+		hasBoss = true;
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		DebugOut(L"[test] add cannons !\n");
+		break;
+	}
+
+
 	case EntityType::TAG_BRICK:
 	{
 		obj = new Brick(x,y,atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
@@ -267,7 +284,16 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	//	DebugOut(L"Entity added at grid row %d collumn %d \n", posGrid.at(i).first, posGrid.at(i).second);
 	if (obj != nullptr)
 	{
-		InsertGrid(obj, posGrid);
+		
+		if (hasBoss)
+		{
+			hasBoss = false;
+			BossArm* leftArm = new BossArm(dynamic_cast<CBoss*>(obj), TYPE_LEFT_CLAW);
+			InsertGrid(leftArm, posGrid);
+			BossArm* rightArm = new BossArm(dynamic_cast<CBoss*>(obj), TYPE_RIGHT_CLAW);
+			InsertGrid(rightArm, posGrid);
+
+		}
 	}
 }
 

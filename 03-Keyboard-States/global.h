@@ -100,6 +100,7 @@ enum EnemyType
 	EYEBALLS = 17,
 	TELEPORTERS =18,
 	CANNONS = 19,
+	BOSS = 20,
 };
 enum EntityType
 {
@@ -133,6 +134,7 @@ enum EntityType
 	TAG_EYEBALLS = 17,
 	TAG_TELEPORTERS = 18,
 	TAG_CANNONS = 19,
+	TAG_BOSS = 20,
 
 	//Bullet	30 - 50
 	BULLET=30,
