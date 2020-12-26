@@ -5,9 +5,9 @@ ChooseWeaponScene::ChooseWeaponScene()
 {
 }
 
-ChooseWeaponScene::ChooseWeaponScene(int _idStage) : Scene()
+ChooseWeaponScene::ChooseWeaponScene(int _weaponId) : Scene()
 {
-	idStage = _idStage;
+	weaponId = _weaponId;
 	keyHandler = new ChooseWeaponSceneKeyHandler(this);
 	CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
 	LoadBaseObjects();
@@ -104,13 +104,13 @@ void ChooseWeaponSceneKeyHandler::OnKeyDown(int KeyCode)
 		chooseWeaponScene->SetIsFinished(true);
 	}
 	if (KeyCode==DIK_LEFT) {
-		if (chooseWeaponScene->getidStage() > 0)
-			chooseWeaponScene->setidStage(chooseWeaponScene->getidStage() - 1);
+		if (chooseWeaponScene->GetWeaponId() > 0)
+			chooseWeaponScene->SetWeaponId(chooseWeaponScene->GetWeaponId() - 1);
 
 	}
 	if (KeyCode == DIK_RIGHT) {
-		if (chooseWeaponScene->getidStage() < 2)
-			chooseWeaponScene->setidStage(chooseWeaponScene->getidStage() + 1);
+		if (chooseWeaponScene->GetWeaponId() < 2)
+			chooseWeaponScene->SetWeaponId(chooseWeaponScene->GetWeaponId() + 1);
 
 	}
 }
@@ -275,8 +275,8 @@ void ChooseWeaponScene::Render()
 {
 
 	chooseWeaponScene_ani_set->at(0)->IntroRender(1, 0, 0);
-	chooseWeaponScene_ani_set->at(1)->IntroRender(1, 78	 + 32 * idStage, 176);
-	chooseWeaponScene_ani_set->at(2)->IntroRender(1, 104 + 32 * idStage, 176);
+	chooseWeaponScene_ani_set->at(1)->IntroRender(1, 54	 + 32 * weaponId, 176);
+	chooseWeaponScene_ani_set->at(2)->IntroRender(1, 80 + 32 * weaponId, 176);
 	
 }
 void ChooseWeaponScene::Unload()
