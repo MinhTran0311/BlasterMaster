@@ -792,6 +792,7 @@ void PlayScene::Update(DWORD dt)
 			{
 				if (coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != TAG_GATE && coObjects.at(i)->GetType() != TAG_GATE_OVERWORLD)
 				{
+
 					coObjects[i]->Update(dt, &coObjects);
 				}
 			}
