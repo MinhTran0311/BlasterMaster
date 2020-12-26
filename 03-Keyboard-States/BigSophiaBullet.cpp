@@ -132,7 +132,6 @@ void BigSophiaBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		}
 		HandlePlayerBulletCollision(coObjects);
 	}
-//	DebugOut(L"x: %f, y: %f\n", x, y);
 }
 
 void BigSophiaBullet::Render()
