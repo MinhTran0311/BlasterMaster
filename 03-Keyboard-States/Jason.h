@@ -90,10 +90,24 @@ class JASON : public Player
 	bool isPressJump;
 	bool isPressFlipGun;
 	bool isEjecting;
+
+	int noOfHomingMisslesWeaponLeft = 3;
+	int noOfElectricWeaponLeft = 3;
+	int noOfRocketsWeaponLeft = 3;
+	EntityType specialBulletType;
+
 public:
 	JASON(float x, float y, int health, int gundam);
 	JASON() {};
 	static JASON* GetInstance();
+
+	void GetNoOfBulletLeft(int& rocket, int& missles, int& electric) {
+		rocket = noOfRocketsWeaponLeft;
+		missles = noOfHomingMisslesWeaponLeft;
+		electric = noOfElectricWeaponLeft;
+	}
+	int GetCurrentSpecialWeapon() { return specialBulletType; };
+	void SetSpecialBulletType(EntityType _specialbullettype) { specialBulletType = _specialbullettype; };
 
 
 	void SetState(int state);

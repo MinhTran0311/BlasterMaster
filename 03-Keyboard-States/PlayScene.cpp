@@ -348,12 +348,14 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		case DIK_V:
 		{
 			//burst fire
-		//	player->FireBullet(2);
+			if (player->GetPlayerType() == TAG_JASON)
+				player->FireBullet(2);
 			break;
 		}
 		case DIK_C:
 		{
-		//	player->FireBullet(3);
+			if (player->GetPlayerType()==TAG_JASON)
+				player->FireBullet(3);
 			break;
 		}
 		}
@@ -697,13 +699,13 @@ void PlayScene::CheckPlayerReachGate()
 void PlayScene::Update(DWORD dt)
 {
 
-	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY)
+	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY &&  player->GetPlayerType()==TAG_JASON)
 	{
 		SceneManager::GetInstance()->SetHolderScene(SceneManager::GetInstance()->GetScene());
 		/*if (SceneManager::GetInstance()->GetHolderScene() == nullptr)*/
 		DebugOut(L"khong null: %d\n", SceneManager::GetInstance()->GetHolderScene());
 		inforDisplay = 0;
-		SceneManager::GetInstance()->SetScene(new ChooseWeaponScene(2));
+		SceneManager::GetInstance()->SetScene(new ChooseWeaponScene(dynamic_cast<JASON*>(player)));
 
 	}
 	else if (this->inforDisplay == LIFE_DISPLAY)
