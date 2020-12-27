@@ -21,8 +21,8 @@
 19	Resource/SceneAndSpec/Scene/area_9.jpg	255	0	255
 20	Resource/SceneAndSpec/Scene/overworld.png	255	0	255
 41	Resource/select_continue.png	255	0	255
-100	Resource/boss.jpg	255	0	255
-101	Resource/bossarm.jpg	255	0	255
+100	Resource/boss.jpg	0	255	0
+101	Resource/bossarm.jpg	0	255	0
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]

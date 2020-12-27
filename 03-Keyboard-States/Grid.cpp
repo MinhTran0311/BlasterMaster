@@ -202,6 +202,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 		obj->SetAnimationSet(ani_set);
+		dynamic_cast<CBoss*>(obj)->SetTarget(player);
 		DebugOut(L"[test] add Boss !\n");
 		break;
 	}

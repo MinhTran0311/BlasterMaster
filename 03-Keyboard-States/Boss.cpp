@@ -25,6 +25,7 @@ CBoss::CBoss(float xPos, float yPos) :
 	vy = BOSS_WALKING_SPEED;
 	Init();
 
+
 }
 
 void CBoss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -156,11 +157,11 @@ void CBoss::Render()
 	animationSet->at(0)->OldRender(x, y);
 	//animationSet->at(0)->Render(x, y);
 
-	/*if (state == BOSS_STATE_DIE) {
+	if (state == BOSS_STATE_DIE) {
 		return;
-	}*/
+	}
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	BigClawLeft.Render();
 	BigClawRight.Render();
 	for (int i = 0; i < 4; i++)
@@ -212,92 +213,91 @@ void CBoss::getRightClawPos(float& x, float& y)
 
 void CBoss::updateTarget1()
 {
+	lList[0] = Vec2(x, y) + Vec2(-180, -160);
+	lList[1] = Vec2(x, y) + Vec2(20, 20);
+	lList[2] = Vec2(x, y) + Vec2(20, 200);
+	lList[3] = Vec2(x, y) + Vec2(-180, 200);
+	lList[4] = Vec2(x, y) + Vec2(-100, 20);
+	lList[5] = lList[1];
+	lList[6] = Vec2(x, y) + Vec2(20, -160);
+	lList[7] = Vec2(x, y) + Vec2(-180, -160);
+	lList[8] = lList[4];
+	lList[9] = lList[3];
+	lList[10] = lList[4];
+	lList[11] = lList[1];
+	lList[12] = lList[5];
+	lList[13] = lList[0];
+	lList[14] = lList[3];
+	lList[15] = lList[2];
+	lList[16] = lList[1];
+	lList[17] = lList[4];
+	lList[18] = lList[0];
 
-	float left = x - 60;
-	float right = x + 30;
-	float bottom = y + 90;
-	float top = y - 60;
-	/*DebugOut(L"Left %f \n", left);
-	DebugOut(L"Right %f \n", right);
-	DebugOut(L"top %f \n", top);
-	DebugOut(L"bottom %f \n", bottom);*/
-	Target1 += Speed;
-	if (Target1.x >= right)
+
+
+
+	const float speedX = 2.5f, speedY = 4.0f;
+	nextTarget1 = lList[indexTarget1];
+	if (Target1.x > nextTarget1.x)
+		Target1.x -= speedX;
+	else Target1.x += speedX;
+
+
+	if (Target1.y > nextTarget1.y)
+		Target1.y -= speedY;
+	else Target1.y += speedY;
+	if (Target1.Direction(nextTarget1).GetLength() < 10)
 	{
-		Target1.x = right;
-		Speed = Vec2(Speed.x * -1, Speed.y);
-
+		indexTarget1++;
+	}
+	if (indexTarget1 == 18)
+	{
+		indexTarget1 = 0;
 	}
 
-	if (Target1.x <= left)
-	{
-		Target1.x = left;
-		Speed = Speed = Vec2(Speed.x * -1, Speed.y);
-		/*DebugOut(L"Speed %f \n", Speed.x);
-		DebugOut(L"Speed %f \n", Speed.y);*/
-	}
 
-	if (Target1.y >= bottom)
-	{
-		Target1.y = bottom;
-
-		Speed = Vec2(Speed.x, Speed.y * -1);
-		/*DebugOut(L"Speed %f \n", Speed.x);
-		DebugOut(L"Speed %f \n", Speed.y);*/
-	}
-	if (Target1.y <= top)
-	{
-		Target1.y = top;
-
-		Speed = Vec2(Speed.x, Speed.y * -1);
-		/*DebugOut(L"Speed %f \n", Speed.x);
-		DebugOut(L"Speed %f \n", Speed.y);*/
-	}
 
 }
 
 void CBoss::updateTarget2()
 {
-	float left = x;
-	float right = x + 180;
-	float bottom = y + 90;
-	float top = y - 60;
-	/*DebugOut(L"Left %f \n", left);
-	DebugOut(L"Right %f \n", right);
-	DebugOut(L"top %f \n", top);
-	DebugOut(L"bottom %f \n", bottom);*/
-	Target2 += Speed2;
-	if (Target2.x >= right)
+
+	//rList[0] = Vec2(x, y) + Vec2(180, -40);
+	//rList[1] = Vec2(x, y) + Vec2(60, 80);
+	//rList[2] = Vec2(x, y) + Vec2(40, 80);
+	//rList[3] = Vec2(x, y) + Vec2(40, -40);
+	//rList[4] = Vec2(x, y) + Vec2(60, 80);
+	//rList[5] = Vec2(x, y) + Vec2(180, 60);
+
+	rList[0] = Vec2(x, y) + Vec2(180, -160);
+	rList[1] = Vec2(x, y) + Vec2(60, 200);
+	rList[2] = Vec2(x, y) + Vec2(20, 200);
+	rList[3] = Vec2(x, y) + Vec2(20, -160);
+	rList[4] = Vec2(x, y) + Vec2(60, 200);
+	rList[5] = Vec2(x, y) + Vec2(180, 180);
+
+
+
+
+	const float speedX = 2.5f, speedY = 4.0f;
+	nextTarget2 = rList[indexTarget2];
+	if (Target2.x > nextTarget2.x)
+		Target2.x -= speedX;
+	else Target2.x += speedX;
+
+
+	if (Target2.y > nextTarget2.y)
+		Target2.y -= speedY;
+	else Target2.y += speedY;
+	if (Target2.Direction(nextTarget2).GetLength()<10)
 	{
-		Target2.x = right;
-		Speed2 = Vec2(Speed2.x * -1, Speed2.y);
-
+		indexTarget2++;
 	}
-
-	if (Target2.x <= left)
+	if (indexTarget2 ==6)
 	{
-		Target2.x = left;
-		Speed2 = Speed2 = Vec2(Speed2.x * -1, Speed2.y);
-		/*DebugOut(L"Speed2 %f \n", Speed2.x);
-		DebugOut(L"Speed2 %f \n", Speed2.y);*/
+		indexTarget2 = 0;
 	}
-
-	if (Target2.y >= bottom)
-	{
-		Target2.y = bottom;
-
-		Speed2 = Vec2(Speed2.x, Speed2.y * -1);
-		/*	DebugOut(L"Speed2 %f \n", Speed2.x);
-			DebugOut(L"Speed2 %f \n", Speed2.y);*/
-	}
-	if (Target2.y <= top)
-	{
-		Target2.y = top;
-
-		Speed2 = Vec2(Speed2.x, Speed2.y * -1);
-		/*DebugOut(L"Speed2 %f \n", Speed2.x);
-		DebugOut(L"Speed2 %f \n", Speed2.y);*/
-	}
+	
 }
 
 void CBoss::Init()
@@ -324,6 +324,8 @@ void CBoss::Shoot()
 	//bullet1->SetStartPositon(this->x + 20, this->y + 20);
 
 	//objects->push_back(bullet1);
+	//Bullet* bullet = new SmallNavigatedEnemyBullet(x + 10 / 2, y + 10 / 2, FLOATERS, 0, -1, target, 1);
+	//CGrid::GetInstance()->InsertGrid(bullet);
 }
 
 void CBoss::BossClawSection::setStartPoint(Vec2 sp)

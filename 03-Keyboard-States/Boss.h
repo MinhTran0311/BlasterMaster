@@ -4,6 +4,8 @@
 #include <cmath>
 #include "global.h"
 #include "Grid.h"
+#include "Bullet.h"
+#include "SmallNavigatedEnemyBullet.h"
 #define BOSS_WALKING_SPEED 0.05f;
 
 #define BOSS_BBOX_WIDTH 60
@@ -27,7 +29,9 @@ class CBoss : public Enemy
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();
-public: CBoss(float x, float y);
+public: 
+	CBoss(float x, float y);
+	void SetTarget(LPGAMEENTITY _target) { target = _target; };
 
 private:
 	class BossClawSection : public Enemy {
@@ -39,7 +43,7 @@ private:
 		void setStartPoint(Vec2 sp);
 		Vec2 getEndpoint() { return endPoint; };
 		float getAngle() { return this->Angle; };
-		static float constexpr SectionLength = 20;
+		const float  SectionLength = 22;
 		void calculateEndpoint();
 		void Follow(float x, float y);
 		void Follow(Vec2& target);
@@ -61,9 +65,8 @@ public:
 	void getRightClawPos(float& x, float& y);
 private:
 	Vec2 Target1 = Vec2(350, 150);
-	Vec2 Target2 = Vec2(410, 150);
-	Vec2 Speed = Vec2(1.5f, 1.5f);
-	Vec2 Speed2 = Vec2(-1.5f, -1.5f);
+	Vec2 Target2 = Vec2(150, 150);
+	Vec2 Speed = Vec2(1.5f, 1.5);
 	void updateTarget1();
 	void updateTarget2();
 	void Init();
@@ -77,4 +80,16 @@ private:
 	int counter2 = 300;
 	int counter3 = 600;
 	int counter4 = 900;
+
+	int indexTarget2 = 0;
+	Vec2 nextTarget2;
+	Vec2 rList[6];
+
+	int indexTarget1 = 0;
+	Vec2 nextTarget1;
+	Vec2 lList[19];
+
+
+
+
 };

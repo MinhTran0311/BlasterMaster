@@ -64,3 +64,8 @@ Vec2 Vec2::GetNormalized() const
 	}
 	return *this;
 }
+
+Vec2 Vec2::Direction(const Vec2& target)
+{
+	return Vec2(target.x - x, target.y - y);
+}

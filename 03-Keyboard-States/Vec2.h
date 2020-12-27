@@ -17,4 +17,5 @@ public:
 	Vec2 GetNormalized() const;
 	float x;
 	float y;
+	Vec2 Direction(const Vec2& target);
 };
