@@ -17,7 +17,7 @@ class Bullet : public Entity
 
 public:
 	int totalTime;
-	int x_Start_Pos, y_Start_Pos;
+	float x_Start_Pos, y_Start_Pos;
 	bool able_firing;
 	int isAimingTop;
 	int alpha;

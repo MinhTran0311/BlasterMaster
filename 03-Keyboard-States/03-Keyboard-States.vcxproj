@@ -126,6 +126,7 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="BigSophiaBullet.cpp" />
     <ClCompile Include="Big_Sophia.cpp" />
+    <ClCompile Include="BossBullet.cpp" />
     <ClCompile Include="Brick.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Cannons.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="BigSophiaBullet.h" />
     <ClInclude Include="Big_Sophia.h" />
+    <ClInclude Include="BossBullet.h" />
     <ClInclude Include="Brick.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Cannons.h" />

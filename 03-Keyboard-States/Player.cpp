@@ -45,8 +45,8 @@ void Player::changeAlpha()
 }
 
 void Player::SetInjured(int dame)
-{
-	
+{	
+	DebugOut(L"cccccccccccccccc\n");
 	if (isImmortaling)
 		return;
 	Sound::GetInstance()->Play("PlayerInjured", 0, 1);

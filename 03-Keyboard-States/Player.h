@@ -69,7 +69,6 @@ public:
 	EntityType GetPlayerType() { return _PlayerType; };
 	void SetPlayerType(EntityType type) { _PlayerType = type; };
 	void SetInjured(int dame);
-
 	//Immortal
 	bool IsImmortaling() { return isImmortaling; }
 	void SetImmortaling(bool immo) { isImmortaling = immo; }

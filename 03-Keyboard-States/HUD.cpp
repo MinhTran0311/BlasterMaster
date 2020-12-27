@@ -23,7 +23,6 @@ void HUD::HUDInit(int initPlayerHealth, int initGunHealth)
 
 void HUD::Update(float xPos, float yPos, int currentPlayerHealth, int currentGunHealth, EntityType playerType)
 {
-	DebugOut(L"health: %d", currentPlayerHealth);
 	this->x = xPos;
 	this->y = yPos;
 

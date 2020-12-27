@@ -249,6 +249,9 @@
     <ClCompile Include="tinystr.cpp">
       <Filter>FrameWork\Sound\ReadXml</Filter>
     </ClCompile>
+    <ClCompile Include="BossBullet.cpp">
+      <Filter>Objects\Bullets\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -424,6 +427,9 @@
     </ClInclude>
     <ClInclude Include="tinystr.h">
       <Filter>FrameWork\Sound\ReadXml</Filter>
+    </ClInclude>
+    <ClInclude Include="BossBullet.h">
+      <Filter>Objects\Bullets\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -78,6 +78,11 @@
 #EnemyBullet
 #Big Navigated Enemy Bullet
 400001	358	110	365	117	60
+#small Navigated Enemy Bullet
+400002	359	161	364	166	60
+#boss bullet
+400004	57	59	65	67	60
+
 
 #SoftBrick
 #overworld
@@ -154,6 +159,7 @@
 # =============== ENEMIES BULLET===============
 40001	400001	100
 40002	400002	100
+40004	400004	100
 
 [ANIMATION_SETS]
 #softbrick
@@ -164,7 +170,8 @@
 
 #Bullet
 41	40001	30005
-42	40002	30005
+42	40002	30005	
+44	40004
 #BIG SOPHIA BULLET
 35	350001	350002	350003	350004	30005
 
