@@ -8,6 +8,7 @@
 #define HEALTH_TYPE_PLAYER_NULL			2
 #define HEALTH_TYPE_CHAR_POW			3
 #define HEALTH_TYPE_CHAR_HOV			4
+#define HEALTH_TYPE_CHAR_GUN			5
 
 #define HEALTH_SPACE_UNIT				4
 

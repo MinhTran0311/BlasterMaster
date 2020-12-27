@@ -41,7 +41,7 @@ void HUD::Render(LPGAMEPLAYER playerInfo)
 	else
 	{
 		animationSet->at(HEALTH_TYPE_GUN_NULL)->Render(1, x, y);
-		animationSet->at(HEALTH_TYPE_CHAR_HOV)->Render(1, x, y + HEALTH_BAR_HEIGHT + HEALTH_BLANK_SPACE);
+		animationSet->at(HEALTH_TYPE_CHAR_GUN)->Render(1, x, y + HEALTH_BAR_HEIGHT + HEALTH_BLANK_SPACE);
 		gunHB->Render();
 	}
 	//thanh Power

@@ -91,7 +91,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	Player::Update(dt, coObjects);
 	//fall down
 #pragma region fall down
-	vy += SOPHIA_GRAVITY * dt;
+	vy += SOPHIA_GRAVITY *dt;
 	//check player's height
 	if (isJumping && current_Jumpy - y >= HEIGHT_LEVER1 && isJumpHandle == false)
 	{
@@ -99,6 +99,8 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			vy = 0;
 		isJumpHandle = true;
 	}
+	//DebugOut(L"vy: %f\n", vy);
+
 #pragma endregion
 #pragma region gun flip
 	if (isPressFlipGun == false)

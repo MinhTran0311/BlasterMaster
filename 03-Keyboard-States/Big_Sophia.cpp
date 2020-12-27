@@ -183,6 +183,8 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Big_Sophia::Render()
 {
+	if (health < 0)
+		return;
 	RenderBoundingBox();
 	int ani = -1;
 	int current_frame;

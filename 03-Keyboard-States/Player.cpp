@@ -207,7 +207,6 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 						else if (this->GetPlayerType() == TAG_SMALL_SOPHIA)
 							dynamic_cast<Small_Sophia*>(this)->SetIsJumping(false);
 					}
-
 					if (e->nx != 0)
 						vx = 0;
 				}
@@ -219,6 +218,7 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 				GateColliding = true;
 			}
 		}
+
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }

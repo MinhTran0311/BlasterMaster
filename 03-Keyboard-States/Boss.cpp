@@ -143,8 +143,7 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 				shoottimer->Start();
 				isWaitingToShoot = true;
 			}
-
-			if (shoottimer->IsTimeUp())
+			else if (shoottimer->IsTimeUp())
 			{
 				bulletCount++;
 				Shoot();
