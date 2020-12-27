@@ -197,12 +197,12 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	case EntityType::TAG_BOSS:
 	{
 		int ani_set_id = atoi(tokens[milestone + 1].c_str());
-		obj = new CBoss(x, y);
+		obj = new CBoss(x, y,player);
 		hasBoss = true;
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 		obj->SetAnimationSet(ani_set);
-		dynamic_cast<CBoss*>(obj)->SetTarget(player);
+		//dynamic_cast<CBoss*>(obj)->SetTarget(player);
 		DebugOut(L"[test] add Boss !\n");
 		break;
 	}

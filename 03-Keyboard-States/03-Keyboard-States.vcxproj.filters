@@ -254,6 +254,7 @@
     </ClCompile>
     <ClCompile Include="BossBullet.cpp">
       <Filter>Objects\Bullets\Enemy</Filter>
+	</ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>Objects\Boss</Filter>
     </ClCompile>
@@ -441,6 +442,7 @@
     </ClInclude>
     <ClInclude Include="BossBullet.h">
       <Filter>Objects\Bullets\Enemy</Filter>
+	</ClInclude>
     <ClInclude Include="Boss.h">
       <Filter>Objects\Boss</Filter>
     </ClInclude>

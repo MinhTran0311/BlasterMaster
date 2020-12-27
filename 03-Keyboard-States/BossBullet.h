@@ -10,8 +10,8 @@
 #define BOSS_ENEMY_BULLET_STATE_HIT_PLAYER	200
 
 #define BOSS_ENEMY_BULLET_ANI			0
-#define BOSS_BULLET_SPEED			0.1f
-#define BOSS_ENEMY_DELAY			500
+#define BOSS_BULLET_SPEED			0.012f
+#define BOSS_ENEMY_DELAY			4000
 
 class BossBullet : public Bullet
 {

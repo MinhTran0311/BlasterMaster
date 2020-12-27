@@ -6,7 +6,7 @@
 //#include "EnemyBullet.h"
 #include "Vec2.h"
 
-CBoss::CBoss(float xPos, float yPos) :
+CBoss::CBoss(float xPos, float yPos, LPGAMEENTITY t) :
 	BigClawLeft(ANIMATION_SET_BOSS_CLAW_LEFT),
 	BigClawRight(ANIMATION_SET_BOSS_CLAW_RIGHT)
 
@@ -16,6 +16,8 @@ CBoss::CBoss(float xPos, float yPos) :
 	startX = xPos;
 	startY = yPos;
 
+	target = t;
+
 	isActive = true;
 	dam = 1;
 	health = 30;
@@ -24,8 +26,14 @@ CBoss::CBoss(float xPos, float yPos) :
 	vx = -BOSS_WALKING_SPEED;
 	vy = BOSS_WALKING_SPEED;
 	Init();
-
-
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	int a = 400 * i;
+	//	Timer* timerElement = new Timer(BOSS_BULLET_SHOOT_DELAY, a);
+	//	timerElement->Start();
+	//	timer.push_back(timerElement);
+	//}
+	bursttimer->Start();
 }
 
 void CBoss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -53,7 +61,7 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 	x += dx;
 	y += dy;
-	DebugOut(L"x: %f, y: %f", x, y);
+	//DebugOut(L"x: %f, y: %f", x, y);
 
 	if (vx < 0 && x < (startX - 100)) {
 		x = startX - 100;
@@ -123,29 +131,40 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 	this->BigClawRight.setStartPoint(RightArm[3].getEndpoint());
 	this->BigClawRight.calculateEndpoint();
-	counter1 += dt;
-	counter2 += dt;
-	counter3 += dt;
-	counter4 += dt;
-	if (counter1 >= 3000)
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	if (timer.at(i)->IsTimeUp())
+	//	{
+	//		Shoot();
+	//		timer.at(i)->ResetWithFixedStartTime(i*400);
+	//		timer.at(i)->Start();
+	//	}
+	//}
+	if (bursttimer->IsTimeUp())
 	{
-		Shoot();
-		counter1 = 0;
-	}
-	if (counter2 >= 3000)
-	{
-		Shoot();
-		counter2 = 0;
-	}
-	if (counter3 >= 3000)
-	{
-		Shoot();
-		counter3 = 0;
-	}
-	if (counter4 >= 3000)
-	{
-		Shoot();
-		counter4 = 0;
+		if (bulletCount < 4)
+		{
+			if (!isWaitingToShoot)
+			{
+				shoottimer->Start();
+				isWaitingToShoot = true;
+			}
+
+			if (shoottimer->IsTimeUp())
+			{
+				bulletCount++;
+				Shoot();
+				shoottimer->Reset();
+				shoottimer->Start();
+			}
+		}
+		else
+		{
+			isWaitingToShoot = false;
+			bulletCount = 0;
+			bursttimer->Reset();
+			bursttimer->Start();
+		}
 	}
 
 }
@@ -153,7 +172,7 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void CBoss::Render()
 {
-	DebugOut(L"Boss render x: %f, y: %f \n",x,y);
+	//DebugOut(L"Boss render x: %f, y: %f \n",x,y);
 	animationSet->at(0)->OldRender(x, y);
 	//animationSet->at(0)->Render(x, y);
 
@@ -254,9 +273,6 @@ void CBoss::updateTarget1()
 	{
 		indexTarget1 = 0;
 	}
-
-
-
 }
 
 void CBoss::updateTarget2()
@@ -275,9 +291,6 @@ void CBoss::updateTarget2()
 	rList[3] = Vec2(x, y) + Vec2(20, -160);
 	rList[4] = Vec2(x, y) + Vec2(60, 200);
 	rList[5] = Vec2(x, y) + Vec2(180, 180);
-
-
-
 
 	const float speedX = 2.5f, speedY = 4.0f;
 	nextTarget2 = rList[indexTarget2];
@@ -314,18 +327,9 @@ void CBoss::Init()
 
 void CBoss::Shoot()
 {
-	//CGame* game = CGame::GetInstance();
-	//Scene* scence = game->GetCurrentScene();
-	//vector<LPGAMEENTITY>* objects = ((CPlayScene*)scence)->GetObjects();
-	//CEnemyBullet* bullet1 = new CEnemyBullet(BULLET_STATE_BOSS);
-
-	//bullet1->SetSpeed(0.0f, BULLET_SPEED / 4);
-	//bullet1->SetPosition(this->x + 20, this->y + 20);
-	//bullet1->SetStartPositon(this->x + 20, this->y + 20);
-
-	//objects->push_back(bullet1);
-	//Bullet* bullet = new SmallNavigatedEnemyBullet(x + 10 / 2, y + 10 / 2, FLOATERS, 0, -1, target, 1);
-	//CGrid::GetInstance()->InsertGrid(bullet);
+	DebugOut(L"nkcjkjxzcn\n");
+	Bullet* bullet = new BossBullet(this->x + 30, this->y + 20, target);
+	CGrid::GetInstance()->InsertGrid(bullet);
 }
 
 void CBoss::BossClawSection::setStartPoint(Vec2 sp)

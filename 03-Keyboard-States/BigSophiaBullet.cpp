@@ -159,17 +159,14 @@ void BigSophiaBullet::Render()
 		}
 		case BIG_SOPHIA_BULLET_LV2:
 		{
-			DebugOut(L"angle: %f \n", angle);
 			ani = BULLET_BIG_SOPHIA_LV2_ANI;
 
 			if (x>startingPoint.first)
 			{
-				DebugOut(L"angle: %f \n", angle);
 				animationSet->at(ani)->Render(1, x, y, alpha);
 			}
 			else 
 			{
-				DebugOut(L"jdabsdnabsmnd angle: %f \n", angle);
 				animationSet->at(ani)->Render(-1, x, y, alpha);
 			}
 			break;

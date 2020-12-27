@@ -5,7 +5,9 @@
 #include "global.h"
 #include "Grid.h"
 #include "Bullet.h"
-#include "SmallNavigatedEnemyBullet.h"
+#include "BossBullet.h"
+#include "Timer.h"
+#include "vector"
 #define BOSS_WALKING_SPEED 0.05f;
 
 #define BOSS_BBOX_WIDTH 60
@@ -20,18 +22,22 @@
 #define BOSS_ANI_WALKING_RIGHT 1
 #define BOSS_ANI_DIE	2
 
+#define BOSS_BULLET_BURST_DELAY	4000
+#define BOSS_BULLET_SHOOT_ONE_DELAY 300
+
 class CBoss : public Enemy
 {
 	int nx;
 	float startX;
 	float startY;
-	
+	int bulletCount=0;
+	bool isWaitingToShoot = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();
 public: 
-	CBoss(float x, float y);
-	void SetTarget(LPGAMEENTITY _target) { target = _target; };
+	CBoss(float xPos, float yPos,LPGAMEENTITY t);
+	//void SetTarget(LPGAMEENTITY _target) { target = _target; };
 
 private:
 	class BossClawSection : public Enemy {
@@ -75,11 +81,11 @@ private:
 	BossClawSection LeftArm[4];
 	BossClawSection RightArm[4];
 	void Shoot();
-	int counter = 0;
-	int counter1 = 0;
-	int counter2 = 300;
-	int counter3 = 600;
-	int counter4 = 900;
+
+	Timer* bursttimer = new Timer(BOSS_BULLET_BURST_DELAY);
+	Timer* shoottimer = new Timer(BOSS_BULLET_SHOOT_ONE_DELAY);
+	
+
 
 	int indexTarget2 = 0;
 	Vec2 nextTarget2;
@@ -88,8 +94,4 @@ private:
 	int indexTarget1 = 0;
 	Vec2 nextTarget1;
 	Vec2 lList[19];
-
-
-
-
 };
