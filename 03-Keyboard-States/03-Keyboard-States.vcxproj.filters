@@ -73,9 +73,6 @@
     <Filter Include="FrameWork\Sound\ReadXml">
       <UniqueIdentifier>{b2309a63-0fd1-4aca-83b8-60db35ae448e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects\Boss">
-      <UniqueIdentifier>{da25b7d6-335f-408d-87bd-4a2fe31870f6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -254,14 +251,6 @@
     </ClCompile>
     <ClCompile Include="BossBullet.cpp">
       <Filter>Objects\Bullets\Enemy</Filter>
-    <ClCompile Include="Boss.cpp">
-      <Filter>Objects\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="BossArm.cpp">
-      <Filter>Objects\Boss</Filter>
-    </ClCompile>
-    <ClCompile Include="Vec2.cpp">
-      <Filter>FrameWork</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -441,14 +430,6 @@
     </ClInclude>
     <ClInclude Include="BossBullet.h">
       <Filter>Objects\Bullets\Enemy</Filter>
-    <ClInclude Include="Boss.h">
-      <Filter>Objects\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="BossArm.h">
-      <Filter>Objects\Boss</Filter>
-    </ClInclude>
-    <ClInclude Include="Vec2.h">
-      <Filter>FrameWork</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
