@@ -10,8 +10,8 @@
 #define BOSS_ENEMY_BULLET_STATE_HIT_PLAYER	200
 
 #define BOSS_ENEMY_BULLET_ANI			0
-#define BOSS_BULLET_SPEED			0.012f
-#define BOSS_ENEMY_DELAY			4000
+#define BOSS_BULLET_SPEED			0.08f
+#define BOSS_ENEMY_DELAY			5000
 
 class BossBullet : public Bullet
 {
@@ -27,4 +27,5 @@ public:
 	void Render();
 	float CalPositionTarget(LPGAMEENTITY target, float v);
 	virtual void SetState(int state);
+	void CalVelocity(float&, float&, LPGAMEENTITY);
 };

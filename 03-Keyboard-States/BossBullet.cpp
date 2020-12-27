@@ -25,7 +25,7 @@ BossBullet::BossBullet(float xPos, float yPos, LPGAMEENTITY t)
 	y_Start_Pos = yPos;
 	xTarget = target->Getx();
 	yTarget = target->Gety();
-	isMoving = true;
+	//isMoving = true;
 	isActive = true;
 }
 
@@ -56,63 +56,25 @@ void BossBullet::Update(DWORD dt, vector<LPGAMEENTITY>* co_Objects)
 	else
 	{
 		timeDelayed += dt;
-		vx = bullet_speed * nx;
+		CalVelocity(vx, vy, target);
 	}
 	Entity::Update(dt);
 
-	for (int i = 0; i < co_Objects->size(); i++)
+	if (this->IsCollidingObject(target))
 	{
-		if (co_Objects->at(i)->GetType() == TAG_PLAYER && this->IsCollidingObject(co_Objects->at(i)))
-		{
-			DebugOut(L"hit player");
-			dynamic_cast<Player*>(co_Objects->at(i))->SetInjured(dam);
-			isActive = false;
-			isMoving = false;
-			this->SetState(BOSS_ENEMY_BULLET_STATE_HIT_PLAYER);
-			return;
-		}
-			
+		DebugOut(L"hit player");
+		dynamic_cast<Player*>(target)->SetInjured(dam);
+		isActive = false;
+		//isMoving = false;
+		this->SetState(BOSS_ENEMY_BULLET_STATE_HIT_PLAYER);
+		return;
 	}
-	x += dx;
-	y = CalPositionTarget(target, x);
-	//vector<LPCOLLISIONEVENT> coEvents;
-	//vector<LPCOLLISIONEVENT> coEventsResult;
-	//vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
-	//for (int i = 0; i < co_Objects->size(); i++)
-	//{
-	//	if (co_Objects->at(i)->GetType() == TAG_PLAYER)
-	//		colliable_Objects->push_back(co_Objects->at(i));
-	//}
-	//coEvents.clear();
-	//CalcPotentialCollisions(colliable_Objects, coEvents);
-	//if (isMoving)
-	//{
+	else
+	{
+		x += dx;
+		y += dy;
+	}
 
-	//	if (coEvents.size() == 0)
-	//	{
-	//		x += dx;
-	//		y = CalPositionTarget(target, x);
-	//	}
-	//	else
-	//	{
-	//		float min_tx, min_ty, nx = 0, ny;
-	//		float rdx = 0;
-	//		float rdy = 0;
-	//		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-	//		for (UINT i = 0; i < coEventsResult.size(); i++)
-	//		{
-	//			LPCOLLISIONEVENT e = coEventsResult[i];
-	//			if (e->obj->GetType() == TAG_PLAYER)
-	//			{
-	//				this->SetState(BOSS_ENEMY_BULLET_STATE_HIT_PLAYER);
-	//				dynamic_cast<Player*>(e->obj)->SetInjured(dam);
-	//			}
-	//			x += min_tx * dx + nx * 0.4f;
-	//			y += min_ty * dy + ny * 0.4f;
-	//		}
-	//	}
-	//}
-	//for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void BossBullet::Render()
@@ -138,4 +100,11 @@ float BossBullet::CalPositionTarget(LPGAMEENTITY target, float xPos)
 void BossBullet::SetState(int state)
 {
 	Bullet::SetState(state);
+}
+
+void BossBullet::CalVelocity(float& vx, float& vy, LPGAMEENTITY t)
+{
+	float d = sqrt((x_Start_Pos - xTarget) * (x_Start_Pos - xTarget) + (y_Start_Pos - yTarget) * (y_Start_Pos - yTarget));
+	vx = ((xTarget - x_Start_Pos) / d) * BOSS_BULLET_SPEED;
+	vy = ((yTarget - y_Start_Pos) / d) * BOSS_BULLET_SPEED;
 }

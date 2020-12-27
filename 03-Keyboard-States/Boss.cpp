@@ -17,22 +17,16 @@ CBoss::CBoss(float xPos, float yPos, LPGAMEENTITY t) :
 	startY = yPos;
 
 	target = t;
-
+	tag = ENEMY;
 	isActive = true;
 	dam = 1;
-	health = 30;
+	health = 2;
 	nx = -1;
 	SetState(BOSS_STATE_WALKING_LEFT);
 	vx = -BOSS_WALKING_SPEED;
 	vy = BOSS_WALKING_SPEED;
 	Init();
-	//for (int i = 0; i < 4; i++)
-	//{
-	//	int a = 400 * i;
-	//	Timer* timerElement = new Timer(BOSS_BULLET_SHOOT_DELAY, a);
-	//	timerElement->Start();
-	//	timer.push_back(timerElement);
-	//}
+
 	bursttimer->Start();
 }
 
@@ -61,7 +55,7 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 	x += dx;
 	y += dy;
-	//DebugOut(L"x: %f, y: %f", x, y);
+	DebugOut(L"health: %d\n",health);
 
 	if (vx < 0 && x < (startX - 100)) {
 		x = startX - 100;
@@ -327,7 +321,6 @@ void CBoss::Init()
 
 void CBoss::Shoot()
 {
-	DebugOut(L"nkcjkjxzcn\n");
 	Bullet* bullet = new BossBullet(this->x + 30, this->y + 20, target);
 	CGrid::GetInstance()->InsertGrid(bullet);
 }
@@ -341,9 +334,6 @@ void CBoss::BossClawSection::calculateEndpoint()
 {
 	float delx = SectionLength * cos(Angle);
 	float dely = SectionLength * sin(Angle);
-
-
-
 
 	this->endPoint = Vec2(delx, dely) + startPoint;
 	this->x = this->endPoint.x;

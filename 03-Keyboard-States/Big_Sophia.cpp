@@ -296,7 +296,7 @@ void Big_Sophia::FireBullet(int mode)
 	DebugOut(L"dan big tao duoc");
 	if (!canFire)
 		return;
-	Bullet* bullet = new BigSophiaBullet(this->Getx(), this->Gety(), 2, nx, ny);
+	Bullet* bullet = new BigSophiaBullet(this->Getx(), this->Gety(), 1, nx, ny);
 	CGrid::GetInstance()->InsertGrid(bullet);
 	FireTimer->Start();
 	canFire = false;
