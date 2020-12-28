@@ -261,101 +261,110 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		if (playScene->playerInfo.life < 0) {
 			if(KeyCode == DIK_DOWN)playScene->select_end = true;
 			if(KeyCode == DIK_UP)playScene->select_end = false;
-			
+			if (KeyCode == DIK_RETURN) {
+				if (playScene->select_end == true) {
+					SceneManager::GetInstance()->SetScene(new IntroScene(ID_INTROENDING));
+				}
+				else {
+					SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
+				}
+			}
 		}
+		
 	}
-	
-	if (KeyCode == DIK_RETURN)
-	{
-		if (playScene->GetInforDisplay() != CHOOSING_WEAPON_DISPLAY)
-			playScene->SetInforDisplay(CHOOSING_WEAPON_DISPLAY);
-	}
-	else
-	{
-		float xPos, yPos;
-		bool isAimingTop;
-		int nx, ny, dam;
-		LPGAMEPLAYER player = ((PlayScene*)scence)->player;
-		if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-			if (dynamic_cast<Big_Sophia*>(player)->isAutoRun())
-				return;
-		switch (player->GetPlayerType())
+	else{
+		if (KeyCode == DIK_RETURN)
 		{
-		case EntityType::TAG_JASON:
-			dynamic_cast<JASON*>(player)->GetInfoForBullet(nx, isAimingTop, xPos, yPos);
-			break;
-		case EntityType::TAG_SMALL_SOPHIA:
-			dynamic_cast<Small_Sophia*>(player)->GetInfoForBullet(nx, xPos, yPos);
-			break;
-		default:
-			break;
+			if (playScene->GetInforDisplay() != CHOOSING_WEAPON_DISPLAY)
+				playScene->SetInforDisplay(CHOOSING_WEAPON_DISPLAY);
 		}
-
-		switch (KeyCode)
+		else
 		{
-		case DIK_ESCAPE:
-			DestroyWindow(CGame::GetInstance()->GetWindowHandle());
-			break;
-		case DIK_SPACE:
+			float xPos, yPos;
+			bool isAimingTop;
+			int nx, ny, dam;
+			LPGAMEPLAYER player = ((PlayScene*)scence)->player;
+			if (player->GetPlayerType() == TAG_BIG_SOPHIA)
+				if (dynamic_cast<Big_Sophia*>(player)->isAutoRun())
+					return;
 			switch (player->GetPlayerType())
 			{
 			case EntityType::TAG_JASON:
-				player->SetState(SOPHIA_STATE_JUMP);
+				dynamic_cast<JASON*>(player)->GetInfoForBullet(nx, isAimingTop, xPos, yPos);
 				break;
 			case EntityType::TAG_SMALL_SOPHIA:
-				player->SetState(SMALL_SOPHIA_STATE_JUMP);
+				dynamic_cast<Small_Sophia*>(player)->GetInfoForBullet(nx, xPos, yPos);
+				break;
+			default:
 				break;
 			}
-			break;
-		case DIK_LSHIFT:
-			/*if (_SophiaType == ID_JASON)
-				((PlayScene*)scence)->changePlayer();
-			else if (_SophiaType== ID_SMALL_SOPHIA)
+
+			switch (KeyCode)
 			{
+			case DIK_ESCAPE:
+				DestroyWindow(CGame::GetInstance()->GetWindowHandle());
+				break;
+			case DIK_SPACE:
+				switch (player->GetPlayerType())
+				{
+				case EntityType::TAG_JASON:
+					player->SetState(SOPHIA_STATE_JUMP);
+					break;
+				case EntityType::TAG_SMALL_SOPHIA:
+					player->SetState(SMALL_SOPHIA_STATE_JUMP);
+					break;
+				}
+				break;
+			case DIK_LSHIFT:
+				/*if (_SophiaType == ID_JASON)
+					((PlayScene*)scence)->changePlayer();
+				else if (_SophiaType== ID_SMALL_SOPHIA)
+				{
+					((PlayScene*)scence)->changePlayer();
+				}*/
 				((PlayScene*)scence)->changePlayer();
-			}*/
-			((PlayScene*)scence)->changePlayer();
-			//player->SetPressUp(false);
-			break;
-		case DIK_A:
-		{
-			playScene->Unload();
-			((PlayScene*)scence)->player = new JASON(30, 60, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
-
-			//((PlayScene*)scence)->player->SetHealth(PLAYER_MAX_HEALTH);
-			((PlayScene*)scence)->player->SetIsDoneDeath(false);
-			((PlayScene*)scence)->player->SetIsDeath(false);
-			playScene->ChooseMap(ID_AREA1);
-
-			break;
-		}
-		case DIK_Z:
-		{
-			//single fire
-			player->FireBullet(1);
-			break;
-		}
-
-		case DIK_X:
-		{
-			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3))
+				//player->SetPressUp(false);
+				break;
+			case DIK_A:
 			{
-				Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
-				CGrid::GetInstance()->InsertGrid(bullet);
+				playScene->Unload();
+				((PlayScene*)scence)->player = new JASON(30, 60, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
+
+				//((PlayScene*)scence)->player->SetHealth(PLAYER_MAX_HEALTH);
+				((PlayScene*)scence)->player->SetIsDoneDeath(false);
+				((PlayScene*)scence)->player->SetIsDeath(false);
+				playScene->ChooseMap(ID_AREA1);
+
+				break;
 			}
-			break;
-		}
-		case DIK_V:
-		{
-			//burst fire
-			player->FireBullet(2);
-			break;
-		}
-		case DIK_C:
-		{
-			player->FireBullet(3);
-			break;
-		}
+			case DIK_Z:
+			{
+				//single fire
+				player->FireBullet(1);
+				break;
+			}
+
+			case DIK_X:
+			{
+				if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3))
+				{
+					Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
+					CGrid::GetInstance()->InsertGrid(bullet);
+				}
+				break;
+			}
+			case DIK_V:
+			{
+				//burst fire
+				player->FireBullet(2);
+				break;
+			}
+			case DIK_C:
+			{
+				player->FireBullet(3);
+				break;
+			}
+			}
 		}
 	}
 }
@@ -850,7 +859,7 @@ void PlayScene::Render()
 			
 			CGame::GetInstance()->DrawTextInScene(L"CONTINUE", 100, 100, 400, 400);
 			CGame::GetInstance()->DrawTextInScene(L"END", 100, 130, 400, 400);
-			this->animation_set = CAnimationSets::GetInstance()->Get(61000);
+			this->animation_set = CAnimationSets::GetInstance()->Get(61004);
 			this->animation_set->at(0)->Render(1, 80, 115 + 30*this->select_end);
 			this->time_drawlife++;
 			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  this->playerInfo.life--; this->player->health = 8; }
@@ -860,7 +869,7 @@ void PlayScene::Render()
 			wsprintfW(buffer, L"LEFT %d", this->playerInfo.life);
 			CGame::GetInstance()->DrawTextInScene(buffer, 100, 100, 400, 400);
 			this->time_drawlife++;
-			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  this->playerInfo.life--; this->player->health = 1; }
+			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  this->playerInfo.life--; this->player->health = 8; }
 		}
 		//LPCWSTR Life = L"LEFT %d" + this->playerInfo.life;
 		
