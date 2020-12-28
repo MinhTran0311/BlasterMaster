@@ -163,7 +163,7 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 						{
 							this->SetState(BIG_NAVI_ENEMY_BULLET_STATE_HIT_PLAYER);
 							isHitJason = true;
-							e->obj->AddHealth(-dam);
+							dynamic_cast<Player*>(e->obj)->SetInjured(dam);
 						}
 						x += min_tx * dx + nx * 0.4f;
 						y += min_ty * dy + ny * 0.4f;
@@ -239,3 +239,4 @@ void BigNavigatedEnemyBullet::SetState(int state)
 		}
 	}
 }
+//mmmm

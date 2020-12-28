@@ -11,6 +11,7 @@ public:
 		startTime = 0;
 		this->limitTime = limitTime;
 	}
+
 	~Timer() {}
 
 	int GetStartTime() { return startTime; }
@@ -21,7 +22,6 @@ public:
 	void AddToTimer(int msec) { startTime += msec; }
 	void Reset() { startTime = 0; }
 	void Reset(int newLimitTime) { startTime = 0; limitTime = newLimitTime; }
-	//Luu y khi dung ham nay thi limittime bi thay doi vinh vien -> muon set ve nhu cu~ thi dung them ham nay o cho muon nhu cu~
 };
 
 

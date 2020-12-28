@@ -4,11 +4,18 @@
 #include <vector>
 
 #define HEALTH_TYPE_GUN_NULL			0
-#define HEALTH_TYPE_GUN_UNIT			1
+#define HEALTH_TYPE_UNIT				1
 #define HEALTH_TYPE_PLAYER_NULL			2
-#define HEALTH_TYPE_PLAYER_UNIT			3
+#define HEALTH_TYPE_CHAR_POW			3
+#define HEALTH_TYPE_CHAR_HOV			4
+#define HEALTH_TYPE_CHAR_GUN			5
 
-#define HEALTH_SPACE_UNIT				8
+#define HEALTH_SPACE_UNIT				4
+
+#define HEALTH_BAR_HEIGHT				31
+#define HEALTH_CHAR_HEIGHT				15
+#define HEALTH_BLANK_SPACE				3
+
 
 class HealthBar
 {

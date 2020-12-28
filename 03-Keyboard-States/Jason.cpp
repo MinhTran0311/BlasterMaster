@@ -91,7 +91,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	Player::Update(dt, coObjects);
 	//fall down
 #pragma region fall down
-	vy += SOPHIA_GRAVITY * dt;
+	vy += SOPHIA_GRAVITY *dt;
 	//check player's height
 	if (isJumping && current_Jumpy - y >= HEIGHT_LEVER1 && isJumpHandle == false)
 	{
@@ -99,6 +99,8 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			vy = 0;
 		isJumpHandle = true;
 	}
+	//DebugOut(L"vy: %f\n", vy);
+
 #pragma endregion
 #pragma region gun flip
 	if (isPressFlipGun == false)
@@ -569,30 +571,33 @@ void JASON::FireBullet(int mode)
 		{
 		case JASON_ROCKET_BULLET:
 		{
-			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ROCKET_BULLET, this->Getx(), this->Gety(), 2))
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ROCKET_BULLET, this->Getx(), this->Gety(), 2) && noOfRocketsWeaponLeft>0)
 			{
 				Bullet* rocket = new JasonRocket(this->Getx(), this->Gety(), nx);
 				CGrid::GetInstance()->InsertGrid(rocket);
 				Sound::GetInstance()->Play("FireRocket", 0, 1);
+				noOfRocketsWeaponLeft--;
 			}
 
 			break;
 		}
 		case JASON_ELECTRIC_BULLET:
 		{
-			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ELECTRIC_BULLET, this->Getx(), this->Gety(), 1))
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ELECTRIC_BULLET, this->Getx(), this->Gety(), 1) && noOfElectricWeaponLeft>0)
 			{
 				Bullet* electric = new ElectricBullet(this->Getx(), this->Gety());
 				CGrid::GetInstance()->InsertGrid(electric);
+				noOfElectricWeaponLeft--;
 			}
 			break;
 		}
 		case JASON_HOMING_MISSLES:
-			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_HOMING_MISSLES, this->Getx(), this->Gety(), 1))
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_HOMING_MISSLES, this->Getx(), this->Gety(), 1) && noOfHomingMisslesWeaponLeft>0)
 			{
 				Bullet* homingMissles = new HomingMissles(this->Getx(), this->Gety(), nx);
 				CGrid::GetInstance()->InsertGrid(homingMissles);
 				Sound::GetInstance()->Play("FireHomingMissles", 0, 1);
+				noOfHomingMisslesWeaponLeft--;
 			}
 
 			break;

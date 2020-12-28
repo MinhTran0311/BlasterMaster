@@ -80,18 +80,14 @@ void Bullet::HandlePlayerBulletCollision(vector<LPGAMEENTITY>* coObjects)
 				y += min_ty * dy + ny * 0.4f;
 				vx = 0;
 				vy = 0;
-				//isHitBrick = true;
 			}
 			else if (e->obj->GetType() == ENEMY || e->obj->GetType() == TAG_SOFT_BRICK)
 			{
 				e->obj->AddHealth(-dam);
 				DebugOut(L"xxxxxxxxxxxxxxxxhitEnemy %d\n", e->obj->health);
 				this->SetState(BULLET_STATE_ENEMY);
-				//isHitEnemy = true;
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
-				//vx = 0;
-				//vy = 0;
 				isActive = false;
 			}
 		}

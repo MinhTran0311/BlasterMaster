@@ -45,8 +45,8 @@ void Player::changeAlpha()
 }
 
 void Player::SetInjured(int dame)
-{
-	
+{	
+
 	if (isImmortaling)
 		return;
 	Sound::GetInstance()->Play("PlayerInjured", 0, 1);
@@ -197,7 +197,7 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 				y += min_ty * dy + ny * 0.4f;
 				if (e->ny != 0)
 				{
-					if (e->ny != 0)
+					if (e->ny == -1)
 					{
 						vy = 0;
 						if (this->GetPlayerType() == TAG_JASON)
@@ -207,7 +207,6 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 						else if (this->GetPlayerType() == TAG_SMALL_SOPHIA)
 							dynamic_cast<Small_Sophia*>(this)->SetIsJumping(false);
 					}
-
 					if (e->nx != 0)
 						vx = 0;
 				}
@@ -219,6 +218,7 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 				GateColliding = true;
 			}
 		}
+
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }

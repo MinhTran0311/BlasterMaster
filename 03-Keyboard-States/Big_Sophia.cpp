@@ -38,7 +38,6 @@ void Big_Sophia::AutoRun(int direction)
 
 void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
-	DebugOut(L"nx: %d, ny: %d\n", nx, ny);
 	Player::Update(dt, coObjects);
 #pragma region Timer
 	//if (isImmortaling && immortalTimer->IsTimeUp())
@@ -184,6 +183,8 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Big_Sophia::Render()
 {
+	if (health < 0)
+		return;
 	RenderBoundingBox();
 	int ani = -1;
 	int current_frame;
@@ -297,7 +298,7 @@ void Big_Sophia::FireBullet(int mode)
 	DebugOut(L"dan big tao duoc");
 	if (!canFire)
 		return;
-	Bullet* bullet = new BigSophiaBullet(this->Getx(), this->Gety(), dam, nx, ny);
+	Bullet* bullet = new BigSophiaBullet(this->Getx(), this->Gety(), 1, nx, ny);
 	CGrid::GetInstance()->InsertGrid(bullet);
 	FireTimer->Start();
 	canFire = false;

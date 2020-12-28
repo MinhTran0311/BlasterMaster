@@ -16,7 +16,7 @@
 
 #define MAP2_SIDE	200
 
-#define HUD_Y (SCREEN_HEIGHT/11)
+#define HUD_Y (SCREEN_HEIGHT/2.5)
 
 PlayScene::PlayScene()
 {
@@ -43,11 +43,12 @@ void PlayScene::LoadBaseObjects()
 
 	}
 
-	if (gameHUD == NULL)
+	/*if (gameHUD == NULL)
 	{
 		gameHUD = new HUD(player->GetHealth(), player->GetgunDam());
 		DebugOut(L"[INFO] HUD CREATED! %d \n", player->GetHealth());
-	}
+	}*/
+	HUD::GetInstance()->HUDInit(player->GetHealth(), player->GetgunDam());
 #pragma endregion
 	//Sound::GetInstance()->LoadSound("Resource\\Sound\\01Opening.wav", "BackgroundMusic");
 
@@ -344,16 +345,9 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				break;
 			}
 
-			case DIK_X:
-			{
-				if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3))
-				{
-					Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
-					CGrid::GetInstance()->InsertGrid(bullet);
-				}
-				break;
-			}
-			case DIK_V:
+		case DIK_X:
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3) && player->GetPlayerType()!=TAG_BIG_SOPHIA)
 			{
 				//burst fire
 				player->FireBullet(2);
@@ -365,6 +359,21 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				break;
 			}
 			}
+			break;
+		}
+		case DIK_V:
+		{
+			//burst fire
+			if (player->GetPlayerType() == TAG_JASON)
+				player->FireBullet(2);
+			break;
+		}
+		case DIK_C:
+		{
+			if (player->GetPlayerType()==TAG_JASON)
+				player->FireBullet(3);
+			break;
+		}
 		}
 	}
 }
@@ -706,13 +715,13 @@ void PlayScene::CheckPlayerReachGate()
 void PlayScene::Update(DWORD dt)
 {
 
-	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY)
+	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY &&  player->GetPlayerType()==TAG_JASON)
 	{
 		SceneManager::GetInstance()->SetHolderScene(SceneManager::GetInstance()->GetScene());
 		/*if (SceneManager::GetInstance()->GetHolderScene() == nullptr)*/
 		DebugOut(L"khong null: %d\n", SceneManager::GetInstance()->GetHolderScene());
 		inforDisplay = 0;
-		SceneManager::GetInstance()->SetScene(new ChooseWeaponScene(2));
+		SceneManager::GetInstance()->SetScene(new ChooseWeaponScene(dynamic_cast<JASON*>(player)));
 
 	}
 	else if (this->inforDisplay == LIFE_DISPLAY)
@@ -801,6 +810,7 @@ void PlayScene::Update(DWORD dt)
 			{
 				if (coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != TAG_GATE && coObjects.at(i)->GetType() != TAG_GATE_OVERWORLD)
 				{
+
 					coObjects[i]->Update(dt, &coObjects);
 				}
 			}
@@ -845,7 +855,7 @@ void PlayScene::Update(DWORD dt)
 		CGrid::GetInstance()->UpdateGrid(coObjects);
 		//player
 
-		gameHUD->Update(Camera::GetInstance()->GetCamx(), HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam());
+		HUD::GetInstance()->Update(Camera::GetInstance()->GetCamx()+20, HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam(), player->GetPlayerType());
 		}
 #pragma endregion
 
@@ -896,7 +906,7 @@ void PlayScene::Render()
 			player->Render();
 			break;
 		}
-		gameHUD->Render(player);
+		HUD::GetInstance()->Render(player);
 
 	}
 	

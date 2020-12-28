@@ -139,7 +139,7 @@ void SmallNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects
 						if (!isHitJason)
 						{
 							isHitJason = true;
-							e->obj->AddHealth(-dam);
+							dynamic_cast<Player*>(e->obj)->SetInjured(dam);
 						}
 						x += min_tx * dx + nx * 0.4f;
 						y += min_ty * dy + ny * 0.4f;

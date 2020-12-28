@@ -17,6 +17,7 @@
 #include "PlayScene.h"
 #include <iostream>
 #include <fstream>
+#include "Jason.h"
 using namespace std;
 
 
@@ -25,24 +26,18 @@ class ChooseWeaponScene : public Scene
 public:
 
 	ChooseWeaponScene();
-	ChooseWeaponScene(int idStage);
+	ChooseWeaponScene(JASON* player);
 	~ChooseWeaponScene();
 	bool isUnloaded = false;
 	void SetWeaponId(int _weaponId) { weaponId = _weaponId; };
 	int GetWeaponId() { return weaponId; };
 	void SetIsFinished(bool finished){ isfished =finished;}
+	void SetSpecialWeapon(int _weaponId);
 protected:
-	bool isfished = false;
 
-	LPGAMEPLAYER player;
-	LPGAMEPLAYER backup_player;
-	JASON* jason;
-
-	HUD* gameHUD;
+	
 	void LoadBaseObjects();
 	void LoadBaseTextures();
-	int mapWidth, mapHeight;
-	int camMaxWidth;
 
 	LPANIMATION_SET chooseWeaponScene_ani_set;
 	virtual void Update(DWORD dt);
@@ -50,20 +45,13 @@ protected:
 	virtual void Unload();
 	virtual void LoadSceneObjects(LPCWSTR path) {};
 	
-	//Item* RandomItem(float x, float y);
-	//Item* DropItem(EntityType createrType, float x, float y, int idCreater = 0);
 
 	friend class ChooseWeaponSceneScenceKeyHandler;
-protected:
-	Camera* gameCamera;
-	vector<LPCWSTR> listSceneFilePath;
-#pragma region lists
-	vector<int> listWidth;
-	vector<int> listHeight;
-#pragma endregion
-
+private:
+	bool isfished = false;
+	int noHomingMissles, noElectric, noRocket;
 	int weaponId;
-
+	JASON* player;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -72,10 +60,6 @@ protected:
 	void _ParseSection_CLEARSPRITES(string line);
 	void _ParseSection_CLEARANIMATIONS(string line);
 	void _ParseSection_CLEARANIMATION_SETS(string line);
-
-	//Get stage objects' link and tilemap resources
-	void _ParseSection_SCENEFILEPATH(string line);
-
 };
 
 class ChooseWeaponSceneKeyHandler : public ScenceKeyHandler

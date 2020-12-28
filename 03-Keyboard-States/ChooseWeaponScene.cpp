@@ -5,23 +5,46 @@ ChooseWeaponScene::ChooseWeaponScene()
 {
 }
 
-ChooseWeaponScene::ChooseWeaponScene(int _weaponId) : Scene()
+ChooseWeaponScene::ChooseWeaponScene(JASON* _player) : Scene()
 {
-	weaponId = _weaponId;
+	player = _player;
+	weaponId = player->GetCurrentSpecialWeapon()-33;	//0: homing, 1: electric, 2: rocket
+	player->GetNoOfBulletLeft(noRocket, noHomingMissles, noElectric);	//laasy so luong dan
+
+	DebugOut(L"Number of bullet: missle %d, electric: %d, rocket: %d", noHomingMissles, noElectric, noRocket);
+
 	keyHandler = new ChooseWeaponSceneKeyHandler(this);
 	CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
 	LoadBaseObjects();
 	chooseWeaponScene_ani_set = CAnimationSets::GetInstance()->Get(52000);
 }
+void ChooseWeaponScene::SetSpecialWeapon(int _weaponId)
+{
+	weaponId = _weaponId; 
+	switch (weaponId)
+	{
+	case 0:
+	{
+		player->SetSpecialBulletType(JASON_HOMING_MISSLES);
+		break;
+	}
+	case 1:
+	{
+		player->SetSpecialBulletType(JASON_ELECTRIC_BULLET);
+		break;
+	}
+	case 2:
+	{
+		player->SetSpecialBulletType(JASON_ROCKET_BULLET);
+		break;
+	}
+	}
+	DebugOut(L"set weapon: %d\n", weaponId);
+}
 void ChooseWeaponScene::LoadBaseObjects()
 {
-
 	texturesFilePath = ToLPCWSTR("Resource\\SceneAndSpec\\choose_weapon_scene.txt");
-	
 	LoadBaseTextures();
-#pragma region create_base_objects
-	
-#pragma endregion
 	
 	Camera::GetInstance()->SetCamPos(0.0f, 0.0f);	//initial camera
 }
@@ -98,7 +121,7 @@ void ChooseWeaponSceneKeyHandler::OnKeyDown(int KeyCode)
 	ChooseWeaponScene* chooseWeaponScene = dynamic_cast<ChooseWeaponScene*>(scence);
 	if (KeyCode == DIK_RETURN )
 	{ 
-		
+		chooseWeaponScene->SetSpecialWeapon(chooseWeaponScene->GetWeaponId());
 		DebugOut(L"HoldScene %d\n", SceneManager::GetInstance()->GetHolderScene());
 		//SceneManager::GetInstance()->SetScene(SceneManager::GetInstance()->GetHolderScene());
 		chooseWeaponScene->SetIsFinished(true);
@@ -113,6 +136,7 @@ void ChooseWeaponSceneKeyHandler::OnKeyDown(int KeyCode)
 			chooseWeaponScene->SetWeaponId(chooseWeaponScene->GetWeaponId() + 1);
 
 	}
+	DebugOut(L"HoldScene %d\n", chooseWeaponScene->GetWeaponId());
 }
 
 void ChooseWeaponSceneKeyHandler::OnKeyUp(int KeyCode)
@@ -230,16 +254,7 @@ void ChooseWeaponScene::_ParseSection_CLEARANIMATION_SETS(string line)
 	CAnimationSets::GetInstance()->ClearAt(idClear);
 	DebugOut(L"[INFO] Cleared Animation Set %d!\n", idClear);
 }
-void ChooseWeaponScene::_ParseSection_SCENEFILEPATH(string line)
-{
-	vector<string> tokens = split(line);
 
-	if (tokens.size() < 3) return;
-
-	listSceneFilePath.push_back(ToLPCWSTR(tokens[0]));
-	listWidth.push_back(atoi(tokens[1].c_str()));
-	listHeight.push_back(atoi(tokens[2].c_str()));
-}
 #pragma endregion
 
 ChooseWeaponScene::~ChooseWeaponScene()
@@ -281,8 +296,7 @@ void ChooseWeaponScene::Render()
 }
 void ChooseWeaponScene::Unload()
 {
-
 	isUnloaded = true;
-
+	delete this;
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }

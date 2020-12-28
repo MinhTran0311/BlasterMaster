@@ -10,6 +10,7 @@ BigSophiaBullet::BigSophiaBullet(float posX, float posY, int level, int directio
 
 	timeDelayed = 0;
 	timeDelayedMax = BULLET_BIG_SOPHIA_DELAY;
+
 	nx = directionX;
 	ny = directionY;
 	if (level == 1)
@@ -31,8 +32,20 @@ BigSophiaBullet::BigSophiaBullet(float posX, float posY, int level, int directio
 		typeBullet = BIG_SOPHIA_BULLET_LV3;
 		dam = 2;
 	}
-	x = posX;
-	y = posY;
+	if (nx == 0)
+	{
+		x = posX + 7;
+		if (ny == -1) y = posY;
+		else y = posY + 32;
+	}
+	else if (ny == 0)
+	{
+		y = posY + 12;
+		if (nx == 1) x = posX + 22;
+		else x = posX;
+	}
+	startingPoint.first = x;
+	startingPoint.second = y;
 }
 
 BigSophiaBullet::~BigSophiaBullet()
@@ -58,7 +71,7 @@ void BigSophiaBullet::GetBoundingBox(float& left, float& top, float& right, floa
 
 void BigSophiaBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
-	if (!isActive)
+	if (!isActive || state==BULLET_STATE_HIT_BRICK)
 		return;
 #pragma region set dam and direction
 	
@@ -82,11 +95,22 @@ void BigSophiaBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		}
 		case BIG_SOPHIA_BULLET_LV2:
 		{
-			angle += BULLET_LV2_DELTA_DEGREE_PER_FRAME;
-			radius += BULLET_LV2_RADIUS;
-			dx = radius * cos(angle);
-			dy = radius * sin(angle);
-			//Entity::Update(dt);
+
+			if (ny == 0)
+				angle += BULLET_LV2_ALPHA * nx * dt;
+			else 
+				angle += BULLET_LV2_ALPHA * ny * dt;
+			radius += 0.3;
+			if (nx == 0)
+			{
+				dx = startingPoint.first + (BULLET_LV2_RADIUS_SPACE + radius) * cos(angle) - x - 5;
+				dy = startingPoint.second + (BULLET_LV2_RADIUS_SPACE + radius) * sin(angle) - y - 6;
+			}
+			else
+			{
+				dx = startingPoint.first + (BULLET_LV2_RADIUS_SPACE + radius) * cos(angle) - x - 3;
+				dy = startingPoint.second + (BULLET_LV2_RADIUS_SPACE + radius) * sin(angle) - y;
+			}
 			break;
 		}
 		case BIG_SOPHIA_BULLET_LV3:
@@ -108,7 +132,6 @@ void BigSophiaBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		}
 		HandlePlayerBulletCollision(coObjects);
 	}
-
 }
 
 void BigSophiaBullet::Render()
@@ -132,15 +155,22 @@ void BigSophiaBullet::Render()
 				ani = BULLET_BIG_SOPHIA_LV1_ANI_TOP;
 				animationSet->at(ani)->RenderTopBottom(ny, x, y, alpha);
 			}
+			break;
 		}
 		case BIG_SOPHIA_BULLET_LV2:
 		{
 			ani = BULLET_BIG_SOPHIA_LV2_ANI;
-			if (angle>0 && angle<180)
+
+			if (x>startingPoint.first)
+			{
 				animationSet->at(ani)->Render(1, x, y, alpha);
-			else
+			}
+			else 
+			{
 				animationSet->at(ani)->Render(-1, x, y, alpha);
+			}
 			break;
+
 		}
 		case BIG_SOPHIA_BULLET_LV3:
 		{
@@ -154,6 +184,7 @@ void BigSophiaBullet::Render()
 				ani = BULLET_BIG_SOPHIA_LV3_ANI_TOP;
 				animationSet->at(ani)->RenderTopBottom(ny, x, y, alpha);
 			}
+			break;
 		}
 		default:
 			break;
@@ -168,4 +199,5 @@ void BigSophiaBullet::Render()
 			isActive = false;
 		}
 	}
+	RenderBoundingBox();
 }

@@ -108,35 +108,76 @@ void Entity::CalcPotentialCollisions(vector<LPGAMEENTITY>* coObjects, vector<LPC
 
 void Entity::FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPCOLLISIONEVENT>& coEventsResult, float& min_tx, float& min_ty, float& nx, float& ny, float& rdx, float& rdy)
 {
+	//min_tx = 1.0f;
+	//min_ty = 1.0f;
+	//int min_ix = -1;
+	//int min_iy = -1;
+
+	//nx = 0.0f;
+	//ny = 0.0f;
+
+	//coEventsResult.clear();
+
+	//for (UINT i = 0; i < coEvents.size(); i++)
+	//{
+	//	LPCOLLISIONEVENT c = coEvents[i];
+
+	//	if (c->t < min_tx && c->nx != 0) {
+	//		min_tx = c->t; nx = c->nx; min_ix = i; rdx = c->dx;
+	//	}
+
+	//	if (c->t < min_ty && c->ny != 0) {
+	//		min_ty = c->t; ny = c->ny; min_iy = i; rdy = c->dy;
+	//	}
+	//}
+
+	//if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
+	//if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
+
+
 	min_tx = 1.0f;
 	min_ty = 1.0f;
-	int min_ix = -1;
-	int min_iy = -1;
 
-	nx = 0.0f;
-	ny = 0.0f;
+	nx = 0, ny = 0;
 
-	coEventsResult.clear();
+	int index_x = 0, index_y = 0;
 
-	for (UINT i = 0; i < coEvents.size(); i++)
-	{
-		LPCOLLISIONEVENT c = coEvents[i];
+	for (int i = 0; i < coEvents.size(); i++) {
+		LPCOLLISIONEVENT item = coEvents[i];
 
-		if (c->t < min_tx && c->nx != 0) {
-			min_tx = c->t; nx = c->nx; min_ix = i; rdx = c->dx;
+		if (item->t < min_tx && item->nx != 0) {
+			min_tx = item->t;
+			nx = item->nx;
+			index_x = i;
 		}
 
-		if (c->t < min_ty && c->ny != 0) {
-			min_ty = c->t; ny = c->ny; min_iy = i; rdy = c->dy;
+		if (item->t < min_ty && item->ny != 0) {
+			min_ty = item->t;
+			ny = item->ny;
+			index_y = i;
 		}
 	}
 
-	if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
-	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
+	if (index_x == index_y)
+		coEventsResult.push_back(coEvents[index_x]);
+	else {
+		if (coEvents[index_x]->obj->tag == coEvents[index_y]->obj->tag) {
+			coEventsResult.push_back(coEvents[index_x]);
+		}
+		else {
+			coEventsResult.push_back(coEvents[index_x]);
+			coEventsResult.push_back(coEvents[index_y]);
+		}
+	}
 }
 
 bool Entity::IsCollidingObject(Entity* Obj)
 {
+	if (!Obj)
+	{
+		return false;
+	}
+
 	float ml, mt, mr, mb;		// moving object bbox
 	this->GetBoundingBox(ml, mt, mr, mb);
 

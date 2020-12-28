@@ -1,29 +1,51 @@
 #include "HUD.h"
-
-HUD::HUD(int initPlayerHealth, int initGunHealth)
+HUD* HUD::instance = NULL;
+HUD* HUD::GetInstance()
 {
-	UIanimationSet = CAnimationSets::GetInstance()->Get(ANIMATION_SET_PLAYERHP);
-	gunHB = new HealthBar(initGunHealth, true);
-	playerHB = new HealthBar(initPlayerHealth, false);
+	if (instance == nullptr)
+	{
+		instance = new HUD();
+	}
+	return instance;
 }
 
 HUD::~HUD()
 {
+
 }
 
-void HUD::Update(float x, float y, int currentPlayerHealth, int currentGunHealth)
+void HUD::HUDInit(int initPlayerHealth, int initGunHealth)
 {
-	this->x = x;
-	this->y = y;
+	animationSet = CAnimationSets::GetInstance()->Get(ANIMATION_SET_PLAYERHP);
+	gunHB = new HealthBar(initGunHealth, true);
+	playerHB = new HealthBar(initPlayerHealth, false);
+}
 
-	gunHB->Update(currentGunHealth, x + 2, y + 7.8); // Hard code -> Dieu chinh khoang cach cac unit mau cua Gun #LKP
-	playerHB->Update(currentPlayerHealth, x + 3, y + 112.5); // Hard code -> Dieu chinh khoang cach cac unit mau cua Player #LKP
+void HUD::Update(float xPos, float yPos, int currentPlayerHealth, int currentGunHealth, EntityType playerType)
+{
+	this->x = xPos;
+	this->y = yPos;
+
+	playerHB->Update(currentPlayerHealth, x, y); 
+	if (playerType==TAG_BIG_SOPHIA)
+		gunHB->Update(currentGunHealth, x, y);
 }
 
 void HUD::Render(LPGAMEPLAYER playerInfo)
 {
-	UIanimationSet->at(HEALTH_TYPE_GUN_NULL)->Render(1, x, y + ARTICULAR_GUNPOWER_HEALTHBAR_Y);
-	UIanimationSet->at(HEALTH_TYPE_PLAYER_NULL)->Render(1, x, y + ARTICULAR_PLAYER_HEALTHBAR_Y);
-	gunHB->Render();
+	//Thanh sung hoac chu HOV
+	if (playerInfo->GetPlayerType() != TAG_BIG_SOPHIA)
+	{
+		animationSet->at(HEALTH_TYPE_CHAR_HOV)->Render(1, x, y + HEALTH_BAR_HEIGHT + HEALTH_BLANK_SPACE);
+	}
+	else
+	{
+		animationSet->at(HEALTH_TYPE_GUN_NULL)->Render(1, x, y);
+		animationSet->at(HEALTH_TYPE_CHAR_GUN)->Render(1, x, y + HEALTH_BAR_HEIGHT + HEALTH_BLANK_SPACE);
+		gunHB->Render();
+	}
+	//thanh Power
+	animationSet->at(HEALTH_TYPE_PLAYER_NULL)->Render(1, x, y + HEALTH_BAR_HEIGHT + HEALTH_BLANK_SPACE * 2 + HEALTH_CHAR_HEIGHT);
+	animationSet->at(HEALTH_TYPE_CHAR_POW)->Render(1, x, y + HEALTH_BAR_HEIGHT * 2 + HEALTH_BLANK_SPACE * 3 + HEALTH_CHAR_HEIGHT);
 	playerHB->Render();
 }

@@ -24,14 +24,14 @@
 #define BULLET_BIG_SOPHIA_LV1_ANI_RIGHT					0
 #define BULLET_BIG_SOPHIA_LV1_ANI_TOP					1
 #define BULLET_BIG_SOPHIA_LV2_ANI						0
-#define BULLET_BIG_SOPHIA_LV3_ANI_RIGHT						2
-#define BULLET_BIG_SOPHIA_LV3_ANI_TOP						3
-#define BULLET_BIG_SOPHIA_BANG										4
+#define BULLET_BIG_SOPHIA_LV3_ANI_RIGHT					2
+#define BULLET_BIG_SOPHIA_LV3_ANI_TOP					3
+#define BULLET_BIG_SOPHIA_BANG							4
 
-#define BULLET_BIG_SOPHIA_DELAY								4000
+#define BULLET_BIG_SOPHIA_DELAY							8000
 
-#define BULLET_LV2_DELTA_DEGREE_PER_FRAME		0.004
-#define BULLET_LV2_RADIUS						0.5
+#define BULLET_LV2_ALPHA						0.0025
+#define BULLET_LV2_RADIUS_SPACE					5
 #define BULLET_LV3_DELTA_DEGREE_PER_FRAME		60
 #define BULLET_LV3_SPEED						0.6
 
@@ -48,4 +48,5 @@ private:
 	double angle = 0;
 	float radius = 0;
 
+	pair<float, float> startingPoint;
 };

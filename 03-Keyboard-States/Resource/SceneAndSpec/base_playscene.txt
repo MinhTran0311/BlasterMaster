@@ -21,6 +21,8 @@
 19	Resource/SceneAndSpec/Scene/area_9.jpg	255	0	255
 20	Resource/SceneAndSpec/Scene/overworld.png	255	0	255
 41	Resource/select_continue.png	255	0	255
+100	Resource/boss.jpg	255	0	254
+101	Resource/bossarm.jpg	255	0	254
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -148,10 +150,18 @@
 #electric
 320002	96	17	111	80	2
 #===========HEALTH_BAR====================#
-50001	30	35	50	127	50
-50002	55	37	71	45	50
-50003	84	35	106	125	50
-50004	111	37	127	45	50
+#thanh gun
+50001	133	218	141	249	1
+#cuc mau trang
+50002	134	252	140	255	1
+#thanh mau
+50003	154	218	162	249	1
+#chu POW
+50004	175	216	184	232	1
+#chu HOV
+50005	112	237	121	253	1
+#chu GUN
+50006	154	195	163	212	1
 ##=============ITEMS==========
 #POWERUP
 60001	87	237	103	253	1
@@ -261,7 +271,8 @@
 802	50003	100
 #Player add
 803	50004	100
-804	50004	100
+804	50005	100
+805	50006	100
 #==============Item=======================#
 #Power
 60001	60001	100
@@ -298,7 +309,7 @@
 #small sophia bullet
 34	34001	30005
 #=== HEALTH BAR ===
-30	800	801	802	803
+30	800	801	802	803	804	805
 #=======ITEM==========#
 51	60001
 52	60002
