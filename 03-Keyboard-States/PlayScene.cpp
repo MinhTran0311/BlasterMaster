@@ -117,7 +117,7 @@ void PlayScene::ChooseMap(int Stage)
 {
 	idStage = Stage;
 	CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
-	sceneFilePath = listSceneFilePath[idStage-11];
+	sceneFilePath = listSceneFilePath[idStage - 11];
 	DebugOut(L"Init");
 	CGrid::GetInstance()->InitGrid(listWidth[idStage - 11], listHeight[idStage - 11]);
 	LoadSceneObjects(sceneFilePath);
@@ -196,61 +196,84 @@ void PlayScene::LoadSceneObjects(LPCWSTR path)
 void PlayScenceKeyHandler::KeyState(BYTE* states)
 {
 	LPGAMEPLAYER player = ((PlayScene*)scence)->player;
-	if (player->GetPlayerType()==TAG_BIG_SOPHIA)
+	if (player->GetPlayerType() == TAG_BIG_SOPHIA)
 		if (dynamic_cast<Big_Sophia*>(player)->isAutoRun())
 		{
 			return;
 		}
-	if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+	if (player->GetPlayerType() != TAG_SMALL_SOPHIA)
 	{
-		if (player->GetPlayerType() == TAG_JASON)
+		if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+		{
 			player->SetState(SOPHIA_STATE_WALKING_RIGHT);
-		else if (player->GetPlayerType() == TAG_SMALL_SOPHIA)
-			player->SetState(SMALL_SOPHIA_STATE_WALKING_RIGHT);
-		else if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-			player->SetState(BIG_SOPHIA_STATE_WALKING_RIGHT);
 
-	}
-	else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
-	{
-		if (player->GetPlayerType() == EntityType::TAG_JASON) {
+		}
+		else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
+		{
 			player->SetState(SOPHIA_STATE_WALKING_LEFT);
 		}
-		else if (player->GetPlayerType() == EntityType::TAG_SMALL_SOPHIA) {
-			player->SetState(SMALL_SOPHIA_STATE_WALKING_LEFT);
+		else
+		{
+			player->SetState(SOPHIA_STATE_IDLE);
 		}
-		else if (player->GetPlayerType() == EntityType::TAG_BIG_SOPHIA)
-			player->SetState(BIG_SOPHIA_STATE_WALKING_LEFT);
+
+		if (CGame::GetInstance()->IsKeyDown(DIK_SPACE))
+		{
+			if (player->GetPlayerType() == EntityType::TAG_JASON)
+				dynamic_cast<JASON*>(player)->SetPressSpace(true);
+		}
+
+		if (CGame::GetInstance()->IsKeyDown(DIK_UP))
+		{
+			if (player->GetPlayerType() == TAG_JASON)
+				dynamic_cast<JASON*>(player)->SetPressUp(true);
+			else if (player->GetPlayerType() == TAG_BIG_SOPHIA)
+				dynamic_cast<Big_Sophia*>(player)->SetState(BIG_SOPHIA_STATE_WALKING_TOP);
+			//else if (player->GetPlayerType() == TAG_SMALL_SOPHIA && dynamic_cast<Small_Sophia*>(player)->IsInStairs())
+			//{
+			//	dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_UP);
+			//}
+		}
+		if ((CGame::GetInstance()->IsKeyDown(DIK_DOWN)))
+		{
+			if (player->GetPlayerType() == TAG_BIG_SOPHIA)
+				dynamic_cast<Big_Sophia*>(player)->SetState(BIG_SOPHIA_STATE_WALKING_BOTTOM);
+			//else if (player->GetPlayerType() == TAG_SMALL_SOPHIA && dynamic_cast<Small_Sophia*>(player)->IsInStairs())
+			//{
+			//	dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_DOWN);
+			//}
+		}
 	}
 	else
 	{
-		if (player->GetPlayerType() == TAG_JASON)
-			player->SetState(SOPHIA_STATE_IDLE);
-		else if (player->GetPlayerType() == TAG_SMALL_SOPHIA)
-			player->SetState(SMALL_SOPHIA_STATE_IDLE);
-		else if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-			player->SetState(BIG_SOPHIA_STATE_IDLE);
-	}
-
-	if (CGame::GetInstance()->IsKeyDown(DIK_SPACE))
-	{
-		if (player->GetPlayerType() == EntityType::TAG_JASON)
-			dynamic_cast<JASON*>(player)->SetPressSpace(true);
-		if (player->GetPlayerType() == EntityType::TAG_SMALL_SOPHIA)
-			dynamic_cast<Small_Sophia*>(player)->SetPressSpace(true);
-	}
-
-	if (CGame::GetInstance()->IsKeyDown(DIK_UP))
-	{
-		if (player->GetPlayerType() == EntityType::TAG_JASON)
-			dynamic_cast<JASON*>(player)->SetPressUp(true);
-		else if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-			player->SetState(BIG_SOPHIA_STATE_WALKING_TOP);
-	}
-	if ((CGame::GetInstance()->IsKeyDown(DIK_DOWN)))
-	{
-		if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-			player->SetState(BIG_SOPHIA_STATE_WALKING_BOTTOM);
+		if (dynamic_cast<Small_Sophia*>(player)->IsInStairs())
+		{
+			if (CGame::GetInstance()->IsKeyDown(DIK_UP))
+				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_UP);
+			else if (CGame::GetInstance()->IsKeyDown(DIK_DOWN))
+				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_DOWN);
+			else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
+				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_WALKING_LEFT);
+			else if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_WALKING_RIGHT);
+			else
+				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_IDLE);
+		}
+		else
+		{
+			if ((CGame::GetInstance()->IsKeyDown(DIK_SPACE)))
+				dynamic_cast<Small_Sophia*>(player)->SetPressSpace(true);
+			else if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+			{
+				player->SetState(SOPHIA_STATE_WALKING_RIGHT);
+			}
+			else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
+			{
+				player->SetState(SOPHIA_STATE_WALKING_LEFT);
+			}
+			else
+				player->SetState(SOPHIA_STATE_IDLE);
+		}
 	}
 }
 
@@ -260,104 +283,89 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	if (playScene->death == true)
 	{
 		if (playScene->playerInfo.life < 0) {
-			if(KeyCode == DIK_DOWN)playScene->select_end = true;
-			if(KeyCode == DIK_UP)playScene->select_end = false;
-			if (KeyCode == DIK_RETURN) {
-				if (playScene->select_end == true) {
-					SceneManager::GetInstance()->SetScene(new IntroScene(ID_INTROENDING));
-				}
-				else {
-					SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
-				}
-			}
+			if (KeyCode == DIK_DOWN)playScene->select_end = true;
+			if (KeyCode == DIK_UP)playScene->select_end = false;
+
 		}
-		
 	}
-	else{
-		if (KeyCode == DIK_RETURN)
+
+	if (KeyCode == DIK_RETURN)
+	{
+		if (playScene->GetInforDisplay() != CHOOSING_WEAPON_DISPLAY)
+			playScene->SetInforDisplay(CHOOSING_WEAPON_DISPLAY);
+	}
+	else
+	{
+		float xPos, yPos;
+		bool isAimingTop;
+		int nx, ny, dam;
+		LPGAMEPLAYER player = ((PlayScene*)scence)->player;
+		if (player->GetPlayerType() == TAG_BIG_SOPHIA)
+			if (dynamic_cast<Big_Sophia*>(player)->isAutoRun())
+				return;
+		switch (player->GetPlayerType())
 		{
-			if (playScene->GetInforDisplay() != CHOOSING_WEAPON_DISPLAY)
-				playScene->SetInforDisplay(CHOOSING_WEAPON_DISPLAY);
+		case EntityType::TAG_JASON:
+			dynamic_cast<JASON*>(player)->GetInfoForBullet(nx, isAimingTop, xPos, yPos);
+			break;
+		case EntityType::TAG_SMALL_SOPHIA:
+			dynamic_cast<Small_Sophia*>(player)->GetInfoForBullet(nx, xPos, yPos);
+			break;
+		default:
+			break;
 		}
-		else
+
+		switch (KeyCode)
 		{
-			float xPos, yPos;
-			bool isAimingTop;
-			int nx, ny, dam;
-			LPGAMEPLAYER player = ((PlayScene*)scence)->player;
-			if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-				if (dynamic_cast<Big_Sophia*>(player)->isAutoRun())
-					return;
+		case DIK_ESCAPE:
+			DestroyWindow(CGame::GetInstance()->GetWindowHandle());
+			break;
+		case DIK_SPACE:
 			switch (player->GetPlayerType())
 			{
 			case EntityType::TAG_JASON:
-				dynamic_cast<JASON*>(player)->GetInfoForBullet(nx, isAimingTop, xPos, yPos);
+				player->SetState(SOPHIA_STATE_JUMP);
 				break;
 			case EntityType::TAG_SMALL_SOPHIA:
-				dynamic_cast<Small_Sophia*>(player)->GetInfoForBullet(nx, xPos, yPos);
-				break;
-			default:
+				player->SetState(SMALL_SOPHIA_STATE_JUMP);
 				break;
 			}
-
-			switch (KeyCode)
-			{
-			case DIK_ESCAPE:
-				DestroyWindow(CGame::GetInstance()->GetWindowHandle());
-				break;
-			case DIK_SPACE:
-				switch (player->GetPlayerType())
-				{
-				case EntityType::TAG_JASON:
-					player->SetState(SOPHIA_STATE_JUMP);
-					break;
-				case EntityType::TAG_SMALL_SOPHIA:
-					player->SetState(SMALL_SOPHIA_STATE_JUMP);
-					break;
-				}
-				break;
-			case DIK_LSHIFT:
-				/*if (_SophiaType == ID_JASON)
-					((PlayScene*)scence)->changePlayer();
-				else if (_SophiaType== ID_SMALL_SOPHIA)
-				{
-					((PlayScene*)scence)->changePlayer();
-				}*/
+			break;
+		case DIK_LSHIFT:
+			/*if (_SophiaType == ID_JASON)
 				((PlayScene*)scence)->changePlayer();
-				//player->SetPressUp(false);
-				break;
-			case DIK_A:
+			else if (_SophiaType== ID_SMALL_SOPHIA)
 			{
-				playScene->Unload();
-				((PlayScene*)scence)->player = new JASON(30, 60, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
+				((PlayScene*)scence)->changePlayer();
+			}*/
+			((PlayScene*)scence)->changePlayer();
+			//player->SetPressUp(false);
+			break;
+		case DIK_A:
+		{
+			playScene->Unload();
+			((PlayScene*)scence)->player = new JASON(30, 60, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
 
-				//((PlayScene*)scence)->player->SetHealth(PLAYER_MAX_HEALTH);
-				((PlayScene*)scence)->player->SetIsDoneDeath(false);
-				((PlayScene*)scence)->player->SetIsDeath(false);
-				playScene->ChooseMap(ID_AREA1);
+			//((PlayScene*)scence)->player->SetHealth(PLAYER_MAX_HEALTH);
+			((PlayScene*)scence)->player->SetIsDoneDeath(false);
+			((PlayScene*)scence)->player->SetIsDeath(false);
+			playScene->ChooseMap(ID_AREA1);
 
-				break;
-			}
-			case DIK_Z:
-			{
-				//single fire
-				player->FireBullet(1);
-				break;
-			}
+			break;
+		}
+		case DIK_Z:
+		{
+			//single fire
+			player->FireBullet(1);
+			break;
+		}
 
 		case DIK_X:
 		{
-			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3) && player->GetPlayerType()!=TAG_BIG_SOPHIA)
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3) && player->GetPlayerType() != TAG_BIG_SOPHIA)
 			{
-				//burst fire
-				player->FireBullet(2);
-				break;
-			}
-			case DIK_C:
-			{
-				player->FireBullet(3);
-				break;
-			}
+				Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
+				CGrid::GetInstance()->InsertGrid(bullet);
 			}
 			break;
 		}
@@ -370,7 +378,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		case DIK_C:
 		{
-			if (player->GetPlayerType()==TAG_JASON)
+			if (player->GetPlayerType() == TAG_JASON)
 				player->FireBullet(3);
 			break;
 		}
@@ -392,7 +400,7 @@ void PlayScene::changePlayer()
 
 		this->player->SetState(SOPHIA_STATE_OUT);
 		backup_player = player;
-		player = new Small_Sophia(backup_player->Getx(), backup_player->Gety(),playerInfo.sophiaHealth,playerInfo.sophiaGundam);
+		player = new Small_Sophia(backup_player->Getx(), backup_player->Gety(), playerInfo.sophiaHealth, playerInfo.sophiaGundam);
 		player->SetState(SMALL_SOPHIA_STATE_OUT);
 
 		CGrid::GetInstance()->SetTargetForEnemies(player);
@@ -410,7 +418,7 @@ void PlayScene::changePlayer()
 			//this->_SophiaType = ID_JASON;
 			delete player;
 			player = backup_player;
-			backup_player=NULL;
+			backup_player = NULL;
 			CGrid::GetInstance()->SetTargetForEnemies(player);
 		}
 	}
@@ -715,7 +723,7 @@ void PlayScene::CheckPlayerReachGate()
 void PlayScene::Update(DWORD dt)
 {
 
-	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY &&  player->GetPlayerType()==TAG_JASON)
+	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY && player->GetPlayerType() == TAG_JASON)
 	{
 		SceneManager::GetInstance()->SetHolderScene(SceneManager::GetInstance()->GetScene());
 		/*if (SceneManager::GetInstance()->GetHolderScene() == nullptr)*/
@@ -766,111 +774,111 @@ void PlayScene::Update(DWORD dt)
 
 #pragma endregion
 
-		CheckPlayerReachGate();
+	CheckPlayerReachGate();
 #pragma region camera
-		float cx, cy;
-		mapWidth = listWidth[idStage - 11];
-		mapHeight = listHeight[idStage - 11];
-		player->GetPosition(cx, cy);
-		if (isNeedResetCamera)
+	float cx, cy;
+	mapWidth = listWidth[idStage - 11];
+	mapHeight = listHeight[idStage - 11];
+	player->GetPosition(cx, cy);
+	if (isNeedResetCamera)
+	{
+		DebugOut(L"middle\n");
+		Camera::GetInstance()->SetCamPos(camMap1X, camMap1Y);
+		//DebugOut(L"y: %d \n",camMap1Y);
+		//posY = camMap1Y;
+		isNeedResetCamera = false;
+	}
+	else
+	{
+		if (!player->IsDoneDeath())
 		{
-			DebugOut(L"middle\n");
-			Camera::GetInstance()->SetCamPos(camMap1X, camMap1Y);
-			//DebugOut(L"y: %d \n",camMap1Y);
-			//posY = camMap1Y;
-			isNeedResetCamera = false;
-		}
-		else
-		{
-			if (!player->IsDoneDeath())
-			{
-				Camera::GetInstance()->Update(cx, cy, player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
+			Camera::GetInstance()->Update(cx, cy, player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
 
-			}
 		}
+	}
 #pragma endregion
 
 #pragma region update objects
 
 
-		if (isUnloaded)
-		{
-			CGrid::GetInstance()->SetTargetForEnemies(player);
-			isUnloaded = false;
-		}
+	if (isUnloaded)
+	{
+		CGrid::GetInstance()->SetTargetForEnemies(player);
+		isUnloaded = false;
+	}
 
-		vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(Camera::GetInstance()->GetRectCam());
-		if (player != NULL)
+	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(Camera::GetInstance()->GetRectCam());
+	if (player != NULL)
+	{
+		player->Update(dt, &coObjects);
+	}
+	if (coObjects.size() != 0)
+	{//update obj
+		for (int i = 0; i < coObjects.size(); i++)
 		{
-			player->Update(dt, &coObjects);
-		}
-		if (coObjects.size() != 0)
-		{//update obj
-			for (int i = 0; i < coObjects.size(); i++)
+			if (coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != TAG_GATE && coObjects.at(i)->GetType() != TAG_GATE_OVERWORLD)
 			{
-				if (coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != TAG_GATE && coObjects.at(i)->GetType() != TAG_GATE_OVERWORLD)
-				{
 
-					coObjects[i]->Update(dt, &coObjects);
-				}
+				coObjects[i]->Update(dt, &coObjects);
 			}
-			//sua cho nay
-			int k = 0;
-			for (int i = 0; i < coObjects.size() - k; i++)
+		}
+		//sua cho nay
+		int k = 0;
+		for (int i = 0; i < coObjects.size() - k; i++)
+		{
+			if ((coObjects.at(i)->IsDeath()))
 			{
-				if ((coObjects.at(i)->IsDeath()))
-				{
-					float xPos, yPos;
-					coObjects.at(i)->GetPosition(xPos, yPos);
-					LPGAMEENTITY backup = coObjects.at(i);
+				float xPos, yPos;
+				coObjects.at(i)->GetPosition(xPos, yPos);
+				LPGAMEENTITY backup = coObjects.at(i);
 
-					coObjects.erase(coObjects.begin() + i);
+				coObjects.erase(coObjects.begin() + i);
 
-					float _xtemp, _ytemp;
-					backup->GetPosition(_xtemp, _ytemp);
+				float _xtemp, _ytemp;
+				backup->GetPosition(_xtemp, _ytemp);
 #pragma region add item into grid
-					switch (backup->GetType())
-					{
-					case EntityType::ENEMY:
-					{
-						LPGAMEENTITY _PowerUp = new PowerUp(xPos, yPos);
-						CGrid::GetInstance()->InsertGrid(_PowerUp);
-						break;
-					}
-					default:
-						break;
-					}
+				switch (backup->GetType())
+				{
+				case EntityType::ENEMY:
+				{
+					LPGAMEENTITY _PowerUp = new PowerUp(xPos, yPos);
+					CGrid::GetInstance()->InsertGrid(_PowerUp);
+					break;
+				}
+				default:
+					break;
+				}
 #pragma endregion
-					CGrid::GetInstance()->RemoveObj(backup, true);
-					k = 1;
-					i--;
-				}
-				//item effect
-				else {
-					k = 0;
-				}
+				CGrid::GetInstance()->RemoveObj(backup, true);
+				k = 1;
+				i--;
 			}
-		
+			//item effect
+			else {
+				k = 0;
+			}
+		}
+
 
 		CGrid::GetInstance()->UpdateGrid(coObjects);
 		//player
 
-		HUD::GetInstance()->Update(Camera::GetInstance()->GetCamx()+20, HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam(), player->GetPlayerType());
-		}
+		HUD::GetInstance()->Update(Camera::GetInstance()->GetCamx() + 20, HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam(), player->GetPlayerType());
+	}
 #pragma endregion
 
 }
 
 void PlayScene::Render()
 {
-	if (this->death==true)
+	if (this->death == true)
 	{
 		if (this->playerInfo.life < 0) {
-			
+
 			CGame::GetInstance()->DrawTextInScene(L"CONTINUE", 100, 100, 400, 400);
 			CGame::GetInstance()->DrawTextInScene(L"END", 100, 130, 400, 400);
-			this->animation_set = CAnimationSets::GetInstance()->Get(61004);
-			this->animation_set->at(0)->Render(1, 80, 115 + 30*this->select_end);
+			this->animation_set = CAnimationSets::GetInstance()->Get(61000);
+			this->animation_set->at(0)->Render(1, 80, 115 + 30 * this->select_end);
 			this->time_drawlife++;
 			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  this->playerInfo.life--; this->player->health = 8; }
 		}
@@ -879,10 +887,10 @@ void PlayScene::Render()
 			wsprintfW(buffer, L"LEFT %d", this->playerInfo.life);
 			CGame::GetInstance()->DrawTextInScene(buffer, 100, 100, 400, 400);
 			this->time_drawlife++;
-			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  this->playerInfo.life--; this->player->health = 8; }
+			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  this->playerInfo.life--; this->player->health = 1; }
 		}
 		//LPCWSTR Life = L"LEFT %d" + this->playerInfo.life;
-		
+
 	}
 	else {
 		LPDIRECT3DTEXTURE9 maptexture = CTextures::GetInstance()->Get(idStage);
@@ -909,7 +917,7 @@ void PlayScene::Render()
 		HUD::GetInstance()->Render(player);
 
 	}
-	
+
 }
 void PlayScene::Unload()
 {
