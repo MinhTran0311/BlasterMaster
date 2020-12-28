@@ -335,7 +335,7 @@ Resource/SceneAndSpec/scene7.txt	512	543
 Stage8
 Resource/SceneAndSpec/scene8.txt	518	275
 #Stage9
-Resource/SceneAndSpec/scene9.txt	280	275
+Resource/SceneAndSpec/scene9.txt	320	275
 #Stage10
 Resource/SceneAndSpec/overworld.txt	2048	2048
 
