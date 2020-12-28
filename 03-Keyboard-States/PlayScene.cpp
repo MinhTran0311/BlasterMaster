@@ -201,56 +201,79 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 		{
 			return;
 		}
-	if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+	if (player->GetPlayerType() != TAG_SMALL_SOPHIA)
 	{
-		if (player->GetPlayerType() == TAG_JASON)
+		if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+		{
 			player->SetState(SOPHIA_STATE_WALKING_RIGHT);
-		else if (player->GetPlayerType() == TAG_SMALL_SOPHIA)
-			player->SetState(SMALL_SOPHIA_STATE_WALKING_RIGHT);
-		else if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-			player->SetState(BIG_SOPHIA_STATE_WALKING_RIGHT);
 
-	}
-	else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
-	{
-		if (player->GetPlayerType() == EntityType::TAG_JASON) {
+		}
+		else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
+		{
 			player->SetState(SOPHIA_STATE_WALKING_LEFT);
 		}
-		else if (player->GetPlayerType() == EntityType::TAG_SMALL_SOPHIA) {
-			player->SetState(SMALL_SOPHIA_STATE_WALKING_LEFT);
+		else
+		{
+			player->SetState(SOPHIA_STATE_IDLE);
 		}
-		else if (player->GetPlayerType() == EntityType::TAG_BIG_SOPHIA)
-			player->SetState(BIG_SOPHIA_STATE_WALKING_LEFT);
+
+		if (CGame::GetInstance()->IsKeyDown(DIK_SPACE))
+		{
+			if (player->GetPlayerType() == EntityType::TAG_JASON)
+				dynamic_cast<JASON*>(player)->SetPressSpace(true);
+		}
+
+		if (CGame::GetInstance()->IsKeyDown(DIK_UP))
+		{
+			if (player->GetPlayerType() == TAG_JASON)
+				dynamic_cast<JASON*>(player)->SetPressUp(true);
+			else if (player->GetPlayerType() == TAG_BIG_SOPHIA)
+				dynamic_cast<Big_Sophia*>(player)->SetState(BIG_SOPHIA_STATE_WALKING_TOP);
+			//else if (player->GetPlayerType() == TAG_SMALL_SOPHIA && dynamic_cast<Small_Sophia*>(player)->IsInStairs())
+			//{
+			//	dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_UP);
+			//}
+		}
+		if ((CGame::GetInstance()->IsKeyDown(DIK_DOWN)))
+		{
+			if (player->GetPlayerType() == TAG_BIG_SOPHIA)
+				dynamic_cast<Big_Sophia*>(player)->SetState(BIG_SOPHIA_STATE_WALKING_BOTTOM);
+			//else if (player->GetPlayerType() == TAG_SMALL_SOPHIA && dynamic_cast<Small_Sophia*>(player)->IsInStairs())
+			//{
+			//	dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_DOWN);
+			//}
+		}
 	}
 	else
 	{
-		if (player->GetPlayerType() == TAG_JASON)
-			player->SetState(SOPHIA_STATE_IDLE);
-		else if (player->GetPlayerType() == TAG_SMALL_SOPHIA)
-			player->SetState(SMALL_SOPHIA_STATE_IDLE);
-		else if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-			player->SetState(BIG_SOPHIA_STATE_IDLE);
-	}
-
-	if (CGame::GetInstance()->IsKeyDown(DIK_SPACE))
-	{
-		if (player->GetPlayerType() == EntityType::TAG_JASON)
-			dynamic_cast<JASON*>(player)->SetPressSpace(true);
-		if (player->GetPlayerType() == EntityType::TAG_SMALL_SOPHIA)
-			dynamic_cast<Small_Sophia*>(player)->SetPressSpace(true);
-	}
-
-	if (CGame::GetInstance()->IsKeyDown(DIK_UP))
-	{
-		if (player->GetPlayerType() == EntityType::TAG_JASON)
-			dynamic_cast<JASON*>(player)->SetPressUp(true);
-		else if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-			player->SetState(BIG_SOPHIA_STATE_WALKING_TOP);
-	}
-	if ((CGame::GetInstance()->IsKeyDown(DIK_DOWN)))
-	{
-		if (player->GetPlayerType() == TAG_BIG_SOPHIA)
-			player->SetState(BIG_SOPHIA_STATE_WALKING_BOTTOM);
+		if (dynamic_cast<Small_Sophia*>(player)->IsInStairs())
+		{
+			if (CGame::GetInstance()->IsKeyDown(DIK_UP))
+				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_UP);
+			else if (CGame::GetInstance()->IsKeyDown(DIK_DOWN))
+				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_DOWN);
+			else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
+				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_WALKING_LEFT);
+			else if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_WALKING_RIGHT);
+			else
+				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_IDLE);
+		}
+		else
+		{
+			if ((CGame::GetInstance()->IsKeyDown(DIK_SPACE)))
+				dynamic_cast<Small_Sophia*>(player)->SetPressSpace(true);
+			else if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+			{
+				player->SetState(SOPHIA_STATE_WALKING_RIGHT);
+			}
+			else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
+			{
+				player->SetState(SOPHIA_STATE_WALKING_LEFT);
+			}
+			else
+				player->SetState(SOPHIA_STATE_IDLE);
+		}
 	}
 }
 

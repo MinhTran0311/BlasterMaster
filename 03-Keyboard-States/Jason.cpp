@@ -27,7 +27,7 @@ JASON::JASON(float x, float y, int _health, int _gundam)
 	health = _health;
 	dam = _gundam;
 	specialBulletType = JASON_HOMING_MISSLES;
-	isJumping = true;
+	//isJumping = true;
 }
 
 JASON* JASON::instance = NULL;

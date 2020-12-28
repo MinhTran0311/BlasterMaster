@@ -6,8 +6,10 @@
 
 class Stair : public Entity
 {
+private:
+	int width, height;
 public:
-	Stair(float x, float y);
+	Stair(float x, float y, int width, int height);
 	~Stair();
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

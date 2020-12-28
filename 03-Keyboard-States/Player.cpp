@@ -153,6 +153,23 @@ void Player::CollideWithObject(LPGAMEENTITY object,bool &isInjured)
 			isInjured = true;
 			break;
 		}
+		/*case TAG_STAIRS:
+		{
+			if (GetPlayerType() == TAG_SMALL_SOPHIA)
+			{
+				dynamic_cast<Small_Sophia*>(this)->SetIsInStairs(true);
+				DebugOut(L"111111\n");
+			}
+			break;
+		}*/
+		default:
+			//if (GetPlayerType() == TAG_SMALL_SOPHIA)
+			//{
+			//	DebugOut(L"nasjndkasjd\n");
+			//	dynamic_cast<Small_Sophia*>(this)->SetIsInStairs(false);
+			//}
+			break;
+
 		}
 	}
 }
@@ -163,11 +180,34 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		CollideWithObject(coObjects->at(i), isInjured);
+
+		if (GetPlayerType() == TAG_SMALL_SOPHIA && coObjects->at(i)->GetType() == TAG_STAIRS)
+		{
+			if (dynamic_cast<Small_Sophia*>(this)->IsCollidingObject(coObjects->at(i)))
+			{
+				DebugOut(L"Dinh cau thang\n");
+				dynamic_cast<Small_Sophia*>(this)->SetIsInStairs(true);
+
+			}
+			else
+			{
+				DebugOut(L"Khong dung\n");
+				dynamic_cast<Small_Sophia*>(this)->SetIsInStairs(false);
+			}
+		}
+
 		if ((coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD || coObjects->at(i)->GetType() == TAG_SOFT_BRICK || coObjects->at(i)->GetType() == TAG_GATE) && !coObjects->at(i)->IsDeath())
 			colliable_Objects->push_back(coObjects->at(i));
 	}
 	if (!isInjured)
 		alpha = 255;
+	//if (GetPlayerType() == TAG_SMALL_SOPHIA)
+	//	if (dynamic_cast<Small_Sophia*>(this)->IsInStairs())
+	//	{
+	//		DebugOut(L"in starti \n");
+	//		y += dy;
+	//		return;
+	//	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;

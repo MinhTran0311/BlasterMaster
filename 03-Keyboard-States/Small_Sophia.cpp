@@ -1,5 +1,5 @@
 ﻿#include "Small_Sophia.h"
-#include "Gate.h"
+
 Small_Sophia::Small_Sophia(float x, float y, int _health, int _gundam)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SMALL_SOPHIA));
@@ -25,9 +25,10 @@ Small_Sophia* Small_Sophia::GetInstance()
 void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Player::Update(dt, coObjects);
-
+	//DebugOut(L"van toc y: %f\n", vy);
 #pragma region fall down 
-	vy += SOPHIA_GRAVITY * dt;
+	if (!isInStairs)
+		vy += SOPHIA_GRAVITY * dt;
 	//check player's height
 	//if (isJumping && current_Jumpy - y >= HEIGHT_LEVER1 && isJumpHandle == false)
 	//{
@@ -37,21 +38,9 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	//}
 #pragma endregion
 
-#pragma region Timer
-	//if (isImmortaling && immortalTimer->IsTimeUp())
-	//{
-	//	isImmortaling = false;
-	//	immortalTimer->Reset();
-	//}
-#pragma endregion
-	//if (!canFire && FireTimer->IsTimeUp())
-	//{
-	//	canFire = true;
-	//	FireTimer->Reset();
-	//}
-
-
 #pragma region Collision
+
+
 	CollisionHandle(coObjects);
 	//bool isInjured = false;
 	//vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
@@ -124,18 +113,6 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma endregion
 }
 
-//void Small_Sophia::SetInjured(int dame)
-//{
-//	if (isImmortaling)
-//		return;
-//	health -= dame;
-//	dam -= dame;
-//
-//	StartUntouchable();
-//	immortalTimer->Start();
-//	isImmortaling = true;
-//}
-
 void Small_Sophia::Render()
 {
 	if (isDoneDeath)
@@ -174,6 +151,10 @@ void Small_Sophia::Render()
 			else
 				ani = SOPHIA_ANI_SMALL_WALKING_RIGHT;
 		}
+		if (state == SMALL_SOPHIA_STATE_CLIMB_UP || state == SMALL_SOPHIA_STATE_CLIMB_DOWN)
+			ani = SOPHIA_ANI_SMALL_CLIMB;
+		else if (state == SMALL_SOPHIA_STATE_CLIMB_IDLE)
+			ani = SOPHIA_ANI_SMALL_CLIMB_IDLE;
 	}
 	animationSet->at(ani)->Render(nx, x, y, alpha);
 }
@@ -187,6 +168,8 @@ void Small_Sophia::SetState(int state)
 	case SMALL_SOPHIA_STATE_WALKING_RIGHT:
 		if (isCrawl)
 			vx = SMALL_SOPHIA_CRAWLING_SPEED;
+		else if (isInStairs)
+			vx = 0.02f;
 		else
 			vx = SMALL_SOPHIA_WALKING_SPEED;
 		nx = 1;
@@ -194,6 +177,8 @@ void Small_Sophia::SetState(int state)
 	case SMALL_SOPHIA_STATE_WALKING_LEFT:
 		if (isCrawl)
 			vx = -SMALL_SOPHIA_CRAWLING_SPEED;
+		else if (isInStairs)
+			vx = -0.02f;
 		else
 			vx = -SMALL_SOPHIA_WALKING_SPEED;
 		nx = -1;
@@ -227,6 +212,7 @@ void Small_Sophia::SetState(int state)
 		break;
 	case SMALL_SOPHIA_STATE_IDLE:
 		isPressJump = false;
+		isInStairs = false;
 		if (!isCrawl)
 		{
 			if (vx > 0) {
@@ -245,8 +231,8 @@ void Small_Sophia::SetState(int state)
 		if (isCrawl)
 			vx = 0;
 		break;
-	case SMALL_SOPHIA_STATE_DIE:
-	case SMALL_SOPHIA_STATE_IN:
+	//case SMALL_SOPHIA_STATE_DIE:
+	//case SMALL_SOPHIA_STATE_IN:
 	case SMALL_SOPHIA_STATE_OUT:
 		isCrawl = false;
 		if (nx > 0) {
@@ -260,6 +246,28 @@ void Small_Sophia::SetState(int state)
 				vx = 0;
 		}
 		vy = -SMALL_SOPHIA_JUMP_SPEED_Y / 1.5f;
+		break;
+	case SMALL_SOPHIA_STATE_CLIMB_UP:
+		if (isInStairs)
+		{
+			vx = 0;
+			ny = -1;
+			vy = -SMALL_SOPHIA_CLIMB_SPEED;
+		}
+		break;
+	case SMALL_SOPHIA_STATE_CLIMB_DOWN:
+		if (isInStairs)
+		{
+			vx = 0;
+			ny = 1;
+			vy = SMALL_SOPHIA_CLIMB_SPEED;
+		}
+		break;
+	case SMALL_SOPHIA_STATE_CLIMB_IDLE:
+		if (isInStairs)
+		{
+			vx = vy = 0;
+		}
 		break;
 	}
 }

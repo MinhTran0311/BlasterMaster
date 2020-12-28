@@ -9,7 +9,7 @@
 #include <assert.h>
 #include "debug.h"
 #include "Enemy.h"
-
+#include "Gate.h"
 
 #define ANIMATION_SET_SMALL_SOPHIA	2
 
@@ -18,6 +18,7 @@
 #define SMALL_SOPHIA_WALKING_ACC			0.00015f
 #define SMALL_SOPHIA_CRAWLING_SPEED			0.03f 
 #define SMALL_SOPHIA_JUMP_SPEED_Y			0.15f
+#define SMALL_SOPHIA_CLIMB_SPEED			0.05f
 
 #define SOPHIA_ANI_SMALL_IDLE_RIGHT				0
 #define SOPHIA_ANI_SMALL_WALKING_RIGHT			1
@@ -25,6 +26,8 @@
 #define SOPHIA_ANI_SMALL_WALKING_CRAWL_RIGHT		3
 #define SOPHIA_ANI_SMALL_DIE						3
 #define SOPHIA_ANI_SMALL_JUMP					4
+#define SOPHIA_ANI_SMALL_CLIMB					5
+#define SOPHIA_ANI_SMALL_CLIMB_IDLE					6
 
 #define SMALL_SOPHIA_STATE_IDLE			    0
 #define SMALL_SOPHIA_STATE_DIE				100
@@ -35,8 +38,12 @@
 #define SMALL_SOPHIA_STATE_JUMP				600
 #define SMALL_SOPHIA_STATE_IN				700
 #define SMALL_SOPHIA_STATE_OUT				800
-#define SMALL_SOPHIA_STATE_CRAWL				900
+#define SMALL_SOPHIA_STATE_CRAWL			900
 #define SMALL_SOPHIA_STATE_CRAWL_STOP		1000
+#define SMALL_SOPHIA_STATE_CLIMB_UP			1100
+#define SMALL_SOPHIA_STATE_CLIMB_DOWN		1200
+#define SMALL_SOPHIA_STATE_CLIMB_IDLE		1300
+
 
 #define MAX_HEALTH						8
 #define MAX_GUNDAM						8
@@ -55,7 +62,7 @@
 
 class Small_Sophia : public Player
 {
-public:
+private:
 	static Small_Sophia* instance;
 
 	int level;
@@ -65,12 +72,15 @@ public:
 
 	float backup_JumpY;
 	bool isPressJump;
-	//bool isPressFlipGun;
+	bool isInStairs = false;
 	bool isCrawl;
 public:
 	Small_Sophia(float x, float y, int health, int gundam);
 	Small_Sophia() {};
 	static Small_Sophia* GetInstance();
+
+	bool IsInStairs() { return isInStairs; };
+	void SetIsInStairs(bool instairs) { isInStairs = instairs; };
 
 	void SetState(int state);
 	void SetPressSpace(bool isPress) { isPressJump = isPress; }
