@@ -21,12 +21,12 @@ class SmallNavigatedEnemyBullet : public Bullet
 	int straight;
 	bool isMoving;
 public:
-	SmallNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y, LPGAMEENTITY t, int shootStraight);
+	SmallNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y, LPGAMEENTITY t);
 	~SmallNavigatedEnemyBullet();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	void Render();
-	float CalPositionTarget(LPGAMEENTITY target, float v);
+	void CalVelocity(float&, float&, LPGAMEENTITY);
 	virtual void SetState(int state);
 };
 

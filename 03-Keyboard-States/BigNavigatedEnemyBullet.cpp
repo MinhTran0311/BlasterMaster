@@ -97,13 +97,9 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			}
 			default:
 			{
-				vx = bullet_speed * nx;
-				if (nx == -1)
-				{
-					vt = -vx;
-				}
-				vy = bullet_speed * ny;
-				//vy = CalPositionTarget(target, v) * ny;
+				/*vx = bullet_speed * nx;
+				vy = bullet_speed * ny;*/
+				CalVelocity(vx, vy, target);
 				break;
 			}
 		}
@@ -140,7 +136,8 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			default:
 			{
 				x += dx;
-				y = CalPositionTarget(target, x);
+				//y = CalPositionTarget(target, x);
+				y += dy;
 				break;
 			}
 			}
@@ -211,11 +208,18 @@ void BigNavigatedEnemyBullet::Render()
 	}
 }
 
-float BigNavigatedEnemyBullet::CalPositionTarget(LPGAMEENTITY target, float xc)
+//float BigNavigatedEnemyBullet::CalPositionTarget(LPGAMEENTITY target, float xc)
+//{
+//	float a = (float)(yTarget - yBullet) / (float)(xTarget - xBullet);
+//	float b = yTarget - (xTarget * a);
+//	return ((xc * a) + b);
+//}
+
+void BigNavigatedEnemyBullet::CalVelocity(float& vx, float& vy, LPGAMEENTITY t)
 {
-	float a = (float)(yTarget - yBullet) / (float)(xTarget - xBullet);
-	float b = yTarget - (xTarget * a);
-	return ((xc * a) + b);
+	float d = sqrt((xBullet - xTarget) * (xBullet - xTarget) + (yBullet - yTarget) * (yBullet - yTarget));
+	vx = ((xTarget - xBullet) / d) * bullet_speed;
+	vy = ((yTarget - yBullet) / d) * bullet_speed;
 }
 
 void BigNavigatedEnemyBullet::SetState(int state)

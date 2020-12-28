@@ -2,42 +2,15 @@
 #include "global.h"
 #include "Player.h"
 
-SmallNavigatedEnemyBullet::SmallNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y, LPGAMEENTITY t, int shootStraight)
+SmallNavigatedEnemyBullet::SmallNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y, LPGAMEENTITY t)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SMALL_ENEMY_BULLET));
 	tag = EntityType::BULLET;
-	straight = shootStraight;
 	alpha = 255;
 	bbARGB = 0;
 	isHitBrick = isHitJason = false;
 	dam = 1;
-	/*switch (type_enemy)
-	{
-		case CANNONS:
-		{
-			typeBullet = CANNONS_BULLET;
-			break;
-		}
-		default:
-		{
-			typeBullet = BULLET;
-			break;
-		}
-	}*/
 	typeBullet = BULLET;
-	/*switch (typeBullet)
-	{
-		case CANNONS_BULLET:
-		{
-			bullet_speed = CANNONS_BULLET_SPEED;
-			break;
-		}
-		default:
-		{
-			bullet_speed = BULLET_SPEED_OTHERS;
-			break;
-		}
-	}*/
 	bullet_speed = BULLET_SPEED_OTHERS;
 	nx = direct_x;
 	ny = direct_y;
@@ -83,8 +56,7 @@ void SmallNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects
 	{
 		timeDelayed += dt;
 		Entity::Update(dt);
-		vx = bullet_speed * nx;
-		vy = bullet_speed * ny;
+		CalVelocity(vx, vy, target);
 	}
 #pragma endregion
 	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
@@ -117,7 +89,7 @@ void SmallNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects
 			case 0:
 			{
 				x += dx;
-				y = CalPositionTarget(target, x);
+				y += dy;
 				break;
 			}
 			}
@@ -187,11 +159,18 @@ void SmallNavigatedEnemyBullet::Render()
 	}
 }
 
-float SmallNavigatedEnemyBullet::CalPositionTarget(LPGAMEENTITY target, float xc)
+//float SmallNavigatedEnemyBullet::CalPositionTarget(LPGAMEENTITY target, float xc)
+//{
+//	float a = (float)(yTarget - yBullet) / (float)(xTarget - xBullet);
+//	float b = yTarget - (xTarget * a);
+//	return ((xc * a) + b);
+//}
+
+void SmallNavigatedEnemyBullet::CalVelocity(float& vx, float& vy, LPGAMEENTITY t)
 {
-	float a = (float)(yTarget - yBullet) / (float)(xTarget - xBullet);
-	float b = yTarget - (xTarget * a);
-	return ((xc * a) + b);
+	float d = sqrt((xBullet - xTarget) * (xBullet - xTarget) + (yBullet - yTarget) * (yBullet - yTarget));
+	vx = ((xTarget - xBullet) / d) * bullet_speed;
+	vy = ((yTarget - yBullet) / d) * bullet_speed;
 }
 
 void SmallNavigatedEnemyBullet::SetState(int state)

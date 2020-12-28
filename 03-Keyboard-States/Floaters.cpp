@@ -208,50 +208,24 @@ void Floaters::setRandomVxVy(float& vx, float& vy)
 
 void Floaters::shootBulletToTarget()
 {
-	if (target->Getx() == x)
+	if (target->Getx() >= x && target->Gety() <= y)
 	{
-		if (target->Gety() < y)
-		{
-			Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 0, -1, target, 1);
-			CGrid::GetInstance()->InsertGrid(bullet);
-		}
-		else if (target->Gety() > y)
-		{
-			Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 0, 1, target, 1);
-			CGrid::GetInstance()->InsertGrid(bullet);
-		}
-	}
-	else if (target->Gety() == y)
-	{
-		if (target->Getx() >= x)
-		{
-			Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 1, 0, target, 1);
-			CGrid::GetInstance()->InsertGrid(bullet);
-		}
-		else if (target->Getx() < x)
-		{
-			Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, -1, 0, target, 1);
-			CGrid::GetInstance()->InsertGrid(bullet);
-		}
-	}
-	else if (target->Getx() > x && target->Gety() < y)
-	{
-		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 1, -1, target, 0);
+		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 1, -1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
-	else if (target->Getx() > x && target->Gety() > y)
+	else if (target->Getx() >= x && target->Gety() > y)
 	{
-		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 1, 1, target, 0);
+		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 1, 1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
-	else if (target->Getx() < x && target->Gety() > y)
+	else if (target->Getx() <= x && target->Gety() >= y)
 	{
-		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, -1, 1, target, 0);
+		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, -1, 1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
-	else if (target->Getx() < x && target->Gety() < y)
+	else if (target->Getx() <= x && target->Gety() <= y)
 	{
-		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, -1, -1, target, 0);
+		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, -1, -1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 }
