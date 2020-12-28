@@ -1,6 +1,6 @@
 #include "SkullBullet.h"
 #include "global.h"
-
+#include "Player.h"
 SkullBullet::SkullBullet(float posX, float posY, int direct, LPGAMEENTITY t)
 {
 	this->target = t;
@@ -137,7 +137,7 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 			if (e->obj->GetType() == EntityType::TAG_PLAYER)
 			{
-				e->obj->AddHealth(-dam);
+				dynamic_cast<Player*>(e->obj)->EnemyBulletHitPlayer(dam);
 				DebugOut(L"Dinh target1 %d", e->obj->health);
 				isHitEnemy = true;
 				x += min_tx * dx + nx * 0.4f;

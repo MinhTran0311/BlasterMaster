@@ -23,9 +23,9 @@ protected:
 	float start_x;				//initial position of Jason
 	float start_y;
 
-
-
 	bool GateColliding;
+
+	bool isInjured=false;
 
 	//imortall
 	int untouchable;
@@ -81,7 +81,8 @@ public:
 	virtual void Render() {};
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
 
-	void CollideWithObject(LPGAMEENTITY object, bool& isInjured);
+	void EnemyBulletHitPlayer(int);
+	void CollideWithObject(LPGAMEENTITY object);
 	void CollisionHandle(vector<LPGAMEENTITY>* coObjects);
 };
 typedef Player* LPGAMEPLAYER;

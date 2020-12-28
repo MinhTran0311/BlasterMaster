@@ -7,7 +7,7 @@ BossBullet::BossBullet(float xPos, float yPos, LPGAMEENTITY t)
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BOSS_ENEMY_BULLET));
 	tag = EntityType::BULLET;
 	isHitEnemy = false;
-	dam = 1;
+	dam = 1; 
 	this->SetState(BOSS_ENEMY_BULLET_STATE_FLYING);
 	typeBullet = BOSS_BULLET;
 	bullet_speed = BOSS_BULLET_SPEED;
@@ -25,7 +25,6 @@ BossBullet::BossBullet(float xPos, float yPos, LPGAMEENTITY t)
 	y_Start_Pos = yPos;
 	xTarget = target->Getx();
 	yTarget = target->Gety();
-	//isMoving = true;
 	isActive = true;
 }
 
@@ -63,9 +62,8 @@ void BossBullet::Update(DWORD dt, vector<LPGAMEENTITY>* co_Objects)
 	if (this->IsCollidingObject(target))
 	{
 		DebugOut(L"hit player");
-		dynamic_cast<Player*>(target)->SetInjured(dam);
+		dynamic_cast<Player*>(target)->EnemyBulletHitPlayer(dam);
 		isActive = false;
-		//isMoving = false;
 		this->SetState(BOSS_ENEMY_BULLET_STATE_HIT_PLAYER);
 		return;
 	}
@@ -88,13 +86,6 @@ void BossBullet::Render()
 		animationSet->at(ani)->Render(1, x, y);
 	}
 	else isActive = false;
-}
-
-float BossBullet::CalPositionTarget(LPGAMEENTITY target, float xPos)
-{
-	float a = (float)(yTarget - y_Start_Pos) / (float)(xTarget - x_Start_Pos);
-	float b = yTarget - (xTarget * a);
-	return ((xPos * a) + b);
 }
 
 void BossBullet::SetState(int state)

@@ -78,6 +78,8 @@
 
 #define PLAYER_CHANGE_ALPHA_WHEN_DAMAGED 400
 
+#define FALLING_VELOCITY_UPPER_LIMITATION 0.19f
+
 class JASON : public Player
 {
 

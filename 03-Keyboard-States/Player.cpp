@@ -97,12 +97,20 @@ void Player::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	{
 		changeAlphaTimer->Reset();
 		canChangeAlpha = true;
+		isInjured = false;
 		if (!isImmortaling)
 			alpha = 255;
 	}
 }
 
-void Player::CollideWithObject(LPGAMEENTITY object,bool &isInjured)
+void Player::EnemyBulletHitPlayer(int dam)
+{
+	isInjured = true;
+	changeAlpha();
+	SetInjured(dam);
+}
+
+void Player::CollideWithObject(LPGAMEENTITY object)
 {
 	if (this->IsCollidingObject(object))
 	{
@@ -111,13 +119,6 @@ void Player::CollideWithObject(LPGAMEENTITY object,bool &isInjured)
 		case EntityType::ENEMY:
 		{
 			Enemy* enemy = dynamic_cast<Enemy*>(object);
-			//re check
-			//if (isJumping)
-			//{
-			//	this->SetState(SOPHIA_STATE_IDLE);
-			//	isJumping = false;
-			//	isJumpHandle = true;
-			//}
 			this->changeAlpha();
 			DebugOut(L"alpha %d\n", alpha);
 			isInjured = true;
@@ -142,8 +143,9 @@ void Player::CollideWithObject(LPGAMEENTITY object,bool &isInjured)
 					this->SetgunDam(MAX_GUNDAM);
 			}
 			item->setActive(false);
-			break;
+			isInjured = false;
 			Sound::GetInstance()->Play("PickingItems", 0, 1);
+			break;
 		}
 		case EntityType::TAG_INJURING_BRICK:
 		{
@@ -153,21 +155,8 @@ void Player::CollideWithObject(LPGAMEENTITY object,bool &isInjured)
 			isInjured = true;
 			break;
 		}
-		/*case TAG_STAIRS:
-		{
-			if (GetPlayerType() == TAG_SMALL_SOPHIA)
-			{
-				dynamic_cast<Small_Sophia*>(this)->SetIsInStairs(true);
-				DebugOut(L"111111\n");
-			}
-			break;
-		}*/
 		default:
-			//if (GetPlayerType() == TAG_SMALL_SOPHIA)
-			//{
-			//	DebugOut(L"nasjndkasjd\n");
-			//	dynamic_cast<Small_Sophia*>(this)->SetIsInStairs(false);
-			//}
+			//isInjured = false;
 			break;
 
 		}
@@ -176,10 +165,10 @@ void Player::CollideWithObject(LPGAMEENTITY object,bool &isInjured)
 void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 {
 	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
-	bool isInjured = false;
+	//bool isInjured = false;
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		CollideWithObject(coObjects->at(i), isInjured);
+		CollideWithObject(coObjects->at(i));
 
 		if (GetPlayerType() == TAG_SMALL_SOPHIA && coObjects->at(i)->GetType() == TAG_STAIRS)
 		{
@@ -201,13 +190,6 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 	}
 	if (!isInjured)
 		alpha = 255;
-	//if (GetPlayerType() == TAG_SMALL_SOPHIA)
-	//	if (dynamic_cast<Small_Sophia*>(this)->IsInStairs())
-	//	{
-	//		DebugOut(L"in starti \n");
-	//		y += dy;
-	//		return;
-	//	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -240,6 +222,7 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 					if (e->ny == -1)
 					{
 						vy = 0;
+						
 						if (this->GetPlayerType() == TAG_JASON)
 						{
 							dynamic_cast<JASON*>(this)->SetIsJumping(false);
@@ -247,9 +230,15 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 						else if (this->GetPlayerType() == TAG_SMALL_SOPHIA)
 							dynamic_cast<Small_Sophia*>(this)->SetIsJumping(false);
 					}
+					if (e->ny == 1)
+					{
+						dynamic_cast<JASON*>(this)->SetIsJumping(true);
+						vy = 0;
+					}
 					if (e->nx != 0)
 						vx = 0;
 				}
+
 			}
 			else if (e->obj->GetType() == EntityType::TAG_GATE_OVERWORLD || e->obj->GetType() == EntityType::TAG_GATE)
 			{

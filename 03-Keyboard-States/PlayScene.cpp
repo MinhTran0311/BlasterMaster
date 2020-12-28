@@ -7,6 +7,7 @@
 #include "Jumpers.h"
 #include "JasonRocket.h"
 #include "JasonBullet.h"
+#include "JasonBullet.h"
 #include "SmallSophiaBullet.h"
 #include "Grid.h"
 #include "Big_Sophia.h"

@@ -25,7 +25,6 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	void Render();
-	float CalPositionTarget(LPGAMEENTITY target, float v);
 	virtual void SetState(int state);
 	void CalVelocity(float&, float&, LPGAMEENTITY);
 };
