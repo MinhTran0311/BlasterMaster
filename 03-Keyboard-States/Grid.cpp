@@ -19,6 +19,7 @@
 #include "Big_Sophia.h"
 #include "Boss.h"
 #include "BossArm.h"
+#include "Stair.h"
 vector<LPGAMEENTITY> CGrid::FilterObjectDuplicate(vector<LPGAMEENTITY> objs)
 {
 	std::sort(objs.begin(), objs.end());
@@ -206,13 +207,18 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		DebugOut(L"[test] add Boss !\n");
 		break;
 	}
-
-
 	case EntityType::TAG_BRICK:
 	{
 		obj = new Brick(x,y,atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
 
 		DebugOut(L"[test] add brick !\n");
+		break;
+	}
+	case TAG_STAIRS:
+	{
+		obj = new Stair(x, y, atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
+
+		DebugOut(L"[test] add stair");
 		break;
 	}
 	case EntityType::TAG_INJURING_BRICK:

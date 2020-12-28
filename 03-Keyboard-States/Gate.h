@@ -1,8 +1,8 @@
 #pragma once
 #include "Entity.h"
 
-#define GATE_BBOX_WIDTH				30
-#define GATE_BBOX_HEIGHT			50
+#define GATE_BBOX_WIDTH				20
+#define GATE_BBOX_HEIGHT			30
 
 class Gate : public Entity
 {

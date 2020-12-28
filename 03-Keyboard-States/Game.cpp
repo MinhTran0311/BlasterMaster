@@ -323,7 +323,7 @@ void CGame::Draw(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, in
 	D3DXMATRIX newMatrix;
 
 	D3DXVECTOR2 scaling;
-	if (direction > 0)
+	if (direction >= 0)
 		scaling = D3DXVECTOR2(1, 1);
 	else
 		scaling = D3DXVECTOR2(-1, 1);

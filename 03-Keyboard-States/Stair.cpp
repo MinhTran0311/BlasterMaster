@@ -1,11 +1,14 @@
 #include "Stair.h"
 
 
-Stair::Stair(float x, float y)
+Stair::Stair(float xPos, float yPos, int _width, int _height)
 {
 	tag = EntityType::TAG_STAIRS;
-	this->x = x;
-	this->y = y;
+	this->x = xPos;
+	this->y = yPos;
+	bbARGB = 255;
+	width = _width;
+	height = _height;
 }
 Stair::~Stair() {}
 
@@ -18,6 +21,6 @@ void Stair::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x;
 	t = y;
-	r = x + STAIR_BBOX_WIDTH;
-	b = y + STAIR_BBOX_HEIGHT;
+	r = x + width;
+	b = y + height;
 }
