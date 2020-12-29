@@ -25,6 +25,7 @@ Big_Sophia::~Big_Sophia()
 {
 }
 
+
 void Big_Sophia::AutoRun(int direction)
 {
 	if (!_isAutoRun)

@@ -92,7 +92,6 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	//fall down
 #pragma region fall down
 	if (vy > FALLING_VELOCITY_UPPER_LIMITATION) isJumping = true;
-	DebugOut(L"vy: %f\n",vy);
 	vy += SOPHIA_GRAVITY *dt;
 	//check player's height
 	if (isJumping && current_Jumpy - y >= HEIGHT_LEVER1 && isJumpHandle == false)

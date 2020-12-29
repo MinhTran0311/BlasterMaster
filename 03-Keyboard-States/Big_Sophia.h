@@ -43,6 +43,7 @@
 
 class Big_Sophia : public Player
 {
+private:
 	static Big_Sophia* instance;
 
 	int level;
@@ -50,9 +51,16 @@ class Big_Sophia : public Player
 	float backup_x, backup_y;
 	bool _isAutoRun;
 	int directionAutoRun;
+
+	bool isEnterIntroBossArea = false;
+	bool isFightWithBoss = false;
 public:
 	Big_Sophia (float x, float y, int health, int gundam);
 	~Big_Sophia ();
+	bool IsEnterIntroBossArea() { return isEnterIntroBossArea; };
+	void SetIsEnterIntroBossArea(bool enter) { isEnterIntroBossArea = enter; };
+	void SetIsFightWithBoss(bool enter) { isFightWithBoss = enter; };
+	bool IsFightWithBoss() { return isFightWithBoss; };
 	bool isAutoRun() { return _isAutoRun; };
 	void AutoRun(int direction);
 	void GetInfoBigSophia(int& direct, int& directY, float& playerx, float& playery, int& dame) { direct = nx; directY = ny; playerx = x; playery = y; dame = dam; }

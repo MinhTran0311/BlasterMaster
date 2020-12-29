@@ -32,6 +32,7 @@ using namespace std;
 
 #define LIFE_DISPLAY			1
 #define CHOOSING_WEAPON_DISPLAY	2
+#define FREEZE_DURATION			4000
 
 struct PlayerHealthAndGunInfo
 {
@@ -62,7 +63,8 @@ public:
 	float posX, posY;
 	float xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack;
 
-
+	int textureAlpha = 255;
+	Timer* BossIntroTimer = new Timer(FREEZE_DURATION);
 
 	float nCamXGo;
 	float nCamXBack;
@@ -90,7 +92,6 @@ protected:
 	LPGAMEPLAYER player;
 	LPGAMEPLAYER backup_player;
 	PlayerHealthAndGunInfo playerInfo;
-	HUD* gameHUD;
 	void LoadBaseObjects();
 	void LoadBaseTextures();
 	int mapWidth, mapHeight;
@@ -110,7 +111,8 @@ protected:
 	//Item* RandomItem(float x, float y);
 	//Item* DropItem(EntityType createrType, float x, float y, int idCreater = 0);
 
-	void EnterBoss();
+	void CheckEnterBoss();
+	void SetUpFightBoss();
 	friend class PlayScenceKeyHandler;
 protected:
 	vector<LPCWSTR> listSceneFilePath;

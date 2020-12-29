@@ -449,10 +449,12 @@ void CBoss::HandleDieState()
 		posX = x + randomX;
 		posY = y + randomY;
 		exp->Setposition(posX, posY);
-		DebugOut(L"[DUC] add Explosion %d !\n", numOfExplosion);
-		vector<pair<int, int>> *bossgrid = dynamic_cast<CGrid*> (CGrid::GetInstance())->bossGrid;
-		DebugOut(L"[DUC] add Explosion Bossgridsize %d !\n", bossgrid->size());
-		dynamic_cast<CGrid*> (CGrid::GetInstance())->InsertGrid(exp, *bossgrid);
+		//DebugOut(L"[DUC] add Explosion %d !\n", numOfExplosion);
+		//vector<pair<int, int>> *bossgrid = dynamic_cast<CGrid*> (CGrid::GetInstance())->bossGrid;
+		//DebugOut(L"[DUC] add Explosion Bossgridsize %d !\n", bossgrid->size());
+		//dynamic_cast<CGrid*> (CGrid::GetInstance())->InsertGrid(exp, *bossgrid);
+		CGrid::GetInstance()->InsertGrid(exp);
+		DebugOut(L"Tao duoc grid\n");
 		numOfExplosion++;
 	}
 	//alpha--;

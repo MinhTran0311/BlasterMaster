@@ -425,6 +425,23 @@ void PlayScene::changePlayer()
 	}
 }
 
+void PlayScene::CheckEnterBoss()
+{
+	if (player->GetPlayerType() == TAG_BIG_SOPHIA && player->Getx() > 60 && player->Getx() < 80 && player->Gety() > 1844 && player->Gety() < 1880 && !dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea() && idStage== ID_MAPOVERWORLD)
+	{
+		dynamic_cast<Big_Sophia*>(player)->SetIsEnterIntroBossArea(true);
+		BossIntroTimer->Start();
+	}
+}
+
+void PlayScene::SetUpFightBoss()
+{
+	dynamic_cast<Big_Sophia*>(player)->SetIsEnterIntroBossArea(false);
+	player->SetPosition(1767, 1123);
+	Camera::GetInstance()->SetCamPos(1607, 986);
+	Camera::GetInstance()->SetIsFollowPlayer(true);
+}
+
 void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 {
 	//JASON* jason = ((PlayScene*)scence)->jason;
@@ -731,7 +748,7 @@ void PlayScene::CheckPlayerReachGate()
 
 void PlayScene::Update(DWORD dt)
 {
-
+	DebugOut(L"x: %f, y: %f\n", player->Getx(), player->Gety());
 	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY &&  player->GetPlayerType()==TAG_JASON)
 	{
 		SceneManager::GetInstance()->SetHolderScene(SceneManager::GetInstance()->GetScene());
@@ -782,98 +799,114 @@ void PlayScene::Update(DWORD dt)
 	Sound::GetInstance()->Play("MusicMap", 1, 10000);
 
 #pragma endregion
+	if (player->GetPlayerType() == TAG_BIG_SOPHIA && idStage == ID_MAPOVERWORLD)
+	{
+		if (!dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea() && !dynamic_cast<Big_Sophia*>(player)->IsFightWithBoss())
+			CheckEnterBoss();
+		if (BossIntroTimer->IsTimeUp() && dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea())
+		{
 
-		CheckPlayerReachGate();
+			dynamic_cast<Big_Sophia*>(player)->SetIsFightWithBoss(true);
+			BossIntroTimer->Reset();
+			textureAlpha = 255;
+		}
+		if (dynamic_cast<Big_Sophia*>(player)->IsFightWithBoss() && dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea())
+		{
+			SetUpFightBoss();
+		}
+	}
+
+	CheckPlayerReachGate();
+	
 #pragma region camera
-		float cx, cy;
-		mapWidth = listWidth[idStage - 11];
-		mapHeight = listHeight[idStage - 11];
-		player->GetPosition(cx, cy);
-		if (isNeedResetCamera)
+	float cx, cy;
+	mapWidth = listWidth[idStage - 11];
+	mapHeight = listHeight[idStage - 11];
+	player->GetPosition(cx, cy);
+	if (isNeedResetCamera)
+	{
+		DebugOut(L"middle\n");
+		Camera::GetInstance()->SetCamPos(camMap1X, camMap1Y);
+		//DebugOut(L"y: %d \n",camMap1Y);
+		//posY = camMap1Y;
+		isNeedResetCamera = false;
+	}
+	else
+	{
+		if (!player->IsDoneDeath())
 		{
-			DebugOut(L"middle\n");
-			Camera::GetInstance()->SetCamPos(camMap1X, camMap1Y);
-			//DebugOut(L"y: %d \n",camMap1Y);
-			//posY = camMap1Y;
-			isNeedResetCamera = false;
-		}
-		else
-		{
-			if (!player->IsDoneDeath())
-			{
-				Camera::GetInstance()->Update(cx, cy, player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
+			Camera::GetInstance()->Update(cx, cy, player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
 
-			}
 		}
+	}
 #pragma endregion
 
 #pragma region update objects
 
-
-		if (isUnloaded)
+	
+	if (isUnloaded)
+	{
+		CGrid::GetInstance()->SetTargetForEnemies(player);
+		isUnloaded = false;
+	}
+	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(Camera::GetInstance()->GetRectCam());
+	if (player != NULL)
+	{
+		player->Update(dt, &coObjects);
+	}
+	if (coObjects.size() != 0)
+	{//update obj
+		for (int i = 0; i < coObjects.size(); i++)
 		{
-			CGrid::GetInstance()->SetTargetForEnemies(player);
-			isUnloaded = false;
-		}
-
-		vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(Camera::GetInstance()->GetRectCam());
-		if (player != NULL)
-		{
-			player->Update(dt, &coObjects);
-		}
-		if (coObjects.size() != 0)
-		{//update obj
-			for (int i = 0; i < coObjects.size(); i++)
+			if (coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != TAG_GATE && coObjects.at(i)->GetType() != TAG_GATE_OVERWORLD)
 			{
-				if (coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != TAG_GATE && coObjects.at(i)->GetType() != TAG_GATE_OVERWORLD)
-				{
 
-					coObjects[i]->Update(dt, &coObjects);
-				}
+				coObjects[i]->Update(dt, &coObjects);
 			}
-			//sua cho nay
-			int k = 0;
-			for (int i = 0; i < coObjects.size() - k; i++)
+		}
+		//sua cho nay
+		int k = 0;
+		for (int i = 0; i < coObjects.size() - k; i++)
+		{
+			if ((coObjects.at(i)->IsDeath()))
 			{
-				if ((coObjects.at(i)->IsDeath()))
-				{
-					float xPos, yPos;
-					coObjects.at(i)->GetPosition(xPos, yPos);
-					LPGAMEENTITY backup = coObjects.at(i);
+				float xPos, yPos;
+				coObjects.at(i)->GetPosition(xPos, yPos);
+				LPGAMEENTITY backup = coObjects.at(i);
 
-					coObjects.erase(coObjects.begin() + i);
+				coObjects.erase(coObjects.begin() + i);
 
-					float _xtemp, _ytemp;
-					backup->GetPosition(_xtemp, _ytemp);
+				float _xtemp, _ytemp;
+				backup->GetPosition(_xtemp, _ytemp);
 #pragma region add item into grid
-					switch (backup->GetType())
-					{
-					case EntityType::ENEMY:
-					{
-						LPGAMEENTITY _PowerUp = new PowerUp(xPos, yPos);
-						CGrid::GetInstance()->InsertGrid(_PowerUp);
-						break;
-					}
-					default:
-						break;
-					}
+				switch (backup->GetType())
+				{
+				case EntityType::ENEMY:
+				{
+					LPGAMEENTITY _PowerUp = new PowerUp(xPos, yPos);
+					CGrid::GetInstance()->InsertGrid(_PowerUp);
+					break;
+				}
+				default:
+					break;
+				}
 #pragma endregion
-					CGrid::GetInstance()->RemoveObj(backup, true);
-					k = 1;
-					i--;
-				}
-				//item effect
-				else {
-					k = 0;
-				}
+				CGrid::GetInstance()->RemoveObj(backup, true);
+				k = 1;
+				i--;
 			}
+			//item effect
+			else {
+				k = 0;
+			}
+		}
 		
 
-		CGrid::GetInstance()->UpdateGrid(coObjects);
-		//player
+	CGrid::GetInstance()->UpdateGrid(coObjects);
+	//player
 
-		HUD::GetInstance()->Update(Camera::GetInstance()->GetCamx()+20, HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam(), player->GetPlayerType());
-		}
+	HUD::GetInstance()->Update(Camera::GetInstance()->GetCamx()+20, HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam(), player->GetPlayerType());
+	}
 #pragma endregion
 
 }
@@ -903,8 +936,17 @@ void PlayScene::Render()
 	}
 	else {
 		LPDIRECT3DTEXTURE9 maptexture = CTextures::GetInstance()->Get(idStage);
-
-		CGame::GetInstance()->OldDraw(0, 0, maptexture, 0, 0, mapWidth, mapHeight);
+		if (player->GetPlayerType() == TAG_BIG_SOPHIA && idStage == ID_MAPOVERWORLD)
+		{
+			if (dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea())
+			{
+				if (textureAlpha == 255)
+					textureAlpha = 140;
+				else
+					textureAlpha = 255;
+			}
+		}
+		CGame::GetInstance()->OldDraw(0, 0, maptexture, 0, 0, mapWidth, mapHeight, textureAlpha);
 
 		vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListRenderObj(Camera::GetInstance()->GetRectCam());
 		for (int i = 0; i < coObjects.size(); i++)

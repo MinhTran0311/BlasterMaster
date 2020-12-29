@@ -5,8 +5,10 @@
 
 Explosion::Explosion()
 {
+	DebugOut(L"Tao pho hoa\n");
 	timer->Start();
-	ani_set = CAnimationSets::GetInstance()->Get(EXPLOSION_ANIMATION_SET_ID);
+	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(EXPLOSION_ANIMATION_SET_ID));
+	isActive = true;
 }
 
 void Explosion::Update(DWORD dt)
@@ -16,11 +18,13 @@ void Explosion::Update(DWORD dt)
 
 void Explosion::Render()
 {
-	if (!timer->IsTimeUp()) {
-		ani_set->at(0)->Render(this->x, this->y, 255);
-	}
-	else
-		Explosion::~Explosion();
+	DebugOut(L"Phao hoa render 1\n");
+
+	animationSet->at(EXPLOSION_ANI)->Render(1, x, y);
+
+	DebugOut(L"Phao hoa render\n");
+	if (timer->IsTimeUp())
+		isActive = false;
 }
 
 Explosion::~Explosion()

@@ -91,7 +91,7 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 				}
 			}
 		}
-		else if (playertype == TAG_BIG_SOPHIA && isFollowPlayer)
+		else if (isFollowPlayer)
 		{
 			if (yPos + SCREEN_HEIGHT/2 >= UNDER_LIMIT)
 			{

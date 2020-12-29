@@ -6,7 +6,7 @@
 
 
 #define EXPLOSION_EXIST_TIME	2000
-#define EXPLOSION_ANIMATION_SET_ID	22
+#define EXPLOSION_ANIMATION_SET_ID	201
 
 #define EXPLOSION_WIDTH	23
 #define EXPLOSION_HEIGHT	23
@@ -15,7 +15,7 @@
 
 class Explosion : public  Entity
 {
-	float x, y;
+	//float x, y;
 	int width;
 	int height;
 	DWORD dt;
