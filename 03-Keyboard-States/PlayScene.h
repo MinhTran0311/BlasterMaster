@@ -110,6 +110,7 @@ protected:
 	//Item* RandomItem(float x, float y);
 	//Item* DropItem(EntityType createrType, float x, float y, int idCreater = 0);
 
+	void EnterBoss();
 	friend class PlayScenceKeyHandler;
 protected:
 	vector<LPCWSTR> listSceneFilePath;

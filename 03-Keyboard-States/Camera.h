@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <Windows.h>
 #include "global.h"
+#define UPPER_LIMIT 737
+#define UNDER_LIMIT	1270
 class Camera
 {
 private:

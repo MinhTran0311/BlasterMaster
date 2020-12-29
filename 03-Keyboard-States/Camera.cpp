@@ -93,14 +93,14 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 		}
 		else if (playertype == TAG_BIG_SOPHIA && isFollowPlayer)
 		{
-			if (yPos + SCREEN_HEIGHT/2 >= 1270)
+			if (yPos + SCREEN_HEIGHT/2 >= UNDER_LIMIT)
 			{
-				camy = 1270 - SCREEN_HEIGHT;
+				camy = UNDER_LIMIT - SCREEN_HEIGHT;
 			}
 			else
 			{
-				if (yPos < 737 + SCREEN_HEIGHT / 2)	//ở dưới đáy
-					camy = 737;
+				if (yPos < UPPER_LIMIT + SCREEN_HEIGHT / 2)	//ở dưới đáy
+					camy = UPPER_LIMIT;
 				else
 				{
 					camy=yPos - SCREEN_HEIGHT / 2;
