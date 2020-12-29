@@ -20,6 +20,7 @@
 #include "Boss.h"
 #include "BossArm.h"
 #include "Stair.h"
+#include "Explosion.h"
 vector<LPGAMEENTITY> CGrid::FilterObjectDuplicate(vector<LPGAMEENTITY> objs)
 {
 	std::sort(objs.begin(), objs.end());
@@ -128,7 +129,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		int orb_mode = atoi(tokens[milestone + 2].c_str());
 		obj = new Orbs(x, y, player, orb_mode);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-		
+
 		obj->SetAnimationSet(ani_set);
 		DebugOut(L"[test] add orbs !\n");
 		break;
@@ -201,7 +202,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		obj = new CBoss(x, y,player);
 		hasBoss = true;
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-
+		bossGrid = &posGrid;
 		obj->SetAnimationSet(ani_set);
 		//dynamic_cast<CBoss*>(obj)->SetTarget(player);
 		DebugOut(L"[test] add Boss !\n");
@@ -254,7 +255,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		int playerPosY = atoi(tokens[milestone + 3].c_str());
 		int playerState = atoi(tokens[milestone + 4].c_str());
 		int isCamFollowPlayer = atoi(tokens[milestone + 5].c_str());
-		
+
 		float camX = atoi(tokens[milestone + 6].c_str());
 		DebugOut(L"Tạo gate %d", camX);
 		int camY = atoi(tokens[milestone + 7].c_str());
@@ -320,7 +321,7 @@ void CGrid::UpdateGrid(vector<LPGAMEENTITY> objects)
 {
 	for (int i = 0; i < objects.size(); i++)
 	{
-		//thieu cast trigger 
+		//thieu cast trigger
 		if (!dynamic_cast<Brick*>(objects.at(i)) && !dynamic_cast<Gate*>(objects.at(i)))
 		{
 			RemoveObj(objects.at(i), 0);	//xoa doi tuuong trong cac grid
@@ -335,7 +336,7 @@ void CGrid::RemoveObj(LPGAMEENTITY obj, bool isDeletePointer)
 	int minRow = int(rectObj.top) / CELL_SIZE.y - 3;
 	int maxRow = int(rectObj.bottom) / CELL_SIZE.y + 3;
 	int minColumn = int(rectObj.left) / CELL_SIZE.x - 3;
-	int maxColumn = int(rectObj.right) / CELL_SIZE.x + 3;	
+	int maxColumn = int(rectObj.right) / CELL_SIZE.x + 3;
 
 	if (minRow < 0)
 		minRow = 0;
@@ -464,7 +465,7 @@ vector<LPGAMEENTITY> CGrid::GetListUpdateObj(RECT rectCam)
 	DebugOut(L"hang lon nhat %d, camera y bot: %d\n", maxRow, rectCam.bottom);
 	DebugOut(L"sohang %d, socot: %d\n", rowGrid, columnGrid);*/
 	vector<LPGAMEENTITY> result;
-	
+
 	for (int i = minRow; i <= maxRow; i++)
 	{
 		for (int j = minColumn; j <= maxColumn; j++)
@@ -484,7 +485,7 @@ vector<LPGAMEENTITY> CGrid::GetListRenderObj(RECT rectCam)
 {
 	//RECT rectCam = Camera::GetInstance()->GetRectCam();
 	int minRow = int(rectCam.top) / CELL_SIZE.y;
-	int maxRow = int(rectCam.bottom) / CELL_SIZE.y; 
+	int maxRow = int(rectCam.bottom) / CELL_SIZE.y;
 
 	int minColumn = int(rectCam.left) / CELL_SIZE.x;
 	int maxColumn = int(rectCam.right) / CELL_SIZE.x;
@@ -493,7 +494,7 @@ vector<LPGAMEENTITY> CGrid::GetListRenderObj(RECT rectCam)
 	//DebugOut(L"cot lon nhat %d,  camera x right: %d\n", maxColumn, rectCam.right);
 	//DebugOut(L"hang nho nhat %d, camera y: %d\n", minRow, rectCam.top);
 	//DebugOut(L"hang lon nhat %d, camera y bot: %d\n", maxRow, rectCam.bottom);
-	
+
 	vector<LPGAMEENTITY> render_result;
 
 	for (int i = minRow; i <= maxRow; i++)
