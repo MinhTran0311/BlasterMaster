@@ -3,9 +3,10 @@
 #include "global.h"
 class Camera
 {
+private:
 	static Camera* __instance;
 	float camx, camy;
-
+	bool isFollowPlayer;
 	Camera();
 	~Camera();
 public:
@@ -17,6 +18,8 @@ public:
 	void SetCamPos(float x, float y) { camx = x; camy = y; }
 	float GetCamx() { return camx; }
 	float GetCamy() { return camy; }
+	void SetIsFollowPlayer(bool follow) { isFollowPlayer = follow; };
+	bool IsFollowPlayer() { return isFollowPlayer; };
 	RECT GetRectCam();
 };
 

@@ -232,7 +232,10 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 					}
 					if (e->ny == 1)
 					{
-						dynamic_cast<JASON*>(this)->SetIsJumping(true);
+						if (this->GetPlayerType()== TAG_JASON)
+							dynamic_cast<JASON*>(this)->SetIsJumping(true);
+						else if (this->GetPlayerType() == TAG_SMALL_SOPHIA)
+							dynamic_cast<Small_Sophia*>(this)->SetIsJumping(true);
 						vy = 0;
 					}
 					if (e->nx != 0)

@@ -605,13 +605,14 @@ void PlayScene::CheckPlayerReachGate()
 			{
 				DebugOut(L"[Info] success\n");
 				playerInfo.jasonStage = gate->GetIdScene();
-				playerInfo.jasonXPos = gate->newPlayerx;
-				playerInfo.jasonYPos = gate->newPlayery;
-				int tempState = gate->newPlayerState;
-				isNeedResetCamera = gate->directionCam;
-				camMap1X = gate->camPosX;
-				camMap1Y = gate->camPosY;
+				playerInfo.jasonXPos = gate->GetNewPlayerX();
+				playerInfo.jasonYPos = gate->GetNewPlayerY();
+				int tempState = gate->GetNewPlayerState();
+				//isNeedResetCamera = gate->directionCam;
 
+				camMap1X = gate->GetNewCamXPos();
+				camMap1Y = gate->GetNewCamYPos();
+				isNeedResetCamera = true;
 				DebugOut(L"camposX: %d, camposY: %d\n", camMap1X, camMap1Y);
 				DebugOut(L"posX: %f, posY: %f\n", playerInfo.jasonXPos, playerInfo.jasonYPos);
 
@@ -623,6 +624,8 @@ void PlayScene::CheckPlayerReachGate()
 				Unload();
 
 				ChooseMap(playerInfo.jasonStage);
+
+				Camera::GetInstance()->SetIsFollowPlayer(gate->IsCamFollowPlayer());
 
 				player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
 				player->SetDirection(playerInfo.playerDirectionBeforePassGate);
@@ -637,13 +640,13 @@ void PlayScene::CheckPlayerReachGate()
 
 			DebugOut(L"[Info] samll gate success\n");
 			playerInfo.sophiaStage = gate->GetIdScene();
-			playerInfo.sophiaXPos = gate->newPlayerx;
-			playerInfo.sophiaYPos = gate->newPlayery;
-			int tempState = gate->newPlayerState;
-			isNeedResetCamera = gate->directionCam;
-			camMap1X = gate->camPosX;
-			camMap1Y = gate->camPosY;
-
+			playerInfo.sophiaXPos = gate->GetNewPlayerX();
+			playerInfo.sophiaYPos = gate->GetNewPlayerY();
+			int tempState = gate->GetNewPlayerState();
+			//isNeedResetCamera = gate->directionCam;
+			camMap1X = gate->GetNewCamXPos();
+			camMap1Y = gate->GetNewCamYPos();
+			isNeedResetCamera = true;
 			DebugOut(L"camposX: %d, camposY: %d\n", camMap1X, camMap1Y);
 			DebugOut(L"posX: %d, posY: %d\n", playerInfo.sophiaXPos, playerInfo.sophiaYPos);
 
@@ -655,6 +658,8 @@ void PlayScene::CheckPlayerReachGate()
 
 			//DebugOut(L"type %d\n", gate->typePlayer);
 			ChooseMap(playerInfo.sophiaStage);
+
+			Camera::GetInstance()->SetIsFollowPlayer(gate->IsCamFollowPlayer());
 
 			switch (playerInfo.sophiaStage)
 			{
@@ -691,6 +696,7 @@ void PlayScene::CheckPlayerReachGate()
 				yPosCamGo = gate->GetYPosGo();
 				yPosCamBack = gate->GetYPosBack();
 				CamMoveDirection = gate->GetCamDirection();
+				Camera::GetInstance()->SetIsFollowPlayer(false);
 			}
 			else
 			{
@@ -700,16 +706,18 @@ void PlayScene::CheckPlayerReachGate()
 
 				DebugOut(L"[Info] return gate success\n");
 				playerInfo.sophiaStage = gate->GetIdScene();
-				playerInfo.sophiaXPos = gate->newPlayerx;
-				playerInfo.sophiaYPos = gate->newPlayery;
-				isNeedResetCamera = gate->directionCam;
-				camMap1X = gate->camPosX;
-				camMap1Y = gate->camPosY;
+				playerInfo.sophiaXPos = gate->GetNewPlayerX();
+				playerInfo.sophiaYPos = gate->GetNewPlayerY();
+				//isNeedResetCamera = gate->directionCam;
+				camMap1X = gate->GetNewCamXPos();
+				camMap1Y = gate->GetNewCamYPos();
 				playerInfo.sophiaGundam = player->GetgunDam();
 				playerInfo.sophiaHealth = player->GetHealth();
-
+				isNeedResetCamera = true;
 				Unload();
 				ChooseMap(playerInfo.sophiaStage);
+
+				Camera::GetInstance()->SetIsFollowPlayer(gate->IsCamFollowPlayer());
 
 				player = new Small_Sophia(playerInfo.sophiaXPos, playerInfo.sophiaYPos, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
 				backup_player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);

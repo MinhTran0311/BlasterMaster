@@ -91,7 +91,22 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 				}
 			}
 		}
-		
+		else if (playertype == TAG_BIG_SOPHIA && isFollowPlayer)
+		{
+			if (yPos + SCREEN_HEIGHT/2 >= 1270)
+			{
+				camy = 1270 - SCREEN_HEIGHT;
+			}
+			else
+			{
+				if (yPos < 737 + SCREEN_HEIGHT / 2)	//ở dưới đáy
+					camy = 737;
+				else
+				{
+					camy=yPos - SCREEN_HEIGHT / 2;
+				}
+			}
+		}
 	}
 	this->SetCamPos(camx, camy);
 }

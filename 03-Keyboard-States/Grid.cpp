@@ -253,13 +253,13 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		int playerPosX = atoi(tokens[milestone + 2].c_str());
 		int playerPosY = atoi(tokens[milestone + 3].c_str());
 		int playerState = atoi(tokens[milestone + 4].c_str());
-		int isResetCamera = atoi(tokens[milestone + 5].c_str());
+		int isCamFollowPlayer = atoi(tokens[milestone + 5].c_str());
 		
 		float camX = atoi(tokens[milestone + 6].c_str());
 		DebugOut(L"Tạo gate %d", camX);
 		int camY = atoi(tokens[milestone + 7].c_str());
 
-		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isResetCamera, camX, camY);
+		obj = new Gate(x, y, switchId, playerPosX, playerPosY, playerState, isCamFollowPlayer, camX, camY);
 		DebugOut(L"[test] add gate !\n");
 		break;
 	}
