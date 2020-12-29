@@ -23,6 +23,7 @@
 41	Resource/select_continue.png	255	0	255
 100	Resource/boss.jpg	255	0	254
 101	Resource/bossarm.jpg	255	0	254
+105	Resource/Explosion.jpg	35	35	35
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]

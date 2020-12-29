@@ -19,6 +19,7 @@
 #include "Big_Sophia.h"
 #include "Boss.h"
 #include "BossArm.h"
+#include "Explosion.h"
 vector<LPGAMEENTITY> CGrid::FilterObjectDuplicate(vector<LPGAMEENTITY> objs)
 {
 	std::sort(objs.begin(), objs.end());
@@ -200,7 +201,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		obj = new CBoss(x, y,player);
 		hasBoss = true;
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-
+		bossGrid = &posGrid;
 		obj->SetAnimationSet(ani_set);
 		//dynamic_cast<CBoss*>(obj)->SetTarget(player);
 		DebugOut(L"[test] add Boss !\n");

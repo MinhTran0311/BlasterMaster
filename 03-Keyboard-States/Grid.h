@@ -26,6 +26,7 @@ class CGrid
 	//string fileobj;
 	D3DXVECTOR2 posPlayerDefault;
 public:
+	vector<pair<int, int>>* bossGrid;
 	static CGrid* GetInstance();
 	void InitGrid(int _mapW, int _mapH);
 	CGrid();

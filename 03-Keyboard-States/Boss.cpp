@@ -22,7 +22,7 @@ CBoss::CBoss(float xPos, float yPos, LPGAMEENTITY t) :
 	dam = 1;
 	health = 2;
 	nx = -1;
-	SetState(BOSS_STATE_WALKING_LEFT);
+	SetState(BOSS_STATE_WALKING);
 	vx = -BOSS_WALKING_SPEED;
 	vy = BOSS_WALKING_SPEED;
 	Init();
@@ -47,27 +47,31 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt, coObjects);
 
-	if (health <= 0)
-		this->isActive = false;
-	//
-	// TO-DO: make sure Boss can interact with the world and to each of them too!
-	// 
+	if (health <= 0) {
+		SetState(BOSS_STATE_DIE);			//Handle Die state
+	}
+
+	if (state == BOSS_STATE_DIE) {
+		HandleDieState();
+		return;
+	}
+
+	if (injured_state_time != 0) {
+		HandleInjuredState();				//Handle Injured state
+		//return;
+	}
 
 	x += dx;
 	y += dy;
-	DebugOut(L"health: %d\n",health);
+
 
 	if (vx < 0 && x < (startX - 100)) {
 		x = startX - 100;
-		SetState(BOSS_STATE_WALKING_RIGHT);
-		nx = 1;
 		vx = BOSS_WALKING_SPEED;
 	}
 	if (vx > 0 && x > startX) {
 		x = startX; vx = -vx;
-		nx = -1;
 		vx = -BOSS_WALKING_SPEED;
-		SetState(BOSS_STATE_WALKING_LEFT);
 	}
 	if (vy < 0 && y < (startY - 25)) {
 		y = startY - 25;
@@ -192,16 +196,18 @@ void CBoss::SetState(int state)
 	switch (state)
 	{
 	case BOSS_STATE_DIE:
-		//y += BOSS_BBOX_HEIGHT - BOSS_BBOX_HEIGHT_DIE + 1;
-		//vx = 0;
-		//vy = 0;
+		ani = BOSS_ANI_DIE;
 		break;
-	case BOSS_STATE_WALKING_LEFT:
-
-		break;
-	case BOSS_STATE_WALKING_RIGHT:
+	case BOSS_STATE_WALKING:
+		ani = BOSS_ANI_WALKING;
 		nx = 1;
-		vx = BOSS_WALKING_SPEED;
+		vx = -BOSS_WALKING_SPEED;
+		vy = BOSS_WALKING_SPEED;
+		break;
+	case BOSS_STATE_INJURED:
+		ani = BOSS_ANI_INJURED;
+		injured_state_time = 1;
+		break;
 	}
 }
 
@@ -417,3 +423,41 @@ void CBoss::BossClawSection::Render()
 }
 
 
+void CBoss::HandleInjuredState()
+{
+	injured_state_time++;
+	if (injured_state_time <= INJURED_STATE_TIME) {
+		ani = BOSS_ANI_INJURED;
+	}
+	else
+	{
+		injured_state_time = 0;
+		ani = BOSS_ANI_WALKING;
+		SetState(BOSS_STATE_WALKING);
+	}
+}
+
+void CBoss::HandleDieState()
+{
+
+	if (numOfExplosion <= NUM_OF_EXPLOSION_APPEAR)
+	{
+		Explosion* exp = new Explosion();
+		float randomX = random->getRandomFloat(-30.0f, 30.0f);
+		float randomY = random->getRandomFloat(-30.0f, 30.0f);			
+		float posX, posY;
+		posX = x + randomX;
+		posY = y + randomY;
+		exp->Setposition(posX, posY);
+		DebugOut(L"[DUC] add Explosion %d !\n", numOfExplosion);
+		vector<pair<int, int>> *bossgrid = dynamic_cast<CGrid*> (CGrid::GetInstance())->bossGrid;
+		DebugOut(L"[DUC] add Explosion Bossgridsize %d !\n", bossgrid->size());
+		dynamic_cast<CGrid*> (CGrid::GetInstance())->InsertGrid(exp, *bossgrid);
+		numOfExplosion++;
+	}
+	//alpha--;
+	//if (alpha == 0) {
+	//	//this->visible = false;
+	//	//dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetEndingCount(); //Call EndingScene
+	//}
+}
