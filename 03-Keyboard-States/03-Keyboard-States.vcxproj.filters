@@ -254,7 +254,7 @@
     </ClCompile>
     <ClCompile Include="BossBullet.cpp">
       <Filter>Objects\Bullets\Enemy</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Boss.cpp">
       <Filter>Objects\Boss</Filter>
     </ClCompile>
@@ -263,6 +263,9 @@
     </ClCompile>
     <ClCompile Include="Vec2.cpp">
       <Filter>FrameWork</Filter>
+    </ClCompile>
+    <ClCompile Include="Mines.cpp">
+      <Filter>Objects\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -442,7 +445,7 @@
     </ClInclude>
     <ClInclude Include="BossBullet.h">
       <Filter>Objects\Bullets\Enemy</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="Boss.h">
       <Filter>Objects\Boss</Filter>
     </ClInclude>
@@ -451,6 +454,9 @@
     </ClInclude>
     <ClInclude Include="Vec2.h">
       <Filter>FrameWork</Filter>
+    </ClInclude>
+    <ClInclude Include="Mines.h">
+      <Filter>Header Files\EnemyHeader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

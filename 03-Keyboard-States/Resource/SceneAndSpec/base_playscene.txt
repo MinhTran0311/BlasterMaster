@@ -7,7 +7,7 @@
 10	Resource/sophia_die.png	176	0	248
 21	Resource/sophia.png	255	0	255
 30	Resource/jason.png	255	0	255
-40	Resource/Enemy/enemies.png	255	0	255
+40	Resource/Enemy/enemies.jpg	237	28	36
 50	Resource/HealthBar.png	255	255	255
 60	Resource/item2.png	255	255	0
 11	Resource/SceneAndSpec/Scene/area_1.jpg	255	0	255

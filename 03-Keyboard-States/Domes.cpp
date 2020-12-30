@@ -61,7 +61,7 @@ void Domes::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	coEvents.clear();
 	bricks.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK)
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK)
 			bricks.push_back(coObjects->at(i));
 
 	// turn off collision when die 

@@ -97,8 +97,6 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			}
 			default:
 			{
-				/*vx = bullet_speed * nx;
-				vy = bullet_speed * ny;*/
 				CalVelocity(vx, vy, target);
 				break;
 			}
@@ -108,15 +106,14 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
 	for (int i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->GetType() == TAG_GATE || coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_PLAYER||coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD)
+		if (coObjects->at(i)->GetType() == TAG_GATE || coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD)
 			colliable_Objects->push_back(coObjects->at(i));
 	}
-#pragma region collision
 	colliable_Objects->push_back(target);
+#pragma region collision
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-	vector<LPGAMEENTITY> colliable_objects;
 
 	coEvents.clear();
 
@@ -200,7 +197,7 @@ void BigNavigatedEnemyBullet::Render()
 	{
 		ani = BIG_NAVI_ENEMY_BULLET_BANG;
 		animationSet->at(ani)->OldRender(x - 6, y - 6);
-		if (animationSet->at(ani)->GetFrame() == 1)
+		if (animationSet->at(ani)->GetFrame() == 2)
 		{
 			isHitJason = false;
 			isActive = false;

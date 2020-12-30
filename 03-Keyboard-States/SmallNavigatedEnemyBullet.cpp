@@ -10,7 +10,24 @@ SmallNavigatedEnemyBullet::SmallNavigatedEnemyBullet(float posX, float posY, int
 	bbARGB = 0;
 	isHitBrick = isHitJason = false;
 	dam = 1;
-	typeBullet = BULLET;
+	switch (type_enemy)
+	{
+		case MINES:
+		{
+			typeBullet = MINES_BULLET;
+			timeDelayedMax = SMALL_BULLET_ENEMY_DELAY * 2;
+			vy = -BULLET_SPEED_MINES;
+			timeFlyUp->Start();
+			vx = RandomVx();
+			break;
+		}
+		default:
+		{
+			typeBullet = BULLET;
+			timeDelayedMax = SMALL_BULLET_ENEMY_DELAY;
+			break;
+		}
+	}
 	bullet_speed = BULLET_SPEED_OTHERS;
 	nx = direct_x;
 	ny = direct_y;
@@ -18,7 +35,6 @@ SmallNavigatedEnemyBullet::SmallNavigatedEnemyBullet(float posX, float posY, int
 	x = posX;
 	y = posY;
 	timeDelayed = 0;
-	timeDelayedMax = SMALL_BULLET_ENEMY_DELAY;
 	this->target = t;
 	xBullet = posX;
 	yBullet = posY;
@@ -56,7 +72,25 @@ void SmallNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects
 	{
 		timeDelayed += dt;
 		Entity::Update(dt);
-		CalVelocity(vx, vy, target);
+		switch (typeBullet)
+		{
+			case MINES_BULLET:
+			{
+				if (timeFlyUp->IsTimeUp())
+				{
+					if (vy < BULLET_SPEED_MINES)
+					{
+						vy += BULLET_SPEED_MINES/10;
+					}
+				}
+				break;
+			}
+			default:
+			{
+				CalVelocity(vx, vy, target);
+				break;
+			}
+		}
 	}
 #pragma endregion
 	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
@@ -78,21 +112,8 @@ void SmallNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects
 	{
 		if (coEvents.size() == 0)
 		{
-			switch (straight)
-			{
-			case 1:
-			{
-				x += dx;
-				y += dy;
-				break;
-			}
-			case 0:
-			{
-				x += dx;
-				y += dy;
-				break;
-			}
-			}
+			x += dx;
+			y += dy;
 		}
 		else
 		{
@@ -106,7 +127,12 @@ void SmallNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects
 				LPCOLLISIONEVENT e = coEventsResult[i];
 				if (e->obj->GetType() == EntityType::TAG_PLAYER)
 				{
-					if (isMoving)
+					if (dynamic_cast<Player*>(e->obj)->IsImmortaling())
+					{
+						x += dx;
+						y += dy;
+					}
+					else if (isMoving)
 					{
 						if (!isHitJason)
 						{
@@ -123,10 +149,23 @@ void SmallNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects
 				{
 					if (isMoving)
 					{
-						this->SetState(SMALL_NAVI_ENEMY_BULLET_STATE_HIT_BRICK);
-						x += min_tx * dx + nx * 0.4f;
-						y += min_ty * dy + ny * 0.4f;
-						isMoving = false;
+						switch (typeBullet)
+						{
+							case MINES_BULLET:
+							{
+								x += dx;
+								y += dy;
+								break;
+							}
+							default:
+							{
+								this->SetState(SMALL_NAVI_ENEMY_BULLET_STATE_HIT_BRICK);
+								x += min_tx * dx + nx * 0.4f;
+								y += min_ty * dy + ny * 0.4f;
+								isMoving = false;
+								break;
+							}
+						}
 					}
 				}
 			}
@@ -171,6 +210,14 @@ void SmallNavigatedEnemyBullet::CalVelocity(float& vx, float& vy, LPGAMEENTITY t
 	float d = sqrt((xBullet - xTarget) * (xBullet - xTarget) + (yBullet - yTarget) * (yBullet - yTarget));
 	vx = ((xTarget - xBullet) / d) * bullet_speed;
 	vy = ((yTarget - yBullet) / d) * bullet_speed;
+}
+
+float SmallNavigatedEnemyBullet::RandomVx()
+{
+	random_device rd;
+	mt19937 mt(rd());
+	uniform_real_distribution<float> dis(-0.04, 0.04);
+	return dis(mt);
 }
 
 void SmallNavigatedEnemyBullet::SetState(int state)

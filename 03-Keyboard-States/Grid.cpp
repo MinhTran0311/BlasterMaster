@@ -12,6 +12,7 @@
 #include "Jumpers.h"
 #include "Eyeballs.h"
 #include "Cannons.h"
+#include "Mines.h"
 #include "Teleporters.h"
 #include "InjuringBrick.h"
 #include "GadBrick.h"
@@ -177,7 +178,11 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	case EntityType::TAG_TELEPORTERS:
 	{
 		int ani_set_id = atoi(tokens[milestone + 1].c_str());
-		obj = new Teleporters(x, y, player);
+		int x_tele_min = atoi(tokens[milestone + 2].c_str());
+		int y_tele_min = atoi(tokens[milestone + 3].c_str());
+		int x_tele_max = atoi(tokens[milestone + 4].c_str());
+		int y_tele_max = atoi(tokens[milestone + 5].c_str());
+		obj = new Teleporters(x, y, player, x_tele_min, y_tele_min, x_tele_max, y_tele_max);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 		obj->SetAnimationSet(ani_set);
@@ -192,6 +197,16 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 
 		obj->SetAnimationSet(ani_set);
 		DebugOut(L"[test] add cannons !\n");
+		break;
+	}
+	case EntityType::TAG_MINES:
+	{
+		int ani_set_id = atoi(tokens[milestone + 1].c_str());
+		obj = new Mines(x, y, player);
+		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
+
+		obj->SetAnimationSet(ani_set);
+		DebugOut(L"[test] add mines !\n");
 		break;
 	}
 
