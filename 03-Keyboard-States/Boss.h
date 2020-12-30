@@ -25,7 +25,7 @@
 #define BOSS_ANI_DIE	2
 
 #define NUM_OF_EXPLOSION_APPEAR	15	
-#define	INJURED_STATE_TIME	30
+#define	INJURED_STATE_TIME	1000
 #define	EXPLOSION_TIME	700
 
 
@@ -34,6 +34,8 @@
 
 class CBoss : public Enemy
 {
+private:
+	static CBoss* __instance;
 	int nx;
 	float startX;
 	float startY;
@@ -41,18 +43,21 @@ class CBoss : public Enemy
 	bool isWaitingToShoot = false;
 
 	int die_state_time;
-	int injured_state_time;
-	int ani;
-	int bossalpha = 255;
+	
+	
+	
 	int numOfExplosion = 0;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();
-public: 
+public:
+	static int bossalpha;
+	static int ani;
+	static int injured_state_time;
+	static CBoss* GetInstance();
 	CBoss(float xPos, float yPos,LPGAMEENTITY t);
 	//void SetTarget(LPGAMEENTITY _target) { target = _target; };
-
 private:
 	class BossClawSection : public Enemy {
 		Vec2 startPoint;
@@ -100,6 +105,9 @@ private:
 	Timer* bursttimer = new Timer(BOSS_BULLET_BURST_DELAY);
 	Timer* shoottimer = new Timer(BOSS_BULLET_SHOOT_ONE_DELAY);
 	Timer* explosiontimer = new Timer(EXPLOSION_TIME);
+
+	Timer* injuredTimer = new Timer(INJURED_STATE_TIME);
+
 	Random* random = new Random();
 	bool explosiontimerinit = true;
 

@@ -18,7 +18,6 @@ protected:
 	int DamageofEnemy;
 	bool isActive;
 	bool isArmor;
-	bool isBoss;
 	bool isDeath;
 	//int health;
 	LPGAMEENTITY target;
