@@ -2,17 +2,8 @@
 #include "Boss.h"
 #include "Utils.h"
 #include "Game.h"
-//#include "PlayScence.h"
-//#include "EnemyBullet.h"
 #include "Vec2.h"
 
-
-//CBoss* CBoss::__instance = NULL;
-//CBoss* CBoss::GetInstance()
-//{
-//	if (__instance == NULL) __instance = new CBoss();
-//	return __instance;
-//}
 int CBoss::injured_state_time = 0;
 int CBoss::bossalpha = 255;
 int CBoss::ani = 0;
@@ -21,7 +12,8 @@ CBoss::CBoss(float xPos, float yPos, LPGAMEENTITY t) :
 	BigClawRight(ANIMATION_SET_BOSS_CLAW_RIGHT)
 
 {
-
+	Target1= Vec2(10, 10);
+	Target2= Vec2(10, 10);
 	srand(time(NULL));
 	x = xPos;
 	y = yPos;
@@ -30,7 +22,7 @@ CBoss::CBoss(float xPos, float yPos, LPGAMEENTITY t) :
 	explosiontimer->Start();
 	target = t;
 	tag = ENEMY;
-	enemyType == BOSS;
+	enemyType = BOSS;
 	isActive = true;
 	//isBoss = true;
 	dam = 1;
@@ -79,31 +71,9 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		injured_state_time = 0;
 		injuredTimer->Reset();
 		injuredTimer->Start();
-						//Handle Injured state
-		DebugOut(L"DUC BOSS INJURED");
-		//return;
 	}
 	HandleInjuredState();
-	//x += dx;
-	//y += dy;
 
-
-	//if (vx < 0 && x < (startX - 100)) {
-	//	x = startX - 100;
-	//	vx = BOSS_WALKING_SPEED;
-	//}
-	//if (vx > 0 && x > startX) {
-	//	x = startX; vx = -vx;
-	//	vx = -BOSS_WALKING_SPEED;
-	//}
-	//if (vy < 0 && y < (startY - 25)) {
-	//	y = startY - 25;
-	//	vy = BOSS_WALKING_SPEED;
-	//}
-	//if (vy > 0 && y > startY) {
-	//	y = startY;
-	//	vy = -BOSS_WALKING_SPEED;
-	//}
 
 #pragma region Pre-collision
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -189,8 +159,6 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 	this->BigClawLeft.setStartPoint(LeftArm[3].getEndpoint());
 	this->BigClawLeft.calculateEndpoint();
-	//DebugOut(L"Claw end x, %d ", this->BigClawLeft.getEndpoint().x);
-	//DebugOut(L"Claw end y, %d ", this->BigClawLeft.getEndpoint().y);
 
 	this->BigClawRight.Follow(Target2);
 	RightArm[3].Follow(BigClawRight);
@@ -289,7 +257,6 @@ void CBoss::SetState(int state)
 	case BOSS_STATE_INJURED:
 		ani = BOSS_ANI_INJURED;
 		injured_state_time = 1;
-		DebugOut(L"DUC BOSS health: %d", health);
 		break;
 	}
 }
@@ -316,8 +283,8 @@ void CBoss::updateTarget1()
 {
 	lList[0] = Vec2(x, y) + Vec2(-180, -160);
 	lList[1] = Vec2(x, y) + Vec2(20, 20);
-	lList[2] = Vec2(x, y) + Vec2(20, 150);
-	lList[3] = Vec2(x, y) + Vec2(-180, 150);
+	lList[2] = Vec2(x, y) + Vec2(20, 120);
+	lList[3] = Vec2(x, y) + Vec2(-180, 120);
 	lList[4] = Vec2(x, y) + Vec2(-100, 20);
 	lList[5] = lList[1];
 	lList[6] = Vec2(x, y) + Vec2(20, -160);
@@ -337,7 +304,7 @@ void CBoss::updateTarget1()
 
 
 
-	const float speedX = 2.5f, speedY = 4.0f;
+	const float speedX = 2.5f, speedY = 3.5f;
 	nextTarget1 = lList[indexTarget1];
 	if (Target1.x > nextTarget1.x)
 		Target1.x -= speedX;
@@ -367,14 +334,14 @@ void CBoss::updateTarget2()
 	//rList[4] = Vec2(x, y) + Vec2(60, 80);
 	//rList[5] = Vec2(x, y) + Vec2(180, 60);
 
-	rList[0] = Vec2(x, y) + Vec2(180, -160);
-	rList[1] = Vec2(x, y) + Vec2(60, 150);
-	rList[2] = Vec2(x, y) + Vec2(20, 150);
+	rList[0] = Vec2(x, y) + Vec2(120, -160);
+	rList[1] = Vec2(x, y) + Vec2(60, 120);
+	rList[2] = Vec2(x, y) + Vec2(20, 120);
 	rList[3] = Vec2(x, y) + Vec2(20, -160);
-	rList[4] = Vec2(x, y) + Vec2(60, 150);
-	rList[5] = Vec2(x, y) + Vec2(180, 150);
+	rList[4] = Vec2(x, y) + Vec2(60, 120);
+	rList[5] = Vec2(x, y) + Vec2(120, 120);
 
-	const float speedX = 2.5f, speedY = 4.0f;
+	const float speedX = 2.5f, speedY = 3.5f;
 	nextTarget2 = rList[indexTarget2];
 	if (Target2.x > nextTarget2.x)
 		Target2.x -= speedX;
@@ -397,13 +364,13 @@ void CBoss::updateTarget2()
 
 void CBoss::Init()
 {
-	for (int i = 0; i < 4; i++)
-	{
-		this->LeftArm[i].setStartPoint(Vec2(x + 15, 120 + i * 15));
-		this->LeftArm[i].calculateEndpoint();
-		this->RightArm[i].setStartPoint(Vec2(x + 60 + i * 15, 120 + i * 15));
-		this->RightArm[i].calculateEndpoint();
-	}
+	//for (int i = 0; i < 4; i++)
+	//{
+	//	this->LeftArm[i].setStartPoint(Vec2(x + 15, 120 + i * 15));
+	//	this->LeftArm[i].calculateEndpoint();
+	//	this->RightArm[i].setStartPoint(Vec2(x + 60 + i * 15, 120 + i * 15));
+	//	this->RightArm[i].calculateEndpoint();
+	//}
 
 }
 
@@ -458,8 +425,8 @@ void CBoss::BossClawSection::Follow(BossClawSection& target)
 
 CBoss::BossClawSection::BossClawSection(int anisetid)
 {
-	this->x = 120;
-	this->y = 240;
+	this->x = 0;
+	this->y = 0;
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(anisetid));
 	this->Angle = 0;
 	this->setStartPoint(Vec2(120, 240));
@@ -471,7 +438,7 @@ CBoss::BossClawSection::BossClawSection()
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BOSS_CLAW));
 	this->Angle = 0;
-	this->startPoint = Vec2(200, 30);
+	this->startPoint = Vec2(0, 0);
 	this->calculateEndpoint();
 
 }
@@ -544,7 +511,7 @@ void CBoss::HandleDieState()
 		float posX, posY;
 		posX = x + randomX;
 		posY = y + randomY;
-		DebugOut(L"DUC explosion x:%f,y:%f, thutu:%d, tick: %d ", randomX, randomY, numOfExplosion, explosiontimer->GetTick());
+		//DebugOut(L"DUC explosion x:%f,y:%f, thutu:%d, tick: %d ", randomX, randomY, numOfExplosion, explosiontimer->GetTick());
 		exp->Setposition(posX, posY);
 		CGrid::GetInstance()->InsertGrid(exp);
 		numOfExplosion++;

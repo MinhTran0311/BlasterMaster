@@ -10,7 +10,7 @@
 #include "vector"
 #include "Explosion.h"
 #include "Big_Sophia.h"
-#define BOSS_WALKING_SPEED 0.05f;
+#define BOSS_WALKING_SPEED 0.03f;
 
 #define BOSS_BBOX_WIDTH 60
 #define BOSS_BBOX_HEIGHT 60
@@ -68,7 +68,7 @@ private:
 		void setStartPoint(Vec2 sp);
 		Vec2 getEndpoint() { return endPoint; };
 		float getAngle() { return this->Angle; };
-		const float  SectionLength = 22;
+		const float  SectionLength = 17;
 		void calculateEndpoint();
 		void Follow(float x, float y);
 		void Follow(Vec2& target);
@@ -90,9 +90,8 @@ public:
 	void HandleInjuredState();
 	void HandleDieState();
 private:
-	Vec2 Target1 = Vec2(350, 150);
-	Vec2 Target2 = Vec2(150, 150);
-	Vec2 Speed = Vec2(1.5f, 1.5);
+	Vec2 Target1;
+	Vec2 Target2;
 	void updateTarget1();
 	void updateTarget2();
 	void Init();
@@ -112,11 +111,11 @@ private:
 	bool explosiontimerinit = true;
 
 
-	int indexTarget2 = 0;
+	int indexTarget2 = 3;
 	Vec2 nextTarget2;
 	Vec2 rList[6];
 
-	int indexTarget1 = 0;
+	int indexTarget1 = 4;
 	Vec2 nextTarget1;
 	Vec2 lList[19];
 };
