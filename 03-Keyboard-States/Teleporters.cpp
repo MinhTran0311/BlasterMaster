@@ -21,24 +21,21 @@ void Teleporters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma region Pre-collision
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-	vector<LPGAMEENTITY> bricks;
+	vector<LPGAMEENTITY>* bricks = new vector<LPGAMEENTITY>();
 
 	coEvents.clear();
-	bricks.clear();
+	bricks->clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK)
-			bricks.push_back(coObjects->at(i));
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK)
+			bricks->push_back(coObjects->at(i));
 
 		// turn off collision when die 
 		if (state != TELEPORTERS_STATE_DIE)
-			CalcPotentialCollisions(&bricks, coEvents);
+			CalcPotentialCollisions(bricks, coEvents);
 	}
 #pragma endregion
 
-#pragma region coillision
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-#pragma endregion
 #pragma region Active
 	//attack player
 	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TELEPORTERS_SITEACTIVE_PLAYER)
@@ -49,7 +46,7 @@ void Teleporters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	{
 		if (isActive == true)
 		{
-			AttackTarget(target);
+			AttackTarget(target, bricks);
 		}
 	}
 	else
@@ -59,6 +56,9 @@ void Teleporters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 #pragma endregion
 
+#pragma region coillision
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+#pragma endregion
 }
 
 void Teleporters::Render()
@@ -121,6 +121,7 @@ Teleporters::Teleporters(float x, float y, LPGAMEENTITY t, int x_Tele_Min, int y
 	x_Min = x_Tele_Min;
 	y_Max = y_Tele_Max;
 	y_Min = y_Tele_Min;
+	doneJump = false;
 }
 
 Teleporters::Teleporters(float x, float y)
@@ -131,7 +132,7 @@ Teleporters::Teleporters(float x, float y)
 	this->y = y;
 }
 
-void Teleporters::AttackTarget(LPGAMEENTITY target) //tấn công nhân vật
+void Teleporters::AttackTarget(LPGAMEENTITY target, vector<LPGAMEENTITY>* coObjects) //tấn công nhân vật
 {
 	if (isTransporting)
 	{
@@ -143,7 +144,67 @@ void Teleporters::AttackTarget(LPGAMEENTITY target) //tấn công nhân vật
 	}
 	else if (!isTransporting && isAttacking && delayAttackTimer->IsTimeUp())
 	{
-		SetState(TELEPORTERS_STATE_ATTACKING);
+		if (state != TELEPORTERS_STATE_ATTACKING)
+			this->SetState(TELEPORTERS_STATE_ATTACKING);
+
+		if (teleTimesAttack == 7)
+		{
+			if (!isIdling)
+			{
+				SetState(TELEPORTERS_STATE_TRANSFORMING);
+				isIdling = true;
+			}
+			else if (isIdling && !enoughTimeIdle)
+			{
+				SetState(TELEPORTERS_STATE_IDLE);
+				enoughTimeIdle = true;
+				delayIdleTimer->Start();
+			}
+			else if (isIdling && delayIdleTimer->IsTimeUp())
+			{
+				enoughTimeIdle = false;
+				isIdling = false;
+				teleTimesAttack = 0;
+				isAttacking = false;
+				isTransporting = true;
+				delayIdleTimer->Reset();
+				relaxAttackTimer->Start();
+			}
+		}
+		else if (isShooting)
+		{
+			shootBulletTimer->Start();
+			shootBulletToTarget();
+			isShooting = false;
+		}
+		else if (!isTransporting && isAttacking && shootBulletTimer->IsTimeUp() && relaxAttackTimer->IsTimeUp())
+		{
+			random_device rd;
+			mt19937 mt(rd());
+			uniform_real_distribution<float> posX(x_Min, x_Max);
+			uniform_real_distribution<float> posY(y_Min, y_Max);
+			float x = posX(mt);
+			float y = posY(mt);
+
+			while (!TestTele(x, y, coObjects))
+			{
+				random_device rd;
+				mt19937 ag(rd());
+				uniform_real_distribution<float> posX(x_Min, x_Max);
+				uniform_real_distribution<float> posY(y_Min, y_Max);
+				x = posX(ag);
+				y = posY(ag);
+			}
+
+			this->SetPosition(x, y);
+			teleTimesAttack++;
+			if (teleTimesAttack == 3 || teleTimesAttack == 6)
+			{
+				isShooting = true;
+				shootBulletTimer->Reset();
+			}
+			relaxAttackTimer->Reset();
+		}
 		delayAttackTimer->Reset();
 		delayAttackTimer->Start();
 	}
@@ -163,63 +224,6 @@ void Teleporters::SetState(int state)
 		}
 		case TELEPORTERS_STATE_ATTACKING:
 		{
-			if (teleTimesAttack == 7)
-			{
-				if (!isIdling)
-				{
-					SetState(TELEPORTERS_STATE_TRANSFORMING);
-					isIdling = true;
-				}
-				else if (isIdling && !enoughTimeIdle)
-				{
-					SetState(TELEPORTERS_STATE_IDLE);
-					enoughTimeIdle = true;
-					delayIdleTimer->Start();
-				}
-				else if (isIdling && delayIdleTimer->IsTimeUp())
-				{
-					enoughTimeIdle = false;
-					isIdling = false;
-					teleTimesAttack = 0;
-					isAttacking = false;
-					isTransporting = true;
-					delayIdleTimer->Reset();
-					relaxAttackTimer->Start();
-				}
-			}
-			else if (isShooting)
-			{
-				shootBulletTimer->Start();
-				shootBulletToTarget();
-				isShooting = false;
-			}
-			else if (!isTransporting && isAttacking && shootBulletTimer->IsTimeUp() && relaxAttackTimer->IsTimeUp())
-			{
-				random_device rd;
-				mt19937 mt(rd());
-				uniform_real_distribution<float> posX(x_Min, x_Max);
-				uniform_real_distribution<float> posY(y_Min, y_Max);
-				float x = posX(mt);
-				float y = posY(mt);
-
-				while (!TestTele(x, y))
-				{
-					random_device rd;
-					mt19937 mt(rd());
-					uniform_real_distribution<float> posX(x_Min, x_Max);
-					uniform_real_distribution<float> posY(y_Min, y_Max);
-					float x = posX(mt);
-					float y = posY(mt);
-				}
-				this->SetPosition(x, y);
-				shootBulletTimer->Reset();
-				teleTimesAttack++;
-				if (teleTimesAttack == 3 || teleTimesAttack == 6)
-				{
-					isShooting = true;
-				}
-				relaxAttackTimer->Reset();
-			}
 			break;
 		}
 		case TELEPORTERS_STATE_TRANSFORMING:
@@ -235,25 +239,16 @@ void Teleporters::SetState(int state)
 
 bool Teleporters::TestTele(float x_Pos, float y_Pos, vector<LPGAMEENTITY>* coObjects)
 {
-	/*vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	vector<LPGAMEENTITY> bricks;
-
-	coEvents.clear();
-	bricks.clear();
-	for (UINT i = 0; i < coObjects->size(); i++)
-	{
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK)
-			bricks.push_back(coObjects->at(i));
-	}
 	LPGAMEENTITY obj = new Teleporters(x_Pos, y_Pos);
 	for (int i = 0; i < coObjects->size(); i++)
+	{
 		if (obj->IsCollidingObject(coObjects->at(i)))
 		{
-			obj->isDoneDeath = true;
+			delete obj;
 			return false;
 		}
-	obj->isDoneDeath = true;*/
+	}
+	delete obj;
 	return true;
 }
 

@@ -27,8 +27,8 @@
 #define TELEPORTERS_SITEACTIVE_PLAYER	100
 
 #define TELEPORTERS_DELAY_ATTACK 700
-#define TELEPORTERS_SHOOT_BULLET 1500
-#define TELEPORTERS_RELAX_ATTACK 2500
+#define TELEPORTERS_SHOOT_BULLET 800
+#define TELEPORTERS_RELAX_ATTACK 2000
 #define TELEPORTERS_DELAY_IDLE 700
 #define TELEPORTERS_MAXHEALTH	1
 
@@ -51,13 +51,14 @@ class Teleporters : public Enemy
 	bool re_tranform;
 	bool isIdling;
 	bool enoughTimeIdle;
+	bool doneJump;
 	int teleTimesAttack;
 	int x_Max, x_Min, y_Max, y_Min;
 
 public:
 	Teleporters(float x, float y, LPGAMEENTITY t, int x_Tele_Min, int y_Tele_Min, int x_Tele_Max, int y_Tele_Max);
 	Teleporters(float x, float y);
-	void AttackTarget(LPGAMEENTITY target);
+	void AttackTarget(LPGAMEENTITY target, vector<LPGAMEENTITY>* coObjects = NULL);
 	virtual void SetState(int state);
 	bool TestTele(float x_Pos, float y_Pos, vector<LPGAMEENTITY>* coObjects = NULL);
 	void SelfDestroy();
