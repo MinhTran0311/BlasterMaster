@@ -113,6 +113,7 @@ protected:
 
 	void CheckEnterBoss();
 	void SetUpFightBoss();
+	void BossAreaController();
 	friend class PlayScenceKeyHandler;
 protected:
 	vector<LPCWSTR> listSceneFilePath;

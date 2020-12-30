@@ -54,6 +54,7 @@ private:
 
 	bool isEnterIntroBossArea = false;
 	bool isFightWithBoss = false;
+	bool isDoneFightWithBoss = false;
 public:
 	Big_Sophia (float x, float y, int health, int gundam);
 	~Big_Sophia ();
@@ -61,6 +62,8 @@ public:
 	void SetIsEnterIntroBossArea(bool enter) { isEnterIntroBossArea = enter; };
 	void SetIsFightWithBoss(bool enter) { isFightWithBoss = enter; };
 	bool IsFightWithBoss() { return isFightWithBoss; };
+	bool IsDoneFightWithBoss() { return isDoneFightWithBoss; };
+	void SetIsDoneFightWithBoss(bool done) { isDoneFightWithBoss=done; };
 	bool isAutoRun() { return _isAutoRun; };
 	void AutoRun(int direction);
 	void GetInfoBigSophia(int& direct, int& directY, float& playerx, float& playery, int& dame) { direct = nx; directY = ny; playerx = x; playery = y; dame = dam; }

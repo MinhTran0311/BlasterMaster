@@ -536,6 +536,8 @@ void CBoss::HandleDieState()
 		{
 			bossalpha = 0;
 			isActive = false;
+			dynamic_cast<Big_Sophia*>(target)->SetIsDoneFightWithBoss(true);
+			//dynamic_cast<Big_Sophia*>(target)->SetIsFightWithBoss(false);
 		}
 		
 	}

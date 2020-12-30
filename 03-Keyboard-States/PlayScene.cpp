@@ -437,9 +437,43 @@ void PlayScene::CheckEnterBoss()
 void PlayScene::SetUpFightBoss()
 {
 	dynamic_cast<Big_Sophia*>(player)->SetIsEnterIntroBossArea(false);
-	player->SetPosition(1767, 1123);
-	Camera::GetInstance()->SetCamPos(1607, 986);
-	Camera::GetInstance()->SetIsFollowPlayer(true);
+	player->SetPosition(1790, 1130);
+	Camera::GetInstance()->SetCamPos(1607, 995);
+	Camera::GetInstance()->SetIsFollowPlayer(false);
+}
+
+void PlayScene::BossAreaController()
+{
+	//intro
+	if (!dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea() && !dynamic_cast<Big_Sophia*>(player)->IsFightWithBoss())
+		CheckEnterBoss();
+	if (BossIntroTimer->IsTimeUp() && dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea())
+	{
+		dynamic_cast<Big_Sophia*>(player)->SetIsFightWithBoss(true);
+		BossIntroTimer->Reset();
+		textureAlpha = 255;
+	}
+	//enter boss area
+	if (dynamic_cast<Big_Sophia*>(player)->IsFightWithBoss() && dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea())
+	{
+		SetUpFightBoss();
+	}
+	//out
+	else if (dynamic_cast<Big_Sophia*>(player)->IsFightWithBoss() && dynamic_cast<Big_Sophia*>(player)->IsDoneFightWithBoss())
+	{
+		dynamic_cast<Big_Sophia*>(player)->SetIsFightWithBoss(false);
+		player->SetPosition(880, 656);
+		Camera::GetInstance()->SetCamPos(767, 479);
+		BossIntroTimer->Start();
+	}
+	// back to return gate
+	if (BossIntroTimer->IsTimeUp() && dynamic_cast<Big_Sophia*>(player)->IsDoneFightWithBoss())
+	{
+		player->SetPosition(159, 1889);
+		Camera::GetInstance()->SetCamPos(0, 1774);
+		BossIntroTimer->Reset();
+		dynamic_cast<Big_Sophia*>(player)->SetIsDoneFightWithBoss(false);
+	}
 }
 
 void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
@@ -748,7 +782,7 @@ void PlayScene::CheckPlayerReachGate()
 
 void PlayScene::Update(DWORD dt)
 {
-	//DebugOut(L"x: %f, y: %f\n", player->Getx(), player->Gety());
+	DebugOut(L"x: %f, y: %f\n", player->Getx(), player->Gety());
 	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY &&  player->GetPlayerType()==TAG_JASON)
 	{
 		SceneManager::GetInstance()->SetHolderScene(SceneManager::GetInstance()->GetScene());
@@ -801,19 +835,7 @@ void PlayScene::Update(DWORD dt)
 #pragma endregion
 	if (player->GetPlayerType() == TAG_BIG_SOPHIA && idStage == ID_MAPOVERWORLD)
 	{
-		if (!dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea() && !dynamic_cast<Big_Sophia*>(player)->IsFightWithBoss())
-			CheckEnterBoss();
-		if (BossIntroTimer->IsTimeUp() && dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea())
-		{
-
-			dynamic_cast<Big_Sophia*>(player)->SetIsFightWithBoss(true);
-			BossIntroTimer->Reset();
-			textureAlpha = 255;
-		}
-		if (dynamic_cast<Big_Sophia*>(player)->IsFightWithBoss() && dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea())
-		{
-			SetUpFightBoss();
-		}
+		BossAreaController();
 	}
 
 	CheckPlayerReachGate();
