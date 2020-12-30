@@ -11,16 +11,17 @@ CBoss::CBoss(float xPos, float yPos, LPGAMEENTITY t) :
 	BigClawRight(ANIMATION_SET_BOSS_CLAW_RIGHT)
 
 {
+	srand(time(NULL));
 	x = xPos;
 	y = yPos;
 	startX = xPos;
 	startY = yPos;
-
+	explosiontimer->Start();
 	target = t;
 	tag = ENEMY;
 	isActive = true;
 	dam = 1;
-	health = 2;
+	health = 10;
 	nx = -1;
 	SetState(BOSS_STATE_WALKING);
 	vx = -BOSS_WALKING_SPEED;
@@ -52,6 +53,11 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 
 	if (state == BOSS_STATE_DIE) {
+		//if (explosiontimerinit)
+		//{
+		//	explosiontimer->Start(); 
+		//	explosiontimerinit = false;
+		//}
 		HandleDieState();
 		return;
 	}
@@ -170,7 +176,7 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 void CBoss::Render()
 {
 	//DebugOut(L"Boss render x: %f, y: %f \n",x,y);
-	animationSet->at(0)->OldRender(x, y);
+	animationSet->at(0)->OldRender(x, y, bossalpha);
 	//animationSet->at(0)->Render(x, y);
 
 	if (state == BOSS_STATE_DIE) {
@@ -233,8 +239,8 @@ void CBoss::updateTarget1()
 {
 	lList[0] = Vec2(x, y) + Vec2(-180, -160);
 	lList[1] = Vec2(x, y) + Vec2(20, 20);
-	lList[2] = Vec2(x, y) + Vec2(20, 200);
-	lList[3] = Vec2(x, y) + Vec2(-180, 200);
+	lList[2] = Vec2(x, y) + Vec2(20, 150);
+	lList[3] = Vec2(x, y) + Vec2(-180, 150);
 	lList[4] = Vec2(x, y) + Vec2(-100, 20);
 	lList[5] = lList[1];
 	lList[6] = Vec2(x, y) + Vec2(20, -160);
@@ -285,11 +291,11 @@ void CBoss::updateTarget2()
 	//rList[5] = Vec2(x, y) + Vec2(180, 60);
 
 	rList[0] = Vec2(x, y) + Vec2(180, -160);
-	rList[1] = Vec2(x, y) + Vec2(60, 200);
-	rList[2] = Vec2(x, y) + Vec2(20, 200);
+	rList[1] = Vec2(x, y) + Vec2(60, 150);
+	rList[2] = Vec2(x, y) + Vec2(20, 150);
 	rList[3] = Vec2(x, y) + Vec2(20, -160);
-	rList[4] = Vec2(x, y) + Vec2(60, 200);
-	rList[5] = Vec2(x, y) + Vec2(180, 180);
+	rList[4] = Vec2(x, y) + Vec2(60, 150);
+	rList[5] = Vec2(x, y) + Vec2(180, 150);
 
 	const float speedX = 2.5f, speedY = 4.0f;
 	nextTarget2 = rList[indexTarget2];
@@ -439,27 +445,38 @@ void CBoss::HandleInjuredState()
 
 void CBoss::HandleDieState()
 {
-
-	if (numOfExplosion <= NUM_OF_EXPLOSION_APPEAR)
+	
+	if (numOfExplosion <= NUM_OF_EXPLOSION_APPEAR && explosiontimer->IsTimeUp())
 	{
+		explosiontimer->Reset();
+		explosiontimer->Start();
 		Explosion* exp = new Explosion();
+		
 		float randomX = random->getRandomFloat(-30.0f, 30.0f);
-		float randomY = random->getRandomFloat(-30.0f, 30.0f);			
+		float randomY = random->getRandomFloat(-30.0f, 30.0f);
+
+
 		float posX, posY;
 		posX = x + randomX;
 		posY = y + randomY;
+		DebugOut(L"DUC explosion x:%f,y:%f, thutu:%d, tick: %d ", randomX, randomY, numOfExplosion, explosiontimer->GetTick());
 		exp->Setposition(posX, posY);
-		//DebugOut(L"[DUC] add Explosion %d !\n", numOfExplosion);
-		//vector<pair<int, int>> *bossgrid = dynamic_cast<CGrid*> (CGrid::GetInstance())->bossGrid;
-		//DebugOut(L"[DUC] add Explosion Bossgridsize %d !\n", bossgrid->size());
-		//dynamic_cast<CGrid*> (CGrid::GetInstance())->InsertGrid(exp, *bossgrid);
 		CGrid::GetInstance()->InsertGrid(exp);
-		DebugOut(L"Tao duoc grid\n");
 		numOfExplosion++;
+		bossalpha -= 15;
+		
 	}
 	//alpha--;
 	//if (alpha == 0) {
 	//	//this->visible = false;
 	//	//dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->SetEndingCount(); //Call EndingScene
 	//}
+	else {
+		if (numOfExplosion> NUM_OF_EXPLOSION_APPEAR)
+		{
+			bossalpha = 0;
+			isActive = false;
+		}
+		
+	}
 }

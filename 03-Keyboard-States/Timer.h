@@ -16,7 +16,7 @@ public:
 
 	int GetStartTime() { return startTime; }
 	int GetLimitTime() { return limitTime; }
-	int GetTick() { return GetTickCount(); };
+	int GetTick() { return GetTickCount() - startTime; };
 	void Start() { startTime = GetTickCount(); }
 	bool IsTimeUp() { return GetTickCount() - startTime >= limitTime; }
 	void AddToTimer(int msec) { startTime += msec; }

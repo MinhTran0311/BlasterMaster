@@ -20,11 +20,18 @@ void Explosion::Render()
 {
 	DebugOut(L"Phao hoa render 1\n");
 
-	animationSet->at(EXPLOSION_ANI)->Render(1, x, y);
+	if (isActive)
+	{
+		animationSet->at(EXPLOSION_ANI)->Render(1, x, y);
+	}
+	
 
 	DebugOut(L"Phao hoa render\n");
-	if (timer->IsTimeUp())
+	if (timer->IsTimeUp()) {
 		isActive = false;
+		/*Explosion::~Explosion();*/
+	}
+		
 }
 
 Explosion::~Explosion()

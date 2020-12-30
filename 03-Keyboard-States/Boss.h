@@ -25,6 +25,8 @@
 
 #define NUM_OF_EXPLOSION_APPEAR	15	
 #define	INJURED_STATE_TIME	30
+#define	EXPLOSION_TIME	500
+
 
 #define BOSS_BULLET_BURST_DELAY	5000
 #define BOSS_BULLET_SHOOT_ONE_DELAY 500
@@ -40,7 +42,7 @@ class CBoss : public Enemy
 	int die_state_time;
 	int injured_state_time;
 	int ani;
-	//static int  alpha;
+	int bossalpha = 255;
 	int numOfExplosion = 0;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -96,8 +98,9 @@ private:
 
 	Timer* bursttimer = new Timer(BOSS_BULLET_BURST_DELAY);
 	Timer* shoottimer = new Timer(BOSS_BULLET_SHOOT_ONE_DELAY);
+	Timer* explosiontimer = new Timer(EXPLOSION_TIME);
 	Random* random = new Random();
-	
+	bool explosiontimerinit = true;
 
 
 	int indexTarget2 = 0;
