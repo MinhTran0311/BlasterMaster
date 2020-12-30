@@ -28,7 +28,7 @@
 #define MAXHEALTH	1
 #define MIN_COOLDOWN 500
 #define MAX_COOLDOWN 5000
-
+#define TIMER_ATTACK 1500
 #define TARGET_RANGE 200
 #define ACTIVE_RANGE 150
 
@@ -38,7 +38,7 @@ class Floaters : public Enemy
 	bool isTargeting;
 	bool firstTimeActive;
 	Random* r = new Random();
-	Timer* cooldownTimer = new Timer(r->getRandomInt(500,5000));
+	Timer* cooldownTimer = new Timer(TIMER_ATTACK);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();
@@ -49,5 +49,4 @@ public:
 	Floaters(float x, float y, LPGAMEENTITY t);
 	virtual void Attack(LPGAMEENTITY target=NULL);
 	virtual void SetState(int state);
-	void SelfDestroy();
 };

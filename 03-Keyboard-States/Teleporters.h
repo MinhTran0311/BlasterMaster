@@ -7,6 +7,7 @@
 #include "Timer.h"
 #include "BigNavigatedEnemyBullet.h"
 #include "Bullet.h"
+#include <random>
 
 #define TELEPORTERS_BBOX_WIDTH 23 
 #define TELEPORTERS_BBOX_HEIGHT 31
@@ -23,11 +24,12 @@
 #define TELEPORTERS_ANI_DIE 3
 
 #define TELEPORTERS_SITEATTACK_PLAYER	300
+#define TELEPORTERS_SITEACTIVE_PLAYER	100
 
-#define TELEPORTERS_DELAY_ATTACK 1000
+#define TELEPORTERS_DELAY_ATTACK 700
 #define TELEPORTERS_SHOOT_BULLET 1500
-#define TELEPORTERS_RELAX_ATTACK 3500
-#define TELEPORTERS_DELAY_IDLE 1000
+#define TELEPORTERS_RELAX_ATTACK 2500
+#define TELEPORTERS_DELAY_IDLE 700
 #define TELEPORTERS_MAXHEALTH	1
 
 
@@ -50,9 +52,13 @@ class Teleporters : public Enemy
 	bool isIdling;
 	bool enoughTimeIdle;
 	int teleTimesAttack;
+	int x_Max, x_Min, y_Max, y_Min;
+
 public:
-	Teleporters(float x, float y, LPGAMEENTITY t);
+	Teleporters(float x, float y, LPGAMEENTITY t, int x_Tele_Min, int y_Tele_Min, int x_Tele_Max, int y_Tele_Max);
+	Teleporters(float x, float y);
 	void AttackTarget(LPGAMEENTITY target);
 	virtual void SetState(int state);
+	bool TestTele(float x_Pos, float y_Pos, vector<LPGAMEENTITY>* coObjects = NULL);
 	void SelfDestroy();
 };

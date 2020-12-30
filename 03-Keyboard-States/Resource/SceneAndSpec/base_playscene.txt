@@ -7,7 +7,7 @@
 10	Resource/sophia_die.png	176	0	248
 21	Resource/sophia.png	255	0	255
 30	Resource/jason.png	255	0	255
-40	Resource/Enemy/enemies.png	237	28	36
+40	Resource/Enemy/enemies.jpg	237	28	36
 50	Resource/HealthBar.png	255	255	255
 60	Resource/item2.png	255	255	0
 11	Resource/SceneAndSpec/Scene/area_1.jpg	255	0	255
@@ -28,7 +28,7 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 #select_continue
-60000	0	0	10	10	41
+60004	0	0	10	10	41
 ##============ SOPHIA JASON =================
 # idle right
 10001	146	5	172	23	30
@@ -176,7 +176,7 @@
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 #select_continue
-60100	60000	100
+60104	60004	100
 ##JASON=========================
 #idle right
 400	10001	100
@@ -299,7 +299,7 @@
 # id tuan theo define
 [ANIMATION_SETS]
 #select_continue
-61000	60100
+61004	60104
 # JASON
 1	400	401	500	501	410	411	412	413	414	415	416	417	420	421	422	423	424	425	426	427	510	511	520	521	430	431	461	462	463	464	465	466	467	468	599	470
 # SMALL SOPHIA
@@ -339,4 +339,3 @@ Resource/SceneAndSpec/scene8.txt	518	275
 Resource/SceneAndSpec/scene9.txt	320	275
 #Stage10
 Resource/SceneAndSpec/overworld.txt	2048	2048
-

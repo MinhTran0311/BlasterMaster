@@ -97,13 +97,7 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			}
 			default:
 			{
-				vx = bullet_speed * nx;
-				if (nx == -1)
-				{
-					vt = -vx;
-				}
-				vy = bullet_speed * ny;
-				//vy = CalPositionTarget(target, v) * ny;
+				CalVelocity(vx, vy, target);
 				break;
 			}
 		}
@@ -112,15 +106,14 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
 	for (int i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->GetType() == TAG_GATE || coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_PLAYER||coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD)
+		if (coObjects->at(i)->GetType() == TAG_GATE || coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD)
 			colliable_Objects->push_back(coObjects->at(i));
 	}
-#pragma region collision
 	colliable_Objects->push_back(target);
+#pragma region collision
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-	vector<LPGAMEENTITY> colliable_objects;
 
 	coEvents.clear();
 
@@ -140,7 +133,8 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			default:
 			{
 				x += dx;
-				y = CalPositionTarget(target, x);
+				//y = CalPositionTarget(target, x);
+				y += dy;
 				break;
 			}
 			}
@@ -203,7 +197,7 @@ void BigNavigatedEnemyBullet::Render()
 	{
 		ani = BIG_NAVI_ENEMY_BULLET_BANG;
 		animationSet->at(ani)->OldRender(x - 6, y - 6);
-		if (animationSet->at(ani)->GetFrame() == 1)
+		if (animationSet->at(ani)->GetFrame() == 2)
 		{
 			isHitJason = false;
 			isActive = false;
@@ -211,11 +205,18 @@ void BigNavigatedEnemyBullet::Render()
 	}
 }
 
-float BigNavigatedEnemyBullet::CalPositionTarget(LPGAMEENTITY target, float xc)
+//float BigNavigatedEnemyBullet::CalPositionTarget(LPGAMEENTITY target, float xc)
+//{
+//	float a = (float)(yTarget - yBullet) / (float)(xTarget - xBullet);
+//	float b = yTarget - (xTarget * a);
+//	return ((xc * a) + b);
+//}
+
+void BigNavigatedEnemyBullet::CalVelocity(float& vx, float& vy, LPGAMEENTITY t)
 {
-	float a = (float)(yTarget - yBullet) / (float)(xTarget - xBullet);
-	float b = yTarget - (xTarget * a);
-	return ((xc * a) + b);
+	float d = sqrt((xBullet - xTarget) * (xBullet - xTarget) + (yBullet - yTarget) * (yBullet - yTarget));
+	vx = ((xTarget - xBullet) / d) * bullet_speed;
+	vy = ((yTarget - yBullet) / d) * bullet_speed;
 }
 
 void BigNavigatedEnemyBullet::SetState(int state)

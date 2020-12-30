@@ -76,10 +76,10 @@ public:
 	//Entity* currentPlayer;
 	PlayScene();
 	DWORD timeResetCam;
-	PlayScene (int idStage);
+	PlayScene(int idStage);
 	~PlayScene();
 	bool isUnloaded = false;
-	
+
 	int inforDisplay = 0;
 
 	/*void SetKeyhandler(Scene* scene) {

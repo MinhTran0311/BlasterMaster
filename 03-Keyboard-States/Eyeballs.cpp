@@ -146,8 +146,12 @@ void Eyeballs::Render()
 		if (state == EYEBALLS_STATE_IDLE) {
 			ani = EYEBALLS_ANI_IDLE;
 		}
-		else if (state == EYEBALLS_STATE_FLYING || state == EYEBALLS_STATE_ATTACKING) {
+		else if (state == EYEBALLS_STATE_FLYING) {
 			ani = EYEBALLS_ANI_FLYING;
+		}
+		else if (state == EYEBALLS_STATE_ATTACKING)
+		{
+			ani = EYEBALLS_ANI_ATTACKING;
 		}
 		animationSet->at(ani)->Render(nx, x, y);
 		//RenderBoundingBox();
@@ -174,77 +178,28 @@ Eyeballs::Eyeballs(float x, float y, LPGAMEENTITY t)
 
 void Eyeballs::FlyAndAttackTarget()
 {
-	/*if (state == EYEBALLS_STATE_IDLE && canFly)
-	{
-		canFly = false;
-		SetState(EYEBALLS_STATE_IDLE);
-		idleTimer->Start();
-		if (idleTimer->IsTimeUp())
-		{
-			DebugOut(L"########### %d\n", 80000);
-			SetState(EYEBALLS_STATE_FLYING);
-			canAttack = true;
-			flyOrAttackTimer->Start();
-			idleTimer->Reset();
-		}
-	}
-	else if (canAttack && flyOrAttackTimer->IsTimeUp())
-	{
-		DebugOut(L"########### %d\n", 90000);
-		SetState(EYEBALLS_STATE_IDLE);
-		idleTimer->Start();
-		if (idleTimer->IsTimeUp())
-		{
-			SetState(EYEBALLS_STATE_ATTACKING);
-			flyOrAttackTimer->Reset();
-			flyOrAttackTimer->Start();
-			canAttack = false;
-			canFly = true;
-			idleTimer->Reset();
-		}
-	}
-	else if (canFly && flyOrAttackTimer->IsTimeUp())
-	{
-		SetState(EYEBALLS_STATE_IDLE);
-		idleTimer->Start();
-		if (idleTimer->IsTimeUp())
-		{
-			SetState(EYEBALLS_STATE_FLYING);
-			flyOrAttackTimer->Reset();
-			flyOrAttackTimer->Start();
-			canFly = false;
-			canAttack = true;
-			idleTimer->Reset();
-		}
-	}*/
-	//if (canIdle)
-	//{
-	//	SetState(EYEBALLS_STATE_IDLE);
-	//	canIdle = false;
-	//	flyOrAttackTimer->Start();
-	//}
-	if (state == EYEBALLS_STATE_IDLE)
+	if (state == EYEBALLS_STATE_IDLE && idleTimer->IsTimeUp() && canFly)
 	{
 		SetState(EYEBALLS_STATE_FLYING);
 		canAttack = true;
 		canFly = false;
-		//canIdle = true;
-		flyOrAttackTimer->Start();
+		canIdle = false;
+		flyTimer->Start();
 	}
-	else if (canFly && flyOrAttackTimer->IsTimeUp())
-	{
-		SetState(EYEBALLS_STATE_FLYING);
-		flyOrAttackTimer->Reset();
-		flyOrAttackTimer->Start();
-		canFly = false;
-		canAttack = true;
-	}
-	else if (canAttack && flyOrAttackTimer->IsTimeUp())
+	else if (canAttack && flyTimer->IsTimeUp())
 	{
 		SetState(EYEBALLS_STATE_ATTACKING);
-		flyOrAttackTimer->Reset();
-		flyOrAttackTimer->Start();
+		flyTimer->Reset();
+		attackTimer->Start();
 		canAttack = false;
+		canIdle = true;
+	}
+	else if (canIdle && attackTimer->IsTimeUp())
+	{
+		SetState(EYEBALLS_STATE_IDLE);
+		attackTimer->Reset();
+		idleTimer->Start();
+		canIdle = false;
 		canFly = true;
 	}
 }
@@ -263,11 +218,11 @@ void Eyeballs::SetState(int state)
 		case EYEBALLS_STATE_FLYING:
 		{
 			setRandomVxVy(vx, vy);
+			shootBulletToTarget();
 			break;
 		}
 		case EYEBALLS_STATE_ATTACKING:
 		{
-			shootBulletToTarget();
 			vx = 0;
 			vy = 0;
 			break;

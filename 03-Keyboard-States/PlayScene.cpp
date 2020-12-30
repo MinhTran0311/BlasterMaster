@@ -118,7 +118,7 @@ void PlayScene::ChooseMap(int Stage)
 {
 	idStage = Stage;
 	CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
-	sceneFilePath = listSceneFilePath[idStage-11];
+	sceneFilePath = listSceneFilePath[idStage - 11];
 	DebugOut(L"Init");
 	CGrid::GetInstance()->InitGrid(listWidth[idStage - 11], listHeight[idStage - 11]);
 	LoadSceneObjects(sceneFilePath);
@@ -197,7 +197,7 @@ void PlayScene::LoadSceneObjects(LPCWSTR path)
 void PlayScenceKeyHandler::KeyState(BYTE* states)
 {
 	LPGAMEPLAYER player = ((PlayScene*)scence)->player;
-	if (player->GetPlayerType()==TAG_BIG_SOPHIA)
+	if (player->GetPlayerType() == TAG_BIG_SOPHIA)
 		if (dynamic_cast<Big_Sophia*>(player)->isAutoRun())
 		{
 			return;
@@ -284,12 +284,12 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	if (playScene->death == true)
 	{
 		if (playScene->playerInfo.life < 0) {
-			if(KeyCode == DIK_DOWN)playScene->select_end = true;
-			if(KeyCode == DIK_UP)playScene->select_end = false;
-			
+			if (KeyCode == DIK_DOWN)playScene->select_end = true;
+			if (KeyCode == DIK_UP)playScene->select_end = false;
+
 		}
 	}
-	
+
 	if (KeyCode == DIK_RETURN)
 	{
 		if (playScene->GetInforDisplay() != CHOOSING_WEAPON_DISPLAY)
@@ -363,7 +363,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 
 		case DIK_X:
 		{
-			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3) && player->GetPlayerType()!=TAG_BIG_SOPHIA)
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3) && player->GetPlayerType() != TAG_BIG_SOPHIA)
 			{
 				Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
 				CGrid::GetInstance()->InsertGrid(bullet);
@@ -379,7 +379,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		case DIK_C:
 		{
-			if (player->GetPlayerType()==TAG_JASON)
+			if (player->GetPlayerType() == TAG_JASON)
 				player->FireBullet(3);
 			break;
 		}
@@ -401,7 +401,7 @@ void PlayScene::changePlayer()
 
 		this->player->SetState(SOPHIA_STATE_OUT);
 		backup_player = player;
-		player = new Small_Sophia(backup_player->Getx(), backup_player->Gety(),playerInfo.sophiaHealth,playerInfo.sophiaGundam);
+		player = new Small_Sophia(backup_player->Getx(), backup_player->Gety(), playerInfo.sophiaHealth, playerInfo.sophiaGundam);
 		player->SetState(SMALL_SOPHIA_STATE_OUT);
 
 		CGrid::GetInstance()->SetTargetForEnemies(player);
@@ -419,7 +419,7 @@ void PlayScene::changePlayer()
 			//this->_SophiaType = ID_JASON;
 			delete player;
 			player = backup_player;
-			backup_player=NULL;
+			backup_player = NULL;
 			CGrid::GetInstance()->SetTargetForEnemies(player);
 		}
 	}
@@ -782,8 +782,8 @@ void PlayScene::CheckPlayerReachGate()
 
 void PlayScene::Update(DWORD dt)
 {
-	//DebugOut(L"x: %f, y: %f\n", player->Getx(), player->Gety());
-	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY &&  player->GetPlayerType()==TAG_JASON)
+
+	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY && player->GetPlayerType() == TAG_JASON)
 	{
 		SceneManager::GetInstance()->SetHolderScene(SceneManager::GetInstance()->GetScene());
 		/*if (SceneManager::GetInstance()->GetHolderScene() == nullptr)*/
@@ -866,7 +866,7 @@ void PlayScene::Update(DWORD dt)
 
 #pragma region update objects
 
-	
+
 	if (isUnloaded)
 	{
 		CGrid::GetInstance()->SetTargetForEnemies(player);
@@ -926,8 +926,8 @@ void PlayScene::Update(DWORD dt)
 				k = 0;
 			}
 		}
-		
-		
+
+
 		//DebugOut(L"debug 6\n");
 	CGrid::GetInstance()->UpdateGrid(coObjects);
 	//player
@@ -940,14 +940,14 @@ void PlayScene::Update(DWORD dt)
 
 void PlayScene::Render()
 {
-	if (this->death==true)
+	if (this->death == true)
 	{
 		if (this->playerInfo.life < 0) {
-			
+
 			CGame::GetInstance()->DrawTextInScene(L"CONTINUE", 100, 100, 400, 400);
 			CGame::GetInstance()->DrawTextInScene(L"END", 100, 130, 400, 400);
 			this->animation_set = CAnimationSets::GetInstance()->Get(61000);
-			this->animation_set->at(0)->Render(1, 80, 115 + 30*this->select_end);
+			this->animation_set->at(0)->Render(1, 80, 115 + 30 * this->select_end);
 			this->time_drawlife++;
 			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  this->playerInfo.life--; this->player->health = 8; }
 		}
@@ -959,7 +959,7 @@ void PlayScene::Render()
 			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  this->playerInfo.life--; this->player->health = 1; }
 		}
 		//LPCWSTR Life = L"LEFT %d" + this->playerInfo.life;
-		
+
 	}
 	else {
 		LPDIRECT3DTEXTURE9 maptexture = CTextures::GetInstance()->Get(idStage);
@@ -995,7 +995,7 @@ void PlayScene::Render()
 		HUD::GetInstance()->Render(player);
 
 	}
-	
+
 }
 void PlayScene::Unload()
 {

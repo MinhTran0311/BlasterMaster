@@ -10,6 +10,10 @@
 1000	168	411	186	421	40
 1001	187	411	204	421	40
 
+#Mines
+2000	37	555	52	564	40
+2001	64	555	79	564	40
+
 #DOMES
 #walk top right
 1100	145	478	163	495	40
@@ -116,6 +120,9 @@
 # =============== ENEMIES==============
 #Walk worm
 1000	1000	100	1001	100
+
+#IDLE MINES
+2000	2000	300	2001	300
 
 #DOMES
 #walk top right
@@ -224,6 +231,8 @@
 #SKULLS
 16	1600	1601	9000
 
+#MINES 
+20	2000	9000
 [OBJECTS]
 # type	x	y	numberOfPairGrid	gird_row1 (y/scr_height) 	grid_column1 (x/scr_width) 	grid_row2 	grid_column2 ...	animationset_id		width		height
 # type
@@ -266,6 +275,9 @@
 
 #SKULLS
 #16	150	100	1	0	0	16
+
+#MINES
+20	160	50	1	0	1	20
 
 #Brick
 

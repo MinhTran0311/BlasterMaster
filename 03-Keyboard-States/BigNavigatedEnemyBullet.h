@@ -1,7 +1,7 @@
 #pragma once
-#include "Bullet.h"
 #include "Cannons.h"
 #include "global.h"
+#include "BossBullet.h"
 #include <math.h>
 
 #define BIG_NAVI_ENEMY_BULLET_BBOX_WIDTH	7
@@ -27,6 +27,7 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	void Render();
-	float CalPositionTarget(LPGAMEENTITY target, float v);
+	//float CalPositionTarget(LPGAMEENTITY target, float v);`
+	void CalVelocity(float&, float&, LPGAMEENTITY);
 	virtual void SetState(int state);
 };

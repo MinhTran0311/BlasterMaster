@@ -41,15 +41,21 @@ void Teleporters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma endregion
 #pragma region Active
 	//attack player
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TELEPORTERS_SITEATTACK_PLAYER)
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TELEPORTERS_SITEACTIVE_PLAYER)
 	{
 		isActive = true;
-		//isTransporting = true;
-		AttackTarget(target);
+	}
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TELEPORTERS_SITEATTACK_PLAYER)
+	{
+		if (isActive == true)
+		{
+			AttackTarget(target);
+		}
 	}
 	else
 	{
 		this->SetState(TELEPORTERS_STATE_IDLE);
+		isActive = false;
 	}
 #pragma endregion
 
@@ -59,7 +65,7 @@ void Teleporters::Render()
 {
 	RenderBoundingBox();
 
-	int ani = -1;
+	int ani;
 	if (state == TELEPORTERS_STATE_DIE) {
 		ani = TELEPORTERS_ANI_DIE;
 		if (animationSet->at(ani)->GetFrame() == 3)
@@ -91,7 +97,7 @@ void Teleporters::Render()
 	}
 }
 
-Teleporters::Teleporters(float x, float y, LPGAMEENTITY t)
+Teleporters::Teleporters(float x, float y, LPGAMEENTITY t, int x_Tele_Min, int y_Tele_Min, int x_Tele_Max, int y_Tele_Max)
 {
 	this->SetState(TELEPORTERS_STATE_IDLE);
 	enemyType = TELEPORTERS;
@@ -111,6 +117,18 @@ Teleporters::Teleporters(float x, float y, LPGAMEENTITY t)
 	isIdling = false;
 	enoughTimeIdle = false;
 	teleTimesAttack = 0;
+	x_Max = x_Tele_Max;
+	x_Min = x_Tele_Min;
+	y_Max = y_Tele_Max;
+	y_Min = y_Tele_Min;
+}
+
+Teleporters::Teleporters(float x, float y)
+{
+	enemyType = TELEPORTERS;
+	tag = EntityType::ENEMY;
+	this->x = x;
+	this->y = y;
 }
 
 void Teleporters::AttackTarget(LPGAMEENTITY target) //tấn công nhân vật
@@ -138,7 +156,9 @@ void Teleporters::SetState(int state)
 	{
 		case TELEPORTERS_STATE_DIE:
 		{
-			y += TELEPORTERS_BBOX_HEIGHT - TELEPORTERS_BBOX_HEIGHT_DIE + 1;
+			isActive = false;
+			vx = 0;
+			vy = 0;
 			break;
 		}
 		case TELEPORTERS_STATE_ATTACKING:
@@ -175,8 +195,22 @@ void Teleporters::SetState(int state)
 			}
 			else if (!isTransporting && isAttacking && shootBulletTimer->IsTimeUp() && relaxAttackTimer->IsTimeUp())
 			{
-				int x = 0 + rand() % (100 + 1 - 0);
-				int y = 0 + rand() % (100 + 1 - 0);
+				random_device rd;
+				mt19937 mt(rd());
+				uniform_real_distribution<float> posX(x_Min, x_Max);
+				uniform_real_distribution<float> posY(y_Min, y_Max);
+				float x = posX(mt);
+				float y = posY(mt);
+
+				while (!TestTele(x, y))
+				{
+					random_device rd;
+					mt19937 mt(rd());
+					uniform_real_distribution<float> posX(x_Min, x_Max);
+					uniform_real_distribution<float> posY(y_Min, y_Max);
+					float x = posX(mt);
+					float y = posY(mt);
+				}
 				this->SetPosition(x, y);
 				shootBulletTimer->Reset();
 				teleTimesAttack++;
@@ -197,6 +231,30 @@ void Teleporters::SetState(int state)
 			break;
 		}
 	}
+}
+
+bool Teleporters::TestTele(float x_Pos, float y_Pos, vector<LPGAMEENTITY>* coObjects)
+{
+	/*vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	vector<LPGAMEENTITY> bricks;
+
+	coEvents.clear();
+	bricks.clear();
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK)
+			bricks.push_back(coObjects->at(i));
+	}
+	LPGAMEENTITY obj = new Teleporters(x_Pos, y_Pos);
+	for (int i = 0; i < coObjects->size(); i++)
+		if (obj->IsCollidingObject(coObjects->at(i)))
+		{
+			obj->isDoneDeath = true;
+			return false;
+		}
+	obj->isDoneDeath = true;*/
+	return true;
 }
 
 void Teleporters::shootBulletToTarget()
