@@ -39,13 +39,9 @@ void Big_Sophia::AutoRun(int direction)
 
 void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
+	
 	Player::Update(dt, coObjects);
 #pragma region Timer
-	//if (isImmortaling && immortalTimer->IsTimeUp())
-	//{
-	//	isImmortaling = false;
-	//	immortalTimer->Reset();
-	//}
 	if (_isAutoRun == true)
 	{
 		if (directionAutoRun == 1 && abs(x - backup_x) <= GATE_HORIZONTAL_LONG)
@@ -54,6 +50,7 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			{
 				vx = 0.05f * nx;
 				vy = 0;
+				ny = 0;
 			}
 			//DebugOut(L"Sai lech x: %f\n", abs(x - backup_x));
 		}
@@ -63,6 +60,7 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			{
 				vy = 0.07f * ny;
 				vx = 0;
+				nx = 0;
 			}
 			//DebugOut(L"Sai lech y: %f\n", abs(y - backup_y));
 		}
@@ -76,6 +74,7 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		y += dy;
 		return;
 	}
+	DebugOut(L"nx: %d, ny: %d\n", nx, ny);
 #pragma endregion
 #pragma region Xử lý va chạm
 	CollisionHandle(coObjects);
@@ -184,7 +183,7 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Big_Sophia::Render()
 {
-	if (health < 0)
+	if (health < 0 || _isAutoRun)
 		return;
 	RenderBoundingBox();
 	int ani = -1;
@@ -196,8 +195,6 @@ void Big_Sophia::Render()
 		if (animationSet->at(ani)->GetFrame() > LAST_FRAME_BIG_SOPHIA_DIE)
 			isDoneDeath = true;
 	}
-	else if (_isAutoRun)
-		return;
 	else
 	{
 		if (vx == 0 && vy == 0)

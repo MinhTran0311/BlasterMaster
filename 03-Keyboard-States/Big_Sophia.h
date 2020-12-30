@@ -37,8 +37,8 @@
 
 #define MAX_GUNDAM						8
 
-#define GATE_VERTICAL_LONG		125
-#define GATE_HORIZONTAL_LONG	85
+#define GATE_VERTICAL_LONG		120
+#define GATE_HORIZONTAL_LONG	80
 
 
 class Big_Sophia : public Player

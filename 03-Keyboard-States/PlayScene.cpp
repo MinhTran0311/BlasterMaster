@@ -741,13 +741,18 @@ void PlayScene::CheckPlayerReachGate()
 			if (dynamic_cast<GateOverworld*>(player->GetGate()))
 			{
 				GateOverworld* gate = dynamic_cast<GateOverworld*>(player->GetGate());
-				dynamic_cast<Big_Sophia*>(player)->AutoRun(gate->directionCam);
-				xPosCamGo = gate->GetXPosGo();
-				xPosCamBack = gate->GetXPosBack();
-				yPosCamGo = gate->GetYPosGo();
-				yPosCamBack = gate->GetYPosBack();
-				CamMoveDirection = gate->GetCamDirection();
-				Camera::GetInstance()->SetIsFollowPlayer(false);
+				if ((gate->GetCamDirection() == 1 && player->GetDirection() != 0) || (gate->GetCamDirection() == 2 && player->GetDirctionY() != 0))
+				{
+					dynamic_cast<Big_Sophia*>(player)->AutoRun(gate->directionCam);
+					xPosCamGo = gate->GetXPosGo();
+					xPosCamBack = gate->GetXPosBack();
+					yPosCamGo = gate->GetYPosGo();
+					yPosCamBack = gate->GetYPosBack();
+					CamMoveDirection = gate->GetCamDirection();
+					Camera::GetInstance()->SetIsFollowPlayer(false);
+				}
+				else
+					break;
 			}
 			else
 			{

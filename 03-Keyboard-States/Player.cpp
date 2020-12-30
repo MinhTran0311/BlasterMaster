@@ -190,7 +190,8 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 	}
 	if (!isInjured)
 		alpha = 255;
-
+	gate = nullptr;
+	GateColliding = false;
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	coEvents.clear();
@@ -222,7 +223,7 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 					if (e->ny == -1)
 					{
 						vy = 0;
-						
+
 						if (this->GetPlayerType() == TAG_JASON)
 						{
 							dynamic_cast<JASON*>(this)->SetIsJumping(false);
@@ -232,7 +233,7 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 					}
 					if (e->ny == 1)
 					{
-						if (this->GetPlayerType()== TAG_JASON)
+						if (this->GetPlayerType() == TAG_JASON)
 							dynamic_cast<JASON*>(this)->SetIsJumping(true);
 						else if (this->GetPlayerType() == TAG_SMALL_SOPHIA)
 							dynamic_cast<Small_Sophia*>(this)->SetIsJumping(true);
