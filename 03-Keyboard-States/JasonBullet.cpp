@@ -193,9 +193,17 @@ void JasonBullet::Render()
 			if (typeBullet == JASON_NORMAL_BULLET)
 				animationSet->at(ani)->Render(1, x - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_WIDTH, y - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_HEIGHT);
 			else if (typeBullet == JASON_UPGRADE_BULLET)
-				animationSet->at(ani)->Render(1, x  - BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_WIDTH, y - BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_HEIGHT);
+				animationSet->at(ani)->Render(1, x + BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_WIDTH / 2, y - BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_HEIGHT);
 		}
-		else animationSet->at(ani)->Render(1, x - BULLET_JASON_UPGRADE_VERTICAL_BBOX_WIDTH, y - DISTANCE_BLOWING_UP);
+		else if (nx == -1 && !isAimingTop)
+		{
+			if (typeBullet == JASON_NORMAL_BULLET)
+				animationSet->at(ani)->Render(1, x - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_WIDTH, y - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_HEIGHT);
+			else if (typeBullet == JASON_UPGRADE_BULLET)
+				animationSet->at(ani)->Render(1, x - BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_WIDTH/4, y - BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_HEIGHT);
+		}
+		else 
+			animationSet->at(ani)->Render(1, x - BULLET_JASON_UPGRADE_VERTICAL_BBOX_WIDTH, y - DISTANCE_BLOWING_UP);
 		if (animationSet->at(ani)->GetFrame() == 2)
 		{
 			isActive = false;

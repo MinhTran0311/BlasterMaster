@@ -184,7 +184,7 @@ void Sound::LoadSoundResource(const char* filePath)
 	string path;
 
 	soundBufferMap.clear();
-	DebugOut(L"sound size: %d", soundBufferMap.size());
+	//DebugOut(L"sound size: %d", soundBufferMap.size());
 
 	for (sound = root->FirstChildElement(); sound != NULL; sound = sound->NextSiblingElement())
 	{
