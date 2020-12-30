@@ -102,7 +102,7 @@ Teleporters::Teleporters(float x, float y, LPGAMEENTITY t)
 	isAttack = 0;
 	this->target = t;
 	health = TELEPORTERS_MAXHEALTH;
-	isActive = false;
+	isActive = true;
 	bbARGB = 0;
 	isTransporting = true;
 	isAttacking = false;

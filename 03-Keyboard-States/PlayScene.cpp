@@ -469,7 +469,7 @@ void PlayScene::BossAreaController()
 	// back to return gate
 	if (BossIntroTimer->IsTimeUp() && dynamic_cast<Big_Sophia*>(player)->IsDoneFightWithBoss())
 	{
-		player->SetPosition(159, 1889);
+		player->SetPosition(150, 1905);
 		Camera::GetInstance()->SetCamPos(0, 1774);
 		BossIntroTimer->Reset();
 		dynamic_cast<Big_Sophia*>(player)->SetIsDoneFightWithBoss(false);
@@ -782,7 +782,7 @@ void PlayScene::CheckPlayerReachGate()
 
 void PlayScene::Update(DWORD dt)
 {
-	DebugOut(L"x: %f, y: %f\n", player->Getx(), player->Gety());
+	//DebugOut(L"x: %f, y: %f\n", player->Getx(), player->Gety());
 	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY &&  player->GetPlayerType()==TAG_JASON)
 	{
 		SceneManager::GetInstance()->SetHolderScene(SceneManager::GetInstance()->GetScene());
@@ -799,6 +799,7 @@ void PlayScene::Update(DWORD dt)
 	else
 #pragma region mạng và reset
 	{
+		//DebugOut(L"debug 1\n");
 		/*SetKeyhandler(this);*/
 		if (player->IsDoneDeath())
 		{
@@ -837,9 +838,9 @@ void PlayScene::Update(DWORD dt)
 	{
 		BossAreaController();
 	}
-
+	//DebugOut(L"debug 2\n");
 	CheckPlayerReachGate();
-	
+	//DebugOut(L"debug 3\n");
 #pragma region camera
 	float cx, cy;
 	mapWidth = listWidth[idStage - 11];
@@ -871,18 +872,21 @@ void PlayScene::Update(DWORD dt)
 		CGrid::GetInstance()->SetTargetForEnemies(player);
 		isUnloaded = false;
 	}
+
 	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(Camera::GetInstance()->GetRectCam());
 	if (player != NULL)
 	{
 		player->Update(dt, &coObjects);
+
 	}
+	//DebugOut(L"debug 4\n");
 	if (coObjects.size() != 0)
 	{//update obj
 		for (int i = 0; i < coObjects.size(); i++)
 		{
 			if (coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != TAG_GATE && coObjects.at(i)->GetType() != TAG_GATE_OVERWORLD)
 			{
-
+			//	DebugOut(L"debug 5\n");
 				coObjects[i]->Update(dt, &coObjects);
 			}
 		}
@@ -923,7 +927,8 @@ void PlayScene::Update(DWORD dt)
 			}
 		}
 		
-
+		
+		//DebugOut(L"debug 6\n");
 	CGrid::GetInstance()->UpdateGrid(coObjects);
 	//player
 

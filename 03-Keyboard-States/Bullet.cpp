@@ -85,21 +85,15 @@ void Bullet::HandlePlayerBulletCollision(vector<LPGAMEENTITY>* coObjects)
 			else if (e->obj->GetType() == ENEMY || e->obj->GetType() == TAG_SOFT_BRICK)
 			{
 				e->obj->AddHealth(-dam);
-				DebugOut(L"xxxxxxxxxxxxxxxxhitEnemy %d\n", e->obj->health);
+				//DebugOut(L"xxxxxxxxxxxxxxxxhitEnemy %d\n", e->obj->health);
 				this->SetState(BULLET_STATE_ENEMY);
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
 				isActive = false;
-				if (e->obj->isBoss) {
-					CBoss::injured_state_time = 1;
-					CBoss::ani = BOSS_ANI_INJURED;
+				if (dynamic_cast<CBoss*>(e->obj)) {
+					dynamic_cast<CBoss*>(e->obj)->SetState(BOSS_STATE_INJURED);
 				}
-					
-					//dynamic_cast<CBoss*>(e->obj)->SetState(BOSS_STATE_INJURED);
-
-				
 			}
-			
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

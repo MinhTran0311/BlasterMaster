@@ -281,18 +281,18 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		return;
 	}
 	for (int i = 0; i < posGrid.size(); i++)
-	//	DebugOut(L"Entity added at grid row %d collumn %d \n", posGrid.at(i).first, posGrid.at(i).second);
-	if (obj != nullptr)
 	{
-		InsertGrid(obj, posGrid);
-		if (hasBoss)
+		if (obj != nullptr)
 		{
-			hasBoss = false;
-			BossArm* leftArm = new BossArm(dynamic_cast<CBoss*>(obj), TYPE_LEFT_CLAW);
-			InsertGrid(leftArm, posGrid);
-			BossArm* rightArm = new BossArm(dynamic_cast<CBoss*>(obj), TYPE_RIGHT_CLAW);
-			InsertGrid(rightArm, posGrid);
-
+			InsertGrid(obj, posGrid);
+			if (hasBoss)
+			{
+				hasBoss = false;
+				LPGAMEENTITY leftArm = new BossArm(dynamic_cast<CBoss*>(obj), TYPE_LEFT_CLAW);
+				InsertGrid(leftArm, posGrid);
+				LPGAMEENTITY rightArm = new BossArm(dynamic_cast<CBoss*>(obj), TYPE_RIGHT_CLAW);
+				InsertGrid(rightArm, posGrid);
+			}
 		}
 	}
 }

@@ -167,31 +167,6 @@ enum EntityType
 	ITEM = 50,
 	TAG_ITEM_POWER_UP = 51,
 	TAG_ITEM_GUN_UP = 52,
-
-
-	//KNIGHT = 83,
-	//GHOST = 84,
-	//RAVEN = 85,
-	//HUNCHMAN = 86,
-	//SKELETON = 87,
-	//TLEBAT = 88,
-
-	////Scene Zone 100-120
-	//TITLESCENE = 100,
-	//TITLEBAT = 101,
-	//STARTTEXT = 102,
-	//INTROSCENE = 103,
-	//INTROSIMON = 104,
-	//PLAYSCENE = 105,
-	//MAPSTAGE1 = 106,
-	//MAPSTAGE2_1 = 107,
-	//MAPSTAGE2_2 = 108,
-	//MAPSTAGE3_1 = 109,
-	//MAPSTAGE3_2 = 110,
-
-	////Ex
-	//ITEMPOKEBALL = -9,
-	//POKEBALL = -10
 };
 
 class define

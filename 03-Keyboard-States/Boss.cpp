@@ -30,8 +30,9 @@ CBoss::CBoss(float xPos, float yPos, LPGAMEENTITY t) :
 	explosiontimer->Start();
 	target = t;
 	tag = ENEMY;
+	enemyType == BOSS;
 	isActive = true;
-	isBoss = true;
+	//isBoss = true;
 	dam = 1;
 	health = 10;
 	nx = -1;
@@ -45,7 +46,7 @@ CBoss::CBoss(float xPos, float yPos, LPGAMEENTITY t) :
 
 void CBoss::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	this->isBoss = true;
+	//this->isBoss = true;
 	left = x;
 	top = y;
 	right = x + BOSS_BBOX_WIDTH;
@@ -561,7 +562,6 @@ void CBoss::HandleDieState()
 			bossalpha = 0;
 			isActive = false;
 			dynamic_cast<Big_Sophia*>(target)->SetIsDoneFightWithBoss(true);
-			//dynamic_cast<Big_Sophia*>(target)->SetIsFightWithBoss(false);
 		}
 		
 	}

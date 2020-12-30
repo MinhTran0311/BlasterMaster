@@ -149,6 +149,7 @@ Floaters::Floaters(float x, float y, LPGAMEENTITY t)
 	bbARGB = 250;
 	dam = 1;
 	firstTimeActive = false;
+	isDoneDeath = false;
 }
 
 void Floaters::Attack(LPGAMEENTITY target) //đi theo nhân vật

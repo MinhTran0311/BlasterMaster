@@ -19,7 +19,6 @@ void Explosion::Update(DWORD dt)
 
 void Explosion::Render()
 {
-	DebugOut(L"Phao hoa render 1\n");
 
 	if (isActive)
 	{
@@ -27,10 +26,10 @@ void Explosion::Render()
 	}
 	
 
-	DebugOut(L"Phao hoa render\n");
+
 	if (timer->IsTimeUp()) {
-		isActive = false;
-		/*Explosion::~Explosion();*/
+		isActive = false;	
+		DebugOut(L"Phao hoa render\n");
 	}
 		
 }

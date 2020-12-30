@@ -65,7 +65,7 @@ public:
 
 	DWORD dt;
 	EntityType tag;
-	bool isBoss = false;
+	//bool isBoss = false;
 	LPANIMATION_SET animationSet;
 
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
