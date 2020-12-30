@@ -19,14 +19,14 @@ class Explosion : public  Entity
 	int width;
 	int height;
 	DWORD dt;
-	int ani;
-	LPANIMATION_SET ani_set;
+
+
 	Timer* timer = new Timer(EXPLOSION_EXIST_TIME);
 public:
 	void Setposition(float x, float y) { this->x = x; this->y = y; };
 	Explosion();
-	void Update(DWORD dt);
-	void Render();
+	virtual void Update(DWORD dt);
+	virtual void Render();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	~Explosion();
 };

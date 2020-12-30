@@ -12,9 +12,7 @@
 #include "global.h"
 
 #define SOUND_RESOURCE_INTRO "Resource/Sound/SoundIntro.xml"
-#define SOUND_RESOURCE_UNDERWORLD "Resource/Sound/SoundUnderworld.xml"
-#define SOUND_RESOURCE_OVERWORLD "Resource/Sound/SoundOverworld.xml"
-#define SOUND_RESOURCE_BOSS "Resource/Sound/SoundBoss.xml"
+#define SOUND_RESOURCE_UNDERWORLD "Resource/Sound/SoundPlayScene.xml"
 #define SOUND_RESOURCE_ENDING "Resource/Sound/SoundEnding.xml"
 
 class Sound

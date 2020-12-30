@@ -276,14 +276,6 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		DebugOut(L"[test] add gate Overworld!\n");
 		break;
 	}
-	//case EntityType::TAG_JASON:
-	//{
-	//	obj = new JASON(x, y);
-	//	DebugOut(L"[test] Jason create!\n");
-	//	player = obj;
-	//	playscene_player = static_cast<JASON*>(obj);
-	//	break;
-	//}
 	default:
 		obj = nullptr;
 		return;

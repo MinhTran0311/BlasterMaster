@@ -5,9 +5,10 @@
 
 Explosion::Explosion()
 {
-	DebugOut(L"Tao pho hoa\n");
+	DebugOut(L"Tao phao hoa\n");
 	timer->Start();
-	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(EXPLOSION_ANIMATION_SET_ID));
+	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(201));
+	DebugOut(L"size: %d\n",animationSet->size());
 	isActive = true;
 }
 

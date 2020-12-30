@@ -748,7 +748,7 @@ void PlayScene::CheckPlayerReachGate()
 
 void PlayScene::Update(DWORD dt)
 {
-	DebugOut(L"x: %f, y: %f\n", player->Getx(), player->Gety());
+	//DebugOut(L"x: %f, y: %f\n", player->Getx(), player->Gety());
 	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY &&  player->GetPlayerType()==TAG_JASON)
 	{
 		SceneManager::GetInstance()->SetHolderScene(SceneManager::GetInstance()->GetScene());

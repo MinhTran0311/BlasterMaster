@@ -1,8 +1,3 @@
-# Id	FilePath			R	G	B
-[TEXTURES]
-40	Resource/Enemy/enemies.png	255	0	255
-50	Resource/item.png	255	255	0
-
 [SPRITES]
 # id	left	top	right	bottom	texture_id
 #=== ENEMIES =====
