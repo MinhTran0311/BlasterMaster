@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Boss.h"
 #include "Utils.h"
 #include "Game.h"
@@ -67,26 +67,86 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		//return;
 	}
 
-	x += dx;
-	y += dy;
+	//x += dx;
+	//y += dy;
 
 
-	if (vx < 0 && x < (startX - 100)) {
-		x = startX - 100;
-		vx = BOSS_WALKING_SPEED;
+	//if (vx < 0 && x < (startX - 100)) {
+	//	x = startX - 100;
+	//	vx = BOSS_WALKING_SPEED;
+	//}
+	//if (vx > 0 && x > startX) {
+	//	x = startX; vx = -vx;
+	//	vx = -BOSS_WALKING_SPEED;
+	//}
+	//if (vy < 0 && y < (startY - 25)) {
+	//	y = startY - 25;
+	//	vy = BOSS_WALKING_SPEED;
+	//}
+	//if (vy > 0 && y > startY) {
+	//	y = startY;
+	//	vy = -BOSS_WALKING_SPEED;
+	//}
+
+#pragma region Pre-collision
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	vector<LPGAMEENTITY> bricks;
+
+	coEvents.clear();
+	bricks.clear();
+	for (UINT i = 0; i < coObjects->size(); i++)
+	{
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK)
+			bricks.push_back(coObjects->at(i));
+
+		// turn off collision when die 
+		if (state != BOSS_STATE_DIE)
+			CalcPotentialCollisions(&bricks, coEvents);
 	}
-	if (vx > 0 && x > startX) {
-		x = startX; vx = -vx;
-		vx = -BOSS_WALKING_SPEED;
+#pragma endregion
+#pragma region coillision
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
 	}
-	if (vy < 0 && y < (startY - 25)) {
-		y = startY - 25;
-		vy = BOSS_WALKING_SPEED;
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		x += min_tx * dx + nx * 0.4f; // ko dính vào tường
+		y += min_ty * dy + ny * 0.4f;// ko dính vào tường
+
+		/*setRandomVxVy(vx, vy);*/
+		if (!nx && !ny)
+		{
+			nx = -nx;
+			vx = -vx;
+			vy = -vy;
+		}
+		else if (!nx)
+		{
+			vy = -vy;
+		}
+
+		else if (!ny)
+		{
+			nx = -nx;
+			vx = -vx;
+		}
+
+
+
+
 	}
-	if (vy > 0 && y > startY) {
-		y = startY;
-		vy = -BOSS_WALKING_SPEED;
-	}
+	//clean up collision events
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+#pragma endregion
+
 
 	updateTarget1();
 	updateTarget2();
