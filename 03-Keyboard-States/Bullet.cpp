@@ -1,5 +1,6 @@
 #include "Bullet.h"
 #include "PlayScene.h"
+#include "Boss.h"
 Bullet::Bullet()
 {
 	isActive = true;
@@ -89,7 +90,16 @@ void Bullet::HandlePlayerBulletCollision(vector<LPGAMEENTITY>* coObjects)
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
 				isActive = false;
+				if (e->obj->isBoss) {
+					CBoss::injured_state_time = 1;
+					CBoss::ani = BOSS_ANI_INJURED;
+				}
+					
+					//dynamic_cast<CBoss*>(e->obj)->SetState(BOSS_STATE_INJURED);
+
+				
 			}
+			
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

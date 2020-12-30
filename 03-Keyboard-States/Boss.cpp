@@ -6,11 +6,22 @@
 //#include "EnemyBullet.h"
 #include "Vec2.h"
 
+
+//CBoss* CBoss::__instance = NULL;
+//CBoss* CBoss::GetInstance()
+//{
+//	if (__instance == NULL) __instance = new CBoss();
+//	return __instance;
+//}
+int CBoss::injured_state_time = 0;
+int CBoss::bossalpha = 255;
+int CBoss::ani = 0;
 CBoss::CBoss(float xPos, float yPos, LPGAMEENTITY t) :
 	BigClawLeft(ANIMATION_SET_BOSS_CLAW_LEFT),
 	BigClawRight(ANIMATION_SET_BOSS_CLAW_RIGHT)
 
 {
+
 	srand(time(NULL));
 	x = xPos;
 	y = yPos;
@@ -20,6 +31,7 @@ CBoss::CBoss(float xPos, float yPos, LPGAMEENTITY t) :
 	target = t;
 	tag = ENEMY;
 	isActive = true;
+	isBoss = true;
 	dam = 1;
 	health = 10;
 	nx = -1;
@@ -63,10 +75,14 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 
 	if (injured_state_time != 0) {
-		HandleInjuredState();				//Handle Injured state
+		injured_state_time = 0;
+		injuredTimer->Reset();
+		injuredTimer->Start();
+						//Handle Injured state
+		DebugOut(L"DUC BOSS INJURED");
 		//return;
 	}
-
+	HandleInjuredState();
 	//x += dx;
 	//y += dy;
 
@@ -236,16 +252,15 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 void CBoss::Render()
 {
 	//DebugOut(L"Boss render x: %f, y: %f \n",x,y);
-	animationSet->at(0)->OldRender(x, y, bossalpha);
+	animationSet->at(ani)->OldRender(x, y, bossalpha);
 	//animationSet->at(0)->Render(x, y);
 
-	if (state == BOSS_STATE_DIE) {
-		return;
-	}
+
 
 	//RenderBoundingBox();
 	BigClawLeft.Render();
 	BigClawRight.Render();
+
 	for (int i = 0; i < 4; i++)
 	{
 		LeftArm[i].Render();
@@ -266,13 +281,14 @@ void CBoss::SetState(int state)
 		break;
 	case BOSS_STATE_WALKING:
 		ani = BOSS_ANI_WALKING;
-		nx = 1;
-		vx = -BOSS_WALKING_SPEED;
-		vy = BOSS_WALKING_SPEED;
+		//nx = 1;
+		//vx = -BOSS_WALKING_SPEED;
+		//vy = BOSS_WALKING_SPEED;
 		break;
 	case BOSS_STATE_INJURED:
 		ani = BOSS_ANI_INJURED;
 		injured_state_time = 1;
+		DebugOut(L"DUC BOSS health: %d", health);
 		break;
 	}
 }
@@ -483,16 +499,24 @@ void CBoss::BossClawSection::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void CBoss::BossClawSection::Render()
 {
-	animationSet->at(0)->OldRender(x, y);
-	//animationSet->at(0)->Render(x, y);
+	//animationSet->at(0)->OldRender(x, y);
+	////animationSet->at(0)->Render(x, y);
+
+	int claw_ani;
+	if (ani == BOSS_ANI_DIE)
+		claw_ani = BOSS_ANI_INJURED;
+	else
+		claw_ani = ani;
+	animationSet->at(claw_ani)->OldRender(x, y, bossalpha);
 
 }
 
 
 void CBoss::HandleInjuredState()
 {
-	injured_state_time++;
-	if (injured_state_time <= INJURED_STATE_TIME) {
+
+
+	if (!injuredTimer->IsTimeUp()) {
 		ani = BOSS_ANI_INJURED;
 	}
 	else
