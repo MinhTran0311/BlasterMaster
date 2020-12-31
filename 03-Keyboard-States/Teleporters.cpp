@@ -228,6 +228,7 @@ void Teleporters::SetState(int state)
 		}
 		case TELEPORTERS_STATE_TRANSFORMING:
 		{
+			Sound::GetInstance()->Play("TeleporterTransform", 0, 1);
 			break;
 		}
 		case TELEPORTERS_STATE_IDLE:

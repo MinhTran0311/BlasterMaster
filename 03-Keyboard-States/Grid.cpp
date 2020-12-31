@@ -428,9 +428,7 @@ bool CGrid::CheckBulletLimitation(EntityType typebullet, float xPlayerPos, float
 					if (bullet_count >= limit) return false;
 				}
 			}
-//	if (bullet_count < limit)
 	return true;
-//	return false;
 }
 
 void CGrid::SetTargetForEnemies(LPGAMEPLAYER player)
@@ -450,6 +448,36 @@ void CGrid::SetTargetForEnemies(LPGAMEPLAYER player)
 			}
 		}
 	}
+}
+
+int CGrid::GetNumberOfBulletInGrid(EntityType typeObject, float xPlayerPos, float yPlayerPos)
+{
+	int center_row = int(yPlayerPos) / CELL_SIZE.y;
+	int center_column = int(xPlayerPos) / CELL_SIZE.y;
+	int minRow = center_row - 3;
+	int maxRow = center_row + 3;
+	int minColumn = center_column - 3;
+	int maxColumn = center_column + 3;
+	if (minRow < 0)
+		minRow = 0;
+	if (maxRow >= rowGrid)
+		maxRow = rowGrid - 1;
+	if (minColumn < 0)
+		minColumn = 0;
+	if (maxColumn >= columnGrid)
+		maxColumn = columnGrid - 1;
+
+	int bullet_count = 0;
+	for (int i = minRow; i < maxRow; i++)
+		for (int j = minColumn; j < maxColumn; j++)
+			for (int k = 0; k < cells[i][j].size(); k++)
+			{
+				if (static_cast<Bullet*>(cells[i][j].at(k))->GetBulletType() == typeObject)
+				{
+					bullet_count++;
+				}
+			}
+	return bullet_count;
 }
 
 D3DXVECTOR2 CGrid::GetPosPlayerDefault()

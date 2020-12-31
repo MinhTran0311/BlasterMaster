@@ -1,6 +1,7 @@
 ﻿#include "Mines.h"
 #include "InjuringBrick.h"
 #include "global.h"
+#include "Sound.h"
 
 void Mines::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -80,6 +81,7 @@ void Mines::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	else SetState(MINES_STATE_IDLE);
 	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= MINES_SITEACTIVE_PLAYER)
 	{
+		Sound::GetInstance()->Play("MineBip", 0, 1);
 		isActive = true;
 	}
 	else isActive = false;

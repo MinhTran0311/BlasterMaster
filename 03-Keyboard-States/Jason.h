@@ -80,6 +80,7 @@
 
 #define FALLING_VELOCITY_UPPER_LIMITATION 0.02f
 
+#define BURST_FIRE_DELAY	100
 class JASON : public Player
 {
 
@@ -98,7 +99,7 @@ class JASON : public Player
 	int noOfElectricWeaponLeft = 3;
 	int noOfRocketsWeaponLeft = 3;
 	EntityType specialBulletType;
-
+	Timer* burstFireTimer = new Timer(BURST_FIRE_DELAY);
 public:
 	JASON(float x, float y, int health, int gundam);
 	JASON() {};

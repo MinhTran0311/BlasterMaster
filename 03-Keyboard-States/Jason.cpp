@@ -119,9 +119,20 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 
 #pragma endregion
-#pragma region Timer
+	if (FireTimer->IsTimeUp() && burstFireModeBullets > 0)
+	{
 
-#pragma endregion
+		if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, this->Getx(), this->Gety(), 3))
+		{
+			Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+
+			CGrid::GetInstance()->InsertGrid(bullet1);
+			burstFireModeBullets--;
+			Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
+			FireTimer->Start();
+			canFire = false;
+		}
+	}
 #pragma region Collision
 	CollisionHandle(coObjects);
 	//vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
@@ -204,7 +215,6 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	//	float rdx = 0;
 	//	float rdy = 0;
 	//	FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
 	//	for (UINT i = 0; i < coEventsResult.size(); i++)
 	//	{
 	//		LPCOLLISIONEVENT e = coEventsResult[i];
@@ -492,7 +502,7 @@ void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void JASON::FireBullet(int mode)
 {
-	if (!canFire)
+	if (!canFire || burstFireModeBullets>0)
 		return;
 	if (mode == 1)
 	{
@@ -527,11 +537,9 @@ void JASON::FireBullet(int mode)
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
 			{
 				Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
-				Bullet* bullet2= new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
-				Bullet* bullet3 = new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
+				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 				CGrid::GetInstance()->InsertGrid(bullet1);
-				CGrid::GetInstance()->InsertGrid(bullet2);
-				CGrid::GetInstance()->InsertGrid(bullet3);
+				burstFireModeBullets = 3-CGrid::GetInstance()->GetNumberOfBulletInGrid(JASON_NORMAL_BULLET, this->Getx(), this->Gety());
 			}
 			FireTimer->Start();
 			canFire = false;
@@ -541,11 +549,9 @@ void JASON::FireBullet(int mode)
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, this->Getx(), this->Gety(), 3))
 			{
 				Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
-				Bullet* bullet2 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
-				Bullet* bullet3 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 				CGrid::GetInstance()->InsertGrid(bullet1);
-				CGrid::GetInstance()->InsertGrid(bullet2);
-				CGrid::GetInstance()->InsertGrid(bullet3);
+				burstFireModeBullets = 3-CGrid::GetInstance()->GetNumberOfBulletInGrid(JASON_UPGRADE_BULLET, this->Getx(), this->Gety());
 			}
 			FireTimer->Start();
 			canFire = false;
