@@ -32,7 +32,7 @@
 
 #define DOMES_ANI_DIE							6
 
-#define DOMES_SITEACTIVE_PLAYER					250
+#define DOMES_SITEACTIVE_PLAYER					270
 
 #define DOMES_TIME_ATTACK						700
 
