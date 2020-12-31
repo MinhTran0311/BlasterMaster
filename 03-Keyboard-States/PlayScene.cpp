@@ -818,8 +818,6 @@ void PlayScene::Update(DWORD dt)
 	else
 #pragma region mạng và reset
 	{
-		//DebugOut(L"debug 1\n");
-		/*SetKeyhandler(this);*/
 		if (player->IsDoneDeath())
 		{
 			if (playerInfo.life < 0)

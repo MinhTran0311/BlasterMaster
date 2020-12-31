@@ -121,17 +121,20 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma endregion
 	if (FireTimer->IsTimeUp() && burstFireModeBullets > 0)
 	{
-
-		if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, this->Getx(), this->Gety(), 3))
+		if (dam == 1)
 		{
-			Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
-
+			Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
 			CGrid::GetInstance()->InsertGrid(bullet1);
-			burstFireModeBullets--;
-			Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
-			FireTimer->Start();
-			canFire = false;
 		}
+		else {
+
+			Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+			CGrid::GetInstance()->InsertGrid(bullet1);
+		}
+		burstFireModeBullets--;
+		Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
+		FireTimer->Start();
+		canFire = false;
 	}
 #pragma region Collision
 	CollisionHandle(coObjects);

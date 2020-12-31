@@ -183,7 +183,7 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Big_Sophia::Render()
 {
-	if (health < 0 || _isAutoRun)
+	if (isDoneDeath < 0 || _isAutoRun)
 		return;
 	RenderBoundingBox();
 	int ani = -1;
@@ -192,8 +192,13 @@ void Big_Sophia::Render()
 	{
 		ani = BIG_SOPHIA_ANI_DIE;
 		animationSet->at(ani)->Render(nx, x, y, alpha);
-		if (animationSet->at(ani)->GetFrame() > LAST_FRAME_BIG_SOPHIA_DIE)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
+		{
+			DebugOut(L"is done death\n");
 			isDoneDeath = true;
+			animationSet->at(ani)->ResetCurrentFrame();
+
+		}
 	}
 	else
 	{
