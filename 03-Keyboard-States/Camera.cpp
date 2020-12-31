@@ -23,7 +23,7 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 		}
 		//phương dọc
 
-		if (yPos + SCREEN_HEIGHT>= mapHeight)
+		if (yPos + SCREEN_HEIGHT/2>= mapHeight)
 		{
 			camy = mapHeight - SCREEN_HEIGHT;
 		}
@@ -40,7 +40,7 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 			}
 		}
 		if (yPos - camy > SCREEN_HEIGHT)
-			camy = yPos - SCREEN_HEIGHT / 2;
+			camy = yPos - SCREEN_HEIGHT / 4;
 
 	}
 	else if (playertype == TAG_BIG_SOPHIA)

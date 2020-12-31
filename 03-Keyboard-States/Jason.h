@@ -83,7 +83,7 @@
 #define BURST_FIRE_DELAY	100
 class JASON : public Player
 {
-
+private:
 	static JASON* instance;
 	bool isJumpHandle;
 	bool isGunFlipping = false;

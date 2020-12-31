@@ -120,6 +120,8 @@ void PlayScene::ChooseMap(int Stage)
 	idStage = Stage;
 	CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
 	sceneFilePath = listSceneFilePath[idStage - 11];
+	mapWidth = listWidth[idStage - 11];
+	mapHeight = listHeight[idStage - 11];
 	DebugOut(L"Init");
 	CGrid::GetInstance()->InitGrid(listWidth[idStage - 11], listHeight[idStage - 11]);
 	LoadSceneObjects(sceneFilePath);
@@ -855,13 +857,10 @@ void PlayScene::Update(DWORD dt)
 	{
 		BossAreaController();
 	}
-	//DebugOut(L"debug 2\n");
 	CheckPlayerReachGate();
-	//DebugOut(L"debug 3\n");
 #pragma region camera
 	float cx, cy;
-	mapWidth = listWidth[idStage - 11];
-	mapHeight = listHeight[idStage - 11];
+
 	player->GetPosition(cx, cy);
 	if (isNeedResetCamera)
 	{
