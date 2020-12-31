@@ -61,7 +61,7 @@ void Domes::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	coEvents.clear();
 	bricks.clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK)
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE)
 			bricks.push_back(coObjects->at(i));
 
 	// turn off collision when die 
@@ -340,8 +340,6 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 			directionclock = random_directionclock();
 			isDamaged = false;
 		}
-
-
 		break;
 
 	case 2:

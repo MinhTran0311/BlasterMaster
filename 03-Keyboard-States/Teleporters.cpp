@@ -27,7 +27,7 @@ void Teleporters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	bricks->clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK)
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE_OVERWORLD)
 			bricks->push_back(coObjects->at(i));
 
 		// turn off collision when die 

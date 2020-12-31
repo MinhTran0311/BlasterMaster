@@ -5,10 +5,10 @@
 SmallNavigatedEnemyBullet::SmallNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y, LPGAMEENTITY t)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_SMALL_ENEMY_BULLET));
+	this->SetState(SMALL_NAVI_ENEMY_BULLET_STATE_FLYING);
 	tag = EntityType::BULLET;
 	alpha = 255;
 	bbARGB = 0;
-	isHitBrick = isHitJason = false;
 	dam = 1;
 	switch (type_enemy)
 	{
@@ -181,7 +181,7 @@ void SmallNavigatedEnemyBullet::Render()
 		return;
 	RenderBoundingBox();
 	int ani;
-	if (!isHitJason && !isHitBrick)
+	if (state == SMALL_NAVI_ENEMY_BULLET_STATE_FLYING)
 	{
 		ani = SMALL_NAVI_ENEMY_BULLET_ANI;
 		animationSet->at(ani)->OldRender(x, y);
@@ -237,6 +237,13 @@ void SmallNavigatedEnemyBullet::SetState(int state)
 		{
 			vx = 0;
 			vy = 0;
+			break;
+		}
+		case SMALL_NAVI_ENEMY_BULLET_STATE_FLYING:
+		{
+			isActive = true;
+			isHitJason = false;
+			isHitBrick = false;
 			break;
 		}
 	}

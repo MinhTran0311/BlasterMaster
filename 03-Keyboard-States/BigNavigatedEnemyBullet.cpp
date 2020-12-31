@@ -4,10 +4,10 @@
 BigNavigatedEnemyBullet::BigNavigatedEnemyBullet(float posX, float posY, int type_enemy, int direct_x, int direct_y, LPGAMEENTITY t)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_BIG_ENEMY_BULLET));
+	this->SetState(BIG_NAVI_ENEMY_BULLET_STATE_FLYING);
 	tag = EntityType::BULLET;
 	alpha = 255;
 	bbARGB = 0;
-	isHitBrick = isHitJason = false;
 	dam = 1;
 	switch (type_enemy)
 	{
@@ -151,28 +151,21 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 				LPCOLLISIONEVENT e = coEventsResult[i];
 				if (e->obj->GetType() == EntityType::TAG_PLAYER)
 				{
-					if (isMoving)
+					if (!isHitJason)
 					{
-						if (!isHitJason)
-						{
-							this->SetState(BIG_NAVI_ENEMY_BULLET_STATE_HIT_PLAYER);
-							isHitJason = true;
-							dynamic_cast<Player*>(e->obj)->EnemyBulletHitPlayer(dam);
-						}
-						//x += min_tx * dx + nx * 0.4f;
-						//y += min_ty * dy + ny * 0.4f;
-						isMoving = false;
+						this->SetState(BIG_NAVI_ENEMY_BULLET_STATE_HIT_PLAYER);
+						dynamic_cast<Player*>(e->obj)->EnemyBulletHitPlayer(dam);
 					}
+					//x += min_tx * dx + nx * 0.4f;
+					//y += min_ty * dy + ny * 0.4f;
+					isMoving = false;
 				}
 				if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == EntityType::TAG_GATE|| e->obj->GetType() == EntityType::TAG_GATE_OVERWORLD)
 				{
-					if (isMoving)
-					{
-						this->SetState(BIG_NAVI_ENEMY_BULLET_STATE_HIT_BRICK);
-						x += min_tx * dx + nx * 0.4f;
-						y += min_ty * dy + ny * 0.4f;
-						isMoving = false;
-					}
+					this->SetState(BIG_NAVI_ENEMY_BULLET_STATE_HIT_BRICK);
+					x += min_tx * dx + nx * 0.4f;
+					y += min_ty * dy + ny * 0.4f;
+					isMoving = false;
 				}
 			}
 		}
@@ -188,7 +181,7 @@ void BigNavigatedEnemyBullet::Render()
 		return;
 	RenderBoundingBox();
 	int ani;
-	if (!isHitJason && !isHitBrick)
+	if (state == BIG_NAVI_ENEMY_BULLET_STATE_FLYING)
 	{
 		ani = BIG_NAVI_ENEMY_BULLET_ANI;
 		animationSet->at(ani)->OldRender(x, y);
@@ -234,8 +227,16 @@ void BigNavigatedEnemyBullet::SetState(int state)
 		}
 		case BIG_NAVI_ENEMY_BULLET_STATE_HIT_PLAYER:
 		{
+			isHitJason = true;
 			vx = 0;
 			vy = 0;
+			break;
+		}
+		case BIG_NAVI_ENEMY_BULLET_STATE_FLYING:
+		{
+			isActive = true;
+			isHitJason = false;
+			isHitBrick = false;
 			break;
 		}
 	}

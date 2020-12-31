@@ -19,21 +19,16 @@ void Mines::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		return;
 	}
 #pragma region fall down
-	vy += MINES_GRAVITY * dt;
+	//vy += MINES_GRAVITY * dt;
 #pragma endregion
 #pragma region Pre-collision
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
-
-	coEvents.clear();
-	colliable_Objects->clear();
-
-	for (int i = 0; i < coObjects->size(); i++)
+	/*for (UINT i = 0; i < coObjects->size(); i++)
 	{
 		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK)
-			colliable_Objects->push_back(coObjects->at(i));
-	}
+			colliable_Objects.push_back(coObjects->at(i));
+		if (state != MINES_STATE_DIE)
+			CalcPotentialCollisions(&colliable_Objects, coEvents);
+	}*/
 	//colliable_Objects->push_back(target);
 	if (target->IsCollidingObject(this))
 	{
@@ -48,33 +43,7 @@ void Mines::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		}
 	}
 #pragma endregion
-	
-#pragma region coillision
-	CalcPotentialCollisions(colliable_Objects, coEvents);
-	if (canExplosiving)
-	{
-		if (coEvents.size() == 0)
-		{
-				y += dy;
-		}
-		else
-		{
-			float min_tx, min_ty, nx = 0, ny;
-			float rdx = 0;
-			float rdy = 0;
 
-			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-			for (UINT i = 0; i < coEventsResult.size(); i++)
-			{
-					x += min_tx * dx + nx * 0.4f;
-					y += min_ty * dy + ny * 0.4f;
-			}
-		}
-	}
-
-	//clean up collision events
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-#pragma endregion
 #pragma region Active
 	if (!isActive) return;
 	else SetState(MINES_STATE_IDLE);
@@ -95,7 +64,7 @@ void Mines::Render()
 	//else
 	//	nx = -1;
 
-	int ani = MINES_ANI_IDLING;
+	int ani;
 	if (state == MINES_STATE_DIE) {
 		ani = MINES_ANI_DIE;
 		//DebugOut(L"So sprite %d\n", animationSet->at(ani)->GetFrame());
@@ -107,12 +76,15 @@ void Mines::Render()
 		animationSet->at(ani)->Render(nx, x, y + MINES_BBOX_HEIGHT - MINES_BBOX_HEIGHT_DIE - 3);
 	}
 	else if (state == MINES_STATE_IDLE)
-		animationSet->at(ani)->Render(nx, x, y);
+	{
+		ani = MINES_ANI_IDLING;
+	}
+	animationSet->at(ani)->Render(nx, x, y);
 }
 
 Mines::Mines(float x, float y, LPGAMEENTITY t)
 {
-	SetState(MINES_STATE_IDLE);
+	this->SetState(MINES_STATE_IDLE);
 	enemyType = MINES;
 	tag = EntityType::ENEMY;
 	this->x = x;

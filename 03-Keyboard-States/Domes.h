@@ -1,50 +1,3 @@
-//#pragma once
-//#include "Enemy.h"
-//#include "Jason.h"
-//#include "Timer.h"
-//#include "Brick.h"
-//#include <ctime>
-//#include "Timer.h"
-//
-//#define DOMES_WALKING_SPEED					0.03f;
-//#define DOMES_GRAVITY						0.0002f
-//
-//#define DOMES_ATTACK_SPEED					0.3f
-//
-//#define DOMES_BBOX_WIDTH					16
-//#define DOMES_BBOX_HEIGHT					16
-//#define DOMES_BBOX_HEIGHT_DIE				9
-//
-//#define DOMES_STATE_IDLE					0
-//#define DOMES_STATE_WALKING_BOTTOM			100
-//#define DOMES_STATE_WALKING_LEFT			200
-//#define DOMES_STATE_WALKING_TOP				300
-//#define DOMES_STATE_WALKING_RIGHT			400
-//#define DOMES_STATE_ATTACK_LEFT_RIGHT		500
-//#define DOMES_STATE_ATTACK_TOP_BOTTOM		600
-//#define DOMES_STATE_DIE						700
-//
-//#define DOMES_ANI_WALKING_BOTTOM			0
-//#define DOMES_ANI_WALKING_LEFT				1
-//#define DOMES_ANI_WALKING_TOP				2
-//#define DOMES_ANI_WALKING_RIGHT				3
-//
-////#define DOMES_ANI_ATTACK_LEFT_RIGHT		4
-//#define DOMES_ANI_ATTACK_TOP_BOTTOM			4
-//
-//
-//
-//#define DOMES_ANI_DIE						5
-//
-//#define DOMES_SITEACTIVE_PLAYER				250
-//#define DOMES_SITEFOLLOW_PLAYER				250
-//
-//#define DOMES_TIME_ATTACK					500
-//
-//#define DOMES_TIME_DELAYATTACK				1500
-//
-//#define DOMES_MAXHEALTH						1
-
 #pragma once
 #include "Enemy.h"
 #include "Timer.h"
@@ -79,13 +32,13 @@
 
 #define DOMES_ANI_DIE							6
 
-#define DOMES_SITEACTIVE_PLAYER					150
+#define DOMES_SITEACTIVE_PLAYER					250
 
-#define DOMES_TIME_ATTACK						500
+#define DOMES_TIME_ATTACK						700
 
 #define DOMES_TIME_DELAYATTACK					1500
 
-#define DOMES_TIME_ATTACK_LEFT_RIGHT			1300
+#define DOMES_TIME_ATTACK_LEFT_RIGHT			1500
 
 #define DOMES_MAXHEALTH							1
 
