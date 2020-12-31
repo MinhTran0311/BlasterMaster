@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Blaster_Master", "03-Keyboard-States\03-Keyboard-States.vcxproj", "{5BB3DC44-D6AF-494B-9841-43B9AE3C6588}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05-ScenceManager", "05-ScenceManager\05-ScenceManager.vcxproj", "{C83A385D-5992-4E1B-B783-AB1D446414D5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Blaster_Master", "Blaster_Master\Blaster_Master.vcxproj", "{5BB3DC44-D6AF-494B-9841-43B9AE3C6588}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,20 +31,6 @@ Global
 		{5BB3DC44-D6AF-494B-9841-43B9AE3C6588}.Release|Win32.Build.0 = Release|Win32
 		{5BB3DC44-D6AF-494B-9841-43B9AE3C6588}.Release|x64.ActiveCfg = Release|x64
 		{5BB3DC44-D6AF-494B-9841-43B9AE3C6588}.Release|x64.Build.0 = Release|x64
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Debug|Win32.Build.0 = Debug|Win32
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Debug|x64.ActiveCfg = Debug|x64
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Debug|x64.Build.0 = Debug|x64
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Release|Any CPU.ActiveCfg = Release|Win32
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Release|Win32.ActiveCfg = Release|Win32
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Release|Win32.Build.0 = Release|Win32
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Release|x64.ActiveCfg = Release|x64
-		{C83A385D-5992-4E1B-B783-AB1D446414D5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
