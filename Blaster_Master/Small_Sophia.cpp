@@ -299,7 +299,7 @@ void Small_Sophia::FireBullet(int mode)
 		return;
 	if (CGrid::GetInstance()->CheckBulletLimitation(SMALL_SOPHIA_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
 	{
-		Bullet* bullet = new SmallSophiaBullet(this->Getx(), this->Gety(), 0, nx);
+		LPBULLET bullet = new SmallSophiaBullet(this->Getx(), this->Gety(), 0, nx);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 	FireTimer->Start();

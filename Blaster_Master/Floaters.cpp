@@ -211,22 +211,22 @@ void Floaters::shootBulletToTarget()
 {
 	if (target->Getx() >= x && target->Gety() <= y)
 	{
-		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 1, -1, target);
+		LPBULLET bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 1, -1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 	else if (target->Getx() >= x && target->Gety() > y)
 	{
-		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 1, 1, target);
+		LPBULLET bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, 1, 1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 	else if (target->Getx() <= x && target->Gety() >= y)
 	{
-		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, -1, 1, target);
+		LPBULLET bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, -1, 1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 	else if (target->Getx() <= x && target->Gety() <= y)
 	{
-		Bullet* bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, -1, -1, target);
+		LPBULLET bullet = new SmallNavigatedEnemyBullet(x + BBOX_WIDTH / 2, y + BBOX_HEIGHT / 2, FLOATERS, -1, -1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 }

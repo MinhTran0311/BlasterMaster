@@ -375,7 +375,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			{
 				if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3))
 				{
-					Bullet* bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
+					LPBULLET bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
 					CGrid::GetInstance()->InsertGrid(bullet);
 				}
 				break;

@@ -123,12 +123,12 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	{
 		if (dam == 1)
 		{
-			Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
+			LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
 			CGrid::GetInstance()->InsertGrid(bullet1);
 		}
 		else {
 
-			Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+			LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
 			CGrid::GetInstance()->InsertGrid(bullet1);
 		}
 		burstFireModeBullets--;
@@ -513,7 +513,7 @@ void JASON::FireBullet(int mode)
 		{
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
 			{
-				Bullet* bullet = new JasonBullet(this->Getx(), this->Gety(), 0 , nx, isGunFlipping);
+				LPBULLET bullet = new JasonBullet(this->Getx(), this->Gety(), 0 , nx, isGunFlipping);
 				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 				CGrid::GetInstance()->InsertGrid(bullet);
 			}
@@ -524,7 +524,7 @@ void JASON::FireBullet(int mode)
 		{
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, this->Getx(), this->Gety(), 3))
 			{
-				Bullet* bullet = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				LPBULLET bullet = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
 				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 				CGrid::GetInstance()->InsertGrid(bullet);
 			}
@@ -539,7 +539,7 @@ void JASON::FireBullet(int mode)
 		{
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
 			{
-				Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
+				LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
 				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 				CGrid::GetInstance()->InsertGrid(bullet1);
 				burstFireModeBullets = 3-CGrid::GetInstance()->GetNumberOfBulletInGrid(JASON_NORMAL_BULLET, this->Getx(), this->Gety());
@@ -551,7 +551,7 @@ void JASON::FireBullet(int mode)
 		{
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, this->Getx(), this->Gety(), 3))
 			{
-				Bullet* bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
 				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 				CGrid::GetInstance()->InsertGrid(bullet1);
 				burstFireModeBullets = 3-CGrid::GetInstance()->GetNumberOfBulletInGrid(JASON_UPGRADE_BULLET, this->Getx(), this->Gety());
@@ -568,7 +568,7 @@ void JASON::FireBullet(int mode)
 		{
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ROCKET_BULLET, this->Getx(), this->Gety(), 2) && noOfRocketsWeaponLeft>0)
 			{
-				Bullet* rocket = new JasonRocket(this->Getx(), this->Gety(), nx);
+				LPBULLET rocket = new JasonRocket(this->Getx(), this->Gety(), nx);
 				CGrid::GetInstance()->InsertGrid(rocket);
 				Sound::GetInstance()->Play("FireRocket", 0, 1);
 				noOfRocketsWeaponLeft--;
@@ -580,7 +580,7 @@ void JASON::FireBullet(int mode)
 		{
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ELECTRIC_BULLET, this->Getx(), this->Gety(), 1) && noOfElectricWeaponLeft>0)
 			{
-				Bullet* electric = new ElectricBullet(this->Getx(), this->Gety());
+				LPBULLET electric = new ElectricBullet(this->Getx(), this->Gety());
 				CGrid::GetInstance()->InsertGrid(electric);
 				noOfElectricWeaponLeft--;
 				Sound::GetInstance()->Play("FireElectricBullet", 0, 1);
@@ -590,7 +590,7 @@ void JASON::FireBullet(int mode)
 		case JASON_HOMING_MISSLES:
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_HOMING_MISSLES, this->Getx(), this->Gety(), 1) && noOfHomingMisslesWeaponLeft>0)
 			{
-				Bullet* homingMissles = new HomingMissles(this->Getx(), this->Gety(), nx);
+				LPBULLET homingMissles = new HomingMissles(this->Getx(), this->Gety(), nx);
 				CGrid::GetInstance()->InsertGrid(homingMissles);
 				Sound::GetInstance()->Play("FireHomingMissles", 0, 1);
 				noOfHomingMisslesWeaponLeft--;

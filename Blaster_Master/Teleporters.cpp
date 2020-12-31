@@ -259,12 +259,12 @@ void Teleporters::shootBulletToTarget()
 	{
 		if (target->y < y)
 		{
-			Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 0, -1, target);
+			LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 0, -1, target);
 			CGrid::GetInstance()->InsertGrid(bullet);
 		}
 		else if (target->y > y)
 		{
-			Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 0, 1, target);
+			LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 0, 1, target);
 			CGrid::GetInstance()->InsertGrid(bullet);
 		}
 	}
@@ -272,33 +272,33 @@ void Teleporters::shootBulletToTarget()
 	{
 		if (target->x >= x)
 		{
-			Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 1, 0, target);
+			LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 1, 0, target);
 			CGrid::GetInstance()->InsertGrid(bullet);
 		}
 		else if (target->x < x)
 		{
-			Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, -1, 0, target);
+			LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, -1, 0, target);
 			CGrid::GetInstance()->InsertGrid(bullet);
 		}
 	}
 	else if (target->x > x && target->y < y)
 	{
-		Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 1, -1, target);
+		LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 1, -1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 	else if (target->x > x && target->y > y)
 	{
-		Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 1, 1, target);
+		LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 1, 1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 	else if (target->x < x && target->y > y)
 	{
-		Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, -1, 1, target);
+		LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, -1, 1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 	else if (target->x < x && target->y < y)
 	{
-		Bullet* bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, -1, -1, target);
+		LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, -1, -1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 }

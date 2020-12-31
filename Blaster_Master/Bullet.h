@@ -15,7 +15,7 @@ typedef Bullet* LPBULLET;
 class Bullet : public Entity
 {
 
-public:
+protected:
 	int totalTime;
 	float x_Start_Pos, y_Start_Pos;
 	bool able_firing;
@@ -25,7 +25,7 @@ public:
 	float bullet_speed;
 	bool  isHitBrick, isHitEnemy, isHitJason;
 	float timeDelayed, timeDelayedMax;
-
+public:
 	// phương thức
 	Bullet();
 	~Bullet();

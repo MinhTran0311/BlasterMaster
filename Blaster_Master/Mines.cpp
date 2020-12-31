@@ -114,7 +114,7 @@ void Mines::SetState(int state)
 				died = true;
 				for (int i = 0; i < numberBullet; i++)
 				{
-					Bullet* bullet = new SmallNavigatedEnemyBullet(x + MINES_BBOX_WIDTH / 2, y + MINES_BBOX_HEIGHT / 2, MINES, 1, -1, target);
+					LPBULLET bullet = new SmallNavigatedEnemyBullet(x + MINES_BBOX_WIDTH / 2, y + MINES_BBOX_HEIGHT / 2, MINES, 1, -1, target);
 					CGrid::GetInstance()->InsertGrid(bullet);
 				}
 			}

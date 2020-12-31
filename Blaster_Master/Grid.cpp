@@ -422,7 +422,7 @@ bool CGrid::CheckBulletLimitation(EntityType typebullet, float xPlayerPos, float
 		for (int j= minColumn; j< maxColumn;j++)
 			for (int k = 0; k < cells[i][j].size(); k++)
 			{
-				if (static_cast<Bullet*>(cells[i][j].at(k))->GetBulletType() == typebullet)
+				if (static_cast<LPBULLET>(cells[i][j].at(k))->GetBulletType() == typebullet)
 				{
 					bullet_count++;
 					if (bullet_count >= limit) return false;
@@ -472,7 +472,7 @@ int CGrid::GetNumberOfBulletInGrid(EntityType typeObject, float xPlayerPos, floa
 		for (int j = minColumn; j < maxColumn; j++)
 			for (int k = 0; k < cells[i][j].size(); k++)
 			{
-				if (static_cast<Bullet*>(cells[i][j].at(k))->GetBulletType() == typeObject)
+				if (static_cast<LPBULLET>(cells[i][j].at(k))->GetBulletType() == typeObject)
 				{
 					bullet_count++;
 				}

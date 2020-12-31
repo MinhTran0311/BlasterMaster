@@ -248,12 +248,12 @@ void Eyeballs::shootBulletToTarget()
 	{
 		if (target->Gety() < y)
 		{
-			Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 0, -1, target);
+			LPBULLET bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 0, -1, target);
 			CGrid::GetInstance()->InsertGrid(bullet);
 		}
 		else if (target->Gety() > y)
 		{
-			Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 0, 1, target);
+			LPBULLET bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 0, 1, target);
 			CGrid::GetInstance()->InsertGrid(bullet);
 		}
 	}
@@ -261,33 +261,33 @@ void Eyeballs::shootBulletToTarget()
 	{
 		if (target->Getx() >= x)
 		{
-			Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, 0, target);
+			LPBULLET bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, 0, target);
 			CGrid::GetInstance()->InsertGrid(bullet);
 		}
 		else if (target->Getx() < x)
 		{
-			Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, 0, target);
+			LPBULLET bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, 0, target);
 			CGrid::GetInstance()->InsertGrid(bullet);
 		}
 	}
 	else if (target->Getx() > x && target->Gety() < y)
 	{
-		Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, -1, target);
+		LPBULLET bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, -1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 	else if (target->Getx() > x && target->Gety() > y)
 	{
-		Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, 1, target);
+		LPBULLET bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, 1, 1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 	else if (target->Getx() < x && target->Gety() > y)
 	{
-		Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, 1, target);
+		LPBULLET bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, 1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 	else if (target->Getx() < x && target->Gety() < y)
 	{
-		Bullet* bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, -1, target);
+		LPBULLET bullet = new BigNavigatedEnemyBullet(x + EYEBALLS_BBOX_WIDTH / 2, y + EYEBALLS_BBOX_HEIGHT / 2, EYEBALLS, -1, -1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
 }
