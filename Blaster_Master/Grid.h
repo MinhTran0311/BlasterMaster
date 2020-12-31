@@ -1,0 +1,49 @@
+﻿#pragma once
+#include <Windows.h>
+#include "Entity.h"
+#include "Camera.h"
+#include "Jason.h"
+#include "Worms.h"
+#include "Brick.h"
+#include "global.h"
+#include "Enemy.h"
+#include "SceneManager.h"
+#include "Jason.h"
+#include "Gate.h"
+#include "Player.h"
+
+#define CELL_SIZE D3DXVECTOR2(160,137)
+#define MAX_NUMBER_OF_JASON_BULLET 3
+
+class CGrid
+{
+	LPGAMEPLAYER player;
+	vector<LPGAMEENTITY> FilterObjectDuplicate(vector<LPGAMEENTITY> obj);
+	static CGrid* __instance;
+	vector<LPGAMEENTITY>** cells;
+	int columnGrid, rowGrid;
+	float cellW, cellH;
+	//string fileobj;
+	D3DXVECTOR2 posPlayerDefault;
+public:
+	vector<pair<int, int>>* bossGrid;
+	static CGrid* GetInstance();
+	void InitGrid(int _mapW, int _mapH);
+	CGrid();
+	void LoadGrid(vector<string> tokens, LPGAMEPLAYER player);
+	void InsertGrid(LPGAMEENTITY obj, vector<pair<int, int>> posGrid);
+	~CGrid();
+	void UpdateGrid(vector<LPGAMEENTITY> objects);
+	void RemoveObj(LPGAMEENTITY obj, bool isDeletePointer = true);
+	void UnLoadGrid();
+	void InsertGrid(LPGAMEENTITY obj);
+	bool CheckBulletLimitation(EntityType typebullet, float xPlayerPos, float yPlayerPos, int limit);
+	void SetTargetForEnemies(LPGAMEPLAYER player);
+	int GetNumberOfBulletInGrid(EntityType,float, float);
+	//LPGAMEENTITY getPlayerPointer() { return player; };
+
+	D3DXVECTOR2 GetPosPlayerDefault();
+	vector<LPGAMEENTITY> GetListUpdateObj(RECT rectCam);
+	vector<LPGAMEENTITY> GetListRenderObj(RECT rectCam);
+};
+
