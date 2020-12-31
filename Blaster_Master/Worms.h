@@ -7,7 +7,7 @@
 #include <ctime>
 
 #define WORM_WALKING_SPEED	0.05f
-#define WORM_GRAVITY		0.0002f
+#define WORM_GRAVITY		0.00015f
 #define WORM_CLIMB_SPEED_Y	0.06f	
 
 #define WORM_BBOX_WIDTH 17
@@ -33,14 +33,14 @@ class Worm : public Enemy
 	bool isContainedInLarva;
 	float larvaFloor;
 	int brickHeight;
-
+	int canClimbLarva;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects=NULL);
 	virtual void Render();
 
 public:
-	Worm(float x, float y, LPGAMEENTITY t);
+	Worm(float x, float y, LPGAMEENTITY t, int canClimb);
 
 	void FollowTarget(LPGAMEENTITY target);
 	virtual void SetState(int state);

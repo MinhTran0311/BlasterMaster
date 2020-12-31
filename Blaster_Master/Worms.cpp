@@ -48,7 +48,7 @@ void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		{
 			if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK)
 				colliable_Objects.push_back(coObjects->at(i));
-			if (coObjects->at(i)->GetType() == TAG_INJURING_BRICK)
+			if (coObjects->at(i)->GetType() == TAG_INJURING_BRICK && canClimbLarva == 1)
 			{
 				if (coObjects->at(i)->IsCollidingObject(this))
 					isContainedInLarva = true;
@@ -144,7 +144,7 @@ void Worm::Render()
 		animationSet->at(ani)->Render(nx, x, y);
 }
 
-Worm::Worm(float xPos, float yPos, LPGAMEENTITY t)
+Worm::Worm(float xPos, float yPos, LPGAMEENTITY t, int canClimb)
 {
 	SetState(WORM_STATE_WALKING);
 	enemyType = WORM;
@@ -155,9 +155,9 @@ Worm::Worm(float xPos, float yPos, LPGAMEENTITY t)
 	isFollow = false;
 	this->target = t;
 	health = WORM_MAXHEALTH;
-
 	bbARGB = 250;
 	isContainedInLarva = false;
+	canClimbLarva = canClimb;
 }
 
 void Worm::FollowTarget(LPGAMEENTITY target) 
