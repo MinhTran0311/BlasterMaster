@@ -15,6 +15,7 @@
 
 class BossBullet : public Bullet
 {
+private:
 	LPGAMEENTITY target;
 	float vt;
 	float xBullet, yBullet, xTarget, yTarget;

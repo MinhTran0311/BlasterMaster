@@ -6,13 +6,13 @@
 
 class InjuringBrick : public Entity
 {
-public:
+private:
 	float frameW, frameH;
 
-	int GetDamage() { return dam; };
-
+public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	InjuringBrick(int x, int y, float frameW, float frameH);
 	~InjuringBrick();
+	int GetDamage() { return dam; };
 };

@@ -19,12 +19,12 @@
 
 class HealthBar
 {
-public:
+private:
 	float x, y;
 	int currentPlayerHealth, maxPlayerHealth;
 	vector<LPANIMATION_SET> health;
 	bool isGun;
-		
+public:
 	HealthBar(int maxHealth, int isGun);
 	~HealthBar();
 	void Update(int currentHealth, float X, float Y);

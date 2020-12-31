@@ -12,8 +12,9 @@
 #define PLAYER_STATE_DIE	100
 class Player :public Entity
 {
-	static Player* instance;
+
 protected:
+	static Player* instance;
 	EntityType _PlayerType;
 
 	int alpha = 255;
@@ -41,23 +42,15 @@ public:
 	Player();
 	~Player();
 	static Player* GetInstance();
-
 	//gate
-
 	LPGAMEENTITY GetGate() { return gate; };
 	void ResetGate() { gate = NULL; };
 	bool GetGateColliding() { return GateColliding; };
 	void SetGateColliding(bool done) { GateColliding = done; };
-
 	void SetState(int state) { Entity::SetState(state); };
-
 	void changeAlpha();
-
-	
-
 	//get set functions
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
-
 	void Setvx(float new_vx) { vx = new_vx; }
 	void Setvy(float new_vy) { vy = new_vy; };
 	float Getvy() { return vy; };

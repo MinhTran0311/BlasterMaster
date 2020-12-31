@@ -14,9 +14,9 @@
 
 class SoftBrick : public Entity
 {
-public:
+private:
 	float frameW, frameH;
-
+public:
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

@@ -6,17 +6,15 @@
 #define TYPE_RIGHT_CLAW 200
 class BossArm : public Enemy
 {
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
-	virtual void Render();
-
 private:
-
 	CBoss* Boss;
 	int type;
 public:
-	BossArm(CBoss* boss, int _type);
-
+	BossArm(CBoss* boss, int _type);	
+	
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
+	virtual void Render();
 
 };
 

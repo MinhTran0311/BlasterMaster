@@ -17,6 +17,7 @@
 
 class CGrid
 {
+private:
 	LPGAMEPLAYER player;
 	vector<LPGAMEENTITY> FilterObjectDuplicate(vector<LPGAMEENTITY> obj);
 	static CGrid* __instance;
@@ -40,7 +41,6 @@ public:
 	bool CheckBulletLimitation(EntityType typebullet, float xPlayerPos, float yPlayerPos, int limit);
 	void SetTargetForEnemies(LPGAMEPLAYER player);
 	int GetNumberOfBulletInGrid(EntityType,float, float);
-	//LPGAMEENTITY getPlayerPointer() { return player; };
 
 	D3DXVECTOR2 GetPosPlayerDefault();
 	vector<LPGAMEENTITY> GetListUpdateObj(RECT rectCam);

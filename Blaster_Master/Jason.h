@@ -122,10 +122,6 @@ public:
 	bool IsJumping() { return isJumping; };
 	void SetIsJumping(bool jump) { isJumping = jump; };
 	void GetInfoForBullet(int& direct, bool& isTargetTop, float& playerx, float& playery) { direct = nx; isTargetTop = isGunFlipping; playerx = x; playery = y; }
-
-#pragma region sceneswitching
-
-#pragma endregion
 	virtual void FireBullet(int mode);
 	virtual void GetPositionCenter(float& x, float& y) { x = this->x + SOPHIA_JASON_BBOX_WIDTH / 2; y = this->y + SOPHIA_JASON_BBOX_HEIGHT / 2; }
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);

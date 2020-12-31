@@ -31,14 +31,16 @@
 
 class Jumpers : public Enemy
 {
+private:
 	bool isFollow;
 	int indexFollow=0;
 	bool isJump = false;
+public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
 	virtual void Render();
 	int randomTimeJump();
-public:
+
 	Jumpers(float x, float y, LPGAMEENTITY t);
 
 	void FollowTarget(LPGAMEENTITY target);

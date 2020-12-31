@@ -29,17 +29,18 @@
 
 class Worm : public Enemy
 {
+private:
+
 	bool isFollow;
 	bool isContainedInLarva;
 	float larvaFloor;
 	int brickHeight;
 
-
+public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects=NULL);
 	virtual void Render();
 
-public:
 	Worm(float x, float y, LPGAMEENTITY t);
 
 	void FollowTarget(LPGAMEENTITY target);

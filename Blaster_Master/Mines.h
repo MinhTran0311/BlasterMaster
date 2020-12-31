@@ -29,14 +29,15 @@
 
 class Mines : public Enemy
 {
+private:
 	bool canExplosiving;
 	bool isHitJason;
 	bool died;
+public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
 	virtual void Render();
 
-public:
 	Mines(float x, float y, LPGAMEENTITY t);
 	virtual void SetState(int state);
 	void SelfDestroy();

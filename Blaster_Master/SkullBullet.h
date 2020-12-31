@@ -27,6 +27,7 @@
 
 class SkullBullet : public Bullet
 {
+private:
 	LPGAMEENTITY target;
 
 	bool rolling = false;

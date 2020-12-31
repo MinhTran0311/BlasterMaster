@@ -34,16 +34,18 @@
 
 class Cannons : public Enemy
 {
+private:
 	bool isAttack;
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
-	virtual void Render();
 	Timer* delayAttackTimer = new Timer(CANNONS_DELAY_ATTACK);
 	bool changeAttackToTopBottom;
 	bool isAttackTop;
 	
 public:
 	Cannons(float x, float y, LPGAMEENTITY t);
+
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
+	virtual void Render();
 
 	void AttackTarget(LPGAMEENTITY target);
 	virtual void SetState(int state);

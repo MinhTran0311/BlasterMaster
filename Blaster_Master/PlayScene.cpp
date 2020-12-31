@@ -759,7 +759,7 @@ void PlayScene::CheckPlayerReachGate()
 				GateOverworld* gate = dynamic_cast<GateOverworld*>(player->GetGate());
 				if ((gate->GetCamDirection() == 1 && player->GetDirection() != 0) || (gate->GetCamDirection() == 2 && player->GetDirctionY() != 0))
 				{
-					dynamic_cast<Big_Sophia*>(player)->AutoRun(gate->directionCam);
+					dynamic_cast<Big_Sophia*>(player)->AutoRun(gate->GetCamDirection());
 					xPosCamGo = gate->GetXPosGo();
 					xPosCamBack = gate->GetXPosBack();
 					yPosCamGo = gate->GetYPosGo();
@@ -920,7 +920,8 @@ void PlayScene::Update(DWORD dt)
 
 				float _xtemp, _ytemp;
 				backup->GetPosition(_xtemp, _ytemp);
-#pragma region add item into grid
+
+				// add item into grid
 				switch (backup->GetType())
 				{
 				case EntityType::ENEMY:
@@ -932,12 +933,11 @@ void PlayScene::Update(DWORD dt)
 				default:
 					break;
 				}
-#pragma endregion
+
 				CGrid::GetInstance()->RemoveObj(backup, true);
 				k = 1;
 				i--;
 			}
-			//item effect
 			else {
 				k = 0;
 			}

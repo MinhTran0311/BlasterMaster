@@ -18,6 +18,7 @@
 #define BIG_BULLET_ENEMY_DELAY			1000
 class BigNavigatedEnemyBullet : public Bullet
 {
+private:
 	LPGAMEENTITY target;
 	float vt;
 	float xBullet, yBullet, xTarget, yTarget;

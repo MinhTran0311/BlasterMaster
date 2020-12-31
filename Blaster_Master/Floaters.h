@@ -34,18 +34,20 @@
 
 class Floaters : public Enemy
 {
+private:
 	bool canAttack = true;
 	bool isTargeting;
 	bool firstTimeActive;
 	Random* r = new Random();
 	Timer* cooldownTimer = new Timer(TIMER_ATTACK);
+public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();
 	virtual void shootBulletToTarget();
 	virtual bool inTargetRange();
 	virtual void setRandomVxVy(float& vx, float& vy);
-public:
+
 	Floaters(float x, float y, LPGAMEENTITY t);
 	virtual void Attack(LPGAMEENTITY target=NULL);
 	virtual void SetState(int state);

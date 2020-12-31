@@ -33,14 +33,16 @@
 
 class Skulls : public Enemy
 {
+private:
 	int time = 0;
 	bool Attacked = false;
 	bool isTargeting;
+public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();
 	virtual bool inTargetRange();
-public:
+
 	Skulls(float x, float y, LPGAMEENTITY t);
 	virtual void Attack(LPGAMEENTITY target);
 	virtual void SetState(int state);

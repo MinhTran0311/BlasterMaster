@@ -44,6 +44,7 @@
 
 class Domes : public Enemy
 {
+private:
 	int dgravity;
 	int directionclock;
 	bool firstFollow;
@@ -54,13 +55,15 @@ class Domes : public Enemy
 	Timer* delayAttack = new Timer(DOMES_TIME_DELAYATTACK);
 	Timer* startAttack = new Timer(DOMES_TIME_ATTACK);
 	Timer* timerAttackLeftRight = new Timer(DOMES_TIME_ATTACK_LEFT_RIGHT);
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
-	virtual void Render();
+
 
 
 public:
 	Domes(float x, float y, LPGAMEENTITY t, int gravity);
+
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
+	virtual void Render();
 
 	virtual void AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float ny);
 	virtual void StartAttack();

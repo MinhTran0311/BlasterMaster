@@ -8,9 +8,10 @@
 
 class GateOverworld : public Entity
 {
-public:
+private:
 	int directionCam;	
 	float xPosGo, yPosGo, xPosBack, yPosBack;
+public:
 	GateOverworld(float x, float y, float intoXGo, float intoXBack, float intoYGo, float intoYBack, int directCam);
 	~GateOverworld();
 

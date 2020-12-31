@@ -37,6 +37,7 @@
 
 class Insects : public Enemy
 {
+private:
 	bool firstTimeActive = false;
 	bool isDroping = true;
 	int flyDropRange;
@@ -44,6 +45,7 @@ class Insects : public Enemy
 	float originalY;
 	bool isTargeting;
 	Random* r = new Random();
+public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();
@@ -52,7 +54,7 @@ class Insects : public Enemy
 	virtual void fly(const DWORD &dt);
 	virtual void setRandomFlyDropRange();
 	virtual void setRandomVx();
-public:
+
 	Insects(float x, float y, LPGAMEENTITY t);
 	virtual void SetState(int state);
 	void SelfDestroy();

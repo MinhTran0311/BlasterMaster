@@ -38,21 +38,24 @@
 
 class Eyeballs : public Enemy
 {
+private:
 	Random* r = new Random();
 	bool canFly;
 	bool canAttack;
 	bool canIdle;
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
+
 	Timer* flyTimer = new Timer(EYEBALLS_TIME_FLY);
 	Timer* idleTimer = new Timer(EYEBALLS_TIME_IDLE);
 	Timer* attackTimer = new Timer(EYEBALLS_TIME_ATTACK);
-	virtual void Render();
-	virtual void shootBulletToTarget();
-	virtual void setRandomVxVy(float& vx, float& vy);
+
 public:
 	Eyeballs(float x, float y, LPGAMEENTITY t);
 	void FlyAndAttackTarget();
 	virtual void SetState(int state);
 	void SelfDestroy();
+	virtual void Render();
+	virtual void shootBulletToTarget();
+	virtual void setRandomVxVy(float& vx, float& vy);
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
 };

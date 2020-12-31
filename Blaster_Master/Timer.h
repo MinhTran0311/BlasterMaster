@@ -4,6 +4,7 @@
 
 class Timer
 {
+private:
 	int startTime, limitTime;
 public:
 	Timer(int limitTime)

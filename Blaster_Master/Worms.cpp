@@ -16,7 +16,6 @@ void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		this->SetState(WORM_STATE_DIE);
 		return;
 	}
-	DebugOut(L"Worm 1\n");
 	if (state == WORM_STATE_CLIMB)
 	{
 		if (abs(larvaFloor - y) < 17)
