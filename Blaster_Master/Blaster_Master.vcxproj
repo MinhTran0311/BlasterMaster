@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{5BB3DC44-D6AF-494B-9841-43B9AE3C6588}</ProjectGuid>
+    <RootNamespace>My03KeyboardStates</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Blaster_Master</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>d3dx9.lib;d3d9.lib;dxguid.lib;dxerr.lib;dinput8.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>d3dx9.lib;d3d9.lib;dxguid.lib;dxerr.lib;dinput8.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="BigSophiaBullet.cpp" />
+    <ClCompile Include="Big_Sophia.cpp" />
+    <ClCompile Include="BossBullet.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BossArm.cpp" />
+    <ClCompile Include="Brick.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Cannons.cpp" />
+    <ClCompile Include="BigNavigatedEnemyBullet.cpp" />
+    <ClCompile Include="ChooseWeaponScene.cpp" />
+    <ClCompile Include="debug.cpp" />
+    <ClCompile Include="Domes.cpp" />
+    <ClCompile Include="ElectricBullet.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="Eyeballs.cpp" />
+    <ClCompile Include="Floaters.cpp" />
+    <ClCompile Include="GadBrick.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="Gate.cpp" />
+    <ClCompile Include="GateOverworld.cpp" />
+    <ClCompile Include="global.cpp" />
+    <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="GunUp.cpp" />
+    <ClCompile Include="HealthBar.cpp" />
+    <ClCompile Include="HomingMissles.cpp" />
+    <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="InjuringBrick.cpp" />
+    <ClCompile Include="Insects.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Jason.cpp" />
+    <ClCompile Include="JasonBullet.cpp" />
+    <ClCompile Include="JasonRocket.cpp" />
+    <ClCompile Include="Jumpers.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mines.cpp" />
+    <ClCompile Include="Orbs.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayScene.cpp" />
+    <ClCompile Include="PowerUp.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SkullBullet.cpp" />
+    <ClCompile Include="Skulls.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="SmallNavigatedEnemyBullet.cpp" />
+    <ClCompile Include="SmallSophiaBullet.cpp" />
+    <ClCompile Include="Small_Sophia.cpp" />
+    <ClCompile Include="SoftBrick.cpp" />
+    <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Sprites.cpp" />
+    <ClCompile Include="Stair.cpp" />
+    <ClCompile Include="Teleporters.cpp" />
+    <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="tinystr.cpp" />
+    <ClCompile Include="tinyxml.cpp" />
+    <ClCompile Include="tinyxmlerror.cpp" />
+    <ClCompile Include="tinyxmlparser.cpp" />
+    <ClCompile Include="Utils.cpp" />
+    <ClCompile Include="Vec2.cpp" />
+    <ClCompile Include="Worms.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Animations.h" />
+    <ClInclude Include="BigSophiaBullet.h" />
+    <ClInclude Include="Big_Sophia.h" />
+    <ClInclude Include="BossBullet.h" />
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="BossArm.h" />
+    <ClInclude Include="Brick.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Cannons.h" />
+    <ClInclude Include="BigNavigatedEnemyBullet.h" />
+    <ClInclude Include="ChooseWeaponScene.h" />
+    <ClInclude Include="ElectricBullet.h" />
+    <ClInclude Include="Explosion.h" />
+    <ClInclude Include="GadBrick.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Gate.h" />
+    <ClInclude Include="GateOverworld.h" />
+    <ClInclude Include="global.h" />
+    <ClInclude Include="Domes.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Eyeballs.h" />
+    <ClInclude Include="Floaters.h" />
+    <ClInclude Include="debug.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Grid.h" />
+    <ClInclude Include="GunUp.h" />
+    <ClInclude Include="HomingMissles.h" />
+    <ClInclude Include="InjuringBrick.h" />
+    <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="HealthBar.h" />
+    <ClInclude Include="HUD.h" />
+    <ClInclude Include="Mines.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PowerUp.h" />
+    <ClInclude Include="Random.h" />
+    <ClInclude Include="JasonBullet.h" />
+    <ClInclude Include="JasonRocket.h" />
+    <ClInclude Include="SkullBullet.h" />
+    <ClInclude Include="SmallNavigatedEnemyBullet.h" />
+    <ClInclude Include="SmallSophiaBullet.h" />
+    <ClInclude Include="SoftBrick.h" />
+    <ClInclude Include="Sound.h" />
+    <ClInclude Include="Stair.h" />
+    <ClInclude Include="Teleporters.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Insects.h" />
+    <ClInclude Include="Jumpers.h" />
+    <ClInclude Include="Jason.h" />
+    <ClInclude Include="KeyboardHandler.h" />
+    <ClInclude Include="Orbs.h" />
+    <ClInclude Include="PlayScene.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Skulls.h" />
+    <ClInclude Include="Small_Sophia.h" />
+    <ClInclude Include="Sprites.h" />
+    <ClInclude Include="Textures.h" />
+    <ClInclude Include="tinystr.h" />
+    <ClInclude Include="tinyxml.h" />
+    <ClInclude Include="Utils.h" />
+    <ClInclude Include="Vec2.h" />
+    <ClInclude Include="Worms.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resoure\level2-side.png" />
+    <Image Include="textures\area_1.jpg" />
+    <Image Include="textures\enemy.png" />
+    <Image Include="textures\mario.png" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
