@@ -45,6 +45,7 @@ protected:
 	int camMaxWidth;
 
 	LPANIMATION_SET chooseWeaponScene_ani_set;
+	LPANIMATION_SET chooseWeaponScene_ani_setnumber;
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
