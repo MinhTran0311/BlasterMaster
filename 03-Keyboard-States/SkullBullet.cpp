@@ -51,6 +51,7 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	if (isHitEnemy) {
 
 		this->SetState(BULLET_SKULL_STATE_EXPLOSION);
+		Sound::GetInstance()->Play("EnemyBulletBang", 0, 1);
 	}
 	 
 	if (timeDelayed >= timeDelayedMax)
@@ -62,6 +63,7 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	else if (timeDelayed >= (timeDelayedMax*0.9))
 	{
 		this->SetState(BULLET_SKULL_STATE_EXPLOSION);
+		Sound::GetInstance()->Play("EnemyBulletBang", 0, 1);
 		return;
 	}
 	else

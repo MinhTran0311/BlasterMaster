@@ -169,6 +169,7 @@ void BigNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 					if (isMoving)
 					{
 						this->SetState(BIG_NAVI_ENEMY_BULLET_STATE_HIT_BRICK);
+						Sound::GetInstance()->Play("EnemyBulletBang", 0, 1);
 						x += min_tx * dx + nx * 0.4f;
 						y += min_ty * dy + ny * 0.4f;
 						isMoving = false;

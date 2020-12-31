@@ -30,6 +30,7 @@ PlayScene::PlayScene(int _idStage) : Scene()
 	LoadBaseObjects();
 	ChooseMap(idStage);
 	Sound::GetInstance()->LoadSoundResource(SOUND_RESOURCE_UNDERWORLD);
+	Sound::GetInstance()->Play("MusicMap", 1, 10000);
 }
 void PlayScene::LoadBaseObjects()
 {
@@ -429,6 +430,7 @@ void PlayScene::changePlayer()
 			CGrid::GetInstance()->SetTargetForEnemies(player);
 		}
 	}
+	Sound::GetInstance()->Play("EjectJason", 0, 1);
 }
 
 void PlayScene::CheckEnterBoss()
@@ -437,6 +439,8 @@ void PlayScene::CheckEnterBoss()
 	{
 		dynamic_cast<Big_Sophia*>(player)->SetIsEnterIntroBossArea(true);
 		BossIntroTimer->Start();
+		Sound::GetInstance()->Stop("MusicMap");
+		Sound::GetInstance()->Play("BossIntro", 0, 1);
 	}
 }
 
@@ -446,6 +450,8 @@ void PlayScene::SetUpFightBoss()
 	player->SetPosition(1790, 1130);
 	Camera::GetInstance()->SetCamPos(1607, 995);
 	Camera::GetInstance()->SetIsFollowPlayer(false);
+	Sound::GetInstance()->Stop("BossIntro");
+	Sound::GetInstance()->Play("Boss", 0, 1);
 }
 
 void PlayScene::BossAreaController()
@@ -471,6 +477,7 @@ void PlayScene::BossAreaController()
 		player->SetPosition(880, 656);
 		Camera::GetInstance()->SetCamPos(767, 479);
 		BossIntroTimer->Start();
+		Sound::GetInstance()->Stop("Boss");
 	}
 	// back to return gate
 	if (BossIntroTimer->IsTimeUp() && dynamic_cast<Big_Sophia*>(player)->IsDoneFightWithBoss())
@@ -479,6 +486,7 @@ void PlayScene::BossAreaController()
 		Camera::GetInstance()->SetCamPos(0, 1774);
 		BossIntroTimer->Reset();
 		dynamic_cast<Big_Sophia*>(player)->SetIsDoneFightWithBoss(false);
+		Sound::GetInstance()->Play("MusicMap", 1, 10000);
 	}
 }
 
@@ -842,7 +850,7 @@ void PlayScene::Update(DWORD dt)
 			}
 		}
 	}
-	Sound::GetInstance()->Play("MusicMap", 1, 10000);
+
 
 #pragma endregion
 	if (player->GetPlayerType() == TAG_BIG_SOPHIA && idStage == ID_MAPOVERWORLD)

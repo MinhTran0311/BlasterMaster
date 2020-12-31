@@ -376,7 +376,9 @@ void CBoss::Init()
 
 void CBoss::Shoot()
 {
+	
 	Bullet* bullet = new BossBullet(this->x + 30, this->y + 20, target);
+	Sound::GetInstance()->Play("BossFire", 0, 1);
 	CGrid::GetInstance()->InsertGrid(bullet);
 }
 

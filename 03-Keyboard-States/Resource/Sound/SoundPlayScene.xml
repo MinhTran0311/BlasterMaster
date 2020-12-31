@@ -6,8 +6,10 @@
 	<sound path="Resource/Sound/rawSound/Blaster Master SFX (8).wav"	name = "PlayerFireOverWorld" />
 	<sound path="Resource/Sound/rawSound/Blaster Master SFX (9).wav"	name = "BossFire" />
 	<sound path="Resource/Sound/rawSound/Blaster Master SFX (10).wav"	name = "Jump" />
+	<sound path="Resource/Sound/rawSound/Blaster Master SFX (12).wav"	name = "FireElectricBullet" />
 	<sound path="Resource/Sound/rawSound/Blaster Master SFX (15).wav"	name = "MineBip" />
 	<sound path="Resource/Sound/rawSound/Blaster Master SFX (16).wav"	name = "EnemyBulletBang" />
+	<sound path="Resource/Sound/rawSound/Blaster Master SFX (18).wav"	name = "EjectJason" />
 	<sound path="Resource/Sound/rawSound/Blaster Master SFX (19).wav"	name = "PlayerInjured" />
 	<sound path="Resource/Sound/rawSound/Blaster Master SFX (21).wav"	name = "PickingItems" />
 	<sound path="Resource/Sound/rawSound/Blaster Master SFX (22).wav"	name = "TeleporterTransform" />

@@ -92,6 +92,7 @@ class JASON : public Player
 	bool isPressJump;
 	bool isPressFlipGun;
 	bool isEjecting;
+	int burstFireModeBullets = 0;
 
 	int noOfHomingMisslesWeaponLeft = 3;
 	int noOfElectricWeaponLeft = 3;

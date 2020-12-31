@@ -120,24 +120,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 #pragma endregion
 #pragma region Timer
-	//if (isImmortaling && immortalTimer->IsTimeUp())
-	//{
-	//	isImmortaling = false;
-	//	immortalTimer->Reset();
-	//}
 
-	//if (!canFire && FireTimer->IsTimeUp())
-	//{
-	//	canFire = true;
-	//	FireTimer->Reset();
-	//}
-	//if (!canChangeAlpha && changeAlphaTimer->IsTimeUp())
-	//{
-	//	changeAlphaTimer->Reset();
-	//	canChangeAlpha = true;
-	//	if (!isImmortaling)
-	//		alpha = 255;
-	//}
 #pragma endregion
 #pragma region Collision
 	CollisionHandle(coObjects);
@@ -518,6 +501,7 @@ void JASON::FireBullet(int mode)
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
 			{
 				Bullet* bullet = new JasonBullet(this->Getx(), this->Gety(), 0 , nx, isGunFlipping);
+				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 				CGrid::GetInstance()->InsertGrid(bullet);
 			}
 			FireTimer->Start();
@@ -528,12 +512,13 @@ void JASON::FireBullet(int mode)
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, this->Getx(), this->Gety(), 3))
 			{
 				Bullet* bullet = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 				CGrid::GetInstance()->InsertGrid(bullet);
 			}
 			FireTimer->Start();
 			canFire = false;
 		}
-		Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
+
 	}
 	else if (mode == 2)		//burst fire
 	{
@@ -589,6 +574,7 @@ void JASON::FireBullet(int mode)
 				Bullet* electric = new ElectricBullet(this->Getx(), this->Gety());
 				CGrid::GetInstance()->InsertGrid(electric);
 				noOfElectricWeaponLeft--;
+				Sound::GetInstance()->Play("FireElectricBullet", 0, 1);
 			}
 			break;
 		}

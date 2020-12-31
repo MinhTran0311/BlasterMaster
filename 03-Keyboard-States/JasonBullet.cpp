@@ -161,9 +161,6 @@ void JasonBullet::Render()
 		return;
 	RenderBoundingBox();
 	int ani;
-	//DebugOut(L"Jason bullet render");
-
-	//if (!isHitBrick && !isHitEnemy)
 	if (state== BULLET_STATE_FLYING)
 	{
 		if (isAimingTop)
@@ -198,7 +195,7 @@ void JasonBullet::Render()
 		else if (nx == -1 && !isAimingTop)
 		{
 			if (typeBullet == JASON_NORMAL_BULLET)
-				animationSet->at(ani)->Render(1, x - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_WIDTH, y - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_HEIGHT);
+				animationSet->at(ani)->Render(1, x - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_WIDTH/2, y - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_HEIGHT);
 			else if (typeBullet == JASON_UPGRADE_BULLET)
 				animationSet->at(ani)->Render(1, x - BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_WIDTH/4, y - BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_HEIGHT);
 		}
@@ -211,32 +208,3 @@ void JasonBullet::Render()
 	}
 	
 }
-
-//void JasonBullet::SetState(int state)
-//{
-//	Entity::SetState(state);
-//	//DebugOut(L"Bullet state: %d", state);
-//	switch (state)
-//	{
-//	case BULLET_JASON_STATE_FLYING:
-//	{
-//		isHitBrick = false;
-//		isHitEnemy = false;
-//		isActive = true;
-//		break;
-//	}
-//	case BULLET_JASON_STATE_HIT_BRICK:
-//	{
-//		vx = 0;
-//		vy = 0;
-//		isHitBrick = true;
-//	}
-//	case BULLET_JASON_STATE_HIT_ENEMY:
-//	{
-//		vx = 0;
-//		vy = 0;
-//		isHitEnemy = true;
-//		break;
-//	}
-//	}
-//}

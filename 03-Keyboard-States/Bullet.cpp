@@ -77,6 +77,7 @@ void Bullet::HandlePlayerBulletCollision(vector<LPGAMEENTITY>* coObjects)
 			if (e->obj->GetType() == TAG_BRICK || e->obj->GetType() == TAG_GATE || e->obj->GetType() == TAG_GATE_OVERWORLD)
 			{
 				this->SetState(BULLET_STATE_HIT_BRICK);
+				Sound::GetInstance()->Play("PlayerBulletHitBrick", 0, 1);
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;
 				vx = 0;

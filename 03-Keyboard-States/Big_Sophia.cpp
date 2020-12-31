@@ -297,6 +297,7 @@ void Big_Sophia::FireBullet(int mode)
 	if (!canFire)
 		return;
 	Bullet* bullet = new BigSophiaBullet(this->Getx(), this->Gety(), 1, nx, ny);
+	Sound::GetInstance()->Play("PlayerFireOverWorld", 0, 1);
 	CGrid::GetInstance()->InsertGrid(bullet);
 	FireTimer->Start();
 	canFire = false;
