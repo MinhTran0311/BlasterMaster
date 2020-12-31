@@ -1,5 +1,5 @@
 ﻿#include "Worms.h"
-#include "InjuringBrick.h"
+
 void Worm::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	left = x;
@@ -16,136 +16,123 @@ void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		this->SetState(WORM_STATE_DIE);
 		return;
 	}
-#pragma region fall down
-	vy += WORM_GRAVITY * dt;
-#pragma endregion
-#pragma region Pre-collision
-	vector<LPCOLLISIONEVENT> coEvents;
-	vector<LPCOLLISIONEVENT> coEventsResult;
-	vector<LPGAMEENTITY> colliable_Objects;
-
-	coEvents.clear();
-	colliable_Objects.clear();
-
-	
-
-	for (UINT i = 0; i < coObjects->size(); i++)
+	DebugOut(L"Worm 1\n");
+	if (state == WORM_STATE_CLIMB)
 	{
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK)
-			colliable_Objects.push_back(coObjects->at(i));
-		if (coObjects->at(i)->GetType() == TAG_INJURING_BRICK)
+		if (abs(larvaFloor - y) < 17)
 		{
-			if (this->IsCollidingObject(coObjects->at(i)))
-				isContainedInLarva = true;
+			y += dy;
 		}
-		// turn off collision when die
-		if (state != WORM_STATE_DIE)
-			CalcPotentialCollisions(&colliable_Objects, coEvents);
-	}
-#pragma endregion
-
-#pragma region coillision
-	if (coEvents.size() == 0)
-	{
-		x += dx;
-		y += dy;
+		else
+		{
+			vy = 0;
+			x += nx * 2.0f;
+			isContainedInLarva = false;
+			SetState(WORM_STATE_WALKING);
+		}
 	}
 	else
 	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		vy += WORM_GRAVITY * dt;
 
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
+		vector<LPCOLLISIONEVENT> coEvents;
+		vector<LPCOLLISIONEVENT> coEventsResult;
+		vector<LPGAMEENTITY> colliable_Objects;
 
-		//follow player
-		if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= WORM_SITEFOLLOW_PLAYER)
+		coEvents.clear();
+		colliable_Objects.clear();
+
+
+
+		for (UINT i = 0; i < coObjects->size(); i++)
 		{
-			FollowTarget(target);
-		}
-		else    //Wall or reaching the edges
-		{
-			if (nx != 0)
+			if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK)
+				colliable_Objects.push_back(coObjects->at(i));
+			if (coObjects->at(i)->GetType() == TAG_INJURING_BRICK)
 			{
-				if (isContainedInLarva)
-				{
-					//nhay len
-					SetState(WORM_STATE_JUMPING);
-					isContainedInLarva = false;
-				}
-				else this->nx = -this->nx;
+				if (coObjects->at(i)->IsCollidingObject(this))
+					isContainedInLarva = true;
 			}
-			//if (ny != 0)
-			//{
-			//	vy = 0;
-			//	for (UINT i = 0; i < coEventsResult.size(); i++)
-			//	{
-			//		LPCOLLISIONEVENT e = coEventsResult.at(i);
-			//		if (e->ny != 0)
-			//		{
-			//			RECT rect = static_cast<Brick*>(e->obj)->GetBBox();
-			//			if (x + WORM_BBOX_WIDTH > rect.right)
-			//			{
-			//				if (isContainedInLarva)
-			//				{
-			//					//nhay len
-			//					SetState(WORM_STATE_JUMPING);
-			//					isContainedInLarva = false;
-			//				}
-			//				else
-			//				{
-			//					this->nx = -this->nx;
-			//					x += rect.right - (x + WORM_BBOX_WIDTH) - nx * 0.4f;
-			//				}
-			//			}
-			//			else if (x < rect.left)
-			//			{
-			//				if (isContainedInLarva)
-			//				{
-			//					//nhay len
-			//					SetState(WORM_STATE_JUMPING);
-			//					isContainedInLarva = false;
-			//				}
-			//				else {
-			//					this->nx = -this->nx;
-			//					x += rect.left - x + nx * 0.4f;
-			//				}
-			//			}
-			//			break;
-			//		}
-			//	}
-			//}
+			// turn off collision when die
+			if (state != WORM_STATE_DIE)
+				CalcPotentialCollisions(&colliable_Objects, coEvents);
 		}
-	}
-	//clean up collision events
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-#pragma endregion
-#pragma region Active
-	if (!isActive) vx = 0;
-	else SetState(WORM_STATE_WALKING);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= WORM_SITEACTIVE_PLAYER)
-	{
-		isActive = true;
-	}
-	else isActive = false;
-#pragma endregion
 
+
+
+		if (coEvents.size() == 0)
+		{
+			x += dx;
+			y += dy;
+		}
+		else
+		{
+			float min_tx, min_ty, nx = 0, ny;
+			float rdx = 0;
+			float rdy = 0;
+			FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+			x += min_tx * dx + nx * 0.4f;
+			y += min_ty * dy + ny * 0.4f;
+
+			//follow player
+			if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= WORM_SITEFOLLOW_PLAYER && state != WORM_STATE_CLIMB)
+			{
+				FollowTarget(target);
+			}
+			else isFollow = false;
+			    //Wall or reaching the edges
+			{
+				if (nx != 0)
+				{
+					if (isContainedInLarva)
+					{
+						//nhay len
+						SetState(WORM_STATE_CLIMB);
+						isContainedInLarva = false;
+
+					}
+					else if (!isFollow)
+					{
+						this->nx = -this->nx;
+					}
+
+				}
+				if (ny != 0 && state == WORM_STATE_WALKING && !isFollow)
+				{
+					vy = 0;
+					for (UINT i = 0; i < coEventsResult.size(); i++)
+					{
+						LPCOLLISIONEVENT e = coEventsResult.at(i);
+						if (e->ny != 0)
+						{
+							RECT rect = static_cast<Brick*>(e->obj)->GetBBox();
+							if (x + WORM_BBOX_WIDTH > rect.right)
+							{
+								this->nx = -this->nx;
+								x += rect.right - (x + WORM_BBOX_WIDTH) - nx * 0.4f;
+							}
+							else if (x < rect.left)
+							{
+								this->nx = -this->nx;
+								x += rect.left - x + nx * 0.4f;
+							}
+							break;
+						}
+					}
+				}
+			}
+		}
+		//clean up collision events
+		for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+	}
 }
 
 void Worm::Render()
 {
-	//RenderBoundingBox();
-	//if (vx > 0)
-	//	nx = 1;
-	//else
-	//	nx = -1;
-
 	int ani = WORM_ANI_WALKING;
 	if (state == WORM_STATE_DIE) {
 		ani = WORM_ANI_DIE;
-		//DebugOut(L"So sprite %d\n", animationSet->at(ani)->GetFrame());
 		if (animationSet->at(ani)->GetFrame() == 3)
 		{
 			animationSet->at(ani)->ResetCurrentFrame();
@@ -153,30 +140,29 @@ void Worm::Render()
 		}
 		animationSet->at(ani)->Render(nx, x, y  + WORM_BBOX_HEIGHT - WORM_BBOX_HEIGHT_DIE-3);
 	}
-	else if (state == WORM_STATE_JUMPING || state == WORM_STATE_WALKING)
+	else if (state == WORM_STATE_CLIMB || state == WORM_STATE_WALKING)
 		animationSet->at(ani)->Render(nx, x, y);
-	//RenderBoundingBox();
 }
 
-Worm::Worm(float x, float y, LPGAMEENTITY t)
+Worm::Worm(float xPos, float yPos, LPGAMEENTITY t)
 {
 	SetState(WORM_STATE_WALKING);
 	enemyType = WORM;
 	tag = EntityType::ENEMY;
-	this->x = x;
-	this->y = y;
-	nx = -1;
-	isFollow = 0;
+	this->x = xPos;
+	this->y = yPos;
+	nx = 1;
+	isFollow = false;
 	this->target = t;
 	health = WORM_MAXHEALTH;
-	isActive = false;
+
 	bbARGB = 250;
 	isContainedInLarva = false;
 }
 
-void Worm::FollowTarget(LPGAMEENTITY target) //đi theo nhân vật
+void Worm::FollowTarget(LPGAMEENTITY target) 
 {
-	/*if ((target->x - this->x) > 0)
+	if ((target->x - this->x) > 0)
 	{
 		this->nx = 1;
 		vx = WORM_WALKING_SPEED;
@@ -185,8 +171,8 @@ void Worm::FollowTarget(LPGAMEENTITY target) //đi theo nhân vật
 	{
 		vx = -WORM_WALKING_SPEED;
 		this->nx = -1;
-	}*/
-
+	}
+	isFollow = true;
 }
 
 void Worm::SetState(int state)
@@ -198,11 +184,12 @@ void Worm::SetState(int state)
 		{
 			vx = 0;
 			vy = 0;
-			isActive = false;
+
 			break;
 		}
 		case WORM_STATE_WALKING:
 		{
+
 			if (nx > 0)
 			{
 				vx = WORM_WALKING_SPEED;
@@ -213,10 +200,11 @@ void Worm::SetState(int state)
 			}
 			break;
 		}
-		case WORM_STATE_JUMPING:
+		case WORM_STATE_CLIMB:
 		{
 			vx = 0;
-			vy = -WORM_JUMP_SPEED_Y;
+			vy = -WORM_CLIMB_SPEED_Y;
+			larvaFloor = y;
 			break;
 		}
 	}
