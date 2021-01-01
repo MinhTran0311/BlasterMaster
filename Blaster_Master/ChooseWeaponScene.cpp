@@ -17,6 +17,7 @@ ChooseWeaponScene::ChooseWeaponScene(JASON* _player) : Scene()
 	CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
 	LoadBaseObjects();
 	chooseWeaponScene_ani_set = CAnimationSets::GetInstance()->Get(52000);
+	chooseWeaponScene_ani_setnumber = CAnimationSets::GetInstance()->Get(61005);
 }
 void ChooseWeaponScene::SetSpecialWeapon(int _weaponId)
 {
@@ -292,6 +293,7 @@ void ChooseWeaponScene::Render()
 	chooseWeaponScene_ani_set->at(0)->IntroRender(1, 0, 0);
 	chooseWeaponScene_ani_set->at(1)->IntroRender(1, 54	 + 32 * weaponId, 176);
 	chooseWeaponScene_ani_set->at(2)->IntroRender(1, 80 + 32 * weaponId, 176);
+	chooseWeaponScene_ani_setnumber->at(0)->IntroRender(1, 90, 176);
 	
 }
 void ChooseWeaponScene::Unload()
