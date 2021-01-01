@@ -7,7 +7,7 @@
 class InjuringBrick : public Entity
 {
 private:
-	float frameW, frameH;
+	float width, height;
 
 public:
 	virtual void Render();

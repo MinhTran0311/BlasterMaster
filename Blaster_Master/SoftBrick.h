@@ -15,7 +15,7 @@
 class SoftBrick : public Entity
 {
 private:
-	float frameW, frameH;
+	float width, height;
 public:
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);

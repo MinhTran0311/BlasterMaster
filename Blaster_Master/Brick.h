@@ -7,12 +7,12 @@
 class Brick : public Entity
 {
 private: 
-	float frameW, frameH;
+	float width, height;
 public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
-	float GetBrickWidth() { return frameW; };
-	float GetBrickHeight() { return frameH; };
+	float GetBrickWidth() { return width; };
+	float GetBrickHeight() { return height; };
 
 	Brick(int x, int y, float frameW, float frameH);
 	~Brick();
