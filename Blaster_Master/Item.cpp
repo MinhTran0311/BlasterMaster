@@ -14,10 +14,12 @@ Item::Item(float xPos, float yPos, EntityType type, bool spawed)
 		displayTimer = new Timer(ITEM_LIFETIME);
 		displayTimer->Start();
 	}
-	DebugOut(L"tạo item\n");
+	else isStatic = true;
+	//DebugOut(L"tạo item\n");
 }
 
-Item::~Item() {}
+Item::~Item() {
+}
 
 void Item::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -34,10 +36,13 @@ void Item::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		SetState(ITEM_ACTIVE_UNACTIVE);
 		return;
 	}
-	if(displayTimer->IsTimeUp() && isStatic)
+	if (!isStatic)
 	{
-		SetState(ITEM_ACTIVE_UNACTIVE);
-		return;
+		if (displayTimer->IsTimeUp())
+		{
+			SetState(ITEM_ACTIVE_UNACTIVE);
+			return;
+		}
 	}
 	Entity::Update(dt);
 }
@@ -46,16 +51,14 @@ void Item::Render()
 {
 	if (state == ITEM_ACTIVE_UNACTIVE)
 		return;
-
 	else
 	{
-		DebugOut(L"render item\n");
+		//DebugOut(L"render item\n");
 		int ani = -1;
 		switch (itemType)
 		{
 		case TAG_ITEM_SINGLE_POWER_UP:
 			ani = ITEM_ANI_POWER_UP;
-			animationSet->at(ani)->Render(1, x, y);
 			break;
 		case TAG_ITEM_HOVER:
 			ani = ITEM_ANI_HOVER;
@@ -71,7 +74,6 @@ void Item::Render()
 			break;
 		case TAG_ITEM_SINGLE_GUN_UP:
 			ani = ITEM_ANI_SINGLE_GUN_UP;
-			animationSet->at(ani)->Render(1, x, y);
 			break;
 		case TAG_ITEM_FULL_GUN_UP:
 			ani = ITEM_ANI_FULL_GUN_UP;
@@ -83,12 +85,15 @@ void Item::Render()
 			ani = ITEM_ANI_HYBER_BEAM;
 			break;		
 		case TAG_ITEM_CRUSHER_BEAM:
+			DebugOut(L"tao crusher beam");
 			ani = ITEM_ANI_CRUSHER_BEAM;
 			break;
 		default:
 			break;
 		}
-		animationSet->at(ani)->Render(1,x, y);
+		if (ani != -1)
+			animationSet->at(ani)->Render(1, x, y);
+		else DebugOut(L"Loi render item\n");
 	}
 }
 

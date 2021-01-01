@@ -1,5 +1,5 @@
 #include "JasonBullet.h"
-#include "global.h"
+
 JasonBullet::JasonBullet(float posX, float posY, int level, int direct, bool isGunFlip)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_JASON_BULLET));
@@ -10,13 +10,19 @@ JasonBullet::JasonBullet(float posX, float posY, int level, int direct, bool isG
 	dam = 1;
 	timeDelayed = 0;
 	timeDelayedMax = BULLET_JASON_DELAY;
-	if (level == 0)
+	if (level == 1)
 	{
 		dam = 1;
 		typeBullet = EntityType::JASON_NORMAL_BULLET;
 	}
-	else {
+	else if (level == 2)
+	{
 		dam = 2;
+		typeBullet = EntityType::JASON_NORMAL_LV2_BULLET;
+	}
+	else
+	{
+		dam = 3;
 		typeBullet = EntityType::JASON_UPGRADE_BULLET;
 	}
 	nx = direct;
@@ -169,14 +175,20 @@ void JasonBullet::Render()
 			{
 				ani = BULLET_JASON_NORMAL_ANI_TOP;
 			}
+			else if (typeBullet == JASON_NORMAL_LV2_BULLET)
+			{
+				ani = BULLET_JASON_NORMAL_LV2_ANI_TOP;
+			}
 			else if (typeBullet == JASON_UPGRADE_BULLET)
 				ani = BULLET_JASON_UPGRADE_ANI_TOP;
-			animationSet->at(ani)->OldRender(x, y, alpha);
+			animationSet->at(ani)->Render(1,x, y, alpha);
 		}
 		else
 		{
 			if (typeBullet == JASON_NORMAL_BULLET)
 				ani = BULLET_JASON_NORMAL_ANI_RIGHT;
+			else if (typeBullet == JASON_NORMAL_LV2_BULLET)
+				ani = BULLET_JASON_NORMAL_LV2_ANI_RIGHT;
 			else if (typeBullet == JASON_UPGRADE_BULLET)
 				ani = BULLET_JASON_UPGRADE_ANI_RIGHT;
 			animationSet->at(ani)->Render(nx ,x, y, alpha);
@@ -189,19 +201,19 @@ void JasonBullet::Render()
 		{
 			if (typeBullet == JASON_NORMAL_BULLET)
 				animationSet->at(ani)->Render(1, x - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_WIDTH, y - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_HEIGHT);
-			else if (typeBullet == JASON_UPGRADE_BULLET)
+			else 
 				animationSet->at(ani)->Render(1, x + BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_WIDTH / 2, y - BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_HEIGHT);
 		}
 		else if (nx == -1 && !isAimingTop)
 		{
 			if (typeBullet == JASON_NORMAL_BULLET)
 				animationSet->at(ani)->Render(1, x - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_WIDTH/2, y - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_HEIGHT);
-			else if (typeBullet == JASON_UPGRADE_BULLET)
+			else 
 				animationSet->at(ani)->Render(1, x - BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_WIDTH/4, y - BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_HEIGHT);
 		}
 		else 
 			animationSet->at(ani)->Render(1, x - BULLET_JASON_UPGRADE_VERTICAL_BBOX_WIDTH, y - DISTANCE_BLOWING_UP);
-		if (animationSet->at(ani)->GetFrame() == 2)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
 			isActive = false;
 		}

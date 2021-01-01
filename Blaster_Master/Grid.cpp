@@ -22,6 +22,7 @@
 #include "BossArm.h"
 #include "Stair.h"
 #include "Explosion.h"
+#include "Item.h"
 vector<LPGAMEENTITY> CGrid::FilterObjectDuplicate(vector<LPGAMEENTITY> objs)
 {
 	std::sort(objs.begin(), objs.end());
@@ -93,6 +94,7 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	bool hasBoss = false;
 	switch (object_type)
 	{
+#pragma region Enemies
 	case EntityType::TAG_WORM:
 	{
 		int ani_set_id = atoi(tokens[milestone + 1].c_str());
@@ -223,6 +225,8 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		DebugOut(L"[test] add Boss !\n");
 		break;
 	}
+#pragma endregion
+#pragma region Obstacles
 	case EntityType::TAG_BRICK:
 	{
 		obj = new Brick(x,y,atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
@@ -291,6 +295,46 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		DebugOut(L"[test] add gate Overworld!\n");
 		break;
 	}
+#pragma endregion
+#pragma region Items
+
+
+	case TAG_ITEM_ELECTRIC:
+	{
+		obj = new Item(x, y, TAG_ITEM_ELECTRIC);
+		break;
+	}
+	case TAG_ITEM_ROCKET:
+	{
+		obj = new Item(x, y, TAG_ITEM_ROCKET);
+		break;
+	}
+	case TAG_ITEM_HOMINGMISSLES:
+	{
+		obj = new Item(x, y, TAG_ITEM_HOMINGMISSLES);
+		break;
+	}
+	case TAG_ITEM_FULL_GUN_UP:
+	{
+		obj = new Item(x, y, TAG_ITEM_FULL_GUN_UP);
+		break;
+	}
+	case TAG_ITEM_FULL_POWER_UP:
+	{
+		obj = new Item(x, y, TAG_ITEM_FULL_POWER_UP);
+		break;
+	}
+	case TAG_ITEM_HYBER_BEAM:
+	{
+		obj = new Item(x, y, TAG_ITEM_HYBER_BEAM);
+		break;
+	}
+	case TAG_ITEM_CRUSHER_BEAM:
+	{
+		obj = new Item(x, y, TAG_ITEM_CRUSHER_BEAM);
+		break;
+	}
+#pragma endregion
 	default:
 		obj = nullptr;
 		return;

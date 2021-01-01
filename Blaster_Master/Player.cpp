@@ -53,7 +53,6 @@ void Player::SetInjured(int dame)
 		return;
 	Sound::GetInstance()->Play("PlayerInjured", 0, 1);
 	health -= dame;
-	dam -= dame;
 
 	StartUntouchable();
 	immortalTimer->Start();
@@ -166,11 +165,12 @@ void Player::CollideWithObject(LPGAMEENTITY object)
 			}
 			case TAG_ITEM_SINGLE_GUN_UP:
 			{
-				DebugOut(L"theem gun up");
+				DebugOut(L"theem gun up: %d\n",dam);
 				if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
 					this->AddgunDam(ITEM_GUN_UP_RESTORE);
 				else
 					this->SetgunDam(MAX_GUNDAM);
+				DebugOut(L"theem gun up sau: %d\n", dam);
 				break;
 			}
 			case TAG_ITEM_FULL_GUN_UP:
@@ -180,7 +180,7 @@ void Player::CollideWithObject(LPGAMEENTITY object)
 			}
 			case TAG_ITEM_FULL_POWER_UP:
 			{
-				this->SetgunDam(MAX_HEALTH);
+				this->SetHealth(MAX_HEALTH);
 				break;
 			}
 			case TAG_ITEM_CRUSHER_BEAM:
@@ -197,8 +197,6 @@ void Player::CollideWithObject(LPGAMEENTITY object)
 				PlayerHandler::GetInstance()->SetJasonGunDam(jasongundam);
 				break;
 			}
-			default:
-				break;
 			}
 			object->setActive(false);
 			isInjured = false;
@@ -305,7 +303,6 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 			else if (e->obj->GetType() == EntityType::TAG_GATE_OVERWORLD || e->obj->GetType() == EntityType::TAG_GATE)
 			{
 				gate = e->obj;
-				DebugOut(L"big sophia dung tuong\n");
 				GateColliding = true;
 			}
 		}

@@ -50,11 +50,11 @@ public:
 	float vy;
 
 	float dx, dy;
-	//Conflict
-	int nx;				// Hướng xoay render trục ngang // 1: bên phải .. -1 bên trái
-	int ny;				//
+
+	int nx;				
+	int ny;				
 	int health = 1;
-	int dam = 1;
+	int dam = 0;
 	int state;
 	bool isActive;
 	bool isDoneDeath;

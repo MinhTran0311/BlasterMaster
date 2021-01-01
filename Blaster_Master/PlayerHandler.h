@@ -62,9 +62,8 @@ public:
 	PlayerHandler();
 	~PlayerHandler();
 	static PlayerHandler* GetInstance();
-	void Init() {};
 	void SetJasonInfor(int, float, float, int, int,int=0);
 	void SetSophiaInfor(int, float, float, int, int,int=0);
-	void Restart();
+	void Init();
 };
 

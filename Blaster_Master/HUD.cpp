@@ -21,7 +21,7 @@ void HUD::HUDInit(int initPlayerHealth, int initGunHealth)
 	playerHB = new HealthBar(initPlayerHealth, false);
 }
 
-void HUD::Update(float xPos, float yPos, int currentPlayerHealth, int currentGunHealth, EntityType playerType)
+void HUD::Update(float xPos, float yPos, EntityType playerType, int currentPlayerHealth, int currentGunHealth)
 {
 	this->x = xPos;
 	this->y = yPos;
@@ -33,7 +33,6 @@ void HUD::Update(float xPos, float yPos, int currentPlayerHealth, int currentGun
 
 void HUD::Render(LPGAMEPLAYER playerInfo)
 {
-	//Thanh sung hoac chu HOV
 	if (playerInfo->GetPlayerType() != TAG_BIG_SOPHIA)
 	{
 		animationSet->at(HEALTH_TYPE_CHAR_HOV)->Render(1, x, y + HEALTH_BAR_HEIGHT + HEALTH_BLANK_SPACE);

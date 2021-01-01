@@ -123,12 +123,17 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	{
 		if (dam == 1)
 		{
-			LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
+			LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+			CGrid::GetInstance()->InsertGrid(bullet1);
+		}
+		else if (dam == 2)
+		{
+			LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 2, nx, isGunFlipping);
 			CGrid::GetInstance()->InsertGrid(bullet1);
 		}
 		else {
 
-			LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+			LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 3, nx, isGunFlipping);
 			CGrid::GetInstance()->InsertGrid(bullet1);
 		}
 		burstFireModeBullets--;
@@ -513,25 +518,35 @@ void JASON::FireBullet(int mode)
 		{
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
 			{
-				LPBULLET bullet = new JasonBullet(this->Getx(), this->Gety(), 0 , nx, isGunFlipping);
+				LPBULLET bullet = new JasonBullet(this->Getx(), this->Gety(), 1 , nx, isGunFlipping);
 				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 				CGrid::GetInstance()->InsertGrid(bullet);
 			}
 			FireTimer->Start();
 			canFire = false;
 		}
-		else
+		else if (dam==2)
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_LV2_BULLET, this->Getx(), this->Gety(), 3))
+			{
+				LPBULLET bullet = new JasonBullet(this->Getx(), this->Gety(), 2, nx, isGunFlipping);
+				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
+				CGrid::GetInstance()->InsertGrid(bullet);
+			}
+			FireTimer->Start();
+			canFire = false;
+		}
+		else 
 		{
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, this->Getx(), this->Gety(), 3))
 			{
-				LPBULLET bullet = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				LPBULLET bullet = new JasonBullet(this->Getx(), this->Gety(), 3, nx, isGunFlipping);
 				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 				CGrid::GetInstance()->InsertGrid(bullet);
 			}
 			FireTimer->Start();
 			canFire = false;
 		}
-
 	}
 	else if (mode == 2)		//burst fire
 	{
@@ -539,10 +554,22 @@ void JASON::FireBullet(int mode)
 		{
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
 			{
-				LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 0, nx, isGunFlipping);
+				LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
 				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 				CGrid::GetInstance()->InsertGrid(bullet1);
 				burstFireModeBullets = 3-CGrid::GetInstance()->GetNumberOfBulletInGrid(JASON_NORMAL_BULLET, this->Getx(), this->Gety());
+			}
+			FireTimer->Start();
+			canFire = false;
+		}
+		else if (dam==2)
+		{
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_NORMAL_LV2_BULLET, this->Getx(), this->Gety(), 3))
+			{
+				LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 2, nx, isGunFlipping);
+				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
+				CGrid::GetInstance()->InsertGrid(bullet1);
+				burstFireModeBullets = 3-CGrid::GetInstance()->GetNumberOfBulletInGrid(JASON_NORMAL_LV2_BULLET, this->Getx(), this->Gety());
 			}
 			FireTimer->Start();
 			canFire = false;
@@ -551,10 +578,10 @@ void JASON::FireBullet(int mode)
 		{
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, this->Getx(), this->Gety(), 3))
 			{
-				LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 1, nx, isGunFlipping);
+				LPBULLET bullet1 = new JasonBullet(this->Getx(), this->Gety(), 3, nx, isGunFlipping);
 				Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 				CGrid::GetInstance()->InsertGrid(bullet1);
-				burstFireModeBullets = 3-CGrid::GetInstance()->GetNumberOfBulletInGrid(JASON_UPGRADE_BULLET, this->Getx(), this->Gety());
+				burstFireModeBullets = 3 - CGrid::GetInstance()->GetNumberOfBulletInGrid(JASON_UPGRADE_BULLET, this->Getx(), this->Gety());
 			}
 			FireTimer->Start();
 			canFire = false;

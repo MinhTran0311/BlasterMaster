@@ -36,7 +36,7 @@ void PlayerHandler::SetSophiaInfor(int stage, float xPos, float yPos, int health
 		SetPlayerDirectionBeforePassGate(direction);
 }
 
-void PlayerHandler::Restart()
+void PlayerHandler::Init()
 {
 	life = 2;
 	playerDirectionBeforePassGate = 1;

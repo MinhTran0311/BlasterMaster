@@ -11,7 +11,7 @@ using namespace std;
 //#define MAX_TEXTLENGHT_MANA						2
 //#define MAX_TEXTLENGHT_LIVE						2
 
-#define ARTICULAR_GUNPOWER_HEALTHBAR_Y					5
+#define ARTICULAR_GUNPOWER_HEALTHBAR_Y				5
 #define ARTICULAR_PLAYER_HEALTHBAR_Y				110
 
 class HUD
@@ -31,6 +31,6 @@ public:
 	HUD() {};
 	~HUD();
 	void HUDInit(int initPlayerHealth = 8, int initGunHealth = 8);
-	void Update(float x, float y, int currentPlayerHealth, int currentGunHealth, EntityType playerType);
+	void Update(float x, float y, EntityType playerType, int currentPlayerHealth, int currentGunHealth=0);
 	void Render(LPGAMEPLAYER playerInfo);
 };

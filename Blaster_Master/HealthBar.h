@@ -14,20 +14,20 @@
 
 #define HEALTH_BAR_HEIGHT				31
 #define HEALTH_CHAR_HEIGHT				15
-#define HEALTH_BLANK_SPACE				3
+#define HEALTH_BLANK_SPACE				5
 
 
 class HealthBar
 {
 private:
 	float x, y;
-	int currentPlayerHealth, maxPlayerHealth;
-	vector<LPANIMATION_SET> health;
+	int currentLevel, maxLevel;
+	LPANIMATION_SET ani_set;
 	bool isGun;
 public:
-	HealthBar(int maxHealth, int isGun);
+	HealthBar(int current, int isGun);
 	~HealthBar();
-	void Update(int currentHealth, float X, float Y);
+	void Update(int current, float X, float Y);
 	void Render();
 
 	void SetPosition(float X, float Y) { x = X; y = Y; }

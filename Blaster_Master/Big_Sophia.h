@@ -36,7 +36,7 @@
 #define BIG_SOPHIA_ANI_DIE						8
 #define LAST_FRAME_BIG_SOPHIA_DIE				16
 
-#define MAX_GUNDAM						8
+#define MAX_GUNDAM				8
 
 #define GATE_VERTICAL_LONG		105
 #define GATE_HORIZONTAL_LONG	80

@@ -300,9 +300,24 @@ void Big_Sophia::FireBullet(int mode)
 	DebugOut(L"dan big tao duoc");
 	if (!canFire)
 		return;
-	LPBULLET bullet = new BigSophiaBullet(this->Getx(), this->Gety(), 1, nx, ny);
-	Sound::GetInstance()->Play("PlayerFireOverWorld", 0, 1);
-	CGrid::GetInstance()->InsertGrid(bullet);
+	if (dam <= 3)
+	{
+		LPBULLET bullet = new BigSophiaBullet(this->Getx(), this->Gety(), 1, nx, ny);
+		Sound::GetInstance()->Play("PlayerFireOverWorld", 0, 1);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+	else if (dam > 3 && dam <= 6)
+	{
+		LPBULLET bullet = new BigSophiaBullet(this->Getx(), this->Gety(), 2, nx, ny);
+		Sound::GetInstance()->Play("PlayerFireOverWorld", 0, 1);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
+	else if (dam > 6)
+	{
+		LPBULLET bullet = new BigSophiaBullet(this->Getx(), this->Gety(), 32, nx, ny);
+		Sound::GetInstance()->Play("PlayerFireOverWorld", 0, 1);
+		CGrid::GetInstance()->InsertGrid(bullet);
+	}
 	FireTimer->Start();
 	canFire = false;
 }

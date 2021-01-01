@@ -1,29 +1,23 @@
-#include "HealthBar.h"
+﻿#include "HealthBar.h"
 
-HealthBar::HealthBar(int maxHealth, int isGun)
+HealthBar::HealthBar(int initGunHealth, int isGun)
 {
-	maxPlayerHealth = maxHealth;
-	currentPlayerHealth = maxHealth;
+	maxLevel = 8;
+	currentLevel = initGunHealth;
 	this->isGun = isGun;
-
-	for (int i = 0; i < currentPlayerHealth; i++)
-	{
-		LPANIMATION_SET aniSet = CAnimationSets::GetInstance()->Get(ANIMATION_SET_PLAYERHP);
-		health.push_back(aniSet);
-	}
+	ani_set = CAnimationSets::GetInstance()->Get(ANIMATION_SET_PLAYERHP);
 }
 
 HealthBar::~HealthBar()
 {}
 
-void HealthBar::Update(int currentHealth, float xPos, float yPos)
+void HealthBar::Update(int current, float xPos, float yPos)
 {
-	currentPlayerHealth = currentHealth;
-	if (currentHealth <= 0) return;
+	currentLevel = current;
+	if (current <= 0) return;
 	x = xPos + 1.5;
 	if (isGun)
 	{
-		
 		y = yPos;
 	}
 	else
@@ -34,19 +28,10 @@ void HealthBar::Update(int currentHealth, float xPos, float yPos)
 
 void HealthBar::Render()
 {
-	if (currentPlayerHealth <= 0) return;
-	else
+	if (currentLevel <= 0) return;
+	for (int i = 0; i < currentLevel; i++)
 	{
-		for (int i = 0; i < currentPlayerHealth; i++)
-		{
-			if (isGun)
-			{
-				health[i]->at(HEALTH_TYPE_UNIT)->Render(1, x, y + 29 - i * HEALTH_SPACE_UNIT);
-			}
-			else
-			{
-				health[i]->at(HEALTH_TYPE_UNIT)->Render(1, x, y + 29 - i * HEALTH_SPACE_UNIT);
-			}
-		}
+		ani_set->at(HEALTH_TYPE_UNIT)->Render(1, x, y + 29 - i * HEALTH_SPACE_UNIT);
 	}
+	
 }

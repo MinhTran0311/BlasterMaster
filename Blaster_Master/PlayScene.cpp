@@ -43,17 +43,11 @@ void PlayScene::LoadBaseObjects()
 #pragma region create_base_objects
 	if (player == NULL)
 	{
-		player = new JASON(55, 100, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
-		DebugOut(L"[INFO] JASON CREATED!!! \n");
-		//playerInfo.jasonStage = ID_AREA1;
+		player = new JASON(55, 100, PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
+		DebugOut(L"[INFO] JASON CREATED!!! health:%d, dam:%d \n", player->GetHealth(), player->GetgunDam());
+		
 		PlayerHandler::GetInstance()->SetJasonStage(ID_AREA1);
 	}
-
-	/*if (gameHUD == NULL)
-	{
-		gameHUD = new HUD(player->GetHealth(), player->GetgunDam());
-		DebugOut(L"[INFO] HUD CREATED! %d \n", player->GetHealth());
-	}*/
 	HUD::GetInstance()->HUDInit(player->GetHealth(), player->GetgunDam());
 #pragma endregion
 	//Sound::GetInstance()->LoadSound("Resource\\Sound\\01Opening.wav", "BackgroundMusic");
@@ -347,14 +341,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				}
 				break;
 			case DIK_LSHIFT:
-				/*if (_SophiaType == ID_JASON)
-					((PlayScene*)scence)->changePlayer();
-				else if (_SophiaType== ID_SMALL_SOPHIA)
-				{
-					((PlayScene*)scence)->changePlayer();
-				}*/
 				((PlayScene*)scence)->changePlayer();
-				//player->SetPressUp(false);
 				break;
 			case DIK_A:
 			{
@@ -375,17 +362,18 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				break;
 			}
 
-			case DIK_X:
-			{
-				if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3))
-				{
-					LPBULLET bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
-					CGrid::GetInstance()->InsertGrid(bullet);
-				}
-				break;
-			}
+			//case DIK_X:
+			//{
+			//	if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3) && player->GetPlayerType() == TAG_JASON)
+			//	{
+			//		LPBULLET bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
+			//		CGrid::GetInstance()->InsertGrid(bullet);
+			//	}
+			//	break;
+			//}
 			case DIK_V:
 			{
+				if (player->GetPlayerType() == TAG_JASON)
 				//burst fire
 				player->FireBullet(2);
 				break;
@@ -486,6 +474,9 @@ void PlayScene::BossAreaController()
 	else if (dynamic_cast<Big_Sophia*>(player)->IsFightWithBoss() && dynamic_cast<Big_Sophia*>(player)->IsDoneFightWithBoss())
 	{
 		dynamic_cast<Big_Sophia*>(player)->SetIsFightWithBoss(false);
+		LPGAMEENTITY award = new Item(892, 590, TAG_ITEM_CRUSHER_BEAM, true);
+		CGrid::GetInstance()->InsertGrid(award);
+
 		player->SetPosition(880, 656);
 		Camera::GetInstance()->SetCamPos(767, 479);
 		BossIntroTimer->Start();
@@ -934,7 +925,10 @@ void PlayScene::Update(DWORD dt)
 		CGrid::GetInstance()->SetTargetForEnemies(player);
 		isUnloaded = false;
 	}
+
 	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(Camera::GetInstance()->GetRectCam());
+
+
 	if (player != NULL)
 	{
 		player->Update(dt, &coObjects);
@@ -949,15 +943,21 @@ void PlayScene::Update(DWORD dt)
 				coObjects[i]->Update(dt, &coObjects);
 			}
 		}
+
 		//sua cho nay
 		int k = 0;
+
 		for (int i = 0; i < coObjects.size() - k; i++)
 		{
 			if ((coObjects.at(i)->IsDeath()))
 			{
-				float xPos, yPos;
-				coObjects.at(i)->GetPosition(xPos, yPos);
-				RandomSpawnItem(coObjects.at(i));
+				if (coObjects.at(i)->GetType() != ITEM)
+				{
+					float xPos, yPos;
+					coObjects.at(i)->GetPosition(xPos, yPos);
+					RandomSpawnItem(coObjects.at(i));
+				}
+
 				//LPGAMEENTITY backup = coObjects.at(i);
 				//float _xtemp, _ytemp;
 				//backup->GetPosition(_xtemp, _ytemp);
@@ -982,8 +982,9 @@ void PlayScene::Update(DWORD dt)
 				k = 0;
 			}
 		}
+
 	CGrid::GetInstance()->UpdateGrid(coObjects);
-	HUD::GetInstance()->Update(Camera::GetInstance()->GetCamx()+20, HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam(), player->GetPlayerType());
+	HUD::GetInstance()->Update(Camera::GetInstance()->GetCamx()+20, HUD_Y + Camera::GetInstance()->GetCamy(), player->GetPlayerType(), player->GetHealth(), player->GetgunDam());
 	}
 #pragma endregion
 }
