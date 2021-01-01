@@ -38,6 +38,11 @@ protected:
 	Timer* changeAlphaTimer = new Timer(PLAYER_CHANGE_ALPHA);
 	bool canChangeAlpha = false;
 	LPGAMEENTITY gate;
+	//bullet
+	int noOfHomingMisslesWeaponLeft = 3;
+	int noOfElectricWeaponLeft = 3;
+	int noOfRocketsWeaponLeft = 3;
+	EntityType specialBulletType;
 public:
 	Player();
 	~Player();
@@ -77,5 +82,13 @@ public:
 	void EnemyBulletHitPlayer(int);
 	void CollideWithObject(LPGAMEENTITY object);
 	void CollisionHandle(vector<LPGAMEENTITY>* coObjects);
+
+	void GetNoOfBulletLeft(int& rocket, int& missles, int& electric) {
+		rocket = noOfRocketsWeaponLeft;
+		missles = noOfHomingMisslesWeaponLeft;
+		electric = noOfElectricWeaponLeft;
+	}
+	int GetCurrentSpecialWeapon() { return specialBulletType; };
+	void SetSpecialBulletType(EntityType _specialbullettype) { specialBulletType = _specialbullettype; };
 };
 typedef Player* LPGAMEPLAYER;

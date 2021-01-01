@@ -460,9 +460,9 @@
     </ClInclude>
     <ClInclude Include="Explosion.h">
       <Filter>Objects\Boss</Filter>
-      </ClInclude>
-  <ClInclude Include="Mines.h">
-    <Filter>Header Files\EnemyHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="Mines.h">
+      <Filter>Header Files\EnemyHeader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

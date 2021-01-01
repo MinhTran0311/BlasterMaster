@@ -13,8 +13,9 @@
 #include "Big_Sophia.h"
 #include "IntroScene.h"
 #include "ChooseWeaponScene.h"
-
-
+#include "Random.h"
+#include "Boss.h"
+#include "Item.h"
 #define MAP2_SIDE	200
 
 #define HUD_Y (SCREEN_HEIGHT/2.5)
@@ -31,6 +32,7 @@ PlayScene::PlayScene(int _idStage) : Scene()
 	ChooseMap(idStage);
 	Sound::GetInstance()->LoadSoundResource(SOUND_RESOURCE_UNDERWORLD);
 	Sound::GetInstance()->Play("MusicMap", 1, 10000);
+	srand(time(NULL));
 }
 void PlayScene::LoadBaseObjects()
 {
@@ -801,6 +803,36 @@ void PlayScene::CheckPlayerReachGate()
 }
 void PlayScene::RandomSpawnItem(LPGAMEENTITY ItemSpawer)
 {
+	if ((ItemSpawer->GetType() == ENEMY && !dynamic_cast<CBoss*>(ItemSpawer)) || (ItemSpawer->GetType() == TAG_SOFT_BRICK))
+	{
+		float prop = random->getRandomFloat(0.0f, 1.0f);
+		if (idStage != ID_MAPOVERWORLD)
+		{
+			if (prop > 0.8f)
+			{
+				LPGAMEENTITY _PowerUp = new Item(ItemSpawer->Getx(), ItemSpawer->Gety(),TAG_ITEM_SINGLE_POWER_UP,true);
+				CGrid::GetInstance()->InsertGrid(_PowerUp);
+			}
+		}
+		else
+		{
+			if (prop > 0.8f)
+			{
+				LPGAMEENTITY _PowerUp = new Item(ItemSpawer->Getx(), ItemSpawer->Gety(), TAG_ITEM_SINGLE_POWER_UP,true);
+				CGrid::GetInstance()->InsertGrid(_PowerUp);
+			}
+			else if (prop > 0.1f && prop < 0.25f)
+			{
+				LPGAMEENTITY _GunUp = new Item(ItemSpawer->Getx(), ItemSpawer->Gety(), TAG_ITEM_SINGLE_GUN_UP, true);
+				CGrid::GetInstance()->InsertGrid(_GunUp);
+			}
+			else if (prop < 0.1f)
+			{
+				LPGAMEENTITY _Hover = new Item(ItemSpawer->Getx(), ItemSpawer->Gety(),TAG_ITEM_HOVER,true);
+				CGrid::GetInstance()->InsertGrid(_Hover);
+			}
+		}
+	}
 }
 
 void PlayScene::Update(DWORD dt)
@@ -852,8 +884,6 @@ void PlayScene::Update(DWORD dt)
 			}
 		}
 	}
-
-
 #pragma endregion
 	if (player->GetPlayerType() == TAG_BIG_SOPHIA && idStage == ID_MAPOVERWORLD)
 	{
@@ -876,14 +906,12 @@ void PlayScene::Update(DWORD dt)
 		}
 	}
 #pragma endregion
-
 #pragma region update objects
 	if (isUnloaded)
 	{
 		CGrid::GetInstance()->SetTargetForEnemies(player);
 		isUnloaded = false;
 	}
-
 	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(Camera::GetInstance()->GetRectCam());
 	if (player != NULL)
 	{
@@ -908,27 +936,24 @@ void PlayScene::Update(DWORD dt)
 			{
 				float xPos, yPos;
 				coObjects.at(i)->GetPosition(xPos, yPos);
-				LPGAMEENTITY backup = coObjects.at(i);
-
+				RandomSpawnItem(coObjects.at(i));
+				//LPGAMEENTITY backup = coObjects.at(i);
+				//float _xtemp, _ytemp;
+				//backup->GetPosition(_xtemp, _ytemp);
+				//// add item into grid
+				//switch (backup->GetType())
+				//{
+				//case EntityType::ENEMY: 
+				//{
+				//	LPGAMEENTITY _PowerUp = new PowerUp(xPos, yPos);
+				//	CGrid::GetInstance()->InsertGrid(_PowerUp);
+				//	break;
+				//}
+				//default:
+				//	break;
+				//}
+				CGrid::GetInstance()->RemoveObj(coObjects.at(i), true);
 				coObjects.erase(coObjects.begin() + i);
-
-				float _xtemp, _ytemp;
-				backup->GetPosition(_xtemp, _ytemp);
-
-				// add item into grid
-				switch (backup->GetType())
-				{
-				case EntityType::ENEMY: 
-				{
-					LPGAMEENTITY _PowerUp = new PowerUp(xPos, yPos);
-					CGrid::GetInstance()->InsertGrid(_PowerUp);
-					break;
-				}
-				default:
-					break;
-				}
-
-				CGrid::GetInstance()->RemoveObj(backup, true);
 				k = 1;
 				i--;
 			}
@@ -936,18 +961,11 @@ void PlayScene::Update(DWORD dt)
 				k = 0;
 			}
 		}
-
-
-		//DebugOut(L"debug 6\n");
 	CGrid::GetInstance()->UpdateGrid(coObjects);
-	//player
-
 	HUD::GetInstance()->Update(Camera::GetInstance()->GetCamx()+20, HUD_Y + Camera::GetInstance()->GetCamy(), player->GetHealth(), player->GetgunDam(), player->GetPlayerType());
 	}
 #pragma endregion
-
 }
-
 void PlayScene::Render()
 {
 	if (this->death == true)
@@ -1003,9 +1021,7 @@ void PlayScene::Render()
 			break;
 		}
 		HUD::GetInstance()->Render(player);
-
 	}
-
 }
 void PlayScene::Unload()
 {

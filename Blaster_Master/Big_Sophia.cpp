@@ -74,7 +74,6 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		y += dy;
 		return;
 	}
-	DebugOut(L"nx: %d, ny: %d\n", nx, ny);
 #pragma endregion
 #pragma region Xử lý va chạm
 	CollisionHandle(coObjects);

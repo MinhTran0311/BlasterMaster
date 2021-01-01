@@ -22,9 +22,6 @@
 #include "Small_Sophia.h"
 #include "Brick.h"
 #include "Gate.h"
-
-#include "GunUp.h"
-#include "PowerUp.h"
 #include "Sound.h"
 #include <iostream>
 #include <fstream>
@@ -36,7 +33,6 @@ using namespace std;
 
 struct PlayerHealthAndGunInfo
 {
-
 	int life = 2;
 	int playerDirectionBeforePassGate = 1;
 	int jasonHealth = PLAYER_MAX_HEALTH;
@@ -81,7 +77,7 @@ public:
 	bool isUnloaded = false;
 
 	int inforDisplay = 0;
-
+	Random* random = new Random();
 	/*void SetKeyhandler(Scene* scene) {
 		keyHandler = new PlayScenceKeyHandler(scene);
 		CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());

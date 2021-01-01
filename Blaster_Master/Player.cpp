@@ -14,6 +14,7 @@
 #include "ElectricBullet.h"
 #include "HomingMissles.h"
 #include "Big_Sophia.h"
+#include "Item.h"
 Player::Player()
 {
 	tag = EntityType::TAG_PLAYER;
@@ -127,22 +128,57 @@ void Player::CollideWithObject(LPGAMEENTITY object)
 		}
 		case EntityType::ITEM:
 		{
-			LPGAMEITEM item = dynamic_cast<LPGAMEITEM>(object);
-			if (item->getItemType() == EntityType::TAG_ITEM_POWER_UP)
+			EntityType itemType = dynamic_cast<LPGAMEITEM>(object)->GetItemType();
+
+			switch (itemType)
+			{
+			case TAG_ITEM_SINGLE_POWER_UP:
 			{
 				if (this->GetHealth() + ITEM_POWER_UP_RESTORE <= MAX_HEALTH)
 					this->AddHealth(ITEM_POWER_UP_RESTORE);
 				else
 					this->SetHealth(MAX_HEALTH);
+				break;
 			}
-			else if (item->getItemType() == EntityType::TAG_ITEM_GUN_UP)
+			case TAG_ITEM_HOVER:
+				break;
+			case TAG_ITEM_ELECTRIC:
+			{
+				noOfElectricWeaponLeft++;
+				break;
+			}
+			case TAG_ITEM_ROCKET:
+			{
+				noOfRocketsWeaponLeft++;
+				break;
+			}
+			case TAG_ITEM_HOMINGMISSLES:
+			{
+				noOfHomingMisslesWeaponLeft++;
+				break;
+			}
+			case TAG_ITEM_SINGLE_GUN_UP:
 			{
 				if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
 					this->AddgunDam(ITEM_GUN_UP_RESTORE);
 				else
 					this->SetgunDam(MAX_GUNDAM);
+				break;
 			}
-			item->setActive(false);
+			case TAG_ITEM_FULL_GUN_UP:
+			{	
+				this->SetgunDam(MAX_GUNDAM);
+				break;
+			}
+			case TAG_ITEM_FULL_POWER_UP:
+			{
+				this->SetgunDam(MAX_HEALTH);
+				break;
+			}
+			default:
+				break;
+			}
+			object->setActive(false);
 			isInjured = false;
 			Sound::GetInstance()->Play("PickingItems", 0, 1);
 			break;

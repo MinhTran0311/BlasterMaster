@@ -1,4 +1,5 @@
 //#include <cstdlib> // for rand() and srand()
+#pragma once
 #include <random>
 #include <ctime>
 using namespace std;

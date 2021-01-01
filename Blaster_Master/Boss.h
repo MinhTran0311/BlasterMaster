@@ -10,6 +10,8 @@
 #include "vector"
 #include "Explosion.h"
 #include "Big_Sophia.h"
+#include "Random.h"
+
 #define BOSS_WALKING_SPEED 0.03f;
 
 #define BOSS_BBOX_WIDTH 60

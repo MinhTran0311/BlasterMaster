@@ -95,29 +95,16 @@ private:
 	bool isEjecting;
 	int burstFireModeBullets = 0;
 
-	int noOfHomingMisslesWeaponLeft = 3;
-	int noOfElectricWeaponLeft = 3;
-	int noOfRocketsWeaponLeft = 3;
-	EntityType specialBulletType;
+	
 	Timer* burstFireTimer = new Timer(BURST_FIRE_DELAY);
 public:
 	JASON(float x, float y, int health, int gundam);
 	JASON() {};
 	static JASON* GetInstance();
 
-	void GetNoOfBulletLeft(int& rocket, int& missles, int& electric) {
-		rocket = noOfRocketsWeaponLeft;
-		missles = noOfHomingMisslesWeaponLeft;
-		electric = noOfElectricWeaponLeft;
-	}
-	int GetCurrentSpecialWeapon() { return specialBulletType; };
-	void SetSpecialBulletType(EntityType _specialbullettype) { specialBulletType = _specialbullettype; };
-
-
 	void SetState(int state);
 	void SetPressSpace(bool isPress) { isPressJump = isPress; };
 	void SetPressUp(bool a) { isPressFlipGun = a; }
-	//void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	bool IsGunFlip() { return isGunFlipping; }
 	bool IsJumping() { return isJumping; };
 	void SetIsJumping(bool jump) { isJumping = jump; };

@@ -1,10 +1,20 @@
-#include "Item.h"
+﻿#include "Item.h"
 
-Item::Item()
+Item::Item(float xPos, float yPos, EntityType type, bool spawed)
 {
+	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_ITEM));
 	tag = EntityType::ITEM;
-	//lifetime = 0;
-	this->SetState(ITEM_STATE_ACTIVE);
+	itemType = type;
+	x = xPos;
+	y = yPos;
+	SetState(ITEM_STATE_ACTIVE);
+	if (spawed)
+	{
+		isStatic = false;
+		displayTimer = new Timer(ITEM_LIFETIME);
+		displayTimer->Start();
+	}
+	DebugOut(L"tạo item\n");
 }
 
 Item::~Item() {}
@@ -24,9 +34,7 @@ void Item::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		SetState(ITEM_ACTIVE_UNACTIVE);
 		return;
 	}
-	//lifetime += dt;
-	//if (lifetime > lifetimelimit)
-	if(displayTimer->IsTimeUp())
+	if(displayTimer->IsTimeUp() && isStatic)
 	{
 		SetState(ITEM_ACTIVE_UNACTIVE);
 		return;
@@ -38,10 +46,49 @@ void Item::Render()
 {
 	if (state == ITEM_ACTIVE_UNACTIVE)
 		return;
+
 	else
 	{
-		animationSet->at(0)->OldRender(x, y);
-		//RenderBoundingBox();
+		DebugOut(L"render item\n");
+		int ani = -1;
+		switch (itemType)
+		{
+		case TAG_ITEM_SINGLE_POWER_UP:
+			ani = ITEM_ANI_POWER_UP;
+			animationSet->at(ani)->Render(1, x, y);
+			break;
+		case TAG_ITEM_HOVER:
+			ani = ITEM_ANI_HOVER;
+			break;
+		case TAG_ITEM_ELECTRIC:
+			ani = ITEM_ANI_ELECTRIC;
+			break;
+		case TAG_ITEM_ROCKET:
+			ani = ITEM_ANI_ROCKET;
+			break;
+		case TAG_ITEM_HOMINGMISSLES:
+			ani = ITEM_ANI_HOMINGMISSLES;
+			break;
+		case TAG_ITEM_SINGLE_GUN_UP:
+			ani = ITEM_ANI_SINGLE_GUN_UP;
+			animationSet->at(ani)->Render(1, x, y);
+			break;
+		case TAG_ITEM_FULL_GUN_UP:
+			ani = ITEM_ANI_FULL_GUN_UP;
+			break;
+		case TAG_ITEM_FULL_POWER_UP:
+			ani = ITEM_ANI_FULL_POWER_UP;
+			break;		
+		case TAG_ITEM_HYBER_BEAM:
+			ani = ITEM_ANI_HYBER_BEAM;
+			break;		
+		case TAG_ITEM_CRUSHER_BEAM:
+			ani = ITEM_ANI_CRUSHER_BEAM;
+			break;
+		default:
+			break;
+		}
+		animationSet->at(ani)->Render(1,x, y);
 	}
 }
 
