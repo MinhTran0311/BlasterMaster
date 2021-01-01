@@ -999,14 +999,15 @@ void PlayScene::Render()
 			this->animation_set = CAnimationSets::GetInstance()->Get(61004);
 			this->animation_set->at(0)->Render(1, 80, 115 + 30 * this->select_end);
 			this->time_drawlife++;
-			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  PlayerHandler::GetInstance()->SetLife(life--); this->player->health = 8; }
+			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  PlayerHandler::GetInstance()->SetLife(2); this->player->health = 8; }
 		}
 		else {
 			wchar_t buffer[256];
 			wsprintfW(buffer, L"LEFT %d", PlayerHandler::GetInstance()->GetLife());
 			CGame::GetInstance()->DrawTextInScene(buffer, 100, 100, 400, 400);
 			this->time_drawlife++;
-			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  PlayerHandler::GetInstance()->SetLife(life--); this->player->health = 1; }
+			life--;
+			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  PlayerHandler::GetInstance()->SetLife(life); }
 		}
 		//LPCWSTR Life = L"LEFT %d" + this->playerInfo.life;
 

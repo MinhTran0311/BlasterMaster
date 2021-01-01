@@ -183,6 +183,20 @@ void Player::CollideWithObject(LPGAMEENTITY object)
 				this->SetgunDam(MAX_HEALTH);
 				break;
 			}
+			case TAG_ITEM_CRUSHER_BEAM:
+			{
+				int jasongundam = PlayerHandler::GetInstance()->GetJasonGunDam();
+				jasongundam += 2;
+				PlayerHandler::GetInstance()->SetJasonGunDam(jasongundam);
+				break;
+			}
+			case TAG_ITEM_HYBER_BEAM:
+			{
+				int jasongundam = PlayerHandler::GetInstance()->GetJasonGunDam();
+				jasongundam += 1;
+				PlayerHandler::GetInstance()->SetJasonGunDam(jasongundam);
+				break;
+			}
 			default:
 				break;
 			}
