@@ -434,7 +434,6 @@ void PlayScene::changePlayer()
 	}
 	Sound::GetInstance()->Play("EjectJason", 0, 1);
 }
-
 void PlayScene::CheckEnterBoss()
 {
 	if (player->GetPlayerType() == TAG_BIG_SOPHIA && player->Getx() > 60 && player->Getx() < 80 && player->Gety() > 1844 && player->Gety() < 1880 && !dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea() && idStage== ID_MAPOVERWORLD)
@@ -800,6 +799,9 @@ void PlayScene::CheckPlayerReachGate()
 		}
 	}
 }
+void PlayScene::RandomSpawnItem(LPGAMEENTITY ItemSpawer)
+{
+}
 
 void PlayScene::Update(DWORD dt)
 {
@@ -859,30 +861,23 @@ void PlayScene::Update(DWORD dt)
 	}
 	CheckPlayerReachGate();
 #pragma region camera
-	float cx, cy;
-
-	player->GetPosition(cx, cy);
 	if (isNeedResetCamera)
 	{
 		DebugOut(L"middle\n");
 		Camera::GetInstance()->SetCamPos(camMap1X, camMap1Y);
-		//DebugOut(L"y: %d \n",camMap1Y);
-		//posY = camMap1Y;
 		isNeedResetCamera = false;
 	}
 	else
 	{
 		if (!player->IsDoneDeath())
 		{
-			Camera::GetInstance()->Update(cx, cy, player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
+			Camera::GetInstance()->Update(player->Getx(), player->Gety(), player->GetPlayerType(), dt, listWidth[idStage - 11], listHeight[idStage - 11], player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
 
 		}
 	}
 #pragma endregion
 
 #pragma region update objects
-
-
 	if (isUnloaded)
 	{
 		CGrid::GetInstance()->SetTargetForEnemies(player);
@@ -902,7 +897,6 @@ void PlayScene::Update(DWORD dt)
 		{
 			if (coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != TAG_GATE && coObjects.at(i)->GetType() != TAG_GATE_OVERWORLD)
 			{
-			//	DebugOut(L"debug 5\n");
 				coObjects[i]->Update(dt, &coObjects);
 			}
 		}
@@ -924,7 +918,7 @@ void PlayScene::Update(DWORD dt)
 				// add item into grid
 				switch (backup->GetType())
 				{
-				case EntityType::ENEMY:
+				case EntityType::ENEMY: 
 				{
 					LPGAMEENTITY _PowerUp = new PowerUp(xPos, yPos);
 					CGrid::GetInstance()->InsertGrid(_PowerUp);

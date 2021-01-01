@@ -108,6 +108,7 @@ protected:
 	virtual void Unload();
 	virtual void LoadSceneObjects(LPCWSTR path);
 	virtual void changePlayer();
+	void RandomSpawnItem(LPGAMEENTITY ItemSpawer);
 	//Item* RandomItem(float x, float y);
 	//Item* DropItem(EntityType createrType, float x, float y, int idCreater = 0);
 
