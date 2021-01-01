@@ -16,6 +16,7 @@
 #include "Random.h"
 #include "Boss.h"
 #include "Item.h"
+#include "PlayerHandler.h"
 #define MAP2_SIDE	200
 
 #define HUD_Y (SCREEN_HEIGHT/2.5)
@@ -33,6 +34,7 @@ PlayScene::PlayScene(int _idStage) : Scene()
 	Sound::GetInstance()->LoadSoundResource(SOUND_RESOURCE_UNDERWORLD);
 	Sound::GetInstance()->Play("MusicMap", 1, 10000);
 	srand(time(NULL));
+	PlayerHandler::GetInstance()->Init();
 }
 void PlayScene::LoadBaseObjects()
 {
@@ -43,8 +45,8 @@ void PlayScene::LoadBaseObjects()
 	{
 		player = new JASON(55, 100, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
 		DebugOut(L"[INFO] JASON CREATED!!! \n");
-		playerInfo.jasonStage = ID_AREA1;
-
+		//playerInfo.jasonStage = ID_AREA1;
+		PlayerHandler::GetInstance()->SetJasonStage(ID_AREA1);
 	}
 
 	/*if (gameHUD == NULL)
@@ -288,7 +290,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
 	if (playScene->death == true)
 	{
-		if (playScene->playerInfo.life < 0) {
+		if (PlayerHandler::GetInstance()->GetLife() < 0) {
 			if (KeyCode == DIK_DOWN)playScene->select_end = true;
 			if (KeyCode == DIK_UP)playScene->select_end = false;
 			if (KeyCode == DIK_RETURN) {
@@ -403,16 +405,21 @@ void PlayScene::changePlayer()
 
 	if (player->GetPlayerType() == EntityType::TAG_JASON && !dynamic_cast<JASON*>(player)->IsGunFlip() && !dynamic_cast<JASON*>(player)->IsJumping())
 	{
-		playerInfo.jasonHealth = player->GetHealth();
-		playerInfo.jasonGundam = player->GetgunDam();
-		playerInfo.jasonStage = idStage;
-		playerInfo.jasonXPos = player->Getx();
-		playerInfo.jasonYPos = player->Gety();
-		playerInfo.sophiaStage = idStage;
+		//playerInfo.jasonHealth = player->GetHealth();
+		//playerInfo.jasonGundam = player->GetgunDam();
+		//playerInfo.jasonStage = idStage;
+		//playerInfo.jasonXPos = player->Getx();
+		//playerInfo.jasonYPos = player->Gety();
+		//playerInfo.sophiaStage = idStage;
+		PlayerHandler::GetInstance()->SetJasonInfor(idStage, player->Getx(), player->Gety(), player->GetHealth(), player->GetgunDam());
+		PlayerHandler::GetInstance()->SetSophiaStage(idStage);
+		
+
 
 		this->player->SetState(SOPHIA_STATE_OUT);
 		backup_player = player;
-		player = new Small_Sophia(backup_player->Getx(), backup_player->Gety(), playerInfo.sophiaHealth, playerInfo.sophiaGundam);
+		//player = new Small_Sophia(backup_player->Getx(), backup_player->Gety(), playerInfo.sophiaHealth, playerInfo.sophiaGundam);
+		player = new Small_Sophia(backup_player->Getx(), backup_player->Gety(), PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
 		player->SetState(SMALL_SOPHIA_STATE_OUT);
 
 		CGrid::GetInstance()->SetTargetForEnemies(player);
@@ -421,8 +428,10 @@ void PlayScene::changePlayer()
 	{
 		if (abs(backup_player->x - player->x) < DISTANCE_TO_OUT && abs(backup_player->y - player->y) < DISTANCE_TO_OUT)
 		{
-			playerInfo.sophiaHealth = player->GetHealth();
-			playerInfo.sophiaGundam = player->GetgunDam();
+			//playerInfo.sophiaHealth = player->GetHealth();
+			//playerInfo.sophiaGundam = player->GetgunDam();
+			PlayerHandler::GetInstance()->SetSophiaHealth(player->GetHealth());
+			PlayerHandler::GetInstance()->SetSophiaGunDam(player->GetgunDam());
 			this->player->SetState(SMALL_SOPHIA_STATE_IDLE);
 			this->player->SetState(SMALL_SOPHIA_STATE_OUT);
 
@@ -671,32 +680,33 @@ void PlayScene::CheckPlayerReachGate()
 			Gate* gate = dynamic_cast<Gate*>(player->GetGate());
 			if (gate->GetIdScene() != ID_MAPOVERWORLD)
 			{
-				DebugOut(L"[Info] success\n");
-				playerInfo.jasonStage = gate->GetIdScene();
-				playerInfo.jasonXPos = gate->GetNewPlayerX();
-				playerInfo.jasonYPos = gate->GetNewPlayerY();
-				int tempState = gate->GetNewPlayerState();
+				//playerInfo.jasonStage = gate->GetIdScene();
+				//playerInfo.jasonXPos = gate->GetNewPlayerX();
+				//playerInfo.jasonYPos = gate->GetNewPlayerY();
 				//isNeedResetCamera = gate->directionCam;
+				//DebugOut(L"camposX: %d, camposY: %d\n", camMap1X, camMap1Y);
+				//DebugOut(L"posX: %f, posY: %f\n", playerInfo.jasonXPos, playerInfo.jasonYPos);
+				//playerInfo.jasonGundam = player->GetgunDam();
+				//playerInfo.jasonHealth = player->GetHealth();
+				//playerInfo.playerDirectionBeforePassGate = player->GetDirection();
+
+				PlayerHandler::GetInstance()->SetJasonInfor(gate->GetIdScene(), gate->GetNewPlayerX(), gate->GetNewPlayerY(), player->GetHealth(), player->GetgunDam(), player->GetDirection());
 
 				camMap1X = gate->GetNewCamXPos();
 				camMap1Y = gate->GetNewCamYPos();
+				int tempState = gate->GetNewPlayerState();
 				isNeedResetCamera = true;
-				DebugOut(L"camposX: %d, camposY: %d\n", camMap1X, camMap1Y);
-				DebugOut(L"posX: %f, posY: %f\n", playerInfo.jasonXPos, playerInfo.jasonYPos);
-
-
-				playerInfo.jasonGundam = player->GetgunDam();
-				playerInfo.jasonHealth = player->GetHealth();
-				playerInfo.playerDirectionBeforePassGate = player->GetDirection();
-
 				Unload();
 
-				ChooseMap(playerInfo.jasonStage);
+				//ChooseMap(playerInfo.jasonStage);
+				ChooseMap(PlayerHandler::GetInstance()->GetJasonStage());
 
 				Camera::GetInstance()->SetIsFollowPlayer(gate->IsCamFollowPlayer());
 
-				player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
-				player->SetDirection(playerInfo.playerDirectionBeforePassGate);
+				//player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
+				//player->SetDirection(playerInfo.playerDirectionBeforePassGate);
+				player = new JASON(gate->GetNewPlayerX(), gate->GetNewPlayerY(), PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
+				player->SetDirection(PlayerHandler::GetInstance()->GetPlayerDirectionBeforePassGate());
 				player->SetState(tempState);
 				//CGrid::GetInstance()->SetTargetForEnemies(player);
 			}
@@ -706,45 +716,48 @@ void PlayScene::CheckPlayerReachGate()
 		{
 			Gate* gate = dynamic_cast<Gate*>(player->GetGate());
 
-			DebugOut(L"[Info] samll gate success\n");
-			playerInfo.sophiaStage = gate->GetIdScene();
-			playerInfo.sophiaXPos = gate->GetNewPlayerX();
-			playerInfo.sophiaYPos = gate->GetNewPlayerY();
-			int tempState = gate->GetNewPlayerState();
+			//playerInfo.sophiaStage = gate->GetIdScene();
+			//playerInfo.sophiaXPos = gate->GetNewPlayerX();
+			//playerInfo.sophiaYPos = gate->GetNewPlayerY();
+			
 			//isNeedResetCamera = gate->directionCam;
+
+			//DebugOut(L"camposX: %d, camposY: %d\n", camMap1X, camMap1Y);
+			//DebugOut(L"posX: %d, posY: %d\n", playerInfo.sophiaXPos, playerInfo.sophiaYPos);
+
+			//playerInfo.sophiaGundam = player->GetgunDam();
+			//playerInfo.sophiaHealth = player->GetHealth();
+			//playerInfo.playerDirectionBeforePassGate = player->GetDirection();
+
+			PlayerHandler::GetInstance()->SetSophiaInfor(gate->GetIdScene(), gate->GetNewPlayerX(), gate->GetNewPlayerY(), player->GetHealth(), player->GetgunDam(), player->GetDirection());
+			int tempState = gate->GetNewPlayerState();
 			camMap1X = gate->GetNewCamXPos();
 			camMap1Y = gate->GetNewCamYPos();
 			isNeedResetCamera = true;
-			DebugOut(L"camposX: %d, camposY: %d\n", camMap1X, camMap1Y);
-			DebugOut(L"posX: %d, posY: %d\n", playerInfo.sophiaXPos, playerInfo.sophiaYPos);
-
-			playerInfo.sophiaGundam = player->GetgunDam();
-			playerInfo.sophiaHealth = player->GetHealth();
-			playerInfo.playerDirectionBeforePassGate = player->GetDirection();
-
 			Unload();
 
 			//DebugOut(L"type %d\n", gate->typePlayer);
-			ChooseMap(playerInfo.sophiaStage);
+			ChooseMap(PlayerHandler::GetInstance()->GetSophiaStage());
 
 			Camera::GetInstance()->SetIsFollowPlayer(gate->IsCamFollowPlayer());
 
-			switch (playerInfo.sophiaStage)
+			switch (PlayerHandler::GetInstance()->GetSophiaStage())
 			{
 			case ID_MAPOVERWORLD:
 			{
-				player = new Big_Sophia(playerInfo.sophiaXPos, playerInfo.sophiaYPos, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
-
+				player = new Big_Sophia(gate->GetNewPlayerX(), gate->GetNewPlayerY(), PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
 				break;
 			}
 			default:
 			{
-				player = new Small_Sophia(playerInfo.sophiaXPos, playerInfo.sophiaYPos + 2.0f, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
-				player->SetDirection(playerInfo.playerDirectionBeforePassGate);
+				player = new Small_Sophia(gate->GetNewPlayerX(), gate->GetNewPlayerY() + 2.0f, PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
+				player->SetDirection(PlayerHandler::GetInstance()->GetPlayerDirectionBeforePassGate());
 				player->SetState(tempState);
-				if (playerInfo.sophiaStage == playerInfo.jasonStage)
+				if (PlayerHandler::GetInstance()->GetSophiaStage() == PlayerHandler::GetInstance()->GetJasonStage())
 				{
-					backup_player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
+					float xPos, yPos;
+					PlayerHandler::GetInstance()->GetJasonPosition(xPos, yPos);
+					backup_player = new JASON(xPos, yPos, PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
 				}
 				break;
 			}
@@ -777,23 +790,32 @@ void PlayScene::CheckPlayerReachGate()
 
 				Gate* gate = dynamic_cast<Gate*>(player->GetGate());
 
-				DebugOut(L"[Info] return gate success\n");
-				playerInfo.sophiaStage = gate->GetIdScene();
-				playerInfo.sophiaXPos = gate->GetNewPlayerX();
-				playerInfo.sophiaYPos = gate->GetNewPlayerY();
+				//DebugOut(L"[Info] return gate success\n");
+				//playerInfo.sophiaStage = gate->GetIdScene();
+				//playerInfo.sophiaXPos = gate->GetNewPlayerX();
+				//playerInfo.sophiaYPos = gate->GetNewPlayerY();
 				//isNeedResetCamera = gate->directionCam;
+				//camMap1X = gate->GetNewCamXPos();
+				//camMap1Y = gate->GetNewCamYPos();
+				//playerInfo.sophiaGundam = player->GetgunDam();
+				//playerInfo.sophiaHealth = player->GetHealth();
+				//isNeedResetCamera = true;
+
+				PlayerHandler::GetInstance()->SetSophiaInfor(gate->GetIdScene(), gate->GetNewPlayerX(), gate->GetNewPlayerY(), player->GetHealth(), player->GetgunDam(), player->GetDirection());
+				int tempState = gate->GetNewPlayerState();
 				camMap1X = gate->GetNewCamXPos();
 				camMap1Y = gate->GetNewCamYPos();
-				playerInfo.sophiaGundam = player->GetgunDam();
-				playerInfo.sophiaHealth = player->GetHealth();
 				isNeedResetCamera = true;
+
 				Unload();
-				ChooseMap(playerInfo.sophiaStage);
+				ChooseMap(PlayerHandler::GetInstance()->GetSophiaStage());
 
 				Camera::GetInstance()->SetIsFollowPlayer(gate->IsCamFollowPlayer());
 
-				player = new Small_Sophia(playerInfo.sophiaXPos, playerInfo.sophiaYPos, playerInfo.sophiaHealth, playerInfo.sophiaGundam);
-				backup_player = new JASON(playerInfo.jasonXPos, playerInfo.jasonYPos, playerInfo.jasonHealth, playerInfo.jasonGundam);
+				player = new Small_Sophia(gate->GetNewPlayerX(), gate->GetNewPlayerY(), PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
+				float xPos, yPos;
+				PlayerHandler::GetInstance()->GetJasonPosition(xPos, yPos);
+				backup_player = new JASON(xPos,yPos, PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
 				//CGrid::GetInstance()->SetTargetForEnemies(player);
 			}
 			break;
@@ -844,7 +866,7 @@ void PlayScene::Update(DWORD dt)
 		/*if (SceneManager::GetInstance()->GetHolderScene() == nullptr)*/
 		DebugOut(L"khong null: %d\n", SceneManager::GetInstance()->GetHolderScene());
 		inforDisplay = 0;
-		SceneManager::GetInstance()->SetScene(new ChooseWeaponScene(dynamic_cast<JASON*>(player)));
+		SceneManager::GetInstance()->SetScene(new ChooseWeaponScene());
 
 	}
 	else if (this->inforDisplay == LIFE_DISPLAY)
@@ -856,7 +878,7 @@ void PlayScene::Update(DWORD dt)
 	{
 		if (player->IsDoneDeath())
 		{
-			if (playerInfo.life < 0)
+			if (PlayerHandler::GetInstance()->GetLife() < 0)
 			{
 				//ending
 				this->death = true;
@@ -871,13 +893,13 @@ void PlayScene::Update(DWORD dt)
 
 				if (player->GetPlayerType() == TAG_JASON)
 				{
-					ChooseMap(playerInfo.jasonStage);
-					player->Reset(playerInfo.jasonHealth, playerInfo.jasonGundam);
+					ChooseMap(PlayerHandler::GetInstance()->GetJasonStage());
+					player->Reset(PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
 				}
 				else
 				{
-					ChooseMap(playerInfo.sophiaStage);
-					player->Reset(playerInfo.sophiaHealth, playerInfo.sophiaGundam);
+					ChooseMap(PlayerHandler::GetInstance()->GetSophiaStage());
+					player->Reset(PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
 
 				}
 				isNeedResetCamera = true;
@@ -918,7 +940,6 @@ void PlayScene::Update(DWORD dt)
 		player->Update(dt, &coObjects);
 
 	}
-	//DebugOut(L"debug 4\n");
 	if (coObjects.size() != 0)
 	{//update obj
 		for (int i = 0; i < coObjects.size(); i++)
@@ -970,21 +991,22 @@ void PlayScene::Render()
 {
 	if (this->death == true)
 	{
-		if (this->playerInfo.life < 0) {
+		int life = PlayerHandler::GetInstance()->GetLife();
+		if (life < 0) {
 
 			CGame::GetInstance()->DrawTextInScene(L"CONTINUE", 100, 100, 400, 400);
 			CGame::GetInstance()->DrawTextInScene(L"END", 100, 130, 400, 400);
 			this->animation_set = CAnimationSets::GetInstance()->Get(61004);
 			this->animation_set->at(0)->Render(1, 80, 115 + 30 * this->select_end);
 			this->time_drawlife++;
-			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  this->playerInfo.life--; this->player->health = 8; }
+			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  PlayerHandler::GetInstance()->SetLife(life--); this->player->health = 8; }
 		}
 		else {
 			wchar_t buffer[256];
-			wsprintfW(buffer, L"LEFT %d", this->playerInfo.life);
+			wsprintfW(buffer, L"LEFT %d", PlayerHandler::GetInstance()->GetLife());
 			CGame::GetInstance()->DrawTextInScene(buffer, 100, 100, 400, 400);
 			this->time_drawlife++;
-			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  this->playerInfo.life--; this->player->health = 1; }
+			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  PlayerHandler::GetInstance()->SetLife(life--); this->player->health = 1; }
 		}
 		//LPCWSTR Life = L"LEFT %d" + this->playerInfo.life;
 

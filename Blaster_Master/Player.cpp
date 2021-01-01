@@ -15,6 +15,7 @@
 #include "HomingMissles.h"
 #include "Big_Sophia.h"
 #include "Item.h"
+#include "PlayerHandler.h"
 Player::Player()
 {
 	tag = EntityType::TAG_PLAYER;
@@ -144,21 +145,28 @@ void Player::CollideWithObject(LPGAMEENTITY object)
 				break;
 			case TAG_ITEM_ELECTRIC:
 			{
-				noOfElectricWeaponLeft++;
+				int no = PlayerHandler::GetInstance()->GetNoElectric();
+				no++;
+				PlayerHandler::GetInstance()->SetNoElectric(no);
 				break;
 			}
 			case TAG_ITEM_ROCKET:
 			{
-				noOfRocketsWeaponLeft++;
+				int no = PlayerHandler::GetInstance()->GetNoRocket();
+				no++;
+				PlayerHandler::GetInstance()->SetNoRocket(no);
 				break;
 			}
 			case TAG_ITEM_HOMINGMISSLES:
 			{
-				noOfHomingMisslesWeaponLeft++;
+				int no = PlayerHandler::GetInstance()->GetNoMissles();
+				no++;
+				PlayerHandler::GetInstance()->SetNoMissles(no);
 				break;
 			}
 			case TAG_ITEM_SINGLE_GUN_UP:
 			{
+				DebugOut(L"theem gun up");
 				if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
 					this->AddgunDam(ITEM_GUN_UP_RESTORE);
 				else

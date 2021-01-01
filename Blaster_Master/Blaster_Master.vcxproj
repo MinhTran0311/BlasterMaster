@@ -164,6 +164,7 @@
     <ClCompile Include="Mines.cpp" />
     <ClCompile Include="Orbs.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerHandler.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="PowerUp.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Mines.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerHandler.h" />
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="JasonBullet.h" />

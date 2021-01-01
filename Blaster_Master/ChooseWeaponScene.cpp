@@ -1,15 +1,12 @@
 #include "ChooseWeaponScene.h"
 
-
-ChooseWeaponScene::ChooseWeaponScene()
+ChooseWeaponScene::ChooseWeaponScene() : Scene()
 {
-}
-
-ChooseWeaponScene::ChooseWeaponScene(JASON* _player) : Scene()
-{
-	player = _player;
-	weaponId = player->GetCurrentSpecialWeapon()-33;	//0: homing, 1: electric, 2: rocket
-	player->GetNoOfBulletLeft(noRocket, noHomingMissles, noElectric);	//laasy so luong dan
+	//player = _player;
+	//weaponId = player->GetCurrentSpecialWeapon()-33;	//0: homing, 1: electric, 2: rocket
+	//player->GetNoOfBulletLeft(noRocket, noHomingMissles, noElectric);	//laasy so luong dan
+	weaponId = PlayerHandler::GetInstance()->GetSpecialWeaponId();
+	PlayerHandler::GetInstance()->GetNoOfBulletLeft(noRocket, noHomingMissles, noElectric);
 
 	DebugOut(L"Number of bullet: missle %d, electric: %d, rocket: %d", noHomingMissles, noElectric, noRocket);
 
@@ -21,12 +18,13 @@ ChooseWeaponScene::ChooseWeaponScene(JASON* _player) : Scene()
 }
 void ChooseWeaponScene::SetSpecialWeapon(int _weaponId)
 {
-	weaponId = _weaponId; 
+	/*weaponId = _weaponId; 
 	switch (weaponId)
 	{
 	case 0:
 	{
 		player->SetSpecialBulletType(JASON_HOMING_MISSLES);
+
 		break;
 	}
 	case 1:
@@ -40,7 +38,8 @@ void ChooseWeaponScene::SetSpecialWeapon(int _weaponId)
 		break;
 	}
 	}
-	DebugOut(L"set weapon: %d\n", weaponId);
+	DebugOut(L"set weapon: %d\n", weaponId);*/
+	PlayerHandler::GetInstance()->SetSpecialWeaponId(_weaponId);
 }
 void ChooseWeaponScene::LoadBaseObjects()
 {

@@ -270,6 +270,9 @@
     <ClCompile Include="Mines.cpp">
       <Filter>Objects\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerHandler.cpp">
+      <Filter>Objects\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h">
@@ -463,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="Mines.h">
       <Filter>Header Files\EnemyHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerHandler.h">
+      <Filter>Objects\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

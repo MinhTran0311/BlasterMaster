@@ -13,7 +13,7 @@
 #include "GadBrick.h"
 #include "ElectricBullet.h"
 #include "HomingMissles.h"
-
+#include "PlayerHandler.h"
 JASON::JASON(float x, float y, int _health, int _gundam)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_JASON));
@@ -26,7 +26,7 @@ JASON::JASON(float x, float y, int _health, int _gundam)
 	this->y = y;
 	health = _health;
 	dam = _gundam;
-	specialBulletType = JASON_HOMING_MISSLES;
+	//specialBulletType = JASON_HOMING_MISSLES;
 	//isJumping = true;
 }
 
@@ -562,38 +562,44 @@ void JASON::FireBullet(int mode)
 	}
 	else if (mode == 3) //special bullets
 	{
-		switch (specialBulletType)
+		switch (PlayerHandler::GetInstance()->GetSpecialWeaponId())
 		{
-		case JASON_ROCKET_BULLET:
+		case 0:
 		{
-			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ROCKET_BULLET, this->Getx(), this->Gety(), 2) && noOfRocketsWeaponLeft>0)
+			int no = PlayerHandler::GetInstance()->GetNoRocket();
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ROCKET_BULLET, this->Getx(), this->Gety(), 2) && no>0)
 			{
 				LPBULLET rocket = new JasonRocket(this->Getx(), this->Gety(), nx);
 				CGrid::GetInstance()->InsertGrid(rocket);
 				Sound::GetInstance()->Play("FireRocket", 0, 1);
-				noOfRocketsWeaponLeft--;
+				no--;
+				PlayerHandler::GetInstance()->SetNoRocket(no);
 			}
 
 			break;
 		}
-		case JASON_ELECTRIC_BULLET:
+		case 1:
 		{
-			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ELECTRIC_BULLET, this->Getx(), this->Gety(), 1) && noOfElectricWeaponLeft>0)
+			int no = PlayerHandler::GetInstance()->GetNoElectric();
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ELECTRIC_BULLET, this->Getx(), this->Gety(), 1) && no>0)
 			{
 				LPBULLET electric = new ElectricBullet(this->Getx(), this->Gety());
 				CGrid::GetInstance()->InsertGrid(electric);
-				noOfElectricWeaponLeft--;
+				no--;
 				Sound::GetInstance()->Play("FireElectricBullet", 0, 1);
+				PlayerHandler::GetInstance()->SetNoElectric(no);
 			}
 			break;
 		}
-		case JASON_HOMING_MISSLES:
-			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_HOMING_MISSLES, this->Getx(), this->Gety(), 1) && noOfHomingMisslesWeaponLeft>0)
+		case 2:
+			int no = PlayerHandler::GetInstance()->GetNoMissles();
+			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_HOMING_MISSLES, this->Getx(), this->Gety(), 1) && no>0)
 			{
 				LPBULLET homingMissles = new HomingMissles(this->Getx(), this->Gety(), nx);
 				CGrid::GetInstance()->InsertGrid(homingMissles);
 				Sound::GetInstance()->Play("FireHomingMissles", 0, 1);
-				noOfHomingMisslesWeaponLeft--;
+				no--;
+				PlayerHandler::GetInstance()->SetNoMissles(no);
 			}
 
 			break;

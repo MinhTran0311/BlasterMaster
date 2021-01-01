@@ -18,6 +18,7 @@
 #include <iostream>
 #include <fstream>
 #include "Jason.h"
+#include "PlayerHandler.h"
 using namespace std;
 
 
@@ -26,7 +27,7 @@ class ChooseWeaponScene : public Scene
 public:
 
 	ChooseWeaponScene();
-	ChooseWeaponScene(JASON* player);
+	//ChooseWeaponScene(JASON* player);
 	~ChooseWeaponScene();
 	bool isUnloaded = false;
 	void SetWeaponId(int _weaponId) { weaponId = _weaponId; };
@@ -52,7 +53,7 @@ private:
 	bool isfished = false;
 	int noHomingMissles, noElectric, noRocket;
 	int weaponId;
-	JASON* player;
+	//JASON* player;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
