@@ -263,9 +263,11 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 		}
 		else
 		{
+		
 			if ((CGame::GetInstance()->IsKeyDown(DIK_SPACE)))
 				dynamic_cast<Small_Sophia*>(player)->SetPressSpace(true);
-			else if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+			else 
+				if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
 			{
 				player->SetState(SOPHIA_STATE_WALKING_RIGHT);
 			}
@@ -273,8 +275,18 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 			{
 				player->SetState(SOPHIA_STATE_WALKING_LEFT);
 			}
-			else
-				player->SetState(SOPHIA_STATE_IDLE);
+			else if (CGame::GetInstance()->IsKeyDown(DIK_DOWN))
+			{
+				//player->SetState(SMALL_SOPHIA_STATE_CRAWL);
+				//bool iscrawl = dynamic_cast<Small_Sophia*>(player)->GetIsCrawl();
+				dynamic_cast<Small_Sophia*>(player)->SetIsCrawl(true);
+			} else 
+				
+					
+					player->SetState(SOPHIA_STATE_IDLE);
+
+
+
 		}
 	}
 }
@@ -527,7 +539,18 @@ void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 			break;
 		}
 		break;
+	case DIK_DOWN:
+		switch (player->GetPlayerType())
+		{
+		case EntityType::TAG_SMALL_SOPHIA:
+			dynamic_cast<Small_Sophia*>(player)->SetIsCrawl(false);
+			player->y -= 10;
+			break;
+		}
+		break;
+
 	}
+
 }
 #pragma endregion
 #pragma region parseSection
