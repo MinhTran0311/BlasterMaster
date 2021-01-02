@@ -79,42 +79,6 @@ void Eyeballs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			nx = -nx;
 			vx = -vx;
 		}
-
-		//follow player
-		//if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= EYEBALLS_SITEFOLLOW_PLAYER)
-		//{
-		//	//FlyAndAttackTarget();
-		//}
-		//else    //Wall or reaching the edges
-		//{
-		//	if (nx != 0)
-		//	{
-		//		this->nx = -this->nx;
-		//	}
-		//	if (ny != 0)
-		//	{
-		//		vy = 0;
-		//		for (UINT i = 0; i < coEventsResult.size(); i++)
-		//		{
-		//			LPCOLLISIONEVENT e = coEventsResult.at(i);
-		//			if (e->ny != 0)
-		//			{
-		//				RECT rect = static_cast<Brick*>(e->obj)->GetBBox();
-		//				if (x + EYEBALLS_BBOX_WIDTH > rect.right)
-		//				{
-		//					this->nx = -this->nx;
-		//					x += rect.right - (x + EYEBALLS_BBOX_WIDTH) - nx * 0.4f;
-		//				}
-		//				else if (x < rect.left)
-		//				{
-		//					this->nx = -this->nx;
-		//					x += rect.left - x + nx * 0.4f;
-		//				}
-		//				break;
-		//			}
-		//		}
-		//	}
-		//}
 	}
 	//clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];

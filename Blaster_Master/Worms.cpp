@@ -81,44 +81,42 @@ void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 				FollowTarget(target);
 			}
 			else isFollow = false;
-			    //Wall or reaching the edges
+			//Wall or reaching the edges
+			if (nx != 0)
 			{
-				if (nx != 0)
+				if (isContainedInLarva)
 				{
-					if (isContainedInLarva)
-					{
-						//nhay len
-						SetState(WORM_STATE_CLIMB);
-						isContainedInLarva = false;
-
-					}
-					else if (!isFollow)
-					{
-						this->nx = -this->nx;
-					}
+					//nhay len
+					SetState(WORM_STATE_CLIMB);
+					isContainedInLarva = false;
 
 				}
-				if (ny != 0 && state == WORM_STATE_WALKING && !isFollow)
+				else if (!isFollow)
 				{
-					vy = 0;
-					for (UINT i = 0; i < coEventsResult.size(); i++)
+					this->nx = -this->nx;
+				}
+
+			}
+			if (ny != 0 && state == WORM_STATE_WALKING && !isFollow)
+			{
+				vy = 0;
+				for (UINT i = 0; i < coEventsResult.size(); i++)
+				{
+					LPCOLLISIONEVENT e = coEventsResult.at(i);
+					if (e->ny != 0)
 					{
-						LPCOLLISIONEVENT e = coEventsResult.at(i);
-						if (e->ny != 0)
+						RECT rect = static_cast<Brick*>(e->obj)->GetBBox();
+						if (x + WORM_BBOX_WIDTH > rect.right)
 						{
-							RECT rect = static_cast<Brick*>(e->obj)->GetBBox();
-							if (x + WORM_BBOX_WIDTH > rect.right)
-							{
-								this->nx = -this->nx;
-								x += rect.right - (x + WORM_BBOX_WIDTH) - nx * 0.4f;
-							}
-							else if (x < rect.left)
-							{
-								this->nx = -this->nx;
-								x += rect.left - x + nx * 0.4f;
-							}
-							break;
+							this->nx = -this->nx;
+							x += rect.right - (x + WORM_BBOX_WIDTH) - nx * 0.4f;
 						}
+						else if (x < rect.left)
+						{
+							this->nx = -this->nx;
+							x += rect.left - x + nx * 0.4f;
+						}
+						break;
 					}
 				}
 			}

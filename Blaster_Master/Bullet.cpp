@@ -12,7 +12,7 @@ Bullet::~Bullet()
 
 void Bullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
-	Entity::Update(dt, coObjects); 
+	Entity::Update(dt, coObjects);
 }
 
 void Bullet::SetState(int state)
