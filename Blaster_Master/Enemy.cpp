@@ -3,6 +3,7 @@
 Enemy::Enemy()
 {
 	tag = ENEMY;
+	dam = 2;
 }
 
 Enemy::~Enemy()

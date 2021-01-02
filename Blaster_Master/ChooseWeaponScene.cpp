@@ -15,6 +15,7 @@ ChooseWeaponScene::ChooseWeaponScene() : Scene()
 	LoadBaseObjects();
 	chooseWeaponScene_ani_set = CAnimationSets::GetInstance()->Get(52000);
 	chooseWeaponScene_ani_setnumber = CAnimationSets::GetInstance()->Get(61005);
+	Sound::GetInstance()->Play("TransingWeaponScene", 0, 1);
 }
 void ChooseWeaponScene::SetSpecialWeapon(int _weaponId)
 {
@@ -124,17 +125,22 @@ void ChooseWeaponSceneKeyHandler::OnKeyDown(int KeyCode)
 		chooseWeaponScene->SetSpecialWeapon(chooseWeaponScene->GetWeaponId());
 		DebugOut(L"HoldScene %d\n", SceneManager::GetInstance()->GetHolderScene());
 		//SceneManager::GetInstance()->SetScene(SceneManager::GetInstance()->GetHolderScene());
+		Sound::GetInstance()->Play("TransingWeaponScene", 0, 1);
 		chooseWeaponScene->SetIsFinished(true);
 	}
 	if (KeyCode==DIK_LEFT) {
 		if (chooseWeaponScene->GetWeaponId() > 0)
+		{
 			chooseWeaponScene->SetWeaponId(chooseWeaponScene->GetWeaponId() - 1);
-
+			Sound::GetInstance()->Play("ChangeSpecialWeapon", 0, 1);
+		}
 	}
 	if (KeyCode == DIK_RIGHT) {
 		if (chooseWeaponScene->GetWeaponId() < 2)
+		{
 			chooseWeaponScene->SetWeaponId(chooseWeaponScene->GetWeaponId() + 1);
-
+			Sound::GetInstance()->Play("ChangeSpecialWeapon", 0, 1);
+		}
 	}
 	DebugOut(L"HoldScene %d\n", chooseWeaponScene->GetWeaponId());
 }

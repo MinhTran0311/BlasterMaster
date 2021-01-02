@@ -63,6 +63,8 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		//	explosiontimer->Start(); 
 		//	explosiontimerinit = false;
 		//}
+		Sound::GetInstance()->Stop("Boss");
+		Sound::GetInstance()->Play("BossDead",1);
 		HandleDieState();
 		return;
 	}

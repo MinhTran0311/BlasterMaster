@@ -5,24 +5,26 @@ class PlayerHandler
 {
 private:
 	static PlayerHandler* instance;
-	int life = 2;
-	int playerDirectionBeforePassGate = 1;
-	int jasonHealth = PLAYER_MAX_HEALTH;
-	int jasonGundam = PLAYER_DEFAULT_GUNDAM;
-	int jasonStage = 1;
+	int life;
+	int playerDirectionBeforePassGate;
+	int jasonHealth;
+	int jasonGundam;
+	int jasonStage;
 	float jasonXPos, jasonYPos;
-	int sophiaHealth = PLAYER_MAX_HEALTH;
-	int sophiaGundam = PLAYER_DEFAULT_GUNDAM;
-	int sophiaStage = 1;
+	int sophiaHealth;
+	int sophiaGundam;
+	int sophiaStage;
 	float sophiaXPos, sophiaYPos;
-	int specialWeaponId = 1;
+	int specialWeaponId;
+	bool isWinBoss;
 
-	int noOfHomingMisslesWeaponLeft = 3;
-	int noOfElectricWeaponLeft = 3;
-	int noOfRocketsWeaponLeft = 3;
+	int noOfHomingMisslesWeaponLeft;
+	int noOfElectricWeaponLeft;
+	int noOfRocketsWeaponLeft;
 public:
 #pragma region getter setter
 	int GetLife() { return life; };
+	bool IsWinBoss() { return isWinBoss; };
 	int GetPlayerDirectionBeforePassGate() { return playerDirectionBeforePassGate; };
 	int GetJasonHealth() { return jasonHealth; };
 	int GetJasonGunDam() { return jasonGundam; };
@@ -41,7 +43,7 @@ public:
 		missles = noOfHomingMisslesWeaponLeft;
 		electric = noOfElectricWeaponLeft;
 	}
-
+	void SetWinBoss(int win) { isWinBoss = win; };
 	void SetLife(int lifeset) { life = lifeset; };
 	void SetPlayerDirectionBeforePassGate(int direction) { playerDirectionBeforePassGate = direction; };
 	void SetJasonHealth(int healthset) { jasonHealth = healthset; };

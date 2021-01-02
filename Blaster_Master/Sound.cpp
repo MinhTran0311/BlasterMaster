@@ -216,6 +216,8 @@ void Sound::Play(std::string name, bool infiniteLoop, int times)
 	//DebugOut(L"so luong am thanh: %d\n", soundBufferMap.size());
 }
 
+
+
 void Sound::Stop(std::string name)
 {
 	if (name == "")

@@ -14,6 +14,7 @@
 #define SOUND_RESOURCE_INTRO "Resource/Sound/SoundIntro.xml"
 #define SOUND_RESOURCE_UNDERWORLD "Resource/Sound/SoundPlayScene.xml"
 #define SOUND_RESOURCE_ENDING "Resource/Sound/SoundEnding.xml"
+#define SOUND_RESOURCE_CHOOSING_WEAPON "Resource/Sound/ChooseWeapon.xml"
 
 class Sound
 {
@@ -53,6 +54,7 @@ public:
 	void LoadSound(std::string fileName, std::string name);
 	void UnLoadSound(std::string name);
 	void LoadSoundResource(const char*);
+	void StopAll();
 	~Sound();
 };
 

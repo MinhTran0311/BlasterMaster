@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<datasound>
+	<sound path="Resource/Sound/rawSound/Blaster Master SFX (24).wav"	name = "TransingWeaponScene" />
+		<sound path="Resource/Sound/rawSound/Blaster Master SFX (4).wav"	name = "ChangeSpecialWeapon" />
+</datasound>

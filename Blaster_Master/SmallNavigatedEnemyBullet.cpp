@@ -191,7 +191,7 @@ void SmallNavigatedEnemyBullet::Render()
 	{
 		ani = SMALL_NAVI_ENEMY_BULLET_BANG;
 		animationSet->at(ani)->OldRender(x - 6, y - 6);
-		if (animationSet->at(ani)->GetFrame() == 1)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
 			isActive = false;
 			isHitJason = false;

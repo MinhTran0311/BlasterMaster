@@ -591,7 +591,7 @@ void JASON::FireBullet(int mode)
 	{
 		switch (PlayerHandler::GetInstance()->GetSpecialWeaponId())
 		{
-		case 0:
+		case 2:
 		{
 			int no = PlayerHandler::GetInstance()->GetNoRocket();
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ROCKET_BULLET, this->Getx(), this->Gety(), 2) && no>0)
@@ -618,7 +618,7 @@ void JASON::FireBullet(int mode)
 			}
 			break;
 		}
-		case 2:
+		case 0:
 			int no = PlayerHandler::GetInstance()->GetNoMissles();
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_HOMING_MISSLES, this->Getx(), this->Gety(), 1) && no>0)
 			{
