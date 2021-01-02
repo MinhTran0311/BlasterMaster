@@ -12,7 +12,7 @@ Bullet::~Bullet()
 
 void Bullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
-	Entity::Update(dt, coObjects); 
+	Entity::Update(dt, coObjects);
 }
 
 void Bullet::SetState(int state)
@@ -50,6 +50,23 @@ void Bullet::HandlePlayerBulletCollision(vector<LPGAMEENTITY>* coObjects)
 	{
 		if (coObjects->at(i)->GetType() == TAG_GATE || coObjects->at(i)->GetType() == TAG_GATE_OVERWORLD || coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_SOFT_BRICK || coObjects->at(i)->GetType() == ENEMY)
 			colliable_Objects->push_back(coObjects->at(i));
+	}
+
+	for (UINT i = 0; i < colliable_Objects->size(); i++)
+	{
+		if (this->IsCollidingObject(colliable_Objects->at(i)))
+		{
+			LPGAMEENTITY e = colliable_Objects->at(i);
+			switch (e->GetType())
+			{
+				case ENEMY:
+					e->AddHealth(-dam);
+					this->SetState(BULLET_STATE_ENEMY);
+					break;
+				default:
+					break;
+			}
+		}
 	}
 
 #pragma region collision

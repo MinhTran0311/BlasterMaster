@@ -1,10 +1,11 @@
 #pragma once
 #include "Enemy.h"
 #include "Timer.h"
+#include "Brick.h"
 #include <ctime>
 
 #define DOMES_WALKING_SPEED						0.03f;
-#define DOMES_GRAVITY							0.005f
+#define DOMES_GRAVITY							0.008f
 
 #define DOMES_ATTACK_SPEED						0.15f
 
@@ -32,13 +33,11 @@
 
 #define DOMES_ANI_DIE							6
 
-#define DOMES_SITEACTIVE_PLAYER					250
+#define DOMES_SITEACTIVE_PLAYER					270
 
 #define DOMES_TIME_ATTACK						700
 
 #define DOMES_TIME_DELAYATTACK					1500
-
-#define DOMES_TIME_ATTACK_LEFT_RIGHT			1500
 
 #define DOMES_MAXHEALTH							1
 
@@ -46,7 +45,7 @@ class Domes : public Enemy
 {
 private:
 	int dgravity;
-	int directionclock;
+	int directionSet;
 	bool firstFollow;
 	bool actived;
 	bool aboveTarget;
@@ -54,9 +53,6 @@ private:
 
 	Timer* delayAttack = new Timer(DOMES_TIME_DELAYATTACK);
 	Timer* startAttack = new Timer(DOMES_TIME_ATTACK);
-	Timer* timerAttackLeftRight = new Timer(DOMES_TIME_ATTACK_LEFT_RIGHT);
-
-
 
 public:
 	Domes(float x, float y, LPGAMEENTITY t, int gravity);
@@ -68,11 +64,9 @@ public:
 	virtual void AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float ny);
 	virtual void StartAttack();
 	virtual void swapgravity();
-	virtual void stopAttackLeftRight();
 	virtual void SetState(int state);
-	virtual void SetStatenoclock(int state);
 	virtual void Activation();
 
-	int random_directionclock();
+	void SetDirection();
 };
 

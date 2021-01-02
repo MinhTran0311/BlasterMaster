@@ -98,7 +98,8 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 	case EntityType::TAG_WORM:
 	{
 		int ani_set_id = atoi(tokens[milestone + 1].c_str());
-		obj = new Worm(x, y, player);
+		int worms_mode = atoi(tokens[milestone + 2].c_str());
+		obj = new Worm(x, y, player, worms_mode);
 		LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 		obj->SetAnimationSet(ani_set);
