@@ -82,7 +82,7 @@ void Bullet::HandlePlayerBulletCollision(vector<LPGAMEENTITY>* coObjects)
 				//x += min_tx * dx + nx * 0.4f;
 				//y += min_ty * dy + ny * 0.4f;
 			}
-			else if (e->obj->GetType() == ENEMY || e->obj->GetType() == TAG_SOFT_BRICK)
+			else if (e->obj->GetType() == ENEMY)
 			{
 				e->obj->AddHealth(-dam);
 				//DebugOut(L"xxxxxxxxxxxxxxxxhitEnemy %d\n", e->obj->health);
@@ -93,6 +93,13 @@ void Bullet::HandlePlayerBulletCollision(vector<LPGAMEENTITY>* coObjects)
 				if (dynamic_cast<CBoss*>(e->obj)) {
 					dynamic_cast<CBoss*>(e->obj)->SetState(BOSS_STATE_INJURED);
 				}
+			}
+			else if (e->obj->GetType() == TAG_SOFT_BRICK)
+			{
+				if (typeBullet == JASON_UPGRADE_BULLET)
+					e->obj->AddHealth(-dam);
+				this->SetState(BULLET_STATE_ENEMY);
+				isActive = false;
 			}
 		}
 	}
