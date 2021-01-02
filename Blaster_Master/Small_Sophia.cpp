@@ -188,12 +188,21 @@ void Small_Sophia::SetState(int state)
 		{
 			if (isCrawl)
 			{
-				y -= (SMALL_SOPHIA_BBOX_HEIGHT - SMALL_SOPHIA_CRAWL_BBOX_HEIGHT);
-				vx = 0;
 				isCrawl = false;
+				y -= 3;
+				
+
+				vx = 0;
+				
 			}
-			else
+			else {
 				isCrawl = true;
+				vx = 0;
+				//y -= SMALL_SOPHIA_CRAWL_BBOX_HEIGHT;
+				//y -= (SMALL_SOPHIA_BBOX_HEIGHT - SMALL_SOPHIA_CRAWL_BBOX_HEIGHT);
+			}
+				
+
 		}
 		break;
 	case SMALL_SOPHIA_STATE_JUMP:
@@ -256,7 +265,7 @@ void Small_Sophia::SetState(int state)
 		}
 		break;
 	case SMALL_SOPHIA_STATE_CLIMB_DOWN:
-		if (isInStairs)
+		if (isInStairs&&!isCrawl)
 		{
 			vx = 0;
 			ny = 1;
@@ -264,7 +273,7 @@ void Small_Sophia::SetState(int state)
 		}
 		break;
 	case SMALL_SOPHIA_STATE_CLIMB_IDLE:
-		if (isInStairs)
+		if (isInStairs && !isCrawl)
 		{
 			vx = vy = 0;
 		}
