@@ -155,6 +155,7 @@ Worm::Worm(float xPos, float yPos, LPGAMEENTITY t, int canClimb)
 	bbARGB = 250;
 	isContainedInLarva = false;
 	canClimbLarva = canClimb;
+	this->dam = 1;
 }
 
 void Worm::FollowTarget(LPGAMEENTITY target) 
