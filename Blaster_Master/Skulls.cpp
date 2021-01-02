@@ -143,6 +143,7 @@ Skulls::Skulls(float x, float y, LPGAMEENTITY t)
 	health = MAXHEALTH;
 	isActive = false;
 	bbARGB = 250;
+	this->dam = 1;
 }
 
 void Skulls::Attack(LPGAMEENTITY target) //tấn công tại vị trí nhân vật

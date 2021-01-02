@@ -17,12 +17,12 @@ Domes::Domes(float x, float y, LPGAMEENTITY t, int gravity)
 	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
-	dam = 1;
+	this->dam = 1;
 	this->dgravity = gravity;
 	nx = 1;
 	this->target = t;
 	health = DOMES_MAXHEALTH;
-	//isActive = false;
+	isActive = false;
 	isDamaged = false;
 	bbARGB = 150;
 	firstFollow = true;
@@ -370,6 +370,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 						if (y > (brick->GetBrickHeight() + brick->y))
 						{
 							this->dgravity = 1;
+							vx = 0;
 						}
 					}
 					else if (vy < 0)
@@ -377,6 +378,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 						if (y + DOMES_BBOX_HEIGHT < brick->y)
 						{
 							this->dgravity = 3;
+							vx = 0;
 						}
 					}
 				}
@@ -602,7 +604,6 @@ void Domes::SetState(int state)
 		break;
 
 	}
-	//DebugOut(L"\nstartAttack:  %d", startAttack);
 }
 
 void Domes::Activation()
@@ -630,30 +631,3 @@ void Domes::SetDirection()
 	}
 	else this->nx = -1;
 }
-
-//void Domes::stopAttackLeftRight()
-//{
-//	if (state == DOMES_STATE_ATTACK_LEFT_RIGHT)
-//	{
-//		/*if (isAttackingLeftRight)
-//		{
-//			isAttackingLeftRight = false;
-//			timerAttackLeftRight->Start();*/
-//			if (timerAttackLeftRight->IsTimeUp())
-//			{
-//				vx = 0;
-//				if (dgravity == 4)
-//				{
-//					SetState(DOMES_STATE_WALKING_TOP_BOTTOM_LEFT);
-//				}
-//				else
-//				{
-//					SetState(DOMES_STATE_WALKING_TOP_BOTTOM_RIGHT);
-//				}
-//				this->dgravity = 1;
-//				timerAttackLeftRight->Reset();
-//				//isAttackingLeftRight = false;
-//			}
-//		//}
-//	}
-//}

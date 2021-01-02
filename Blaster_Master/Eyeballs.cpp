@@ -129,7 +129,7 @@ Eyeballs::Eyeballs(float x, float y, LPGAMEENTITY t)
 	tag = ENEMY;
 	this->x = x;
 	this->y = y;
-	dam = 1;
+	this->dam = 1;
 	nx = 1;
 	this->target = t;
 	health = EYEBALLS_MAXHEALTH;

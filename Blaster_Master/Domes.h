@@ -39,7 +39,7 @@
 
 #define DOMES_TIME_DELAYATTACK					1500
 
-#define DOMES_MAXHEALTH							1
+#define DOMES_MAXHEALTH							2
 
 class Domes : public Enemy
 {

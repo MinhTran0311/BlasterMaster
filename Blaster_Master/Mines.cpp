@@ -99,6 +99,7 @@ Mines::Mines(float x, float y, LPGAMEENTITY t)
 	isActive = false;
 	canExplosiving = true;
 	died = false;
+	this->dam = 1;
 }
 
 void Mines::SetState(int state)
