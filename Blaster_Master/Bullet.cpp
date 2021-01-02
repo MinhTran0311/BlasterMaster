@@ -78,18 +78,17 @@ void Bullet::HandlePlayerBulletCollision(vector<LPGAMEENTITY>* coObjects)
 			{
 				this->SetState(BULLET_STATE_HIT_BRICK);
 				Sound::GetInstance()->Play("PlayerBulletHitBrick", 0, 1);
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
-				vx = 0;
-				vy = 0;
+
+				//x += min_tx * dx + nx * 0.4f;
+				//y += min_ty * dy + ny * 0.4f;
 			}
 			else if (e->obj->GetType() == ENEMY || e->obj->GetType() == TAG_SOFT_BRICK)
 			{
 				e->obj->AddHealth(-dam);
 				//DebugOut(L"xxxxxxxxxxxxxxxxhitEnemy %d\n", e->obj->health);
 				this->SetState(BULLET_STATE_ENEMY);
-				x += min_tx * dx + nx * 0.4f;
-				y += min_ty * dy + ny * 0.4f;
+				//x += min_tx * dx + nx * 0.4f;
+				//y += min_ty * dy + ny * 0.4f;
 				isActive = false;
 				if (dynamic_cast<CBoss*>(e->obj)) {
 					dynamic_cast<CBoss*>(e->obj)->SetState(BOSS_STATE_INJURED);

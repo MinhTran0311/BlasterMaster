@@ -56,6 +56,7 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		}
 		else if (directionAutoRun == 2 && abs(y - backup_y) <= GATE_VERTICAL_LONG)
 		{
+
 			if (ny != 0)
 			{
 				vy = 0.07f * ny;

@@ -9,7 +9,6 @@ void SoftBrick::Render()
 	if (state == SOFTBRICK_STATE_EXPLOSION)
 	{
 		ani = SOFTBRICK_ANI_EXPLOSION;
-		DebugOut(L"Soft brick exp\n");
 		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
 			isActive = false;

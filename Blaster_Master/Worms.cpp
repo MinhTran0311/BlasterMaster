@@ -154,7 +154,7 @@ Worm::Worm(float xPos, float yPos, LPGAMEENTITY t)
 	isFollow = false;
 	this->target = t;
 	health = WORM_MAXHEALTH;
-
+	dam = 1;
 	bbARGB = 250;
 	isContainedInLarva = false;
 }
