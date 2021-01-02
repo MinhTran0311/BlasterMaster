@@ -25,7 +25,7 @@
 #define BBOX_HEIGHT 15
 //#define BBOX_HEIGHT_DIE 9
 
-#define MAXHEALTH	1
+#define MAXHEALTH	2
 #define MIN_COOLDOWN 500
 #define MAX_COOLDOWN 5000
 

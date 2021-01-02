@@ -104,7 +104,7 @@ Teleporters::Teleporters(float x, float y, LPGAMEENTITY t, int x_Tele_Min, int y
 	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
-	dam = 1;
+	this->dam = 1;
 	isAttack = 0;
 	this->target = t;
 	health = TELEPORTERS_MAXHEALTH;

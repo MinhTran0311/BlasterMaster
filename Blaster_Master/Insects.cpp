@@ -168,6 +168,7 @@ Insects::Insects(float x, float y, LPGAMEENTITY t)
 	bbARGB = 250;
 	originalY = this->y;
 	maxdrop = flyDropRange + originalY;
+	this->dam = 1;
 }
 
 

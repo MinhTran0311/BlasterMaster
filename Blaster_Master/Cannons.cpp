@@ -103,7 +103,7 @@ Cannons::Cannons(float x, float y, LPGAMEENTITY t)
 	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
-	dam = 1;
+	this->dam = 1;
 	isAttack = 0;
 	this->target = t;
 	health = CANNONS_MAXHEALTH;

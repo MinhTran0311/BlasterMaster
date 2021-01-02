@@ -165,7 +165,7 @@ Orbs::Orbs(float x, float y, LPGAMEENTITY t, int orb_mode)
 	this->y = y;
 	nx = 1;
 	ny = -1;
-	//dam = 1;
+	this->dam = 1;
 	isTargeting = 0;
 	this->target = t;
 	health = MAXHEALTH;

@@ -147,7 +147,7 @@ Floaters::Floaters(float x, float y, LPGAMEENTITY t)
 	health = MAXHEALTH;
 	isActive = false;
 	bbARGB = 250;
-	dam = 1;
+	this->dam = 1;
 	firstTimeActive = false;
 	isDoneDeath = false;
 }
