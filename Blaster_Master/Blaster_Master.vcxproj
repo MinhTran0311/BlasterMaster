@@ -161,6 +161,8 @@
     <ClCompile Include="JasonRocket.cpp" />
     <ClCompile Include="Jumpers.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="Mines.cpp" />
     <ClCompile Include="Orbs.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -223,6 +225,8 @@
     <ClInclude Include="Item.h" />
     <ClInclude Include="HealthBar.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="MapManager.h" />
     <ClInclude Include="Mines.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerHandler.h" />

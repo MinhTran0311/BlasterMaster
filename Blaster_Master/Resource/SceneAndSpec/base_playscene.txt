@@ -12,12 +12,12 @@
 60	Resource/item2.png	255	255	0
 11	Resource/SceneAndSpec/Scene/area_1.jpg	255	0	255
 12	Resource/SceneAndSpec/Scene/area_2.jpg	255	0	255
-13	Resource/SceneAndSpec/Scene/area_3.png	255	0	255
-14	Resource/SceneAndSpec/Scene/area_4.png	255	0	255
-15	Resource/SceneAndSpec/Scene/area_5.png	255	0	255
-16	Resource/SceneAndSpec/Scene/area_6.png	255	0	255
-17	Resource/SceneAndSpec/Scene/area_7.png	255	0	255
-18	Resource/SceneAndSpec/Scene/area_8.png	255	0	255
+13	Resource/SceneAndSpec/Scene/area_3.jpg	255	0	255
+14	Resource/SceneAndSpec/Scene/area_4.jpg	255	0	255
+15	Resource/SceneAndSpec/Scene/area_5.jpg	255	0	255
+16	Resource/SceneAndSpec/Scene/area_6.jpg	255	0	255
+17	Resource/SceneAndSpec/Scene/area_7.jpg	255	0	255
+18	Resource/SceneAndSpec/Scene/area_8.jpg	255	0	255
 19	Resource/SceneAndSpec/Scene/area_9.jpg	255	0	255
 20	Resource/SceneAndSpec/Scene/overworld.png	255	0	255
 41	Resource/select_continue.png	255	0	255
@@ -523,22 +523,22 @@
 
 [SCENE]
 #Stage1
-Resource/SceneAndSpec/scene1.txt	1024	275
+11	Resource/SceneAndSpec/scene1.txt	1024	275	0	1
 #Stage2
-Resource/SceneAndSpec/scene2.txt	527	1315
+12	Resource/SceneAndSpec/scene2.txt	527	1315	1	1
 #Stage3
-Resource/SceneAndSpec/scene3.txt	545	277
+13	Resource/SceneAndSpec/scene3.txt	545	277	1	1
 #Stage4
-Resource/SceneAndSpec/scene4.txt	520	1028
+14	Resource/SceneAndSpec/scene4.txt	520	1028	1	0
 #Stage5
-Resource/SceneAndSpec/scene5.txt	516	1800
+15	Resource/SceneAndSpec/scene5.txt	516	1800	1	1
 #Stage6
-Resource/SceneAndSpec/scene6.txt	510	275
+16	Resource/SceneAndSpec/scene6.txt	510	275	1	1
 #Stage7
-Resource/SceneAndSpec/scene7.txt	512	543
-Stage8
-Resource/SceneAndSpec/scene8.txt	518	275
+17	Resource/SceneAndSpec/scene7.txt	512	543	1	0
+#Stage8
+18	Resource/SceneAndSpec/scene8.txt	518	275	0	1
 #Stage9
-Resource/SceneAndSpec/scene9.txt	320	275
+19	Resource/SceneAndSpec/scene9.txt	320	275	0	1
 #Stage10
-Resource/SceneAndSpec/overworld.txt	2048	2048
+20	Resource/SceneAndSpec/overworld.txt	2048	2048	0	0

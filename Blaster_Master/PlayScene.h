@@ -31,20 +31,20 @@ using namespace std;
 #define CHOOSING_WEAPON_DISPLAY	2
 #define FREEZE_DURATION			4000
 
-struct PlayerHealthAndGunInfo
-{
-	int life = 2;
-	int playerDirectionBeforePassGate = 1;
-	int jasonHealth = PLAYER_MAX_HEALTH;
-	int jasonGundam = PLAYER_DEFAULT_GUNDAM;
-	int jasonStage = 1;
-	float jasonXPos, jasonYPos;
-	int sophiaHealth = PLAYER_MAX_HEALTH;
-	int sophiaGundam = PLAYER_DEFAULT_GUNDAM;
-	int sophiaStage = 1;
-	float sophiaXPos, sophiaYPos;
-	int specialWeapon = 1;
-};
+//struct PlayerHealthAndGunInfo
+//{
+//	int life = 2;
+//	int playerDirectionBeforePassGate = 1;
+//	int jasonHealth = PLAYER_MAX_HEALTH;
+//	int jasonGundam = PLAYER_DEFAULT_GUNDAM;
+//	int jasonStage = 1;
+//	float jasonXPos, jasonYPos;
+//	int sophiaHealth = PLAYER_MAX_HEALTH;
+//	int sophiaGundam = PLAYER_DEFAULT_GUNDAM;
+//	int sophiaStage = 1;
+//	float sophiaXPos, sophiaYPos;
+//	int specialWeapon = 1;
+//};
 
 class PlayScene : public Scene
 {
@@ -55,7 +55,7 @@ public:
 	bool isReset = false;
 	float oldPosX;
 	float oldPosY;
-	int CamMoveDirection = -1;
+	int CamMoveDirection = 0;
 	float posX, posY;
 	float xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack;
 
@@ -69,7 +69,6 @@ public:
 	int camMap1X;
 	int camMap1Y;
 	bool isNeedResetCamera;
-	//Entity* currentPlayer;
 	PlayScene();
 	DWORD timeResetCam;
 	PlayScene(int idStage);
@@ -83,15 +82,12 @@ public:
 		CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
 	}*/
 protected:
-
 	LPANIMATION_SET animation_set;
 	LPGAMEPLAYER player;
 	LPGAMEPLAYER backup_player;
-	PlayerHealthAndGunInfo playerInfo;
 	void LoadBaseObjects();
 	void LoadBaseTextures();
 	int mapWidth, mapHeight;
-	int camMaxWidth;
 	void SetInforDisplay(int type) { inforDisplay = type; };
 	int GetInforDisplay() { return inforDisplay; };
 	void CheckPlayerReachGate();
@@ -105,16 +101,15 @@ protected:
 	virtual void LoadSceneObjects(LPCWSTR path);
 	virtual void changePlayer();
 	void RandomSpawnItem(LPGAMEENTITY ItemSpawer);
-	//Item* RandomItem(float x, float y);
-	//Item* DropItem(EntityType createrType, float x, float y, int idCreater = 0);
 
 	void CheckEnterBoss();
 	void SetUpFightBoss();
 	void BossAreaController();
 	friend class PlayScenceKeyHandler;
-protected:
-	vector<LPCWSTR> listSceneFilePath;
+private:
+
 #pragma region lists
+	vector<LPCWSTR> listSceneFilePath;
 	vector<int> listWidth;
 	vector<int> listHeight;
 #pragma endregion

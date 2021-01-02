@@ -24,6 +24,8 @@ Small_Sophia* Small_Sophia::GetInstance()
 
 void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
+	if (_isAutoRun)
+		return;
 	Player::Update(dt, coObjects);
 	//DebugOut(L"van toc y: %f\n", vy);
 #pragma region fall down 
@@ -115,7 +117,7 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Small_Sophia::Render()
 {
-	if (isDoneDeath)
+	if (isDoneDeath || _isAutoRun)
 		return;
 	//RenderBoundingBox();
 

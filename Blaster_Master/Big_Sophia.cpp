@@ -30,7 +30,8 @@ void Big_Sophia::AutoRun(int direction)
 {
 	if (!_isAutoRun)
 	{
-		_isAutoRun = true;
+		SetAutoRun(true);
+		//_isAutoRun = true;
 		backup_x = this->x;
 		backup_y = this->y;
 		directionAutoRun = direction;

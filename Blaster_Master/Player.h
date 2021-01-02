@@ -38,6 +38,8 @@ protected:
 	Timer* changeAlphaTimer = new Timer(PLAYER_CHANGE_ALPHA);
 	bool canChangeAlpha = false;
 	LPGAMEENTITY gate;
+	bool _isAutoRun;
+
 	//bullet
 	//int noOfHomingMisslesWeaponLeft = 3;
 	//int noOfElectricWeaponLeft = 3;
@@ -83,6 +85,8 @@ public:
 	void CollideWithObject(LPGAMEENTITY object);
 	void CollisionHandle(vector<LPGAMEENTITY>* coObjects);
 
+	bool isAutoRun() { return _isAutoRun; };
+	void SetAutoRun(int _auto) { _isAutoRun = _auto; };
 	//void GetNoOfBulletLeft(int& rocket, int& missles, int& electric) {
 	//	rocket = noOfRocketsWeaponLeft;
 	//	missles = noOfHomingMisslesWeaponLeft;

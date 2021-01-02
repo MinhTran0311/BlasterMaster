@@ -17,22 +17,28 @@ private:
 	float sophiaXPos, sophiaYPos;
 	int specialWeaponId;
 	bool isWinBoss;
-
+	bool isCamFollowing;
 	int noOfHomingMisslesWeaponLeft;
 	int noOfElectricWeaponLeft;
 	int noOfRocketsWeaponLeft;
 public:
 #pragma region getter setter
+	bool IsCamFollow() { return isCamFollowing; };
+	void SetCamFollow(bool follow) { isCamFollowing = follow; };
 	int GetLife() { return life; };
 	bool IsWinBoss() { return isWinBoss; };
 	int GetPlayerDirectionBeforePassGate() { return playerDirectionBeforePassGate; };
 	int GetJasonHealth() { return jasonHealth; };
 	int GetJasonGunDam() { return jasonGundam; };
 	int GetJasonStage() { return jasonStage; };
+	float GetJasonXPos() { return jasonXPos; };
+	float GetJasonYPos() { return jasonYPos; };
 	void GetJasonPosition(float& x, float& y) { x = jasonXPos; y = jasonYPos; };
 	int GetSophiaHealth() { return sophiaHealth; };
 	int GetSophiaGunDam() { return sophiaGundam; };
 	int GetSophiaStage() { return sophiaStage; };
+	float GetSophiaXPos() { return sophiaXPos; };
+	float GetSophiaYPos() { return sophiaYPos; };
 	void GetSophiaPosition(float& x, float& y) { x = sophiaXPos; y = sophiaYPos; };
 	int GetSpecialWeaponId() { return specialWeaponId; };
 	int GetNoMissles() { return noOfHomingMisslesWeaponLeft; };

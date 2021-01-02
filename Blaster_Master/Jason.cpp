@@ -88,6 +88,8 @@ void JASON::SetState(int state)
 
 void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
+	if (_isAutoRun)
+		return;
 	Player::Update(dt, coObjects);
 	//fall down
 #pragma region fall down
@@ -260,7 +262,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void JASON::Render()
 {
-	if (isDoneDeath)
+	if (isDoneDeath || _isAutoRun)
 		return;
 	//RenderBoundingBox();
 
