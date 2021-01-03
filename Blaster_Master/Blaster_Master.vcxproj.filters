@@ -204,9 +204,6 @@
     <ClCompile Include="Brick.cpp">
       <Filter>Objects\Obstacles\Brick</Filter>
     </ClCompile>
-    <ClCompile Include="GadBrick.cpp">
-      <Filter>Objects\Obstacles\Brick</Filter>
-    </ClCompile>
     <ClCompile Include="InjuringBrick.cpp">
       <Filter>Objects\Obstacles\Brick</Filter>
     </ClCompile>
@@ -411,9 +408,6 @@
       <Filter>Objects\Obstacles</Filter>
     </ClInclude>
     <ClInclude Include="Brick.h">
-      <Filter>Objects\Obstacles\Brick</Filter>
-    </ClInclude>
-    <ClInclude Include="GadBrick.h">
       <Filter>Objects\Obstacles\Brick</Filter>
     </ClInclude>
     <ClInclude Include="InjuringBrick.h">

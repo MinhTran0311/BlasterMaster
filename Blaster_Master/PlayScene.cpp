@@ -366,10 +366,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			{
 				playScene->Unload();
 				((PlayScene*)scence)->player = new JASON(30, 60, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
-
-				//((PlayScene*)scence)->player->SetHealth(PLAYER_MAX_HEALTH);
-				((PlayScene*)scence)->player->SetIsDoneDeath(false);
-				((PlayScene*)scence)->player->SetIsDeath(false);
+				PlayerHandler::GetInstance()->Init();
 				playScene->ChooseMap(ID_AREA1);
 
 				break;

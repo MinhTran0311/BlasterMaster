@@ -141,7 +141,6 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="Eyeballs.cpp" />
     <ClCompile Include="Floaters.cpp" />
-    <ClCompile Include="GadBrick.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Gate.cpp" />
@@ -205,7 +204,6 @@
     <ClInclude Include="ChooseWeaponScene.h" />
     <ClInclude Include="ElectricBullet.h" />
     <ClInclude Include="Explosion.h" />
-    <ClInclude Include="GadBrick.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Gate.h" />
     <ClInclude Include="GateOverworld.h" />

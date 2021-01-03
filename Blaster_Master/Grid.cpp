@@ -15,7 +15,6 @@
 #include "Mines.h"
 #include "Teleporters.h"
 #include "InjuringBrick.h"
-#include "GadBrick.h"
 #include "SoftBrick.h"
 #include "Big_Sophia.h"
 #include "Boss.h"
@@ -248,14 +247,6 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		//obj->SetPosition(x, y);
 
 		DebugOut(L"[test] add injuring brick !\n");
-		break;
-	}
-	case EntityType::TAG_GAD_BRICK:
-	{
-		obj = new GadBrick(x, y, atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
-		//obj->SetPosition(x, y);
-
-		DebugOut(L"[test] add gad brick !\n");
 		break;
 	}
 	case EntityType::TAG_SOFT_BRICK:
