@@ -116,8 +116,7 @@ void Mines::SetState(int state)
 					CGrid::GetInstance()->InsertGrid(bullet);
 				}
 			}
-			isDoneDeath = true;
-			//isActive = false;
+			isActive = false;
 			break;
 		}
 		case MINES_ANI_IDLING:

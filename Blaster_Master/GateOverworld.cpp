@@ -34,5 +34,5 @@ void GateOverworld::GetBoundingBox(float& left, float& top, float& right, float&
 
 void GateOverworld::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }

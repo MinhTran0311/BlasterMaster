@@ -307,7 +307,7 @@ void Small_Sophia::GetBoundingBox(float& left, float& top, float& right, float& 
 
 void Small_Sophia::FireBullet(int mode)
 {
-	if (!canFire)
+	if (!canFire || health <= 0)
 		return;
 	if (CGrid::GetInstance()->CheckBulletLimitation(SMALL_SOPHIA_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
 	{
