@@ -30,7 +30,7 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	//DebugOut(L"van toc y: %f\n", vy);
 #pragma region fall down 
 	if (!isInStairs)
-		vy += SOPHIA_GRAVITY * dt;
+		vy += SMALL_SOPHIA_GRAVITY * dt;
 	//check player's height
 	//if (isJumping && current_Jumpy - y >= HEIGHT_LEVER1 && isJumpHandle == false)
 	//{
@@ -128,7 +128,7 @@ void Small_Sophia::Render()
 
 	if (isDeath)
 	{
-		ani = SOPHIA_ANI_SMALL_DIE;
+		ani = SMALL_SOPHIA_ANI_DIE;
 		animationSet->at(ani)->Render(nx, x, y, alpha);
 		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 			isDoneDeathAni = true;
@@ -137,26 +137,26 @@ void Small_Sophia::Render()
 	{
 		if (isJumping)
 		{
-			ani = SOPHIA_ANI_SMALL_JUMP;
+			ani = SMALL_SOPHIA_ANI_JUMP;
 		}
 		else if (isCrawl)
 		{
 			if (vx == 0)
-				ani = SOPHIA_ANI_SMALL_IDLE_CRAWL_RIGHT;
+				ani = SMALL_SOPHIA_ANI_IDLE_CRAWL_RIGHT;
 			else
-				ani = SOPHIA_ANI_SMALL_WALKING_CRAWL_RIGHT;
+				ani = SMALL_SOPHIA_ANI_WALKING_CRAWL_RIGHT;
 		}
 		else
 		{
 			if (vx == 0)
-				ani = SOPHIA_ANI_SMALL_IDLE_RIGHT;
+				ani = SMALL_SOPHIA_ANI_IDLE_RIGHT;
 			else
-				ani = SOPHIA_ANI_SMALL_WALKING_RIGHT;
+				ani = SMALL_SOPHIA_ANI_WALKING_RIGHT;
 		}
 		if (state == SMALL_SOPHIA_STATE_CLIMB_UP || state == SMALL_SOPHIA_STATE_CLIMB_DOWN)
-			ani = SOPHIA_ANI_SMALL_CLIMB;
+			ani = SMALL_SOPHIA_ANI_CLIMB;
 		else if (state == SMALL_SOPHIA_STATE_CLIMB_IDLE)
-			ani = SOPHIA_ANI_SMALL_CLIMB_IDLE;
+			ani = SMALL_SOPHIA_ANI_CLIMB_IDLE;
 	}
 	animationSet->at(ani)->Render(nx, x, y, alpha);
 }

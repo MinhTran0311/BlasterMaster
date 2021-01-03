@@ -211,47 +211,48 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 		}
 	if (player->GetPlayerType() != TAG_SMALL_SOPHIA)
 	{
+		bool idleState = true;
+
 		if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
 		{
-			player->SetState(SOPHIA_STATE_WALKING_RIGHT);
-
+			player->SetState(JASON_STATE_WALKING_RIGHT);
+			idleState = false;
 		}
-		else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
+		if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
 		{
-			player->SetState(SOPHIA_STATE_WALKING_LEFT);
+			player->SetState(JASON_STATE_WALKING_LEFT);
+			idleState = false;
 		}
-
-		else
-		{
-			player->SetState(SOPHIA_STATE_IDLE);
-		}
-
 		if (CGame::GetInstance()->IsKeyDown(DIK_SPACE))
 		{
 			if (player->GetPlayerType() == EntityType::TAG_JASON)
+			{
+				player->SetState(JASON_STATE_IDLE);
 				dynamic_cast<JASON*>(player)->SetPressSpace(true);
+			}
+			idleState = false;
 		}
 
 		if (CGame::GetInstance()->IsKeyDown(DIK_UP))
 		{
 			if (player->GetPlayerType() == TAG_JASON)
+			{
+				player->SetState(JASON_STATE_IDLE);
 				dynamic_cast<JASON*>(player)->SetPressUp(true);
+
+			}
 			else if (player->GetPlayerType() == TAG_BIG_SOPHIA)
 				dynamic_cast<Big_Sophia*>(player)->SetState(BIG_SOPHIA_STATE_WALKING_TOP);
-			//else if (player->GetPlayerType() == TAG_SMALL_SOPHIA && dynamic_cast<Small_Sophia*>(player)->IsInStairs())
-			//{
-			//	dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_UP);
-			//}
+			idleState = false;
 		}
 		if ((CGame::GetInstance()->IsKeyDown(DIK_DOWN)))
 		{
 			if (player->GetPlayerType() == TAG_BIG_SOPHIA)
 				dynamic_cast<Big_Sophia*>(player)->SetState(BIG_SOPHIA_STATE_WALKING_BOTTOM);
-			//else if (player->GetPlayerType() == TAG_SMALL_SOPHIA && dynamic_cast<Small_Sophia*>(player)->IsInStairs())
-			//{
-			//	dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_DOWN);
-			//}
+			idleState = false;
 		}
+		if (idleState) player->SetState(JASON_STATE_IDLE);
+
 	}
 	else
 	{
@@ -274,17 +275,17 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 				dynamic_cast<Small_Sophia*>(player)->SetPressSpace(true);
 			else if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
 			{
-				player->SetState(SOPHIA_STATE_WALKING_RIGHT);
+				player->SetState(SMALL_SOPHIA_STATE_WALKING_RIGHT);
 			}
 			else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
 			{
-				player->SetState(SOPHIA_STATE_WALKING_LEFT);
+				player->SetState(SMALL_SOPHIA_STATE_WALKING_LEFT);
 			}
 			else if (CGame::GetInstance()->IsKeyDown(DIK_DOWN))
 			{
 				dynamic_cast<Small_Sophia*>(player)->SetIsCrawl(true);
 			} else 
-					player->SetState(SOPHIA_STATE_IDLE);
+					player->SetState(SMALL_SOPHIA_STATE_IDLE);
 		}
 	}
 }
@@ -344,7 +345,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				switch (player->GetPlayerType())
 				{
 				case EntityType::TAG_JASON:
-					player->SetState(SOPHIA_STATE_JUMP);
+					player->SetState(JASON_STATE_JUMP);
 					break;
 				case EntityType::TAG_SMALL_SOPHIA:
 					player->SetState(SMALL_SOPHIA_STATE_JUMP);
@@ -369,16 +370,6 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				player->FireBullet(1);
 				break;
 			}
-
-			//case DIK_X:
-			//{
-			//	if (CGrid::GetInstance()->CheckBulletLimitation(JASON_UPGRADE_BULLET, player->Getx(), player->Gety(), 3) && player->GetPlayerType() == TAG_JASON)
-			//	{
-			//		LPBULLET bullet = new JasonBullet(player->Getx(), player->Gety(), 1, nx, isAimingTop);
-			//		CGrid::GetInstance()->InsertGrid(bullet);
-			//	}
-			//	break;
-			//}
 			case DIK_V:
 			{
 				if (player->GetPlayerType() == TAG_JASON)
@@ -391,6 +382,22 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				player->FireBullet(3);
 				break;
 			}
+			//case DIK_UP:
+			//{
+			//	if (dynamic_cast<Big_Sophia*>(player))
+			//	{
+			//		player->SetDirectionY(0);
+			//	}
+			//	break;
+			//}
+			//case DIK_DOWN:
+			//{
+			//	if (dynamic_cast<Big_Sophia*>(player))
+			//	{
+			//		player->SetDirectionY(0);
+			//	}
+			//	break;
+			//}
 			}
 		}
 	}
@@ -404,7 +411,7 @@ void PlayScene::changePlayer()
 		PlayerHandler::GetInstance()->SetJasonInfor(idStage, player->Getx(), player->Gety(), player->GetHealth(), player->GetgunDam());
 		PlayerHandler::GetInstance()->SetSophiaStage(idStage);
 		
-		this->player->SetState(SOPHIA_STATE_OUT);
+		this->player->SetState(JASON_STATE_OUT);
 		backup_player = player;
 		//player = new Small_Sophia(backup_player->Getx(), backup_player->Gety(), playerInfo.sophiaHealth, playerInfo.sophiaGundam);
 		player = new Small_Sophia(backup_player->Getx(), backup_player->Gety(), PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
@@ -418,12 +425,13 @@ void PlayScene::changePlayer()
 		{
 			PlayerHandler::GetInstance()->SetSophiaHealth(player->GetHealth());
 			PlayerHandler::GetInstance()->SetSophiaGunDam(player->GetgunDam());
-			this->player->SetState(SMALL_SOPHIA_STATE_IDLE);
+			//this->player->SetState(SMALL_SOPHIA_STATE_IDLE);
 			this->player->SetState(SMALL_SOPHIA_STATE_OUT);
 
 			delete player;
 			player = backup_player;
 			backup_player = NULL;
+			DebugOut(L"player: %d", (int)player->GetBBox().bottom);
 			CGrid::GetInstance()->SetTargetForEnemies(player);
 		}
 	}
@@ -512,7 +520,7 @@ void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		{
 		case EntityType::TAG_JASON:
 			dynamic_cast<JASON*>(player)->SetPressUp(false);
-			player->SetState(SOPHIA_STATE_GUN_UNFLIP);
+			player->SetState(JASON_STATE_GUN_UNFLIP);
 			break;
 		}
 		break;
@@ -921,8 +929,6 @@ void PlayScene::RandomSpawnItem(LPGAMEENTITY ItemSpawer)
 
 void PlayScene::Update(DWORD dt)
 {
-
-	DebugOut(L"playscene update 1\n");
 	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY && player->GetPlayerType() == TAG_JASON)
 	{
 		SceneManager::GetInstance()->SetHolderScene(SceneManager::GetInstance()->GetScene());
@@ -981,8 +987,6 @@ void PlayScene::Update(DWORD dt)
 	}
 	
 #pragma endregion
-	DebugOut(L"playscene update 2\n");
-
 	if (player->GetPlayerType() == TAG_BIG_SOPHIA && idStage == ID_MAPOVERWORLD)
 	{
 		BossAreaController();
@@ -1010,7 +1014,6 @@ void PlayScene::Update(DWORD dt)
 #pragma endregion
 	if (player->isAutoRun() && player->GetPlayerType()!=TAG_BIG_SOPHIA)
 		return;
-	DebugOut(L"playscene update 4\n");
 
 #pragma region update objects
 	if (isUnloaded)

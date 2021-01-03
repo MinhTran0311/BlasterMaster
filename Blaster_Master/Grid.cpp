@@ -470,6 +470,18 @@ void CGrid::SetTargetForEnemies(LPGAMEPLAYER player)
 					dynamic_cast<Enemy*>(cells[i][j].at(k))->SetTarget(player);
 					//DebugOut(L"nap lai target %d\n", dynamic_cast<Enemy*>(cells[i][j].at(k))->GetType());
 				}
+				else if (dynamic_cast<SmallNavigatedEnemyBullet*>(cells[i][j].at(k)))
+				{
+					dynamic_cast<SmallNavigatedEnemyBullet*>(cells[i][j].at(k))->SetTarget(player);
+				}				
+				else if (dynamic_cast<BigNavigatedEnemyBullet*>(cells[i][j].at(k)))
+				{
+					dynamic_cast<BigNavigatedEnemyBullet*>(cells[i][j].at(k))->SetTarget(player);
+				}			
+				else if (dynamic_cast<SkullBullet*>(cells[i][j].at(k)))
+				{
+					dynamic_cast<SkullBullet*>(cells[i][j].at(k))->SetTarget(player);
+				}
 			}
 		}
 	}

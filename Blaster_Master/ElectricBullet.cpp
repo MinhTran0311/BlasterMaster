@@ -8,7 +8,7 @@ ElectricBullet::ElectricBullet(float xPos, float yPos)
 	typeBullet = EntityType::JASON_ELECTRIC_BULLET;
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_JASON_ELECTRIC_BULLET));
 	x = xPos;
-	y = yPos + SOPHIA_JASON_BBOX_HEIGHT / 2;
+	y = yPos + JASON_BBOX_HEIGHT / 2;
 	dam = 1;
 	timeDelayed = 0;
 	timeDelayedMax = ELECTRIC_BULLET_JASON_DELAY;
