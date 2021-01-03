@@ -50,9 +50,7 @@ private:
 	float moutainY=0;
 	float textY = 0;
 	int setEndding = 0;
-	IntroScene();
-	IntroScene(int idStage);
-	~IntroScene();
+
 	int setAnimation = 0;
 	int soundSension = 0;
 
@@ -73,6 +71,9 @@ protected:
 
 
 public:
+	IntroScene();
+	IntroScene(int idStage);
+	~IntroScene();
 	void LoadBaseObjects();
 	void LoadBaseTextures();
 	int GetAnimation() { return setAnimation; }
