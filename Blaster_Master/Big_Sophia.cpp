@@ -300,7 +300,7 @@ void Big_Sophia::SetState(int state)
 void Big_Sophia::FireBullet(int mode)
 {
 	DebugOut(L"dan big tao duoc");
-	if (!canFire)
+	if (!canFire || health<=0)
 		return;
 	if (dam <= 3)
 	{

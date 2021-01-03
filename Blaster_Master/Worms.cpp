@@ -148,7 +148,7 @@ Worm::Worm(float xPos, float yPos, LPGAMEENTITY t, int canClimb)
 	tag = EntityType::ENEMY;
 	this->x = xPos;
 	this->y = yPos;
-	nx = 1;
+	nx = -1;
 	isFollow = false;
 	this->target = t;
 	health = WORM_MAXHEALTH;

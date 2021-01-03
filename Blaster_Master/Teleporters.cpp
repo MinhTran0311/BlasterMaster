@@ -175,24 +175,26 @@ void Teleporters::AttackTarget(LPGAMEENTITY target, vector<LPGAMEENTITY>* coObje
 		}
 		else if (!isTransporting && isAttacking && shootBulletTimer->IsTimeUp() && relaxAttackTimer->IsTimeUp())
 		{
+			x_Pos_Old = this->Getx();
+			y_Pos_Old = this->Gety();
 			random_device rd;
 			mt19937 mt(rd());
 			uniform_real_distribution<float> posX(x_Min, x_Max);
 			uniform_real_distribution<float> posY(y_Min, y_Max);
-			float x = posX(mt);
-			float y = posY(mt);
+			x_Pos_New = posX(mt);
+			y_Pos_New = posY(mt);
 
-			while (!TestTele(x, y, coObjects))
+			while (!TestTele(x_Pos_New, y_Pos_New, coObjects))
 			{
 				random_device rd;
 				mt19937 ag(rd());
 				uniform_real_distribution<float> posX(x_Min, x_Max);
 				uniform_real_distribution<float> posY(y_Min, y_Max);
-				x = posX(ag);
-				y = posY(ag);
+				x_Pos_New = posX(ag);
+				y_Pos_New = posY(ag);
 			}
 
-			this->SetPosition(x, y);
+			this->SetPosition(x_Pos_New, y_Pos_New);
 			teleTimesAttack++;
 			if (teleTimesAttack == 3 || teleTimesAttack == 6)
 			{

@@ -512,7 +512,7 @@ void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void JASON::FireBullet(int mode)
 {
-	if (!canFire || burstFireModeBullets>0)
+	if (!canFire || burstFireModeBullets>0 || health<=0)
 		return;
 	if (mode == 1)
 	{

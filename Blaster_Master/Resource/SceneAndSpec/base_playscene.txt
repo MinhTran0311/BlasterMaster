@@ -10,15 +10,15 @@
 40	Resource/Enemy/enemies.jpg	237	28	36
 50	Resource/HealthBar.png	255	255	255
 60	Resource/item2.png	255	255	0
-11	Resource/SceneAndSpec/Scene/area_1.jpg	255	0	255
-12	Resource/SceneAndSpec/Scene/area_2.jpg	255	0	255
-13	Resource/SceneAndSpec/Scene/area_3.jpg	255	0	255
-14	Resource/SceneAndSpec/Scene/area_4.jpg	255	0	255
-15	Resource/SceneAndSpec/Scene/area_5.jpg	255	0	255
-16	Resource/SceneAndSpec/Scene/area_6.jpg	255	0	255
-17	Resource/SceneAndSpec/Scene/area_7.jpg	255	0	255
-18	Resource/SceneAndSpec/Scene/area_8.jpg	255	0	255
-19	Resource/SceneAndSpec/Scene/area_9.jpg	255	0	255
+11	Resource/SceneAndSpec/Scene/area_1.jpg	195	195	195
+12	Resource/SceneAndSpec/Scene/area_2.jpg	195	195	195
+13	Resource/SceneAndSpec/Scene/area_3.jpg	195	195	195
+14	Resource/SceneAndSpec/Scene/area_4.jpg	195	195	195
+15	Resource/SceneAndSpec/Scene/area_5.jpg	195	195	195
+16	Resource/SceneAndSpec/Scene/area_6.jpg	195	195	195
+17	Resource/SceneAndSpec/Scene/area_7.jpg	195	195	195
+18	Resource/SceneAndSpec/Scene/area_8.jpg	195	195	195
+19	Resource/SceneAndSpec/Scene/area_9.jpg	195	195	195
 20	Resource/SceneAndSpec/Scene/overworld.png	255	0	255
 41	Resource/select_continue.png	255	0	255
 100	Resource/boss - Copy.png	255	255	255
