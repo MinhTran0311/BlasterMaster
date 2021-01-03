@@ -3,17 +3,17 @@
 
 HomingMissles::HomingMissles(float xPos, float yPos, int nx)
 {
-	
+
 	SetState(HOMING_MISSLES_JASON_STATE_FIRE);
 	timeDelayed = 0;
 	timeDelayedMax = HOMING_MISSLES_DELAY;
 	x = xPos;
 	y = yPos;
-	if (missles.size()!=0)
+	if (missles.size() != 0)
 		missles.clear();
 	DebugOut(L"create misles");
 	for (int i = 0; i < 3; i++)
-	{		
+	{
 		JasonRocket* singleMissle = new JasonRocket(xPos, yPos, nx, i);
 		CGrid::GetInstance()->InsertGrid(singleMissle);
 		missles.push_back(singleMissle);
@@ -53,7 +53,7 @@ void HomingMissles::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 	if (!isActive)
 		return;
-	
+
 	if (timeDelayed >= timeDelayedMax)
 	{
 		for (int i = 0; i < missles.size(); i++)
@@ -66,9 +66,9 @@ void HomingMissles::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 	else
 		timeDelayed += dt;
-	
+
 	int k = 0;
-	for (int i = 0; i < missles.size()-k; i++)
+	for (int i = 0; i < missles.size() - k; i++)
 	{
 		if (!missles.at(i)->isActiveObject())
 		{
