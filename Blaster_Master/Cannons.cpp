@@ -1,5 +1,4 @@
 ﻿#include "Cannons.h"
-#include <time.h>
 
 void Cannons::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

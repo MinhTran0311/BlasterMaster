@@ -7,6 +7,9 @@
 #include "Sprites.h"
 #include "Animations.h"
 #include "debug.h"
+#include <algorithm>
+#include "Textures.h"
+#include "Game.h"
 
 #define ID_TEX_BBOX 0
 using namespace std;

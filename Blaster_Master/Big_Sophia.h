@@ -11,6 +11,10 @@
 #include "GateOverworld.h"
 #include "BigSophiaBullet.h"
 #include "Sound.h"
+#include "Item.h"
+#include "PowerUp.h"
+#include "GunUp.h"
+#include "InjuringBrick.h"
 
 #define BIG_SOPHIA_BBOX_WIDTH		22
 #define BIG_SOPHIA_BBOX_HEIGHT		32

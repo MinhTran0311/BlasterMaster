@@ -1,19 +1,5 @@
 #include "Jason.h"
-#include <algorithm>
-#include <assert.h>
-#include "debug.h"
-#include "Game.h"
-#include "Worms.h"
-#include "Gate.h"
-#include "PlayScene.h"
-#include "Grid.h"
-#include "JasonBullet.h"
-#include "JasonRocket.h"
-#include "InjuringBrick.h"
-#include "GadBrick.h"
-#include "ElectricBullet.h"
-#include "HomingMissles.h"
-#include "PlayerHandler.h"
+
 JASON::JASON(float x, float y, int _health, int _gundam)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_JASON));

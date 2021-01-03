@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "Entity.h"
+#include "PlayScene.h"
+#include "Boss.h"
 
 #define DISTANCE_FIRING_WIDTH	5
 #define DISTANCE_FIRING_HEIGHT	3

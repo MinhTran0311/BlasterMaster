@@ -8,8 +8,12 @@
 #pragma comment(lib, "dsound.lib")
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "winmm.lib")
-#include <dsound.h>
 #include "global.h"
+#include "Game.h"
+#include <dsound.h>
+#include <d3dx9.h>
+#include <d3d9.h>
+#include "tinyxml.h"
 
 #define SOUND_RESOURCE_INTRO "Resource/Sound/SoundIntro.xml"
 #define SOUND_RESOURCE_UNDERWORLD "Resource/Sound/SoundPlayScene.xml"

@@ -9,6 +9,9 @@
 #include <ctime>
 #include "Player.h"
 #include "Grid.h"
+#include "InjuringBrick.h"
+#include "global.h"
+#include "Sound.h"
 
 #define MINES_GRAVITY		0.002f
 

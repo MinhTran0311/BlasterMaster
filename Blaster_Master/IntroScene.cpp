@@ -1,6 +1,5 @@
-﻿#pragma once
-#include "IntroScene.h"
-#include "debug.h"
+﻿#include "IntroScene.h"
+
 IntroScene::IntroScene()
 {
 }

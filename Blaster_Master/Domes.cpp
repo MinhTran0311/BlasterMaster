@@ -1,6 +1,4 @@
 ﻿#include "Domes.h"
-#include <chrono>
-#include <thread>
 
 void Domes::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

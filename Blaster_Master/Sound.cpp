@@ -1,9 +1,4 @@
 #include "Sound.h"
-#include "Game.h"
-#include <dsound.h>
-#include <d3dx9.h>
-#include <d3d9.h>
-#include "tinyxml.h"
 
 Sound* Sound::Instance = nullptr;
 

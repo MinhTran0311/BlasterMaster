@@ -1,26 +1,5 @@
 #include "Game.h"
-#include "debug.h"
-#include <d3d9.h>
-#include <d3dx9.h>
-#include "Textures.h"
-#include "Sprites.h"
-#include "Animations.h"
-#include "debug.h"
-#include "Entity.h"
-#include "Textures.h"
 
-#include "Cannons.h"
-#include "Domes.h"
-#include "Eyeballs.h"
-#include "Floaters.h"
-#include "Insects.h"
-#include "Jumpers.h"
-#include "Orbs.h"
-#include "Skulls.h"
-#include "Teleporters.h"
-#include "Worms.h"
-
-#include "Enemy.h"
 CGame* CGame::__instance = NULL;
 
 CGame* CGame::GetInstance()
