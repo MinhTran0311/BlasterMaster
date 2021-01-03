@@ -118,6 +118,7 @@ Teleporters::Teleporters(float x, float y, LPGAMEENTITY t, int x_Tele_Min, int y
 	x_Min = x_Tele_Min;
 	y_Max = y_Tele_Max;
 	y_Min = y_Tele_Min;
+	firstTele = true;
 }
 
 Teleporters::Teleporters(float x, float y)
@@ -222,6 +223,13 @@ void Teleporters::SetState(int state)
 		}
 		case TELEPORTERS_STATE_ATTACKING:
 		{
+			/*if (firstTele)
+			{
+				telePositionOldTimer->Start();
+				firstTele = false;
+			}
+			if ()*/
+			
 			break;
 		}
 		case TELEPORTERS_STATE_TRANSFORMING:
