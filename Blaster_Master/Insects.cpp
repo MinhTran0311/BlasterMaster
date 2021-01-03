@@ -124,9 +124,9 @@ void Insects::Render()
 	if (health <= 0)
 	{
 		ani = INSECTS_ANI_DIE;
-		if (animationSet->at(ani)->GetFrame() == 3)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 			animationSet->at(ani)->ResetCurrentFrame();
 		}
 		animationSet->at(ani)->Render(nx,x, y);

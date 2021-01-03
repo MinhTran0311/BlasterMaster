@@ -60,7 +60,7 @@ void Player::Reset(int initHealth, int initGundam)
 {
 	health = initHealth;
 	dam = initGundam;
-	isDoneDeath = false;
+	isDoneDeathAni = false;
 	isDeath = false;
 	SetState(0);
 	SetPosition(start_x, start_y);
@@ -70,7 +70,7 @@ void Player::Reset(int initHealth, int initGundam)
 void Player::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 #pragma region Death or not
-	if (isDoneDeath)
+	if (isDoneDeathAni)
 		return;
 	if (health <= 0)
 	{

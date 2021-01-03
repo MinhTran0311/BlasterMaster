@@ -259,7 +259,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void JASON::Render()
 {
-	if (isDoneDeath || _isAutoRun)
+	if (isDoneDeathAni || _isAutoRun)
 		return;
 	//RenderBoundingBox();
 
@@ -272,7 +272,7 @@ void JASON::Render()
 		animationSet->at(ani)->Render(nx, x - DURATION_X_TO_DIE, y - DURATION_Y_TO_DIE, alpha);
 		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 			animationSet->at(ani)->ResetCurrentFrame();
 		}
 	}
@@ -498,7 +498,7 @@ void JASON::Render()
 void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 
-	if (isDoneDeath == false)
+	if (isDoneDeathAni == false)
 	{
 		left = x;
 		top = y;

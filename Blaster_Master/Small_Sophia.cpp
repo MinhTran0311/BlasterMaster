@@ -117,7 +117,7 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Small_Sophia::Render()
 {
-	if (isDoneDeath || _isAutoRun)
+	if (isDoneDeathAni || _isAutoRun)
 		return;
 	//RenderBoundingBox();
 
@@ -131,7 +131,7 @@ void Small_Sophia::Render()
 		ani = SOPHIA_ANI_SMALL_DIE;
 		animationSet->at(ani)->Render(nx, x, y, alpha);
 		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 	}
 	else
 	{
@@ -286,7 +286,7 @@ void Small_Sophia::SetState(int state)
 
 void Small_Sophia::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (!isDoneDeath)
+	if (!isDoneDeathAni)
 	{
 		if (isCrawl)
 		{

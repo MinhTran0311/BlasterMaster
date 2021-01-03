@@ -19,7 +19,7 @@ protected:
 
 	int alpha = 255;
 	bool isDeath = false;
-	bool isDoneDeath=false;
+	//bool isDoneDeathAni=false;
 
 	float start_x;				//initial position of Jason
 	float start_y;
@@ -63,9 +63,9 @@ public:
 	float Getvy() { return vy; };
 	float GetDy() { return dy; };
 	float GetDx() { return dx; };
-	void SetIsDoneDeath(bool donedeath) { isDoneDeath = donedeath; };
+	void SetIsDoneDeath(bool donedeath) { isDoneDeathAni = donedeath; };
 	void SetIsDeath(bool death) { isDeath = death; };
-	bool IsDoneDeath(){return isDoneDeath;};
+	bool IsDoneDeath(){return isDoneDeathAni;};
 	EntityType GetPlayerType() { return _PlayerType; };
 	void SetPlayerType(EntityType type) { _PlayerType = type; };
 	void SetInjured(int dame);

@@ -159,7 +159,7 @@ void SmallSophiaBullet::Render()
 			animationSet->at(ani)->OldRender(x + BULLET_SMALL_SOPHIA_NORMAL_HORIZONTAL_BBOX_WIDTH - DISTANCE_BLOWING_UP*3, y - DISTANCE_BLOWING_UP, alpha);
 		}
 		else animationSet->at(ani)->OldRender(x - DISTANCE_BLOWING_UP, y - DISTANCE_BLOWING_UP, alpha);
-		if (animationSet->at(ani)->GetFrame() == 3)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
 			isActive = false;
 		}

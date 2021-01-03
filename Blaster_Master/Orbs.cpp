@@ -119,9 +119,9 @@ void Orbs::Render()
 	if (this->state == ORBS_STATE_DIE)
 	{
 		ani = ORBS_ANI_DIE;
-		if (animationSet->at(ani)->GetFrame() == 3)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 			animationSet->at(ani)->ResetCurrentFrame();
 		}
 		animationSet->at(ani)->OldRender(x, y);

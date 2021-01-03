@@ -63,7 +63,7 @@ void Cannons::Render()
 		ani = CANNONS_ANI_DIE;
 		if (animationSet->at(ani)->GetFrame() == 3)
 		{
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 			animationSet->at(ani)->ResetCurrentFrame();
 		}
 		animationSet->at(ani)->Render(nx, x, y - 3);
