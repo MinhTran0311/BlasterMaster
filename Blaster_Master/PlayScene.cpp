@@ -451,8 +451,7 @@ void PlayScene::changePlayer()
 }
 void PlayScene::CheckEnterBoss()
 {
-
-	if (player->GetPlayerType() == TAG_BIG_SOPHIA && player->Getx() > 60 && player->Getx() < 80 && player->Gety() > 1844 && player->Gety() < 1880 && !dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea() && idStage == ID_MAPOVERWORLD)
+	if (player->GetPlayerType() == TAG_BIG_SOPHIA && player->Getx() > 871 && player->Getx() < 910 && player->Gety() > 627 && player->Gety() < 653 && !dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea() && idStage == ID_MAPOVERWORLD)
 	{
 		dynamic_cast<Big_Sophia*>(player)->SetIsEnterIntroBossArea(true);
 		BossIntroTimer->Start();
@@ -477,7 +476,7 @@ void PlayScene::BossAreaController()
 	if (!PlayerHandler::GetInstance()->IsWinBoss())
 	{
 		//intro
-		if (!dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea() && !dynamic_cast<Big_Sophia*>(player)->IsFightWithBoss())
+		if (!dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea() && !dynamic_cast<Big_Sophia*>(player)->IsFightWithBoss() && !dynamic_cast<Big_Sophia*>(player)->IsDoneFightWithBoss())
 			CheckEnterBoss();
 		if (BossIntroTimer->IsTimeUp() && dynamic_cast<Big_Sophia*>(player)->IsEnterIntroBossArea())
 		{
@@ -509,7 +508,7 @@ void PlayScene::BossAreaController()
 			player->SetPosition(150, 1905);
 			Camera::GetInstance()->SetCamPos(0, 1774);
 			BossIntroTimer->Reset();
-			dynamic_cast<Big_Sophia*>(player)->SetIsDoneFightWithBoss(false);
+			//dynamic_cast<Big_Sophia*>(player)->SetIsDoneFightWithBoss(false);
 			Sound::GetInstance()->Stop("Award");
 			Sound::GetInstance()->Play("MusicMap", 1, 10000);
 			PlayerHandler::GetInstance()->SetWinBoss(true);
@@ -931,12 +930,12 @@ void PlayScene::RandomSpawnItem(LPGAMEENTITY ItemSpawer)
 		}
 		else
 		{
-			if (prop > 0.8f)
+			if (prop > 0.7f)
 			{
 				LPGAMEENTITY _PowerUp = new Item(ItemSpawer->Getx(), ItemSpawer->Gety(), TAG_ITEM_SINGLE_POWER_UP,true);
 				CGrid::GetInstance()->InsertGrid(_PowerUp);
 			}
-			else if (prop > 0.1f && prop < 0.25f)
+			else if (prop > 0.1f && prop < 0.3f)
 			{
 				LPGAMEENTITY _GunUp = new Item(ItemSpawer->Getx(), ItemSpawer->Gety(), TAG_ITEM_SINGLE_GUN_UP, true);
 				CGrid::GetInstance()->InsertGrid(_GunUp);
@@ -975,9 +974,6 @@ void PlayScene::Update(DWORD dt)
 				this->inforDisplay == 0; 
 			}
 		}
-		
-
-		
 	}
 	else
 #pragma region mạng và reset
