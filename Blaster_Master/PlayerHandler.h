@@ -5,32 +5,40 @@ class PlayerHandler
 {
 private:
 	static PlayerHandler* instance;
-	int life = 2;
-	int playerDirectionBeforePassGate = 1;
-	int jasonHealth = PLAYER_MAX_HEALTH;
-	int jasonGundam = PLAYER_DEFAULT_GUNDAM;
-	int jasonStage = 1;
+	int life;
+	int playerDirectionBeforePassGate;
+	int jasonHealth;
+	int jasonGundam;
+	int jasonStage;
 	float jasonXPos, jasonYPos;
-	int sophiaHealth = PLAYER_MAX_HEALTH;
-	int sophiaGundam = PLAYER_DEFAULT_GUNDAM;
-	int sophiaStage = 1;
+	int sophiaHealth;
+	int sophiaGundam;
+	int sophiaStage;
 	float sophiaXPos, sophiaYPos;
-	int specialWeaponId = 1;
-
-	int noOfHomingMisslesWeaponLeft = 3;
-	int noOfElectricWeaponLeft = 3;
-	int noOfRocketsWeaponLeft = 3;
+	int specialWeaponId;
+	bool isWinBoss;
+	bool isCamFollowing;
+	int noOfHomingMisslesWeaponLeft;
+	int noOfElectricWeaponLeft;
+	int noOfRocketsWeaponLeft;
 public:
 #pragma region getter setter
+	bool IsCamFollow() { return isCamFollowing; };
+	void SetCamFollow(bool follow) { isCamFollowing = follow; };
 	int GetLife() { return life; };
+	bool IsWinBoss() { return isWinBoss; };
 	int GetPlayerDirectionBeforePassGate() { return playerDirectionBeforePassGate; };
 	int GetJasonHealth() { return jasonHealth; };
 	int GetJasonGunDam() { return jasonGundam; };
 	int GetJasonStage() { return jasonStage; };
+	float GetJasonXPos() { return jasonXPos; };
+	float GetJasonYPos() { return jasonYPos; };
 	void GetJasonPosition(float& x, float& y) { x = jasonXPos; y = jasonYPos; };
 	int GetSophiaHealth() { return sophiaHealth; };
 	int GetSophiaGunDam() { return sophiaGundam; };
 	int GetSophiaStage() { return sophiaStage; };
+	float GetSophiaXPos() { return sophiaXPos; };
+	float GetSophiaYPos() { return sophiaYPos; };
 	void GetSophiaPosition(float& x, float& y) { x = sophiaXPos; y = sophiaYPos; };
 	int GetSpecialWeaponId() { return specialWeaponId; };
 	int GetNoMissles() { return noOfHomingMisslesWeaponLeft; };
@@ -41,7 +49,7 @@ public:
 		missles = noOfHomingMisslesWeaponLeft;
 		electric = noOfElectricWeaponLeft;
 	}
-
+	void SetWinBoss(int win) { isWinBoss = win; };
 	void SetLife(int lifeset) { life = lifeset; };
 	void SetPlayerDirectionBeforePassGate(int direction) { playerDirectionBeforePassGate = direction; };
 	void SetJasonHealth(int healthset) { jasonHealth = healthset; };

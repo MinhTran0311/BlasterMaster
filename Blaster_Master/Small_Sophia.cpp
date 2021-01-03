@@ -24,6 +24,8 @@ Small_Sophia* Small_Sophia::GetInstance()
 
 void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
+	if (_isAutoRun)
+		return;
 	Player::Update(dt, coObjects);
 	//DebugOut(L"van toc y: %f\n", vy);
 #pragma region fall down 
@@ -115,7 +117,7 @@ void Small_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Small_Sophia::Render()
 {
-	if (isDoneDeath)
+	if (isDoneDeath || _isAutoRun)
 		return;
 	//RenderBoundingBox();
 
@@ -217,6 +219,7 @@ void Small_Sophia::SetState(int state)
 			isJumpHandle = false;
 			isJumping = true;
 			vy = -SMALL_SOPHIA_JUMP_SPEED_Y;
+			Sound::GetInstance()->Play("Jump", 0, 1);
 		}
 		break;
 	case SMALL_SOPHIA_STATE_IDLE:
@@ -304,12 +307,13 @@ void Small_Sophia::GetBoundingBox(float& left, float& top, float& right, float& 
 
 void Small_Sophia::FireBullet(int mode)
 {
-	if (!canFire)
+	if (!canFire || health <= 0)
 		return;
 	if (CGrid::GetInstance()->CheckBulletLimitation(SMALL_SOPHIA_NORMAL_BULLET, this->Getx(), this->Gety(), 3))
 	{
 		LPBULLET bullet = new SmallSophiaBullet(this->Getx(), this->Gety(), 0, nx);
 		CGrid::GetInstance()->InsertGrid(bullet);
+		Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 	}
 	FireTimer->Start();
 	canFire = false;

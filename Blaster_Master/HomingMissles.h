@@ -17,6 +17,7 @@ public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) { left = x; top = y; right = x; bottom = y; };
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();
+	bool CheckExist();
 private:
 	vector<JasonRocket*> missles;
 };

@@ -14,6 +14,7 @@
 #define SOUND_RESOURCE_INTRO "Resource/Sound/SoundIntro.xml"
 #define SOUND_RESOURCE_UNDERWORLD "Resource/Sound/SoundPlayScene.xml"
 #define SOUND_RESOURCE_ENDING "Resource/Sound/SoundEnding.xml"
+#define SOUND_RESOURCE_CHOOSING_WEAPON "Resource/Sound/ChooseWeapon.xml"
 
 class Sound
 {
@@ -24,7 +25,7 @@ private:
 	std::map<std::string, IDirectSoundBuffer8*> soundBufferMap;
 	IDirectSound8* pDevice;
 	bool isMute;
-
+	float volume;
 	std::map<std::string, IDirectSoundBuffer8*> soundTemp; // sound lưu thông tin để resume
 
 public:
@@ -46,13 +47,13 @@ public:
 	};
 
 	static Sound* GetInstance();
-	float volume;
 	void static Create(HWND hWnd);
 	void Play(std::string name, bool infiniteLoop, int times = 100000);
 	void Stop(std::string name = "");
 	void LoadSound(std::string fileName, std::string name);
 	void UnLoadSound(std::string name);
 	void LoadSoundResource(const char*);
+	void StopAll();
 	~Sound();
 };
 

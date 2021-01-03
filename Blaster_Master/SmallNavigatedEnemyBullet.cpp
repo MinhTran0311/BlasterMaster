@@ -96,7 +96,7 @@ void SmallNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects
 	vector<LPGAMEENTITY>* colliable_Objects = new vector<LPGAMEENTITY>();
 	for (int i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->GetType() == TAG_GATE || coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_PLAYER)
+		if (coObjects->at(i)->GetType() == TAG_GATE || coObjects->at(i)->GetType() == TAG_BRICK || coObjects->at(i)->GetType() == TAG_PLAYER || coObjects->at(i)->GetType() == TAG_SOFT_BRICK)
 			colliable_Objects->push_back(coObjects->at(i));
 	}
 #pragma region collision
@@ -145,7 +145,7 @@ void SmallNavigatedEnemyBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects
 						isMoving = false;
 					}
 				}
-				if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == EntityType::TAG_GATE)
+				if (e->obj->GetType() == EntityType::TAG_BRICK || e->obj->GetType() == EntityType::TAG_GATE || e->obj->GetType() == EntityType::TAG_SOFT_BRICK)
 				{
 					if (isMoving)
 					{
@@ -191,7 +191,7 @@ void SmallNavigatedEnemyBullet::Render()
 	{
 		ani = SMALL_NAVI_ENEMY_BULLET_BANG;
 		animationSet->at(ani)->OldRender(x - 6, y - 6);
-		if (animationSet->at(ani)->GetFrame() == 1)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
 			isActive = false;
 			isHitJason = false;

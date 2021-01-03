@@ -13,8 +13,9 @@ private:
 	int newPlayerx, newPlayery;
 	int newPlayerState;
 	int camPosX, camPosY;
+	int moveDirection;
 public:
-	Gate(float x, float y, int switchId, float playerx, float playery, int playerState, int rsCam, int camX, int camY);
+	Gate(float x, float y, int switchId, float playerx, float playery, int playerState, int rsCam, int camX, int camY, int direction);
 
 	int GetNewPlayerX() { return newPlayerx; };
 	int GetNewPlayerY() { return newPlayery; };
@@ -22,6 +23,7 @@ public:
 	int GetNewCamXPos() { return camPosX; };
 	int GetNewCamYPos() { return camPosY; };
 	int IsCamFollowPlayer() { return isCamFollowPlayer; };
+	int GetMoveDirection() { return moveDirection; };
 	~Gate();
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

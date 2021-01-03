@@ -65,6 +65,8 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		//	explosiontimer->Start(); 
 		//	explosiontimerinit = false;
 		//}
+		Sound::GetInstance()->Stop("Boss");
+		Sound::GetInstance()->Play("BossDead",1);
 		HandleDieState();
 		return;
 	}
@@ -127,20 +129,13 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			nx = -nx;
 			vx = -vx;
 		}
-
-
-
-
 	}
 	//clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
-
-
 	updateTarget1();
 	updateTarget2();
 	this->BigClawLeft.Follow(Target1);
-
 
 	LeftArm[3].Follow(BigClawLeft);
 	LeftArm[3].calculateEndpoint();
@@ -226,8 +221,6 @@ void CBoss::Render()
 	animationSet->at(ani)->OldRender(x, y, bossalpha);
 	//animationSet->at(0)->Render(x, y);
 
-
-
 	//RenderBoundingBox();
 	BigClawLeft.Render();
 	BigClawRight.Render();
@@ -271,14 +264,14 @@ void CBoss::SetStartPosition(float x, float y)
 
 void CBoss::getLeftClawPos(float& x, float& y)
 {
-	x = this->BigClawLeft.x;
-	y = this->BigClawLeft.y;
+	x = this->BigClawLeft.Getx();
+	y = this->BigClawLeft.Gety();
 }
 
 void CBoss::getRightClawPos(float& x, float& y)
 {
-	x = this->BigClawRight.x;
-	y = this->BigClawRight.y;
+	x = this->BigClawRight.Getx();
+	y = this->BigClawRight.Gety();
 }
 
 void CBoss::updateTarget1()
@@ -302,9 +295,6 @@ void CBoss::updateTarget1()
 	lList[16] = lList[1];
 	lList[17] = lList[4];
 	lList[18] = lList[0];
-
-
-
 
 	const float speedX = 2.5f, speedY = 3.5f;
 	nextTarget1 = lList[indexTarget1];

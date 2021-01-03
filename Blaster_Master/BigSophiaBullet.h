@@ -27,8 +27,8 @@
 #define BULLET_BIG_SOPHIA_LV3_ANI_RIGHT					2
 #define BULLET_BIG_SOPHIA_LV3_ANI_TOP					3
 #define BULLET_BIG_SOPHIA_BANG							4
-
-#define BULLET_BIG_SOPHIA_DELAY							8000
+#define BULLET_BIG_SOPHIA_LV1_DELAY						300
+#define BULLET_BIG_SOPHIA_DELAY							3500
 
 #define BULLET_LV2_ALPHA						0.0025
 #define BULLET_LV2_RADIUS_SPACE					5
@@ -44,9 +44,12 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	void Render();
+	void SetState(int state);
+	void SetBlowPosition(float xPos, float yPos) { xPosBLow = xPos; yPosBlow = yPos; };
 private:
 	double angle = 0;
 	float radius = 0;
 
+	float xPosBLow, yPosBlow;
 	pair<float, float> startingPoint;
 };

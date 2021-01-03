@@ -39,7 +39,7 @@
 #define MAX_GUNDAM				8
 
 #define GATE_VERTICAL_LONG		105
-#define GATE_HORIZONTAL_LONG	80
+#define GATE_HORIZONTAL_LONG	82
 
 
 class Big_Sophia : public Player
@@ -50,7 +50,7 @@ private:
 	int level;
 	bool isVerticalMove;
 	float backup_x, backup_y;
-	bool _isAutoRun;
+
 	int directionAutoRun;
 
 	bool isEnterIntroBossArea = false;
@@ -65,7 +65,7 @@ public:
 	bool IsFightWithBoss() { return isFightWithBoss; };
 	bool IsDoneFightWithBoss() { return isDoneFightWithBoss; };
 	void SetIsDoneFightWithBoss(bool done) { isDoneFightWithBoss=done; };
-	bool isAutoRun() { return _isAutoRun; };
+
 	void AutoRun(int direction);
 	void GetInfoBigSophia(int& direct, int& directY, float& playerx, float& playery, int& dame) { direct = nx; directY = ny; playerx = x; playery = y; dame = dam; }
 	virtual void FireBullet(int type);

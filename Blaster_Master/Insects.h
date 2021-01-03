@@ -44,18 +44,19 @@ private:
 	int maxdrop;
 	float originalY;
 	bool isTargeting;
+
 	Random* r = new Random();
 public:
+	Insects(float x, float y, LPGAMEENTITY t);
+
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();
+	virtual void SetState(int state);
+
 	virtual bool inTargetRange();
 	virtual void setRandomVxVy(float& vx, float& vy);
 	virtual void fly(const DWORD &dt);
 	virtual void setRandomFlyDropRange();
 	virtual void setRandomVx();
-
-	Insects(float x, float y, LPGAMEENTITY t);
-	virtual void SetState(int state);
-	void SelfDestroy();
 };

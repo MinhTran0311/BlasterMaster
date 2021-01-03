@@ -81,11 +81,11 @@ void Skulls::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 	//if (!isActive) vx = 0;
 	//else SetState(SKULLS_STATE_FLY);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= SKULLS_SITEACTIVE_PLAYER)
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= SKULLS_SITEACTIVE_PLAYER)
 	{
 		isActive = true;
 		Attack(target);
-		/*if (this->x == this->target->x)
+		/*if (this->x == this->target->Getx())
 		{
 			Attack();
 		}*/
@@ -96,7 +96,6 @@ void Skulls::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Skulls::Render()
 {
-	//RenderBoundingBox();
 	int ani;
 	if (this->state == SKULLS_STATE_DIE)
 	{
@@ -142,7 +141,6 @@ Skulls::Skulls(float x, float y, LPGAMEENTITY t)
 	this->target = t;
 	health = MAXHEALTH;
 	isActive = false;
-	bbARGB = 250;
 	this->dam = 1;
 }
 

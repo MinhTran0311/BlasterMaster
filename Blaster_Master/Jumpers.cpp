@@ -48,7 +48,7 @@ void Jumpers::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		y += min_ty * dy + ny * 0.4f;
 
 		//follow player
-		if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= JUMPER_SITEFOLLOW_PLAYER)
+		if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= JUMPER_SITEFOLLOW_PLAYER)
 		{
 			FollowTarget(target);
 		}
@@ -96,7 +96,6 @@ void Jumpers::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Jumpers::Render()
 {
-	//RenderBoundingBox();
 	if (vx > 0)
 		nx = 1;
 	else
@@ -114,7 +113,6 @@ void Jumpers::Render()
 	}
 	else
 		animationSet->at(ani)->Render(nx, x, y);
-	//RenderBoundingBox();
 }
 
 Jumpers::Jumpers(float x, float y, LPGAMEENTITY t)
@@ -130,7 +128,6 @@ Jumpers::Jumpers(float x, float y, LPGAMEENTITY t)
 	this->target = t;
 	health = JUMPER_MAXHEALTH;
 	isActive = true;
-	bbARGB = 250;
 }
 
 void Jumpers::FollowTarget(LPGAMEENTITY target) //đi theo nhân vật
@@ -143,7 +140,7 @@ void Jumpers::FollowTarget(LPGAMEENTITY target) //đi theo nhân vật
 	else indexFollow++;
 	if (indexFollow == 50)indexFollow = 0;
 	
-	if ((target->x - this->x) > 0)
+	if ((target->Getx() - this->x) > 0)
 	{
 		this->nx = 1;
 		vx = JUMPER_WALKING_SPEED;

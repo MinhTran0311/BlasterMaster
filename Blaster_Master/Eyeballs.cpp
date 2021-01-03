@@ -21,7 +21,7 @@ void Eyeballs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma endregion
 #pragma region Active
 
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= EYEBALLS_SITEACTIVE_PLAYER)
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= EYEBALLS_SITEACTIVE_PLAYER)
 	{
 		FlyAndAttackTarget();
 		isActive = true;
@@ -88,7 +88,6 @@ void Eyeballs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Eyeballs::Render()
 {
-	RenderBoundingBox();
 	if (vx > 0)
 		nx = 1;
 	else
@@ -118,7 +117,6 @@ void Eyeballs::Render()
 			ani = EYEBALLS_ANI_ATTACKING;
 		}
 		animationSet->at(ani)->Render(nx, x, y);
-		//RenderBoundingBox();
 	}
 }
 
@@ -134,7 +132,6 @@ Eyeballs::Eyeballs(float x, float y, LPGAMEENTITY t)
 	this->target = t;
 	health = EYEBALLS_MAXHEALTH;
 	isActive = false;
-	bbARGB = 0;
 	canAttack = false;
 	canFly = false;
 	canIdle = true;

@@ -98,7 +98,7 @@ void Insects::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		vy = 0;
 	}
 	else SetState(INSECTS_STATE_FLY);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= ACTIVE_RANGE)
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= ACTIVE_RANGE)
 	{
 		if (!firstTimeActive)
 		{
@@ -114,7 +114,6 @@ void Insects::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Insects::Render()
 {
-	//RenderBoundingBox();
 	if (vx > 0)
 	{
 		nx = 1;
@@ -147,8 +146,6 @@ void Insects::Render()
 		animationSet->at(ani)->OldRender(x, y);
 
 	}*/
-
-	//RenderBoundingBox();
 }
 
 Insects::Insects(float x, float y, LPGAMEENTITY t)
@@ -165,13 +162,10 @@ Insects::Insects(float x, float y, LPGAMEENTITY t)
 	health = MAXHEALTH;
 	isActive = false;
 	setRandomFlyDropRange();
-	bbARGB = 250;
 	originalY = this->y;
 	maxdrop = flyDropRange + originalY;
 	this->dam = 1;
 }
-
-
 
 void Insects::SetState(int state)
 {
@@ -202,7 +196,7 @@ void Insects::SetState(int state)
 
 bool Insects::inTargetRange()
 {
-	return GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TARGET_RANGE;
+	return GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= TARGET_RANGE;
 }
 
 void Insects::setRandomVxVy(float& vx, float& vy)

@@ -13,7 +13,7 @@ JasonRocket::JasonRocket(float xPos, float yPos, int direct_x)
 	SetState(BULLET_JASON_STATE_FLYING);
 	x = xPos;
 	y = yPos;
-	dam = 1;
+	dam = 2;
 	timeDelayedMax = BULLET_JASON_DELAY;
 	DebugOut(L"create rocket");
 }
@@ -30,7 +30,7 @@ JasonRocket::JasonRocket(float xPos, float yPos, int direct_x, int position)
 	y = yPos;
 	xPos_start = x;
 	yPos_start = y;
-	dam = 1;
+	dam = 2;
 	homingPosition = position;
 	DebugOut(L"create missle pos: %d",position);
 	vx = nx * ROCKET_FLYING_SPEED * 1.5;
@@ -111,7 +111,7 @@ void JasonRocket::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			if (colliable_Objects->at(i)->IsCollidingObject(this))
 			{
 				colliable_Objects->at(i)->AddHealth(-dam);
-				DebugOut(L"xxxxxxxxxxxxxxxx %d", colliable_Objects->at(i)->health);
+				DebugOut(L"xxxxxxxxxxxxxxxx %d", colliable_Objects->at(i)->GetHealth());
 				this->SetState(BULLET_JASON_STATE_HIT_ENEMY);
 				//isHitEnemy = true;
 
@@ -144,7 +144,7 @@ void JasonRocket::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 				if (e->obj->GetType() == EntityType::ENEMY)
 				{
 					e->obj->AddHealth(-dam);
-					DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
+					DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->GetHealth());
 					this->SetState(BULLET_JASON_STATE_HIT_ENEMY);
 					//isHitEnemy = true;
 					x += min_tx * dx + nx * 0.4f;

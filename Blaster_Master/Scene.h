@@ -21,9 +21,6 @@ public:
 
 typedef Scene* LPSCENE;
 
-
-
-
 class ScenceKeyHandler : public KeyboardHandler
 {
 protected:

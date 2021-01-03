@@ -42,7 +42,7 @@ void Cannons::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma endregion
 #pragma region Active
 	//attack player
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= CANNONS_SITEATTACK_PLAYER)
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= CANNONS_SITEATTACK_PLAYER)
 	{
 		isActive = true;
 		AttackTarget(target);
@@ -58,8 +58,6 @@ void Cannons::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Cannons::Render()
 {
-	RenderBoundingBox();
-
 	int ani = -1;
 	if (state == CANNONS_STATE_DIE) {
 		ani = CANNONS_ANI_DIE;
@@ -91,7 +89,6 @@ void Cannons::Render()
 		{
 			ani = CANNONS_ANI_IDLE;
 		}
-
 		animationSet->at(ani)->OldRender(x, y);
 	}
 }
@@ -108,7 +105,6 @@ Cannons::Cannons(float x, float y, LPGAMEENTITY t)
 	this->target = t;
 	health = CANNONS_MAXHEALTH;
 	isActive = false;
-	bbARGB = 0;
 	isAttackTop = false;
 	changeAttackToTopBottom = false;
 }

@@ -30,7 +30,8 @@ void Big_Sophia::AutoRun(int direction)
 {
 	if (!_isAutoRun)
 	{
-		_isAutoRun = true;
+		SetAutoRun(true);
+		//_isAutoRun = true;
 		backup_x = this->x;
 		backup_y = this->y;
 		directionAutoRun = direction;
@@ -56,6 +57,7 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		}
 		else if (directionAutoRun == 2 && abs(y - backup_y) <= GATE_VERTICAL_LONG)
 		{
+
 			if (ny != 0)
 			{
 				vy = 0.07f * ny;
@@ -298,7 +300,7 @@ void Big_Sophia::SetState(int state)
 void Big_Sophia::FireBullet(int mode)
 {
 	DebugOut(L"dan big tao duoc");
-	if (!canFire)
+	if (!canFire || health<=0)
 		return;
 	if (dam <= 3)
 	{

@@ -182,7 +182,7 @@ void Sound::LoadSoundResource(const char* filePath)
 	TiXmlElement* sound = nullptr;
 	string name;
 	string path;
-
+	Stop("");
 	soundBufferMap.clear();
 	//DebugOut(L"sound size: %d", soundBufferMap.size());
 
@@ -215,6 +215,8 @@ void Sound::Play(std::string name, bool infiniteLoop, int times)
 	}
 	//DebugOut(L"so luong am thanh: %d\n", soundBufferMap.size());
 }
+
+
 
 void Sound::Stop(std::string name)
 {

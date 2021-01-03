@@ -3,14 +3,12 @@
 #include <assert.h>
 #include "debug.h"
 #include "Game.h"
-#include "Worms.h"
 #include "Gate.h"
 #include "PlayScene.h"
 #include "Grid.h"
 #include "JasonBullet.h"
 #include "JasonRocket.h"
 #include "InjuringBrick.h"
-#include "GadBrick.h"
 #include "ElectricBullet.h"
 #include "HomingMissles.h"
 #include "Big_Sophia.h"
@@ -48,7 +46,6 @@ void Player::changeAlpha()
 
 void Player::SetInjured(int dame)
 {	
-
 	if (isImmortaling)
 		return;
 	Sound::GetInstance()->Play("PlayerInjured", 0, 1);
@@ -165,12 +162,10 @@ void Player::CollideWithObject(LPGAMEENTITY object)
 			}
 			case TAG_ITEM_SINGLE_GUN_UP:
 			{
-				DebugOut(L"theem gun up: %d\n",dam);
 				if (this->GetgunDam() + ITEM_GUN_UP_RESTORE <= MAX_GUNDAM)
 					this->AddgunDam(ITEM_GUN_UP_RESTORE);
 				else
 					this->SetgunDam(MAX_GUNDAM);
-				DebugOut(L"theem gun up sau: %d\n", dam);
 				break;
 			}
 			case TAG_ITEM_FULL_GUN_UP:
@@ -298,6 +293,7 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 					if (e->nx != 0)
 						vx = 0;
 				}
+				
 
 			}
 			else if (e->obj->GetType() == EntityType::TAG_GATE_OVERWORLD || e->obj->GetType() == EntityType::TAG_GATE)

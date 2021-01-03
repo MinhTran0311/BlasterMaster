@@ -26,8 +26,8 @@
 #define EYEBALLS_ANI_IDLE 2
 #define EYEBALLS_ANI_DIE 3
 
-#define EYEBALLS_SITEFOLLOW_PLAYER			50
-#define EYEBALLS_SITEACTIVE_PLAYER			150
+#define EYEBALLS_SITEFOLLOW_PLAYER			100
+#define EYEBALLS_SITEACTIVE_PLAYER			200
 
 #define EYEBALLS_TIME_FLY 1600
 #define EYEBALLS_TIME_IDLE 900
@@ -50,12 +50,13 @@ private:
 
 public:
 	Eyeballs(float x, float y, LPGAMEENTITY t);
-	void FlyAndAttackTarget();
-	virtual void SetState(int state);
-	void SelfDestroy();
+	
 	virtual void Render();
-	virtual void shootBulletToTarget();
-	virtual void setRandomVxVy(float& vx, float& vy);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
+	virtual void SetState(int state);
+
+	void FlyAndAttackTarget();
+	virtual void shootBulletToTarget();
+	virtual void setRandomVxVy(float& vx, float& vy);
 };

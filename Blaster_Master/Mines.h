@@ -34,11 +34,9 @@ private:
 	bool isHitJason;
 	bool died;
 public:
+	Mines(float x, float y, LPGAMEENTITY t);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
 	virtual void Render();
-
-	Mines(float x, float y, LPGAMEENTITY t);
 	virtual void SetState(int state);
-	void SelfDestroy();
 };

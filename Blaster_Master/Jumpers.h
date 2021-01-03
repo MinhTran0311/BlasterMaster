@@ -36,14 +36,13 @@ private:
 	int indexFollow=0;
 	bool isJump = false;
 public:
+	Jumpers(float x, float y, LPGAMEENTITY t);
+
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
 	virtual void Render();
-	int randomTimeJump();
-
-	Jumpers(float x, float y, LPGAMEENTITY t);
-
-	void FollowTarget(LPGAMEENTITY target);
 	virtual void SetState(int state);
-	void SelfDestroy();
+
+	int randomTimeJump();
+	void FollowTarget(LPGAMEENTITY target);
 };

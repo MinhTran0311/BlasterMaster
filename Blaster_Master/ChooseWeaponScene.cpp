@@ -15,10 +15,11 @@ ChooseWeaponScene::ChooseWeaponScene() : Scene()
 	LoadBaseObjects();
 	chooseWeaponScene_ani_set = CAnimationSets::GetInstance()->Get(52000);
 	//chooseWeaponScene_ani_setnumber = CAnimationSets::GetInstance()->Get(61005);
+	Sound::GetInstance()->Play("TransingWeaponScene", 0, 1);
 }
 void ChooseWeaponScene::SetSpecialWeapon(int _weaponId)
 {
-	/*weaponId = _weaponId; 
+	/*weaponId = _weaponId;
 	switch (weaponId)
 	{
 	case 0:
@@ -45,7 +46,7 @@ void ChooseWeaponScene::LoadBaseObjects()
 {
 	texturesFilePath = ToLPCWSTR("Resource\\SceneAndSpec\\choose_weapon_scene.txt");
 	LoadBaseTextures();
-	
+
 	Camera::GetInstance()->SetCamPos(0.0f, 0.0f);	//initial camera
 }
 void ChooseWeaponScene::LoadBaseTextures()
@@ -120,21 +121,26 @@ void ChooseWeaponSceneKeyHandler::OnKeyDown(int KeyCode)
 {
 	ChooseWeaponScene* chooseWeaponScene = dynamic_cast<ChooseWeaponScene*>(scence);
 	if (KeyCode == DIK_RETURN )
-	{ 
+	{
 		chooseWeaponScene->SetSpecialWeapon(chooseWeaponScene->GetWeaponId());
 		DebugOut(L"HoldScene %d\n", SceneManager::GetInstance()->GetHolderScene());
 		//SceneManager::GetInstance()->SetScene(SceneManager::GetInstance()->GetHolderScene());
+		Sound::GetInstance()->Play("TransingWeaponScene", 0, 1);
 		chooseWeaponScene->SetIsFinished(true);
 	}
 	if (KeyCode==DIK_LEFT) {
 		if (chooseWeaponScene->GetWeaponId() > 0)
+		{
 			chooseWeaponScene->SetWeaponId(chooseWeaponScene->GetWeaponId() - 1);
-
+			Sound::GetInstance()->Play("ChangeSpecialWeapon", 0, 1);
+		}
 	}
 	if (KeyCode == DIK_RIGHT) {
 		if (chooseWeaponScene->GetWeaponId() < 2)
+		{
 			chooseWeaponScene->SetWeaponId(chooseWeaponScene->GetWeaponId() + 1);
-
+			Sound::GetInstance()->Play("ChangeSpecialWeapon", 0, 1);
+		}
 	}
 	DebugOut(L"HoldScene %d\n", chooseWeaponScene->GetWeaponId());
 }
@@ -274,9 +280,9 @@ void ChooseWeaponScene::Update(DWORD dt)
 	}
 
 #pragma region camera
-	
+
 	Camera::GetInstance()->SetCamPos(0, 0);
-		
+
 #pragma endregion
 #pragma region sceneswitching
 
@@ -284,17 +290,17 @@ void ChooseWeaponScene::Update(DWORD dt)
 #pragma endregion
 
 
-}	
+}
 
 void ChooseWeaponScene::Render()
 {
-	
+
 	chooseWeaponScene_ani_set->at(0)->IntroRender(1, 0, 0);
 	chooseWeaponScene_ani_set->at(1)->IntroRender(1, 54	 + 32 * weaponId, 176);
 	chooseWeaponScene_ani_set->at(2)->IntroRender(1, 80 + 32 * weaponId, 176);
 
-	this->Number_1 = noRocket / 10;
-	this->Number_2 = noRocket % 10;
+	this->Number_1 = noHomingMissles / 10;
+	this->Number_2 = noHomingMissles % 10;
 	chooseWeaponScene_ani_set->at(3+ this->Number_1)->IntroRender(1, 63 + 32 * 0, 193);
 	chooseWeaponScene_ani_set->at(3+ this->Number_2)->IntroRender(1, 71 + 32 * 0, 193);
 
@@ -303,12 +309,12 @@ void ChooseWeaponScene::Render()
 	chooseWeaponScene_ani_set->at(3 + this->Number_1)->IntroRender(1, 63 + 32 * 1, 193);
 	chooseWeaponScene_ani_set->at(3 + this->Number_2)->IntroRender(1, 71 + 32 * 1, 193);
 
-	this->Number_1 = noHomingMissles / 10;
-	this->Number_2 = noHomingMissles % 10;
+	this->Number_1 = noRocket / 10;
+	this->Number_2 = noRocket % 10;
 	chooseWeaponScene_ani_set->at(3 + this->Number_1)->IntroRender(1, 63 + 32 * 2, 193);
 	chooseWeaponScene_ani_set->at(3 + this->Number_2)->IntroRender(1, 71 + 32 * 2, 193);
 	//chooseWeaponScene_ani_setnumber->at(0)->IntroRender(1, 90, 176);
-	
+
 }
 void ChooseWeaponScene::Unload()
 {

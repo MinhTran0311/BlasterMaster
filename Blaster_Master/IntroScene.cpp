@@ -23,7 +23,6 @@ IntroScene::IntroScene(int _idStage) : Scene()
 		
 		intro_ani_set = CAnimationSets::GetInstance()->Get(Ending_Scene);
 		Sound::GetInstance()->LoadSoundResource(SOUND_RESOURCE_ENDING);
-
 		break;
 	}
 	default:
@@ -253,82 +252,68 @@ void IntroScene::_ParseSection_SCENEFILEPATH(string line)
 IntroScene::~IntroScene()
 {
 }
-
-//void PlayScene::SwitchScene(int scene_id)
-//{
-//	DebugOut(L"dung cong");
-//}
-
 void IntroScene::Update(DWORD dt)
 {
-	switch (setAnimation)
+	if (idStage == ID_INTRO)
 	{
-	case Intro_Animation_Frog:
-	{
-		Sound::GetInstance()->Play("Opening", 1, 10000);
-		break;
-	}
-	case Intro_Animation_Car:
-	{
-		Sound::GetInstance()->Stop("Opening");
-		Sound::GetInstance()->Play("CarBackground", 1, 10000);
-		if (intro_ani_set->at(Intro_Animation_Car)->GetFrame() == 23)
-			Sound::GetInstance()->Play("CarSplash", 0, 1);
-		break;
-	}
-	default:
-		break;
-	}
-	
-
-	if (setAnimation == Intro_Done) {
-		Unload();
-		SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
-	}
-	
-#pragma region camera
-	if (this->moutainY > 40)setEndding = 1;
-	if (this->time == 60)setEndding = 2;
-
-	switch (setEndding)
-	{
-	case 0:
-		this->moutainY += 0.1;
-		break;
-	case 1:
-		if (this->posX < 230)this->posX += 1;
-		else time++;
-		break;
-	case 2:
-		if(this->textY< 272+326)
-			this->textY += 0.5;
-		break;
-	default:
-		break;
-	}
-	
-	
-	switch (idStage)
-	{
-	case ID_INTRO:
+		switch (setAnimation)
+		{
+		case Intro_Animation_Frog:
+		{
+			Sound::GetInstance()->Play("Opening", 1, 10000);
+			break;
+		}
+		case Intro_Animation_Car:
+		{
+			Sound::GetInstance()->Stop("Opening");
+			Sound::GetInstance()->Play("CarBackground", 1, 10000);
+			if (intro_ani_set->at(Intro_Animation_Car)->GetFrame() == 23)
+				Sound::GetInstance()->Play("CarSplash", 0, 1);
+			break;
+		}
+		default:
+			break;
+		}
+		if (setAnimation == Intro_Done) {
+			Unload();
+			SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
+		}
 		Camera::GetInstance()->SetCamPos(0, 0);
-		break;
-	case ID_INTROENDING:
+	}
+	else {
+		if (this->moutainY > 40)setEndding = 1;
+		if (this->time == 60)setEndding = 2;
+		switch (setEndding)
+		{
+		case 0:
+			Sound::GetInstance()->Play("Mountain", 1, 10000);
+
+			this->moutainY += 0.1;
+			break;
+			//Sound::GetInstance()->Play("Mountain", 1,10000);
+		case 1:
+			if (this->posX < 230)this->posX += 0.5f;
+			else time++;
+			Sound::GetInstance()->Stop("Mountain");
+			Sound::GetInstance()->Play("Ending", 1,10000);
+			break;
+		case 2:
+			if (this->textY < 272 + 326)
+				this->textY += 0.5;
+			break;
+		default:
+			break;
+		}
+
 		if (setEndding == 0 && this->moutainY < 30)
 		{
 			Camera::GetInstance()->SetCamPos(this->posX, -15 + 1 * dt);
 		}
 		else
 		{
-			Camera::GetInstance()->SetCamPos(this->posX,0);
+			Camera::GetInstance()->SetCamPos(this->posX, 0);
 		}
-		break;
-	default:
-		break;
 	}
-#pragma endregion
-
-
 }
 
 void IntroScene::Render()
@@ -385,17 +370,13 @@ void IntroScene::Render()
 		default:
 			break;
 		}
-		
-
-
-		
 	}
 }
 void IntroScene::Unload()
 {
-	Sound::GetInstance()->UnLoadSound("Opening");
-	Sound::GetInstance()->UnLoadSound("CarSplash");
-	Sound::GetInstance()->UnLoadSound("CarBackground");
+	//Sound::GetInstance()->UnLoadSound("Opening");
+	//Sound::GetInstance()->UnLoadSound("CarSplash");
+	//Sound::GetInstance()->UnLoadSound("CarBackground");
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }

@@ -24,7 +24,7 @@ protected:
 	EntityType typeBullet;
 	float bullet_speed;
 	bool  isHitBrick, isHitEnemy, isHitJason;
-	float timeDelayed, timeDelayedMax;
+	int timeDelayed, timeDelayedMax;
 public:
 	// phương thức
 	Bullet();

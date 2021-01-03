@@ -76,6 +76,9 @@
     <Filter Include="Objects\Boss">
       <UniqueIdentifier>{da25b7d6-335f-408d-87bd-4a2fe31870f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="FrameWork\Map">
+      <UniqueIdentifier>{2018f1f4-dea3-4c0a-932c-5ef31943c226}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
@@ -201,9 +204,6 @@
     <ClCompile Include="Brick.cpp">
       <Filter>Objects\Obstacles\Brick</Filter>
     </ClCompile>
-    <ClCompile Include="GadBrick.cpp">
-      <Filter>Objects\Obstacles\Brick</Filter>
-    </ClCompile>
     <ClCompile Include="InjuringBrick.cpp">
       <Filter>Objects\Obstacles\Brick</Filter>
     </ClCompile>
@@ -272,6 +272,12 @@
     </ClCompile>
     <ClCompile Include="PlayerHandler.cpp">
       <Filter>Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>FrameWork\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapManager.cpp">
+      <Filter>FrameWork\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -404,9 +410,6 @@
     <ClInclude Include="Brick.h">
       <Filter>Objects\Obstacles\Brick</Filter>
     </ClInclude>
-    <ClInclude Include="GadBrick.h">
-      <Filter>Objects\Obstacles\Brick</Filter>
-    </ClInclude>
     <ClInclude Include="InjuringBrick.h">
       <Filter>Objects\Obstacles\Brick</Filter>
     </ClInclude>
@@ -469,6 +472,12 @@
     </ClInclude>
     <ClInclude Include="PlayerHandler.h">
       <Filter>Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>FrameWork\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="MapManager.h">
+      <Filter>FrameWork\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

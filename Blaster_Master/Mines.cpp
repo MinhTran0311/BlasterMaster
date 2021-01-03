@@ -13,6 +13,7 @@ void Mines::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void Mines::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
+
 	Entity::Update(dt);
 	if (health <= 0)
 	{
@@ -46,26 +47,24 @@ void Mines::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma endregion
 
 #pragma region Active
-	if (!isActive) return;
-	else SetState(MINES_STATE_IDLE);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= MINES_SITEACTIVE_PLAYER)
+	/*if (!isActive) return;
+	else SetState(MINES_STATE_IDLE);*/
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= MINES_SITEACTIVE_PLAYER)
 	{
-		Sound::GetInstance()->Play("MineBip", 0, 1);
-		isActive = true;
+		Sound::GetInstance()->Play("MineBip", 1, 10000);
+		//isActive = true;
 	}
-	else isActive = false;
+	else
+	{
+		Sound::GetInstance()->Stop("MineBip");
+		//isActive = false;
+	}
 #pragma endregion
 
 }
 
 void Mines::Render()
 {
-	//RenderBoundingBox();
-	//if (vx > 0)
-	//	nx = 1;
-	//else
-	//	nx = -1;
-
 	int ani;
 	if (state == MINES_STATE_DIE) {
 		ani = MINES_ANI_DIE;
@@ -94,9 +93,7 @@ Mines::Mines(float x, float y, LPGAMEENTITY t)
 	nx = -1;
 	this->target = t;
 	health = MINES_MAXHEALTH;
-	isActive = false;
-	bbARGB = 250;
-	isActive = false;
+	//isActive = false;
 	canExplosiving = true;
 	died = false;
 	this->dam = 1;

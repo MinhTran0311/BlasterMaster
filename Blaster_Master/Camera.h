@@ -9,6 +9,7 @@ private:
 	static Camera* __instance;
 	float camx, camy;
 	bool isFollowPlayer;
+	bool isFinishedPassScene = false;
 	Camera();
 	~Camera();
 public:
@@ -23,5 +24,7 @@ public:
 	void SetIsFollowPlayer(bool follow) { isFollowPlayer = follow; };
 	bool IsFollowPlayer() { return isFollowPlayer; };
 	RECT GetRectCam();
+	void SetFinishPassScene(int done) { isFinishedPassScene = done; };
+	bool IsFinishPassScene() { return isFinishedPassScene; };
 };
 

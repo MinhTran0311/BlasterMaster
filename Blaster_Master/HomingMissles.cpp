@@ -3,17 +3,17 @@
 
 HomingMissles::HomingMissles(float xPos, float yPos, int nx)
 {
-	
+
 	SetState(HOMING_MISSLES_JASON_STATE_FIRE);
 	timeDelayed = 0;
 	timeDelayedMax = HOMING_MISSLES_DELAY;
 	x = xPos;
 	y = yPos;
-	if (missles.size()!=0)
+	if (missles.size() != 0)
 		missles.clear();
 	DebugOut(L"create misles");
 	for (int i = 0; i < 3; i++)
-	{		
+	{
 		JasonRocket* singleMissle = new JasonRocket(xPos, yPos, nx, i);
 		CGrid::GetInstance()->InsertGrid(singleMissle);
 		missles.push_back(singleMissle);
@@ -46,9 +46,14 @@ void HomingMissles::SetState(int state)
 
 void HomingMissles::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
+	if (!CheckExist())
+	{
+		isActive = false;
+		return;
+	}
 	if (!isActive)
 		return;
-	
+
 	if (timeDelayed >= timeDelayedMax)
 	{
 		for (int i = 0; i < missles.size(); i++)
@@ -61,9 +66,9 @@ void HomingMissles::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	}
 	else
 		timeDelayed += dt;
-	
+
 	int k = 0;
-	for (int i = 0; i < missles.size()-k; i++)
+	for (int i = 0; i < missles.size() - k; i++)
 	{
 		if (!missles.at(i)->isActiveObject())
 		{
@@ -88,14 +93,16 @@ void HomingMissles::Render()
 {
 	if (!isActive)
 		return;
+}
 
-	////DebugOut(L"So luong ten lua %d\n", missles.size());
-	//for (int i = 0; i < missles.size(); i++)
-	//{
-	//	if (missles.at(i) != nullptr && missles.at(i)->isActiveObject())
-	//	{
-	//		//DebugOut(L"loai ten lua %d\n", missles.at(i)->isActiveObject());
-	//	//	missles.at(i)->Render();
-	//	}
-	//}
+bool HomingMissles::CheckExist()
+{
+	if (missles.size() == 0)
+		return false;
+	for (int i = 0; i < missles.size(); i++)
+	{
+		if (missles.at(i) != nullptr)
+			return true;
+	}
+	return false;
 }

@@ -1,5 +1,5 @@
 ﻿#include "Camera.h"
-
+#include "MapManager.h"
 Camera* Camera::__instance = NULL;
 
 Camera* Camera::GetInstance()
@@ -11,37 +11,65 @@ Camera* Camera::GetInstance()
 void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int mapWidth, int mapHeight,int nx, int ny, float xPosGo, float xPosBack,float yPosGo,float yPosBack, int &AutoMoveDirection)
 {
 	if (playertype==TAG_JASON || playertype==TAG_SMALL_SOPHIA)
-	{	//phương ngang
-		if (xPos + SCREEN_WIDTH / 2 >= mapWidth)	// mép phải map
-			camx = mapWidth- SCREEN_WIDTH;
-		else
+	{	
+		if (AutoMoveDirection == 0)
 		{
-			if (xPos < SCREEN_WIDTH / 2)	//ở mép trái map
-				camx = 0;
-			else
-				camx = xPos - SCREEN_WIDTH / 2;
-		}
-		//phương dọc
-
-		if (yPos + SCREEN_HEIGHT/2>= mapHeight)
-		{
-			camy = mapHeight - SCREEN_HEIGHT;
-		}
-		else
-		{
-			if (yPos < SCREEN_HEIGHT / 4)	//ở dưới đáy
-				camy = 0;
+			//phương ngang
+			if (xPos + SCREEN_WIDTH / 2 >= mapWidth)	// mép phải map
+				camx = mapWidth - SCREEN_WIDTH;
 			else
 			{
-				if ((yPos-camy)<(SCREEN_HEIGHT / 4))
-					camy -= CAMERA_SPEED_WORLD1 * dt;
-				else if((yPos - camy) > (SCREEN_HEIGHT / 2))
-					camy += CAMERA_SPEED_WORLD1 * dt;
+				if (xPos < SCREEN_WIDTH / 2)	//ở mép trái map
+					camx = 0;
+				else
+					camx = xPos - SCREEN_WIDTH / 2;
+			}
+			//phương dọc
+
+			if (yPos + SCREEN_HEIGHT / 2 >= mapHeight)
+			{
+				camy = mapHeight - SCREEN_HEIGHT;
+			}
+			else
+			{
+				if (yPos < SCREEN_HEIGHT / 4)	//ở dưới đáy
+					camy = 0;
+				else
+				{
+					if ((yPos - camy) < (SCREEN_HEIGHT / 4))
+						camy -= CAMERA_SPEED_WORLD1 * dt;
+					else if ((yPos - camy) > (SCREEN_HEIGHT / 2))
+						camy += CAMERA_SPEED_WORLD1 * dt;
+				}
+			}
+			if (yPos - camy > SCREEN_HEIGHT)
+				camy = yPos - SCREEN_HEIGHT / 4;
+		}
+		else if (AutoMoveDirection == 2)
+		{
+			if (camx < mapWidth)
+			{
+				DebugOut(L"cam update 4 %d: \n", MapManager::GetIntance()->GetLeftAlign(MapManager::GetIntance()->GetCurrenStage()));
+				DebugOut(L"Vi tri xcam: %f", camx);
+				camx += CAMERA_SPEED_WORLD1 * dt;
+			}
+			else
+			{
+				isFinishedPassScene = true;
+				AutoMoveDirection = 0;
 			}
 		}
-		if (yPos - camy > SCREEN_HEIGHT)
-			camy = yPos - SCREEN_HEIGHT / 4;
-
+		else if (AutoMoveDirection == 1)
+		{
+			if (camx > -SCREEN_WIDTH+10)
+			{
+				camx -= CAMERA_SPEED_WORLD1 * dt;
+			}
+			else {
+				AutoMoveDirection = 0;
+				isFinishedPassScene = true;
+			}
+		}
 	}
 	else if (playertype == TAG_BIG_SOPHIA)
 	{

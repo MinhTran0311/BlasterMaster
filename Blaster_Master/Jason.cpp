@@ -3,14 +3,11 @@
 #include <assert.h>
 #include "debug.h"
 #include "Game.h"
-#include "Worms.h"
-#include "Gate.h"
 #include "PlayScene.h"
 #include "Grid.h"
 #include "JasonBullet.h"
 #include "JasonRocket.h"
 #include "InjuringBrick.h"
-#include "GadBrick.h"
 #include "ElectricBullet.h"
 #include "HomingMissles.h"
 #include "PlayerHandler.h"
@@ -88,6 +85,8 @@ void JASON::SetState(int state)
 
 void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
+	if (_isAutoRun)
+		return;
 	Player::Update(dt, coObjects);
 	//fall down
 #pragma region fall down
@@ -260,7 +259,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void JASON::Render()
 {
-	if (isDoneDeath)
+	if (isDoneDeath || _isAutoRun)
 		return;
 	//RenderBoundingBox();
 
@@ -510,7 +509,7 @@ void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 void JASON::FireBullet(int mode)
 {
-	if (!canFire || burstFireModeBullets>0)
+	if (!canFire || burstFireModeBullets>0 || health<=0)
 		return;
 	if (mode == 1)
 	{
@@ -591,7 +590,7 @@ void JASON::FireBullet(int mode)
 	{
 		switch (PlayerHandler::GetInstance()->GetSpecialWeaponId())
 		{
-		case 0:
+		case 2:
 		{
 			int no = PlayerHandler::GetInstance()->GetNoRocket();
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_ROCKET_BULLET, this->Getx(), this->Gety(), 2) && no>0)
@@ -618,7 +617,7 @@ void JASON::FireBullet(int mode)
 			}
 			break;
 		}
-		case 2:
+		case 0:
 			int no = PlayerHandler::GetInstance()->GetNoMissles();
 			if (CGrid::GetInstance()->CheckBulletLimitation(JASON_HOMING_MISSLES, this->Getx(), this->Gety(), 1) && no>0)
 			{
