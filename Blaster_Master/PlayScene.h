@@ -48,7 +48,7 @@ using namespace std;
 
 class PlayScene : public Scene
 {
-public:
+private:
 	bool select_end = false;
 	bool death = false;
 	int time_drawlife = 0;
@@ -58,10 +58,7 @@ public:
 	int CamMoveDirection = 0;
 	float posX, posY;
 	float xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack;
-
 	int textureAlpha = 255;
-	Timer* BossIntroTimer = new Timer(FREEZE_DURATION);
-
 	float nCamXGo;
 	float nCamXBack;
 	float nCamYGo;
@@ -69,50 +66,16 @@ public:
 	int camMap1X;
 	int camMap1Y;
 	bool isNeedResetCamera;
-	PlayScene();
-	DWORD timeResetCam;
-	PlayScene(int idStage);
-	~PlayScene();
 	bool isUnloaded = false;
-
 	int inforDisplay = 0;
-	Random* random = new Random();
-	/*void SetKeyhandler(Scene* scene) {
-		keyHandler = new PlayScenceKeyHandler(scene);
-		CGame::GetInstance()->SetKeyHandler(this->GetKeyEventHandler());
-	}*/
-protected:
 	LPANIMATION_SET animation_set;
 	LPGAMEPLAYER player;
 	LPGAMEPLAYER backup_player;
-	void LoadBaseObjects();
-	void LoadBaseTextures();
 	int mapWidth, mapHeight;
-	void SetInforDisplay(int type) { inforDisplay = type; };
-	int GetInforDisplay() { return inforDisplay; };
-	void CheckPlayerReachGate();
 
-	void ChooseMap(int whatStage);
-
-
-	virtual void Update(DWORD dt);
-	virtual void Render();
-	virtual void Unload();
-	virtual void LoadSceneObjects(LPCWSTR path);
-	virtual void changePlayer();
-	void RandomSpawnItem(LPGAMEENTITY ItemSpawer);
-
-	void CheckEnterBoss();
-	void SetUpFightBoss();
-	void BossAreaController();
-	friend class PlayScenceKeyHandler;
-private:
-
-#pragma region lists
-	vector<LPCWSTR> listSceneFilePath;
-	vector<int> listWidth;
-	vector<int> listHeight;
-#pragma endregion
+	Timer* BossIntroTimer = new Timer(FREEZE_DURATION);
+	DWORD timeResetCam;
+	Random* random = new Random();
 
 	int idStage;
 	void _ParseSection_TEXTURES(string line);
@@ -125,9 +88,28 @@ private:
 	void _ParseSection_CLEARANIMATIONS(string line);
 	void _ParseSection_CLEARANIMATION_SETS(string line);
 
-	//Get stage objects' link and tilemap resources
 	void _ParseSection_SCENEFILEPATH(string line);
 
+public:
+	void LoadBaseObjects();
+	void LoadBaseTextures();
+	void SetInforDisplay(int type) { inforDisplay = type; };
+	int GetInforDisplay() { return inforDisplay; };
+	void CheckPlayerReachGate();
+	void ChooseMap(int whatStage);
+	virtual void Update(DWORD dt);
+	virtual void Render();
+	virtual void Unload();
+	virtual void LoadSceneObjects(LPCWSTR path);
+	virtual void changePlayer();
+	void RandomSpawnItem(LPGAMEENTITY ItemSpawer);
+	void CheckEnterBoss();
+	void SetUpFightBoss();
+	void BossAreaController();
+	friend class PlayScenceKeyHandler;
+	PlayScene();
+	PlayScene(int idStage);
+	~PlayScene();
 };
 
 class PlayScenceKeyHandler : public ScenceKeyHandler

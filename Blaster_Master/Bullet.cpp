@@ -57,14 +57,33 @@ void Bullet::HandlePlayerBulletCollision(vector<LPGAMEENTITY>* coObjects)
 		if (this->IsCollidingObject(colliable_Objects->at(i)))
 		{
 			LPGAMEENTITY e = colliable_Objects->at(i);
-			switch (e->GetType())
+			if (e->GetType() == TAG_BRICK || e->GetType() == TAG_GATE || e->GetType() == TAG_GATE_OVERWORLD)
 			{
-				case ENEMY:
+				this->SetState(BULLET_STATE_HIT_BRICK);
+				Sound::GetInstance()->Play("PlayerBulletHitBrick", 0, 1);
+			}
+			else if (e->GetType() == ENEMY)
+			{
+				e->AddHealth(-dam);
+				this->SetState(BULLET_STATE_ENEMY);
+				isActive = false;
+				if (dynamic_cast<CBoss*>(e)) {
+					dynamic_cast<CBoss*>(e)->SetState(BOSS_STATE_INJURED);
+				}
+			}
+			else if (e->GetType() == TAG_SOFT_BRICK)
+			{
+				if (typeBullet == JASON_UPGRADE_BULLET || typeBullet == BIG_SOPHIA_BULLET_LV1 || typeBullet == BIG_SOPHIA_BULLET_LV2 || typeBullet == BIG_SOPHIA_BULLET_LV3)
+				{
 					e->AddHealth(-dam);
 					this->SetState(BULLET_STATE_ENEMY);
-					break;
-				default:
-					break;
+					Sound::GetInstance()->Play("PlayerBulletHitBrick", 0, 1);
+					isActive = false;
+				}
+				else {
+					this->SetState(BULLET_STATE_HIT_BRICK);
+					Sound::GetInstance()->Play("PlayerBulletHitBrick", 0, 1);
+				}
 			}
 		}
 	}
@@ -87,38 +106,12 @@ void Bullet::HandlePlayerBulletCollision(vector<LPGAMEENTITY>* coObjects)
 		float rdx = 0;
 		float rdy = 0;
 
-		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (e->obj->GetType() == TAG_BRICK || e->obj->GetType() == TAG_GATE || e->obj->GetType() == TAG_GATE_OVERWORLD)
-			{
-				this->SetState(BULLET_STATE_HIT_BRICK);
-				Sound::GetInstance()->Play("PlayerBulletHitBrick", 0, 1);
-
-				//x += min_tx * dx + nx * 0.4f;
-				//y += min_ty * dy + ny * 0.4f;
-			}
-			else if (e->obj->GetType() == ENEMY)
-			{
-				e->obj->AddHealth(-dam);
-				//DebugOut(L"xxxxxxxxxxxxxxxxhitEnemy %d\n", e->obj->health);
-				this->SetState(BULLET_STATE_ENEMY);
-				//x += min_tx * dx + nx * 0.4f;
-				//y += min_ty * dy + ny * 0.4f;
-				isActive = false;
-				if (dynamic_cast<CBoss*>(e->obj)) {
-					dynamic_cast<CBoss*>(e->obj)->SetState(BOSS_STATE_INJURED);
-				}
-			}
-			else if (e->obj->GetType() == TAG_SOFT_BRICK)
-			{
-				if (typeBullet == JASON_UPGRADE_BULLET)
-					e->obj->AddHealth(-dam);
-				this->SetState(BULLET_STATE_ENEMY);
-				isActive = false;
-			}
-		}
+		//FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		//for (UINT i = 0; i < coEventsResult.size(); i++)
+		//{
+		//	LPCOLLISIONEVENT e = coEventsResult[i];
+		//	
+		//}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion

@@ -114,7 +114,6 @@ void Insects::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Insects::Render()
 {
-	//RenderBoundingBox();
 	if (vx > 0)
 	{
 		nx = 1;
@@ -147,8 +146,6 @@ void Insects::Render()
 		animationSet->at(ani)->OldRender(x, y);
 
 	}*/
-
-	//RenderBoundingBox();
 }
 
 Insects::Insects(float x, float y, LPGAMEENTITY t)
@@ -165,13 +162,10 @@ Insects::Insects(float x, float y, LPGAMEENTITY t)
 	health = MAXHEALTH;
 	isActive = false;
 	setRandomFlyDropRange();
-	bbARGB = 250;
 	originalY = this->y;
 	maxdrop = flyDropRange + originalY;
 	this->dam = 1;
 }
-
-
 
 void Insects::SetState(int state)
 {

@@ -36,18 +36,17 @@ class Cannons : public Enemy
 {
 private:
 	bool isAttack;
-	Timer* delayAttackTimer = new Timer(CANNONS_DELAY_ATTACK);
 	bool changeAttackToTopBottom;
 	bool isAttackTop;
 	
+	Timer* delayAttackTimer = new Timer(CANNONS_DELAY_ATTACK);
 public:
 	Cannons(float x, float y, LPGAMEENTITY t);
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
 	virtual void Render();
+	virtual void SetState(int state);
 
 	void AttackTarget(LPGAMEENTITY target);
-	virtual void SetState(int state);
-	void SelfDestroy();
 };

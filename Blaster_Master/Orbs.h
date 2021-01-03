@@ -34,21 +34,22 @@ class Orbs : public Enemy
 {
 private:
 	bool mode;
-	Timer* time = new Timer(300);
 	bool canflip = true;
 	bool isfly = true;
 	float pointX, pointY;
 	bool isAttack = false;
 	bool isTargeting;
+
+	Timer* time = new Timer(300);
 	Random* r = new Random();
 public:
+	Orbs(float x, float y, LPGAMEENTITY t, int orb_mode);
+
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();
-	virtual bool inTargetRange();
-
-	Orbs(float x, float y, LPGAMEENTITY t, int orb_mode);
-	virtual void Attack(LPGAMEENTITY target = NULL);
 	virtual void SetState(int state);
-	void SelfDestroy();
+
+	virtual void Attack(LPGAMEENTITY target = NULL);
+	virtual bool inTargetRange();
 };

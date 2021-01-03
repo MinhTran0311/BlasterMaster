@@ -24,35 +24,14 @@ using namespace std;
 
 class ChooseWeaponScene : public Scene
 {
-public:
-	int Number_1 = 0;
-	int Number_2 = 0;
-	ChooseWeaponScene();
-	//ChooseWeaponScene(JASON* player);
-	~ChooseWeaponScene();
-	bool isUnloaded = false;
-	void SetWeaponId(int _weaponId) { weaponId = _weaponId; };
-	int GetWeaponId() { return weaponId; };
-	void SetIsFinished(bool finished){ isfished =finished;}
-	void SetSpecialWeapon(int _weaponId);
-protected:
-
-	
-	void LoadBaseObjects();
-	void LoadBaseTextures();
-
-	LPANIMATION_SET chooseWeaponScene_ani_set;
-	virtual void Update(DWORD dt);
-	virtual void Render();
-	virtual void Unload();
-	virtual void LoadSceneObjects(LPCWSTR path) {};
-	
-
-	friend class ChooseWeaponSceneScenceKeyHandler;
 private:
 	bool isfished = false;
 	int noHomingMissles, noElectric, noRocket;
 	int weaponId;
+	int Number_1 = 0;
+	int Number_2 = 0;
+	bool isUnloaded = false;
+	LPANIMATION_SET chooseWeaponScene_ani_set;
 	//JASON* player;
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -62,6 +41,23 @@ private:
 	void _ParseSection_CLEARSPRITES(string line);
 	void _ParseSection_CLEARANIMATIONS(string line);
 	void _ParseSection_CLEARANIMATION_SETS(string line);
+
+protected:
+	void LoadBaseObjects();
+	void LoadBaseTextures();
+	friend class ChooseWeaponSceneScenceKeyHandler;
+
+public:
+	ChooseWeaponScene();
+	~ChooseWeaponScene();
+	void SetWeaponId(int _weaponId) { weaponId = _weaponId; };
+	int GetWeaponId() { return weaponId; };
+	void SetIsFinished(bool finished) { isfished = finished; }
+	void SetSpecialWeapon(int _weaponId);
+	virtual void Update(DWORD dt);
+	virtual void Render();
+	virtual void Unload();
+	virtual void LoadSceneObjects(LPCWSTR path) {};
 };
 
 class ChooseWeaponSceneKeyHandler : public ScenceKeyHandler

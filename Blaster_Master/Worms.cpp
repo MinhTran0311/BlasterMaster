@@ -153,7 +153,6 @@ Worm::Worm(float xPos, float yPos, LPGAMEENTITY t, int canClimb)
 	this->target = t;
 	health = WORM_MAXHEALTH;
 	dam = 1;
-	bbARGB = 250;
 	isContainedInLarva = false;
 	canClimbLarva = canClimb;
 	this->dam = 1;

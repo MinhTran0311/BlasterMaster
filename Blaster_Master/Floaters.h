@@ -38,17 +38,19 @@ private:
 	bool canAttack = true;
 	bool isTargeting;
 	bool firstTimeActive;
+
 	Random* r = new Random();
 	Timer* cooldownTimer = new Timer(TIMER_ATTACK);
 public:
+	Floaters(float x, float y, LPGAMEENTITY t);
+
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects);
 	virtual void Render();
+	virtual void SetState(int state);
+
 	virtual void shootBulletToTarget();
 	virtual bool inTargetRange();
 	virtual void setRandomVxVy(float& vx, float& vy);
-
-	Floaters(float x, float y, LPGAMEENTITY t);
 	virtual void Attack(LPGAMEENTITY target=NULL);
-	virtual void SetState(int state);
 };

@@ -38,31 +38,29 @@ class Teleporters : public Enemy
 private:
 	bool isAttack;
 	bool finish_transformation;
-
-	Timer* delayAttackTimer = new Timer(TELEPORTERS_DELAY_ATTACK);
-	Timer* shootBulletTimer = new Timer(TELEPORTERS_SHOOT_BULLET);
-	Timer* relaxAttackTimer = new Timer(TELEPORTERS_RELAX_ATTACK);
-	Timer* delayIdleTimer = new Timer(TELEPORTERS_DELAY_IDLE);
 	bool isTransporting;
 	bool isAttacking;
 	bool isShooting;
 	bool re_tranform;
 	bool isIdling;
 	bool enoughTimeIdle;
-	bool doneJump;
 	int teleTimesAttack;
 	int x_Max, x_Min, y_Max, y_Min;
 
+	Timer* delayAttackTimer = new Timer(TELEPORTERS_DELAY_ATTACK);
+	Timer* shootBulletTimer = new Timer(TELEPORTERS_SHOOT_BULLET);
+	Timer* relaxAttackTimer = new Timer(TELEPORTERS_RELAX_ATTACK);
+	Timer* delayIdleTimer = new Timer(TELEPORTERS_DELAY_IDLE);
 public:
+	Teleporters(float x, float y, LPGAMEENTITY t, int x_Tele_Min, int y_Tele_Min, int x_Tele_Max, int y_Tele_Max);
+	Teleporters(float x, float y);
+
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
 	virtual void Render();
-	virtual void shootBulletToTarget();
-
-	Teleporters(float x, float y, LPGAMEENTITY t, int x_Tele_Min, int y_Tele_Min, int x_Tele_Max, int y_Tele_Max);
-	Teleporters(float x, float y);
-	void AttackTarget(LPGAMEENTITY target, vector<LPGAMEENTITY>* coObjects = NULL);
 	virtual void SetState(int state);
+	
+	void AttackTarget(LPGAMEENTITY target, vector<LPGAMEENTITY>* coObjects = NULL);
 	bool TestTele(float x_Pos, float y_Pos, vector<LPGAMEENTITY>* coObjects = NULL);
-	void SelfDestroy();
+	virtual void shootBulletToTarget();
 };

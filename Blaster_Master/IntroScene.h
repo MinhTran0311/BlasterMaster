@@ -36,8 +36,6 @@ using namespace std;
 #define Endding_Hair 3
 #define Endding_Cloud 4
 #define Endding_Forest 5
-
-
 #define Endding_Bg2 1
 
 #define Intro_Done 4
@@ -46,7 +44,7 @@ using namespace std;
 
 class IntroScene : public Scene
 {
-public:
+private:
 	float posX, posY;
 	int time = 0;
 	float moutainY=0;
@@ -56,25 +54,11 @@ public:
 	IntroScene(int idStage);
 	~IntroScene();
 	int setAnimation = 0;
-	int soundSension=0;
-protected:
-	void LoadBaseObjects();
-	void LoadBaseTextures();
+	int soundSension = 0;
 
-	LPANIMATION_SET intro_ani_set;
-	int GetAnimation() { return setAnimation; }
-	void SetAnimation(int animation) { setAnimation = animation; }
-	virtual void Update(DWORD dt);
-	virtual void Render();
-	virtual void Unload();
-	virtual void LoadSceneObjects(LPCWSTR path) {};
-	//Item* RandomItem(float x, float y);
-	//Item* DropItem(EntityType createrType, float x, float y, int idCreater = 0);
-
-	friend class IntroScenceKeyHandler;
 protected:
 	Camera* gameCamera;
-#pragma endregion
+	LPANIMATION_SET intro_ani_set;
 
 	int idStage;
 	void _ParseSection_TEXTURES(string line);
@@ -85,10 +69,20 @@ protected:
 	void _ParseSection_CLEARSPRITES(string line);
 	void _ParseSection_CLEARANIMATIONS(string line);
 	void _ParseSection_CLEARANIMATION_SETS(string line);
-
-	//Get stage objects' link and tilemap resources
 	void _ParseSection_SCENEFILEPATH(string line);
 
+
+public:
+	void LoadBaseObjects();
+	void LoadBaseTextures();
+	int GetAnimation() { return setAnimation; }
+	void SetAnimation(int animation) { setAnimation = animation; }
+	virtual void Update(DWORD dt);
+	virtual void Render();
+	virtual void Unload();
+	virtual void LoadSceneObjects(LPCWSTR path) {};
+
+	friend class IntroScenceKeyHandler;
 };
 
 class IntroScenceKeyHandler : public ScenceKeyHandler
