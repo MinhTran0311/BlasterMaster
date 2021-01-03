@@ -70,9 +70,6 @@ protected:
 
 
 public:
-	IntroScene();
-	IntroScene(int idStage);
-	~IntroScene();
 	void LoadBaseObjects();
 	void LoadBaseTextures();
 	int GetAnimation() { return setAnimation; }

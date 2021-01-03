@@ -313,6 +313,7 @@ void Small_Sophia::FireBullet(int mode)
 	{
 		LPBULLET bullet = new SmallSophiaBullet(this->Getx(), this->Gety(), 0, nx);
 		CGrid::GetInstance()->InsertGrid(bullet);
+		Sound::GetInstance()->Play("PlayerFireUnderWorld", 0, 1);
 	}
 	FireTimer->Start();
 	canFire = false;
