@@ -223,7 +223,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					Brick* brick = dynamic_cast<Brick*>(e->obj);
 					if (vx > 0)
 					{
-						if (x > (brick->GetBrickWidth() + brick->GetBrickWidth()))
+						if (x > (brick->GetBrickWidth() + brick->Getx()))
 						{
 							this->dgravity = 4;
 							vy = 0;
@@ -231,7 +231,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					}
 					else if (vx < 0)
 					{
-						if (x + DOMES_BBOX_WIDTH < brick->GetBrickWidth())
+						if (x + DOMES_BBOX_WIDTH < brick->Getx())
 						{
 							this->dgravity = 2;
 							vy = 0;
@@ -271,7 +271,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					Brick* brick = dynamic_cast<Brick*>(e->obj);
 					if (vy > 0)
 					{
-						if (y > (brick->GetBrickHeight() + brick->GetBrickHeight()))
+						if (y > (brick->GetBrickHeight() + brick->Gety()))
 						{
 							this->dgravity = 1;
 
@@ -280,7 +280,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					
 					else if (vy < 0)
 					{
-						if (y + DOMES_BBOX_HEIGHT < brick->GetBrickHeight())
+						if (y + DOMES_BBOX_HEIGHT < brick->Gety())
 						{
 							this->dgravity = 3;
 						}
@@ -315,7 +315,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 
 					if (vx > 0)
 					{
-						if (x + 0.5f > (brick->GetBrickWidth() + brick->GetBrickWidth()))
+						if (x + 0.5f > (brick->GetBrickWidth() + brick->Getx()))
 						{
 							this->dgravity = 4;
 							vy = 0;
@@ -323,7 +323,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					}
 					else if (vx < 0)
 					{
-						if (x + DOMES_BBOX_WIDTH < brick->GetBrickWidth())
+						if (x + DOMES_BBOX_WIDTH < brick->Getx())
 						{
 							this->dgravity = 2;
 							vy = 0;
@@ -363,7 +363,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					Brick* brick = dynamic_cast<Brick*>(e->obj);
 					if (vy > 0)
 					{
-						if (y > (brick->GetBrickHeight() + brick->GetBrickHeight()))
+						if (y > (brick->GetBrickHeight() + brick->Gety()))
 						{
 							this->dgravity = 1;
 							vx = 0;
@@ -371,7 +371,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					}
 					else if (vy < 0)
 					{
-						if (y + DOMES_BBOX_HEIGHT < brick->GetBrickHeight())
+						if (y + DOMES_BBOX_HEIGHT < brick->Gety())
 						{
 							this->dgravity = 3;
 							vx = 0;
