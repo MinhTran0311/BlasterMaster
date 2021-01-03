@@ -46,6 +46,11 @@ void HomingMissles::SetState(int state)
 
 void HomingMissles::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
+	if (!CheckExist())
+	{
+		isActive = false;
+		return;
+	}
 	if (!isActive)
 		return;
 	
@@ -88,14 +93,16 @@ void HomingMissles::Render()
 {
 	if (!isActive)
 		return;
+}
 
-	////DebugOut(L"So luong ten lua %d\n", missles.size());
-	//for (int i = 0; i < missles.size(); i++)
-	//{
-	//	if (missles.at(i) != nullptr && missles.at(i)->isActiveObject())
-	//	{
-	//		//DebugOut(L"loai ten lua %d\n", missles.at(i)->isActiveObject());
-	//	//	missles.at(i)->Render();
-	//	}
-	//}
+bool HomingMissles::CheckExist()
+{
+	if (missles.size() == 0)
+		return false;
+	for (int i = 0; i < missles.size(); i++)
+	{
+		if (missles.at(i) != nullptr)
+			return true;
+	}
+	return false;
 }
