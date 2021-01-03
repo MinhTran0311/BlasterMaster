@@ -13,7 +13,7 @@ JasonRocket::JasonRocket(float xPos, float yPos, int direct_x)
 	SetState(BULLET_JASON_STATE_FLYING);
 	x = xPos;
 	y = yPos;
-	dam = 1;
+	dam = 2;
 	timeDelayedMax = BULLET_JASON_DELAY;
 	DebugOut(L"create rocket");
 }
@@ -30,7 +30,7 @@ JasonRocket::JasonRocket(float xPos, float yPos, int direct_x, int position)
 	y = yPos;
 	xPos_start = x;
 	yPos_start = y;
-	dam = 1;
+	dam = 2;
 	homingPosition = position;
 	DebugOut(L"create missle pos: %d",position);
 	vx = nx * ROCKET_FLYING_SPEED * 1.5;
