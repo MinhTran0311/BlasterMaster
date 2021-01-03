@@ -50,12 +50,13 @@ private:
 
 public:
 	Eyeballs(float x, float y, LPGAMEENTITY t);
-	void FlyAndAttackTarget();
-	virtual void SetState(int state);
-	void SelfDestroy();
+	
 	virtual void Render();
-	virtual void shootBulletToTarget();
-	virtual void setRandomVxVy(float& vx, float& vy);
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* coObjects = NULL);
+	virtual void SetState(int state);
+
+	void FlyAndAttackTarget();
+	virtual void shootBulletToTarget();
+	virtual void setRandomVxVy(float& vx, float& vy);
 };

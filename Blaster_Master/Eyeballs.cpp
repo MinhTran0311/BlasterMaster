@@ -88,7 +88,6 @@ void Eyeballs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Eyeballs::Render()
 {
-	RenderBoundingBox();
 	if (vx > 0)
 		nx = 1;
 	else
@@ -118,7 +117,6 @@ void Eyeballs::Render()
 			ani = EYEBALLS_ANI_ATTACKING;
 		}
 		animationSet->at(ani)->Render(nx, x, y);
-		//RenderBoundingBox();
 	}
 }
 
@@ -134,7 +132,6 @@ Eyeballs::Eyeballs(float x, float y, LPGAMEENTITY t)
 	this->target = t;
 	health = EYEBALLS_MAXHEALTH;
 	isActive = false;
-	bbARGB = 0;
 	canAttack = false;
 	canFly = false;
 	canIdle = true;

@@ -12,7 +12,6 @@ void Domes::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 
 Domes::Domes(float x, float y, LPGAMEENTITY t, int gravity)
 {
-	//SetState(DOMES_STATE_WALKING_TOP_BOTTOM_RIGHT);
 	enemyType = EnemyType::DOMES;
 	tag = EntityType::ENEMY;
 	this->x = x;
@@ -24,7 +23,6 @@ Domes::Domes(float x, float y, LPGAMEENTITY t, int gravity)
 	health = DOMES_MAXHEALTH;
 	isActive = false;
 	isDamaged = false;
-	bbARGB = 150;
 	firstFollow = true;
 	actived = false;
 	aboveTarget = false;
@@ -197,8 +195,6 @@ void Domes::Render()
 			break;
 		}
 	}
-	
-	RenderBoundingBox();
 }
 
 void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float ny)

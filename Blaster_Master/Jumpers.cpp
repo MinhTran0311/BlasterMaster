@@ -96,7 +96,6 @@ void Jumpers::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Jumpers::Render()
 {
-	//RenderBoundingBox();
 	if (vx > 0)
 		nx = 1;
 	else
@@ -114,7 +113,6 @@ void Jumpers::Render()
 	}
 	else
 		animationSet->at(ani)->Render(nx, x, y);
-	//RenderBoundingBox();
 }
 
 Jumpers::Jumpers(float x, float y, LPGAMEENTITY t)
@@ -130,7 +128,6 @@ Jumpers::Jumpers(float x, float y, LPGAMEENTITY t)
 	this->target = t;
 	health = JUMPER_MAXHEALTH;
 	isActive = true;
-	bbARGB = 250;
 }
 
 void Jumpers::FollowTarget(LPGAMEENTITY target) //đi theo nhân vật

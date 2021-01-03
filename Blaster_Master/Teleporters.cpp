@@ -63,8 +63,6 @@ void Teleporters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Teleporters::Render()
 {
-	RenderBoundingBox();
-
 	int ani;
 	if (state == TELEPORTERS_STATE_DIE) {
 		ani = TELEPORTERS_ANI_DIE;
@@ -109,7 +107,6 @@ Teleporters::Teleporters(float x, float y, LPGAMEENTITY t, int x_Tele_Min, int y
 	this->target = t;
 	health = TELEPORTERS_MAXHEALTH;
 	isActive = true;
-	bbARGB = 0;
 	isTransporting = true;
 	isAttacking = false;
 	isShooting = false;
@@ -121,7 +118,6 @@ Teleporters::Teleporters(float x, float y, LPGAMEENTITY t, int x_Tele_Min, int y
 	x_Min = x_Tele_Min;
 	y_Max = y_Tele_Max;
 	y_Min = y_Tele_Min;
-	doneJump = false;
 }
 
 Teleporters::Teleporters(float x, float y)

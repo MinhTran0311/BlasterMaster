@@ -114,7 +114,6 @@ void Floaters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Floaters::Render()
 {
-	//RenderBoundingBox();
 	int ani;
 	if (state == FLOATERS_STATE_DIE)
 	{
@@ -146,7 +145,6 @@ Floaters::Floaters(float x, float y, LPGAMEENTITY t)
 	isTargeting = 0;
 	health = MAXHEALTH;
 	isActive = false;
-	bbARGB = 250;
 	this->dam = 1;
 	firstTimeActive = false;
 	isDoneDeath = false;

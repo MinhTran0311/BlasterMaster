@@ -65,12 +65,6 @@ void Mines::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Mines::Render()
 {
-	//RenderBoundingBox();
-	//if (vx > 0)
-	//	nx = 1;
-	//else
-	//	nx = -1;
-
 	int ani;
 	if (state == MINES_STATE_DIE) {
 		ani = MINES_ANI_DIE;
@@ -99,7 +93,6 @@ Mines::Mines(float x, float y, LPGAMEENTITY t)
 	nx = -1;
 	this->target = t;
 	health = MINES_MAXHEALTH;
-	bbARGB = 250;
 	//isActive = false;
 	canExplosiving = true;
 	died = false;

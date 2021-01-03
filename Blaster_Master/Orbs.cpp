@@ -105,7 +105,6 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Orbs::Render()
 {
-	//RenderBoundingBox();
 	if (vx >= 0)
 		nx = 1;
 	else
@@ -146,13 +145,6 @@ void Orbs::Render()
 		}
 
 	}
-
-
-	/*for (int i = 0; i < bullet.size(); i++)
-	{
-		bullet.at(i)->Render();
-	}*/
-	//RenderBoundingBox();
 }
 
 Orbs::Orbs(float x, float y, LPGAMEENTITY t, int orb_mode)
@@ -170,7 +162,6 @@ Orbs::Orbs(float x, float y, LPGAMEENTITY t, int orb_mode)
 	this->target = t;
 	health = MAXHEALTH;
 	isActive = true;
-	bbARGB = 250;
 }
 
 void Orbs::Attack(LPGAMEENTITY target) //đi theo nhân vật

@@ -96,7 +96,6 @@ void Skulls::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void Skulls::Render()
 {
-	//RenderBoundingBox();
 	int ani;
 	if (this->state == SKULLS_STATE_DIE)
 	{
@@ -142,7 +141,6 @@ Skulls::Skulls(float x, float y, LPGAMEENTITY t)
 	this->target = t;
 	health = MAXHEALTH;
 	isActive = false;
-	bbARGB = 250;
 	this->dam = 1;
 }
 

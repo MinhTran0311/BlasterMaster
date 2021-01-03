@@ -200,7 +200,9 @@ void JasonBullet::Render()
 		if (nx == 1 && !isAimingTop)
 		{
 			if (typeBullet == JASON_NORMAL_BULLET)
+			{
 				animationSet->at(ani)->Render(1, x - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_WIDTH, y - BULLET_JASON_NORMAL_HORIZONTAL_BBOX_HEIGHT);
+			}
 			else 
 				animationSet->at(ani)->Render(1, x + BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_WIDTH / 2, y - BULLET_JASON_UPGRADE_HORIZONTAL_BBOX_HEIGHT);
 		}

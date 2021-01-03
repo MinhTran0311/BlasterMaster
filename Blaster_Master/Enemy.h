@@ -26,13 +26,14 @@ protected:
 public:
 	Enemy();
 	~Enemy();
+
 	virtual void Render() = 0;
-	virtual bool IsContain(RECT rect1, RECT rect2);
-	virtual float GetDistance(D3DXVECTOR2 pos, D3DXVECTOR2 target);
 	virtual void Update(DWORD dt, vector<LPGAMEENTITY>* objects = NULL) = 0;
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b) = 0;
+
+	virtual bool IsContain(RECT rect1, RECT rect2);
+	virtual float GetDistance(D3DXVECTOR2 pos, D3DXVECTOR2 target);
 	virtual void shootBulletToTarget();
 	bool GetDamage() {return dam;};
 	void SetTarget(LPGAMEENTITY _target) { target = _target; };
-	//void DeleteTarger() { target = NULL; };s
 };
