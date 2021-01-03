@@ -162,7 +162,7 @@ void Entity::FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPCOLLIS
 		coEventsResult.push_back(coEvents[index_x]);
 	else {
 		if (coEvents[index_x]->obj->tag == coEvents[index_y]->obj->tag) {
-			coEventsResult.push_back(coEvents[index_x]);
+			coEventsResult.push_back(coEvents[index_y]);
 		}
 		else {
 			coEventsResult.push_back(coEvents[index_x]);
@@ -173,7 +173,7 @@ void Entity::FilterCollision(vector<LPCOLLISIONEVENT>& coEvents, vector<LPCOLLIS
 
 bool Entity::IsCollidingObject(Entity* Obj)
 {
-	if (!Obj)
+	if (Obj==nullptr)
 	{
 		return false;
 	}

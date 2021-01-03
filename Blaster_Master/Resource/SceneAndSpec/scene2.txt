@@ -1,8 +1,8 @@
 [OBJECTS]
 # type	x	y	numberOfPairGrid	gird_row1 (y/scr_height) 	grid_column1 (x/scr_width) 	grid_row2 	grid_column2 ...	animationset_id		width		height
 #Worm
-10	273	278	1	2	1	10
-10	286	267	2	1	1	2	1	10
+10	273	278	1	2	1	10	0
+10	286	267	2	1	1	2	1	10	0
 #FLOATER
 12	113	1140	1	8	0	12
 12	130	1175	1	8	0	12

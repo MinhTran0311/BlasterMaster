@@ -33,7 +33,7 @@
 #define EYEBALLS_TIME_IDLE 900
 #define EYEBALLS_TIME_ATTACK 1100
 
-#define EYEBALLS_MAXHEALTH					1
+#define EYEBALLS_MAXHEALTH					3
 
 
 class Eyeballs : public Enemy

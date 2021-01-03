@@ -27,7 +27,7 @@ void Teleporters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	bricks->clear();
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE_OVERWORLD)
+		if (coObjects->at(i)->GetType() == EntityType::TAG_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_SOFT_BRICK || coObjects->at(i)->GetType() == EntityType::TAG_GATE_OVERWORLD || coObjects->at(i)->GetType() == EntityType::TAG_GATE || coObjects->at(i)->GetType() == EntityType::ENEMY)
 			bricks->push_back(coObjects->at(i));
 
 		// turn off collision when die 
@@ -104,7 +104,7 @@ Teleporters::Teleporters(float x, float y, LPGAMEENTITY t, int x_Tele_Min, int y
 	tag = EntityType::ENEMY;
 	this->x = x;
 	this->y = y;
-	dam = 1;
+	this->dam = 1;
 	isAttack = 0;
 	this->target = t;
 	health = TELEPORTERS_MAXHEALTH;

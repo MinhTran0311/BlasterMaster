@@ -113,11 +113,11 @@ private:
 	bool explosiontimerinit = true;
 
 
-	int indexTarget2 = 3;
+	int indexTarget2 = 4;
 	Vec2 nextTarget2;
 	Vec2 rList[6];
 
-	int indexTarget1 = 4;
+	int indexTarget1 = 10;
 	Vec2 nextTarget1;
 	Vec2 lList[19];
 };

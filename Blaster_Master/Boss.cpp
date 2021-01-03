@@ -12,8 +12,8 @@ CBoss::CBoss(float xPos, float yPos, LPGAMEENTITY t) :
 	BigClawRight(ANIMATION_SET_BOSS_CLAW_RIGHT)
 
 {
-	Target1= Vec2(10, 10);
-	Target2= Vec2(10, 10);
+	Target1= Vec2(xPos-100 , yPos);
+	Target2= Vec2(xPos+100, yPos+100);
 	srand(time(NULL));
 	x = xPos;
 	y = yPos;
@@ -53,6 +53,8 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 	Entity::Update(dt, coObjects);
 
+	//DebugOut(L"DUC BOSS TARGET 1: x=%f, y=%f\n", Target1.x, Target1.y);
+	//DebugOut(L"DUC BOSS TARGET 2: x=%f, y=%f\n", Target2.x, Target2.y);
 	if (health <= 0) {
 		SetState(BOSS_STATE_DIE);			//Handle Die state
 	}

@@ -25,7 +25,8 @@ using namespace std;
 class ChooseWeaponScene : public Scene
 {
 public:
-
+	int Number_1 = 0;
+	int Number_2 = 0;
 	ChooseWeaponScene();
 	//ChooseWeaponScene(JASON* player);
 	~ChooseWeaponScene();
@@ -41,7 +42,6 @@ protected:
 	void LoadBaseTextures();
 
 	LPANIMATION_SET chooseWeaponScene_ani_set;
-	LPANIMATION_SET chooseWeaponScene_ani_setnumber;
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();

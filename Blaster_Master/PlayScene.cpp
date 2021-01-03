@@ -307,9 +307,10 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			if (KeyCode == DIK_UP)playScene->select_end = false;
 			if (KeyCode == DIK_RETURN) {
 				if (playScene->select_end == true) {
-					SceneManager::GetInstance()->SetScene(new IntroScene(ID_INTROENDING));
+					DestroyWindow(CGame::GetInstance()->GetWindowHandle());
 				}
 				else {
+					//PlayerHandler::GetInstance()->SetLife(2);
 					SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
 				}
 			}
@@ -964,17 +965,30 @@ void PlayScene::Update(DWORD dt)
 	}
 	else if (this->inforDisplay == LIFE_DISPLAY)
 	{
+		
+		this->player->health = 8;
+		if (PlayerHandler::GetInstance()->GetLife() > 0) {
+			this->time_drawlife++;
+			if (this->time_drawlife == 20) { 
+				this->time_drawlife = 0;
+				PlayerHandler::GetInstance()->SetLife(PlayerHandler::GetInstance()->GetLife()-1); 
+				this->inforDisplay == 0; 
+			}
+		}
+		
 
+		
 	}
 	else
 #pragma region mạng và reset
 	{
 		if (player->IsDoneDeath())
 		{
+			this->inforDisplay == LIFE_DISPLAY;
 			if (PlayerHandler::GetInstance()->GetLife() < 0)
 			{
 				//ending
-				this->death = true;
+				
 			}
 			else
 			{
@@ -982,7 +996,7 @@ void PlayScene::Update(DWORD dt)
 				Unload();
 
 				//hiển thị số mạng còn dựa vào playerInfo.life
-				this->death = true;
+				
 
 				if (player->GetPlayerType() == TAG_JASON)
 				{
@@ -999,6 +1013,7 @@ void PlayScene::Update(DWORD dt)
 			}
 		}
 	}
+	
 #pragma endregion
 
 	if (player->GetPlayerType() == TAG_BIG_SOPHIA && idStage == ID_MAPOVERWORLD)
@@ -1098,25 +1113,24 @@ void PlayScene::Update(DWORD dt)
 }
 void PlayScene::Render()
 {
-	if (this->death == true)
+	if (this->inforDisplay == LIFE_DISPLAY)
 	{
-		int life = PlayerHandler::GetInstance()->GetLife();
-		if (life < 0) {
+		
+		if (PlayerHandler::GetInstance()->GetLife() < 0) {
 
 			CGame::GetInstance()->DrawTextInScene(L"CONTINUE", 100, 100, 400, 400);
 			CGame::GetInstance()->DrawTextInScene(L"END", 100, 130, 400, 400);
 			this->animation_set = CAnimationSets::GetInstance()->Get(61004);
 			this->animation_set->at(0)->Render(1, 80, 115 + 30 * this->select_end);
-			this->time_drawlife++;
-			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  PlayerHandler::GetInstance()->SetLife(2); this->player->health = 8; }
+			
+			
 		}
 		else {
 			wchar_t buffer[256];
 			wsprintfW(buffer, L"LEFT %d", PlayerHandler::GetInstance()->GetLife());
 			CGame::GetInstance()->DrawTextInScene(buffer, 100, 100, 400, 400);
-			this->time_drawlife++;
-			life--;
-			if (this->time_drawlife == 20) { this->death = false; this->time_drawlife = 0;  PlayerHandler::GetInstance()->SetLife(life); }
+			
+			
 		}
 		//LPCWSTR Life = L"LEFT %d" + this->playerInfo.life;
 
