@@ -41,7 +41,7 @@ void PlayerHandler::Init()
 	life = 2;
 	playerDirectionBeforePassGate = 1;
 	jasonHealth = PLAYER_MAX_HEALTH;
-	jasonGundam = PLAYER_DEFAULT_GUNDAM;
+	jasonGundam = 8;
 	jasonStage = 1;
 	jasonXPos = 55;
 	jasonYPos=100;

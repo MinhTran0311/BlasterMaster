@@ -283,15 +283,16 @@ void IntroScene::Update(DWORD dt)
 	else {
 		if (this->moutainY > 40)setEndding = 1;
 		if (this->time == 60)setEndding = 2;
-		Sound::GetInstance()->Play("Mountain", 1, 10000);
 		switch (setEndding)
 		{
 		case 0:
+			Sound::GetInstance()->Play("Mountain", 1, 10000);
+
 			this->moutainY += 0.1;
 			break;
 			//Sound::GetInstance()->Play("Mountain", 1,10000);
 		case 1:
-			if (this->posX < 230)this->posX += 1;
+			if (this->posX < 230)this->posX += 0.5f;
 			else time++;
 			Sound::GetInstance()->Stop("Mountain");
 			Sound::GetInstance()->Play("Ending", 1,10000);

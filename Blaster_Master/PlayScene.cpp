@@ -708,7 +708,11 @@ void PlayScene::CheckPlayerReachGate()
 		case TAG_JASON:
 		{
 			Gate* gate = dynamic_cast<Gate*>(player->GetGate());
-			if (gate->GetIdScene() != ID_MAPOVERWORLD)
+			if (gate->GetIdScene()== ID_INTROENDING)
+			{
+				SceneManager::GetInstance()->SetScene(new IntroScene(ID_INTROENDING));
+			}
+			else if (gate->GetIdScene() != ID_MAPOVERWORLD)
 			{
 				//playerInfo.jasonStage = gate->GetIdScene();
 				//playerInfo.jasonXPos = gate->GetNewPlayerX();
@@ -755,8 +759,9 @@ void PlayScene::CheckPlayerReachGate()
 		case TAG_SMALL_SOPHIA:
 		{
 			Gate* gate = dynamic_cast<Gate*>(player->GetGate());
-
-			//playerInfo.sophiaStage = gate->GetIdScene();
+			if (gate->GetIdScene() != ID_INTROENDING)
+			{
+				//playerInfo.sophiaStage = gate->GetIdScene();
 			//playerInfo.sophiaXPos = gate->GetNewPlayerX();
 			//playerInfo.sophiaYPos = gate->GetNewPlayerY();
 			//isNeedResetCamera = gate->directionCam;
@@ -767,59 +772,56 @@ void PlayScene::CheckPlayerReachGate()
 			//playerInfo.playerDirectionBeforePassGate = player->GetDirection();
 			//int tempState = gate->GetNewPlayerState();
 
-			PlayerHandler::GetInstance()->SetSophiaInfor(gate->GetIdScene(), gate->GetNewPlayerX(), gate->GetNewPlayerY(), player->GetHealth(), player->GetgunDam(), player->GetDirection());
-			PlayerHandler::GetInstance()->SetCamFollow(gate->IsCamFollowPlayer());
-			camMap1X = gate->GetNewCamXPos();
-			camMap1Y = gate->GetNewCamYPos();
+				PlayerHandler::GetInstance()->SetSophiaInfor(gate->GetIdScene(), gate->GetNewPlayerX(), gate->GetNewPlayerY(), player->GetHealth(), player->GetgunDam(), player->GetDirection());
+				PlayerHandler::GetInstance()->SetCamFollow(gate->IsCamFollowPlayer());
+				camMap1X = gate->GetNewCamXPos();
+				camMap1Y = gate->GetNewCamYPos();
 
-			if (PlayerHandler::GetInstance()->GetSophiaStage() == ID_MAPOVERWORLD)
-			{
+				if (PlayerHandler::GetInstance()->GetSophiaStage() == ID_MAPOVERWORLD)
+				{
 
-				isNeedResetCamera = true;
-				Unload();
-				DebugOut(L"Tao overworld 1\n");
-				ChooseMap(PlayerHandler::GetInstance()->GetSophiaStage());
-				DebugOut(L"Tao overworld 2\n");
-				Camera::GetInstance()->SetIsFollowPlayer(gate->IsCamFollowPlayer());
-				player = new Big_Sophia(gate->GetNewPlayerX(), gate->GetNewPlayerY(), PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
+					isNeedResetCamera = true;
+					Unload();
+					DebugOut(L"Tao overworld 1\n");
+					ChooseMap(PlayerHandler::GetInstance()->GetSophiaStage());
+					DebugOut(L"Tao overworld 2\n");
+					Camera::GetInstance()->SetIsFollowPlayer(gate->IsCamFollowPlayer());
+					player = new Big_Sophia(gate->GetNewPlayerX(), gate->GetNewPlayerY(), PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
 
+				}
+				else
+				{
+					CamMoveDirection = gate->GetMoveDirection();
+					player->SetAutoRun(true);
+				}
+				//isNeedResetCamera = true;
+				//Unload();
+				//DebugOut(L"type %d\n", gate->typePlayer);
+				//ChooseMap(PlayerHandler::GetInstance()->GetSophiaStage());
+				//Camera::GetInstance()->SetIsFollowPlayer(gate->IsCamFollowPlayer());
+				//switch (PlayerHandler::GetInstance()->GetSophiaStage())
+				//{
+				//case ID_MAPOVERWORLD:
+				//{
+				//	player = new Big_Sophia(gate->GetNewPlayerX(), gate->GetNewPlayerY(), PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
+				//	break;
+				//}
+				//default:
+				//{
+				//	player = new Small_Sophia(gate->GetNewPlayerX(), gate->GetNewPlayerY() + 2.0f, PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
+				//	player->SetDirection(PlayerHandler::GetInstance()->GetPlayerDirectionBeforePassGate());
+				//	player->SetState(tempState);
+				//	if (PlayerHandler::GetInstance()->GetSophiaStage() == PlayerHandler::GetInstance()->GetJasonStage())
+				//	{
+				//		float xPos, yPos;
+				//		PlayerHandler::GetInstance()->GetJasonPosition(xPos, yPos);
+				//		backup_player = new JASON(xPos, yPos, PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
+				//	}
+				//	break;
+				//}
+				//}
+				//CGrid::GetInstance()->SetTargetForEnemies(player);
 			}
-			else
-			{
-				CamMoveDirection = gate->GetMoveDirection();
-				player->SetAutoRun(true);
-			}
-			//isNeedResetCamera = true;
-			//Unload();
-
-			//DebugOut(L"type %d\n", gate->typePlayer);
-			//ChooseMap(PlayerHandler::GetInstance()->GetSophiaStage());
-
-			//Camera::GetInstance()->SetIsFollowPlayer(gate->IsCamFollowPlayer());
-
-			//switch (PlayerHandler::GetInstance()->GetSophiaStage())
-			//{
-			//case ID_MAPOVERWORLD:
-			//{
-			//	player = new Big_Sophia(gate->GetNewPlayerX(), gate->GetNewPlayerY(), PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
-			//	break;
-			//}
-			//default:
-			//{
-			//	player = new Small_Sophia(gate->GetNewPlayerX(), gate->GetNewPlayerY() + 2.0f, PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
-			//	player->SetDirection(PlayerHandler::GetInstance()->GetPlayerDirectionBeforePassGate());
-			//	player->SetState(tempState);
-			//	if (PlayerHandler::GetInstance()->GetSophiaStage() == PlayerHandler::GetInstance()->GetJasonStage())
-			//	{
-			//		float xPos, yPos;
-			//		PlayerHandler::GetInstance()->GetJasonPosition(xPos, yPos);
-			//		backup_player = new JASON(xPos, yPos, PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
-			//	}
-			//	break;
-			//}
-			//}
-			//CGrid::GetInstance()->SetTargetForEnemies(player);
-
 			break;
 		}
 		case TAG_BIG_SOPHIA:
@@ -954,6 +956,7 @@ void PlayScene::RandomSpawnItem(LPGAMEENTITY ItemSpawer)
 void PlayScene::Update(DWORD dt)
 {
 
+	DebugOut(L"playscene update 1\n");
 	if (this->inforDisplay == CHOOSING_WEAPON_DISPLAY && player->GetPlayerType() == TAG_JASON)
 	{
 		SceneManager::GetInstance()->SetHolderScene(SceneManager::GetInstance()->GetScene());
@@ -1015,6 +1018,7 @@ void PlayScene::Update(DWORD dt)
 	}
 	
 #pragma endregion
+	DebugOut(L"playscene update 2\n");
 
 	if (player->GetPlayerType() == TAG_BIG_SOPHIA && idStage == ID_MAPOVERWORLD)
 	{
@@ -1043,6 +1047,7 @@ void PlayScene::Update(DWORD dt)
 #pragma endregion
 	if (player->isAutoRun() && player->GetPlayerType()!=TAG_BIG_SOPHIA)
 		return;
+	DebugOut(L"playscene update 4\n");
 
 #pragma region update objects
 	if (isUnloaded)
