@@ -294,7 +294,7 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
-	if (playScene->death == true)
+	if (playScene->GetInforDisplay() == LIFE_DISPLAY)
 	{
 		if (PlayerHandler::GetInstance()->GetLife() < 0) {
 			if (KeyCode == DIK_DOWN)playScene->select_end = true;
@@ -889,15 +889,16 @@ void PlayScene::Update(DWORD dt)
 		
 		this->player->health = 8;
 		if (PlayerHandler::GetInstance()->GetLife() > 0) {
-			this->time_drawlife++;
-			if (this->time_drawlife == 20) { 
-				this->time_drawlife = 0;
-				PlayerHandler::GetInstance()->SetLife(PlayerHandler::GetInstance()->GetLife()-1); 
-				this->inforDisplay == 0; 
+			
+			if (this->cooldownTimer->IsTimeUp()) {
+				
+				PlayerHandler::GetInstance()->SetLife(PlayerHandler::GetInstance()->GetLife() - 1);
+				SetInforDisplay(0);
 			}
 		}
-		
-
+		else {
+			PlayerHandler::GetInstance()->SetLife(PlayerHandler::GetInstance()->GetLife() - 1);
+		}
 		
 	}
 	else
@@ -905,7 +906,8 @@ void PlayScene::Update(DWORD dt)
 	{
 		if (player->IsDoneDeath())
 		{
-			this->inforDisplay == LIFE_DISPLAY;
+			SetInforDisplay( LIFE_DISPLAY);
+			this->cooldownTimer->Start();
 			if (PlayerHandler::GetInstance()->GetLife() < 0)
 			{
 				//ending
