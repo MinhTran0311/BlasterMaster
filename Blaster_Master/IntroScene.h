@@ -12,11 +12,11 @@
 #include "Utils.h"
 #include "Sprites.h"
 #include "Animations.h"
+#include "Gate.h"
 #include "PlayScene.h"
 #include <iostream>
 #include <fstream>
 #include "Sound.h"
-#include "debug.h"
 using namespace std;
 
 

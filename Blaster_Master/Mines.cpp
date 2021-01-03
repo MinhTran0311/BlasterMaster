@@ -1,4 +1,7 @@
 ﻿#include "Mines.h"
+#include "InjuringBrick.h"
+#include "global.h"
+#include "Sound.h"
 
 void Mines::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {

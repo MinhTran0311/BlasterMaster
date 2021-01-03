@@ -1,4 +1,8 @@
 ﻿#include "Big_Sophia.h"
+#include "Item.h"
+#include "PowerUp.h"
+#include "GunUp.h"
+#include "InjuringBrick.h"
 
 Big_Sophia::Big_Sophia(float x, float y, int _health, int _gundam)
 {

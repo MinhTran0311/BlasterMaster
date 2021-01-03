@@ -1,5 +1,21 @@
 #include "Player.h"
-
+#include <algorithm>
+#include <assert.h>
+#include "debug.h"
+#include "Game.h"
+#include "Worms.h"
+#include "Gate.h"
+#include "PlayScene.h"
+#include "Grid.h"
+#include "JasonBullet.h"
+#include "JasonRocket.h"
+#include "InjuringBrick.h"
+#include "GadBrick.h"
+#include "ElectricBullet.h"
+#include "HomingMissles.h"
+#include "Big_Sophia.h"
+#include "Item.h"
+#include "PlayerHandler.h"
 Player::Player()
 {
 	tag = EntityType::TAG_PLAYER;

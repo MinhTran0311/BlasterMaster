@@ -1,5 +1,6 @@
 #include "Bullet.h"
-
+#include "PlayScene.h"
+#include "Boss.h"
 Bullet::Bullet()
 {
 	isActive = true;

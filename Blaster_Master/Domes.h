@@ -3,8 +3,6 @@
 #include "Timer.h"
 #include "Brick.h"
 #include <ctime>
-#include <chrono>
-#include <thread>
 
 #define DOMES_WALKING_SPEED						0.03f;
 #define DOMES_GRAVITY							0.008f

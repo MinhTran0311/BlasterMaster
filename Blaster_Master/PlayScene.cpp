@@ -1,7 +1,25 @@
 ﻿#pragma once
+#include "Worms.h"
+#include "Insects.h"
 #include "PlayScene.h"
-
+#include "Skulls.h"
+#include "Orbs.h"
+#include "Jumpers.h"
+#include "JasonRocket.h"
+#include "JasonBullet.h"
+#include "JasonBullet.h"
+#include "SmallSophiaBullet.h"
+#include "Grid.h"
+#include "Big_Sophia.h"
+#include "IntroScene.h"
+#include "ChooseWeaponScene.h"
+#include "Random.h"
+#include "Boss.h"
+#include "Item.h"
+#include "PlayerHandler.h"
+#include "MapManager.h"
 #define MAP2_SIDE	200
+
 #define HUD_Y (SCREEN_HEIGHT/2.5)
 
 PlayScene::PlayScene()

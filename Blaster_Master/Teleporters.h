@@ -50,7 +50,6 @@ private:
 	float y_Pos_Old;
 	float x_Pos_New;
 	float y_Pos_New;
-	bool doneRandomPosition;
 
 	Timer* delayAttackTimer = new Timer(TELEPORTERS_DELAY_ATTACK);
 	Timer* shootBulletTimer = new Timer(TELEPORTERS_SHOOT_BULLET);

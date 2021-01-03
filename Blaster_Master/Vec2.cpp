@@ -1,5 +1,6 @@
 #pragma once
 #include "Vec2.h"
+#include <cmath>
 
 Vec2::Vec2(float x_in, float y_in)
 	:

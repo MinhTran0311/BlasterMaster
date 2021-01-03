@@ -3,6 +3,7 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <stdio.h>
+#include "Bullet.h"
 #include "Scene.h"
 #include "SceneManager.h"
 #include "Game.h"
@@ -16,19 +17,14 @@
 #include "Player.h"
 #include "Jason.h"
 #include "Small_Sophia.h"
+#include "Worms.h"
+#include "Floaters.h"
+#include "Small_Sophia.h"
+#include "Brick.h"
 #include "Gate.h"
 #include "Sound.h"
 #include <iostream>
 #include <fstream>
-#include "Grid.h"
-#include "Big_Sophia.h"
-#include "IntroScene.h"
-#include "ChooseWeaponScene.h"
-#include "Random.h"
-#include "Boss.h"
-#include "Item.h"
-#include "PlayerHandler.h"
-#include "MapManager.h"
 using namespace std;
 
 #define LIFE_DISPLAY			1

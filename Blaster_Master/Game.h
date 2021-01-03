@@ -5,38 +5,17 @@
 #include <d3dx9.h>
 #include "Global.h"
 #include "Camera.h"
-#include "debug.h"
-#include <d3d9.h>
-#include <d3dx9.h>
-#include "Textures.h"
-#include "Sprites.h"
-#include "Animations.h"
-#include "debug.h"
-#include "Entity.h"
-#include "Textures.h"
-#include "Cannons.h"
-#include "Domes.h"
-#include "Eyeballs.h"
-#include "Floaters.h"
-#include "Insects.h"
-#include "Jumpers.h"
-#include "Orbs.h"
-#include "Skulls.h"
-#include "Teleporters.h"
-#include "Worms.h"
-#include "Enemy.h"
+#define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 #include "KeyboardHandler.h"
+#define KEYBOARD_BUFFER_SIZE 1024
 #include <dinput.h>
 #include <unordered_map>
 #include "Scene.h"
-
 #define ID_TEX_MARIO 0
 #define ID_TEX_ENEMY 10
 #define ID_TEX_MISC 20
 #define ID_BLASTER_MASTER_ENEMY 30
-#define DIRECTINPUT_VERSION 0x0800
-#define KEYBOARD_BUFFER_SIZE 1024
 
 /*
 Abstract class to define keyboard event handlers
