@@ -46,6 +46,10 @@ private:
 	bool enoughTimeIdle;
 	int teleTimesAttack;
 	int x_Max, x_Min, y_Max, y_Min;
+	float x_Pos_Old;
+	float y_Pos_Old;
+	float x_Pos_New;
+	float y_Pos_New;
 
 	Timer* delayAttackTimer = new Timer(TELEPORTERS_DELAY_ATTACK);
 	Timer* shootBulletTimer = new Timer(TELEPORTERS_SHOOT_BULLET);
