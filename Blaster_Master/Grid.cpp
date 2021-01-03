@@ -55,16 +55,6 @@ void CGrid::InitGrid(int _mapW, int _mapH)
 CGrid::CGrid()
 {
 }
-
-//CGrid::CGrid(int _mapW, int _mapH, string _fileobj)
-//{
-//	//CELL_SIZE.y = CELL_SIZE.y;
-//	//CELL_SIZE.x = CELL_SIZE.x;
-//	//columnGrid = 1 + _mapW / CELL_SIZE.x;
-//	//rowGrid = 1 + _mapH / CELL_SIZE.y;
-//	//fileobj = _fileobj;
-//}
-
 void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 {
 	player = playscene_player;
@@ -86,7 +76,6 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		posGrid.push_back(make_pair(atof(tokens[3 + 2 * i-1].c_str()), atof(tokens[3 + 2 * i].c_str())));
 	}
 	int milestone =	3 + 2 * number_of_grid;
-	//int ani_set_id = atoi(tokens[milestone+1].c_str());
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
 	LPGAMEENTITY obj = NULL;
