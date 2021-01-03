@@ -42,7 +42,7 @@ void Cannons::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma endregion
 #pragma region Active
 	//attack player
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= CANNONS_SITEATTACK_PLAYER)
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= CANNONS_SITEATTACK_PLAYER)
 	{
 		isActive = true;
 		AttackTarget(target);

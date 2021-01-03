@@ -111,7 +111,7 @@ void JasonRocket::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			if (colliable_Objects->at(i)->IsCollidingObject(this))
 			{
 				colliable_Objects->at(i)->AddHealth(-dam);
-				DebugOut(L"xxxxxxxxxxxxxxxx %d", colliable_Objects->at(i)->health);
+				DebugOut(L"xxxxxxxxxxxxxxxx %d", colliable_Objects->at(i)->GetHealth());
 				this->SetState(BULLET_JASON_STATE_HIT_ENEMY);
 				//isHitEnemy = true;
 
@@ -144,7 +144,7 @@ void JasonRocket::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 				if (e->obj->GetType() == EntityType::ENEMY)
 				{
 					e->obj->AddHealth(-dam);
-					DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->health);
+					DebugOut(L"xxxxxxxxxxxxxxxx %d", e->obj->GetHealth());
 					this->SetState(BULLET_JASON_STATE_HIT_ENEMY);
 					//isHitEnemy = true;
 					x += min_tx * dx + nx * 0.4f;

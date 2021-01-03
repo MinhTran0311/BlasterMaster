@@ -98,7 +98,7 @@ void Floaters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		vy = 0;
 	}
 	else SetState(FLOATERS_STATE_FLY);
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= ACTIVE_RANGE)
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= ACTIVE_RANGE)
 	{
 		if (!firstTimeActive)
 		{
@@ -190,7 +190,7 @@ void Floaters::SetState(int state)
 
 bool Floaters::inTargetRange()
 {
-	return GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TARGET_RANGE;
+	return GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= TARGET_RANGE;
 }
 
 void Floaters::setRandomVxVy(float& vx, float& vy)

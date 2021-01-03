@@ -38,11 +38,11 @@ void Teleporters::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 #pragma region Active
 	//attack player
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TELEPORTERS_SITEACTIVE_PLAYER)
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= TELEPORTERS_SITEACTIVE_PLAYER)
 	{
 		isActive = true;
 	}
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TELEPORTERS_SITEATTACK_PLAYER)
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= TELEPORTERS_SITEATTACK_PLAYER)
 	{
 		if (isActive == true)
 		{
@@ -255,48 +255,48 @@ bool Teleporters::TestTele(float x_Pos, float y_Pos, vector<LPGAMEENTITY>* coObj
 
 void Teleporters::shootBulletToTarget()
 {
-	if (target->x == x)
+	if (target->Getx() == x)
 	{
-		if (target->y < y)
+		if (target->Gety() < y)
 		{
 			LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 0, -1, target);
 			CGrid::GetInstance()->InsertGrid(bullet);
 		}
-		else if (target->y > y)
+		else if (target->Gety() > y)
 		{
 			LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 0, 1, target);
 			CGrid::GetInstance()->InsertGrid(bullet);
 		}
 	}
-	else if (target->y == y)
+	else if (target->Gety() == y)
 	{
-		if (target->x >= x)
+		if (target->Getx() >= x)
 		{
 			LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 1, 0, target);
 			CGrid::GetInstance()->InsertGrid(bullet);
 		}
-		else if (target->x < x)
+		else if (target->Getx() < x)
 		{
 			LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, -1, 0, target);
 			CGrid::GetInstance()->InsertGrid(bullet);
 		}
 	}
-	else if (target->x > x && target->y < y)
+	else if (target->Getx() > x && target->Gety() < y)
 	{
 		LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 1, -1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
-	else if (target->x > x && target->y > y)
+	else if (target->Getx() > x && target->Gety() > y)
 	{
 		LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, 1, 1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
-	else if (target->x < x && target->y > y)
+	else if (target->Getx() < x && target->Gety() > y)
 	{
 		LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, -1, 1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);
 	}
-	else if (target->x < x && target->y < y)
+	else if (target->Getx() < x && target->Gety() < y)
 	{
 		LPBULLET bullet = new BigNavigatedEnemyBullet(x + TELEPORTERS_BBOX_WIDTH / 2, y + TELEPORTERS_BBOX_HEIGHT / 2, TELEPORTERS, -1, -1, target);
 		CGrid::GetInstance()->InsertGrid(bullet);

@@ -227,7 +227,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					Brick* brick = dynamic_cast<Brick*>(e->obj);
 					if (vx > 0)
 					{
-						if (x > (brick->GetBrickWidth() + brick->x))
+						if (x > (brick->GetBrickWidth() + brick->GetBrickWidth()))
 						{
 							this->dgravity = 4;
 							vy = 0;
@@ -235,7 +235,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					}
 					else if (vx < 0)
 					{
-						if (x + DOMES_BBOX_WIDTH < brick->x)
+						if (x + DOMES_BBOX_WIDTH < brick->GetBrickWidth())
 						{
 							this->dgravity = 2;
 							vy = 0;
@@ -275,7 +275,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					Brick* brick = dynamic_cast<Brick*>(e->obj);
 					if (vy > 0)
 					{
-						if (y > (brick->GetBrickHeight() + brick->y))
+						if (y > (brick->GetBrickHeight() + brick->GetBrickHeight()))
 						{
 							this->dgravity = 1;
 
@@ -284,7 +284,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					
 					else if (vy < 0)
 					{
-						if (y + DOMES_BBOX_HEIGHT < brick->y)
+						if (y + DOMES_BBOX_HEIGHT < brick->GetBrickHeight())
 						{
 							this->dgravity = 3;
 						}
@@ -319,7 +319,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 
 					if (vx > 0)
 					{
-						if (x + 0.5f > (brick->GetBrickWidth() + brick->x))
+						if (x + 0.5f > (brick->GetBrickWidth() + brick->GetBrickWidth()))
 						{
 							this->dgravity = 4;
 							vy = 0;
@@ -327,7 +327,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					}
 					else if (vx < 0)
 					{
-						if (x + DOMES_BBOX_WIDTH < brick->x)
+						if (x + DOMES_BBOX_WIDTH < brick->GetBrickWidth())
 						{
 							this->dgravity = 2;
 							vy = 0;
@@ -367,7 +367,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					Brick* brick = dynamic_cast<Brick*>(e->obj);
 					if (vy > 0)
 					{
-						if (y > (brick->GetBrickHeight() + brick->y))
+						if (y > (brick->GetBrickHeight() + brick->GetBrickHeight()))
 						{
 							this->dgravity = 1;
 							vx = 0;
@@ -375,7 +375,7 @@ void Domes::AIClimdWall(vector<LPCOLLISIONEVENT> coEventsResult, float nx, float
 					}
 					else if (vy < 0)
 					{
-						if (y + DOMES_BBOX_HEIGHT < brick->y)
+						if (y + DOMES_BBOX_HEIGHT < brick->GetBrickHeight())
 						{
 							this->dgravity = 3;
 							vx = 0;
@@ -400,7 +400,7 @@ void Domes::StartAttack()
 		switch (dgravity)
 		{
 		case 1:
-			if (target->x <= x + DOMES_BBOX_WIDTH && target->x >= x && target->y > y)
+			if (target->Getx() <= x + DOMES_BBOX_WIDTH && target->Getx() >= x && target->Gety() > y)
 			{
 				startAttack->Start();
 				isDamaged = true;
@@ -408,7 +408,7 @@ void Domes::StartAttack()
 			}
 			break;
 		case 2:
-			if (target->x <= x + DOMES_BBOX_WIDTH && target->x >= x && target->y > y + 25.0f)
+			if (target->Getx() <= x + DOMES_BBOX_WIDTH && target->Getx() >= x && target->Gety() > y + 25.0f)
 			{
 				startAttack->Start();
 				aboveTarget = true;
@@ -417,7 +417,7 @@ void Domes::StartAttack()
 			}
 			break;
 		case 3:
-			if (target->x <= x + DOMES_BBOX_WIDTH && target->x >= x && target->y < y)
+			if (target->Getx() <= x + DOMES_BBOX_WIDTH && target->Getx() >= x && target->Gety() < y)
 			{
 				startAttack->Start();
 				isDamaged = true;
@@ -425,7 +425,7 @@ void Domes::StartAttack()
 			}
 			break;
 		case 4:
-			if (target->x >= x && target->x <= x + DOMES_BBOX_WIDTH && target->y > y + 25.0f)
+			if (target->Getx() >= x && target->Getx() <= x + DOMES_BBOX_WIDTH && target->Gety() > y + 25.0f)
 			{
 				startAttack->Start();
 				aboveTarget = true;
@@ -444,7 +444,7 @@ void Domes::StartAttack()
 			switch (dgravity)
 			{
 			case 1:
-				if (target->x <= x + DOMES_BBOX_WIDTH && target->x >= x && target->y > y)
+				if (target->Getx() <= x + DOMES_BBOX_WIDTH && target->Getx() >= x && target->Gety() > y)
 				{
 					startAttack->Start();
 					isDamaged = true;
@@ -453,7 +453,7 @@ void Domes::StartAttack()
 				}
 				break;
 			case 2:
-				if (target->x <= x + DOMES_BBOX_WIDTH && target->x >= x && target->y > y + 25.0f)
+				if (target->Getx() <= x + DOMES_BBOX_WIDTH && target->Getx() >= x && target->Gety() > y + 25.0f)
 				{
 					startAttack->Start();
 					aboveTarget = true;
@@ -463,7 +463,7 @@ void Domes::StartAttack()
 				}
 				break;
 			case 3:
-				if (target->x <= x + DOMES_BBOX_WIDTH && target->x >= x && target->y < y)
+				if (target->Getx() <= x + DOMES_BBOX_WIDTH && target->Getx() >= x && target->Gety() < y)
 				{
 					startAttack->Start();
 					isDamaged = true;
@@ -472,7 +472,7 @@ void Domes::StartAttack()
 				}
 				break;
 			case 4:
-				if (target->x >= x && target->x <= x + DOMES_BBOX_WIDTH && target->y > y + 25.0f)
+				if (target->Getx() >= x && target->Getx() <= x + DOMES_BBOX_WIDTH && target->Gety() > y + 25.0f)
 				{
 					startAttack->Start();
 					aboveTarget = true;
@@ -617,7 +617,7 @@ void Domes::Activation()
 		vx = -DOMES_WALKING_SPEED;
 		actived = true;
 	}
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= DOMES_SITEACTIVE_PLAYER)
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= DOMES_SITEACTIVE_PLAYER)
 	{
 		isActive = true;
 	}

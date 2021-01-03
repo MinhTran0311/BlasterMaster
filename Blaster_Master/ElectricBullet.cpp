@@ -62,7 +62,7 @@ void ElectricBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			if (this->IsCollidingObject(coObjects->at(i)))
 			{
 				coObjects->at(i)->AddHealth(-dam);
-				DebugOut(L"xxxxxxxxxxxxxxxx %d", coObjects->at(i)->health);
+				DebugOut(L"xxxxxxxxxxxxxxxx %d", coObjects->at(i)->GetHealth());
 			}
 		}
 	}

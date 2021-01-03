@@ -273,14 +273,14 @@ void CBoss::SetStartPosition(float x, float y)
 
 void CBoss::getLeftClawPos(float& x, float& y)
 {
-	x = this->BigClawLeft.x;
-	y = this->BigClawLeft.y;
+	x = this->BigClawLeft.Getx();
+	y = this->BigClawLeft.Gety();
 }
 
 void CBoss::getRightClawPos(float& x, float& y)
 {
-	x = this->BigClawRight.x;
-	y = this->BigClawRight.y;
+	x = this->BigClawRight.Getx();
+	y = this->BigClawRight.Gety();
 }
 
 void CBoss::updateTarget1()

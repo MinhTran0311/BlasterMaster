@@ -433,7 +433,7 @@ void PlayScene::changePlayer()
 	}
 	else if (player->GetPlayerType() == EntityType::TAG_SMALL_SOPHIA)
 	{
-		if (abs(backup_player->x - player->x) < DISTANCE_TO_OUT && abs(backup_player->y - player->y) < DISTANCE_TO_OUT)
+		if (abs(backup_player->Getx() - player->Getx()) < DISTANCE_TO_OUT && abs(backup_player->Gety() - player->Gety()) < DISTANCE_TO_OUT)
 		{
 			//playerInfo.sophiaHealth = player->GetHealth();
 			//playerInfo.sophiaGundam = player->GetgunDam();
@@ -559,7 +559,7 @@ void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		{
 		case EntityType::TAG_SMALL_SOPHIA:
 			dynamic_cast<Small_Sophia*>(player)->SetIsCrawl(false);
-			player->y -= 10;
+			player->SetPosition(player->Getx(), player->Gety() - 10);
 			break;
 		}
 		break;
@@ -966,7 +966,7 @@ void PlayScene::Update(DWORD dt)
 	else if (this->inforDisplay == LIFE_DISPLAY)
 	{
 		
-		this->player->health = 8;
+		this->player->SetHealth(8);
 		if (PlayerHandler::GetInstance()->GetLife() > 0) {
 			this->time_drawlife++;
 			if (this->time_drawlife == 20) { 

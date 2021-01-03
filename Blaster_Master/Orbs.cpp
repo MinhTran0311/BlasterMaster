@@ -88,9 +88,9 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma region Active
 	if (!isActive) return;
 	/*else SetState(ORBS_STATE_FLY);*/
-	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TARGET_RANGE)
+	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= TARGET_RANGE)
 	{
-		/*if (((-this->x + target->x) < 18) && ((-this->x + target->x) > 0) && ((-this->y + target->y) < 15) && ((-this->y + target->y) > 0)) {
+		/*if (((-this->x + target->Getx()) < 18) && ((-this->x + target->Getx()) > 0) && ((-this->y + target->Gety()) < 15) && ((-this->y + target->Gety()) > 0)) {
 			this->health = 0;
 			
 		}*/
@@ -176,17 +176,17 @@ Orbs::Orbs(float x, float y, LPGAMEENTITY t, int orb_mode)
 void Orbs::Attack(LPGAMEENTITY target) //đi theo nhân vật
 {
 	
-	if (abs(target->x - this->x) < 20 && canflip && abs(target->y - this->y) < 60) {
+	if (abs(target->Getx() - this->x) < 20 && canflip && abs(target->Gety() - this->y) < 60) {
 		isAttack == true;
 		/*if (this->r->getRandomInt(1, 2) == 1) { this->vy = FLYING_SPEED; }
 		if (this->r->getRandomInt(1, 2) == 2) { this->vy = -FLYING_SPEED; }*/
 		//else this->vy = -FLYING_SPEED;
 		this->vy = FLYING_SPEED;
-		if (target->x - this->x < 0)nx = -1;
+		if (target->Getx() - this->x < 0)nx = -1;
 		else nx = 1;
 		SetState(ORBS_STATE_FLIP);
 	}
-	else if (abs(target->y - this->y) < 20) { 
+	else if (abs(target->Gety() - this->y) < 20) { 
 		this->vy = -FLYING_SPEED; 
 		SetState(ORBS_STATE_FLIP);
 	}
@@ -236,5 +236,5 @@ void Orbs::SetState(int state)
 
 bool Orbs::inTargetRange()
 {
-	return GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= TARGET_RANGE;
+	return GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= TARGET_RANGE;
 }

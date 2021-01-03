@@ -39,8 +39,8 @@ BossArm::BossArm(CBoss* boss, int _type)
 	dam = 1;
 	health = 10000;
 	this->Boss = boss;
-	x = Boss->x;
-	y = Boss->y;
+	x = Boss->Getx();
+	y = Boss->Gety();
 	isActive = true;
 
 }

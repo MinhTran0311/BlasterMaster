@@ -75,7 +75,7 @@ void Worm::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			y += min_ty * dy + ny * 0.4f;
 
 			//follow player
-			if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->x, target->y)) <= WORM_SITEFOLLOW_PLAYER && state != WORM_STATE_CLIMB)
+			if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= WORM_SITEFOLLOW_PLAYER && state != WORM_STATE_CLIMB)
 			{
 				FollowTarget(target);
 			}
@@ -161,7 +161,7 @@ Worm::Worm(float xPos, float yPos, LPGAMEENTITY t, int canClimb)
 
 void Worm::FollowTarget(LPGAMEENTITY target)
 {
-	if ((target->x - this->x) > 0)
+	if ((target->Getx() - this->x) > 0)
 	{
 		this->nx = 1;
 		vx = WORM_WALKING_SPEED;

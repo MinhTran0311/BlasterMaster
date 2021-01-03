@@ -140,7 +140,7 @@ void SkullBullet::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			if (e->obj->GetType() == EntityType::TAG_PLAYER)
 			{
 				dynamic_cast<Player*>(e->obj)->EnemyBulletHitPlayer(dam);
-				DebugOut(L"Dinh target1 %d", e->obj->health);
+				DebugOut(L"Dinh target1 %d", e->obj->GetHealth());
 				isHitEnemy = true;
 				x += min_tx * dx + nx * 0.4f;
 				y += min_ty * dy + ny * 0.4f;

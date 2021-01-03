@@ -219,6 +219,7 @@ void Small_Sophia::SetState(int state)
 			isJumpHandle = false;
 			isJumping = true;
 			vy = -SMALL_SOPHIA_JUMP_SPEED_Y;
+			Sound::GetInstance()->Play("Jump", 0, 1);
 		}
 		break;
 	case SMALL_SOPHIA_STATE_IDLE:
