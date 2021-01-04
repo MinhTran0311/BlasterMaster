@@ -22,9 +22,6 @@ Map* MapManager::Get(int id)
 
 void MapManager::Add(int id, Map* map)
 {
-	DebugOut(L"id map:%d\n", id);
-	DebugOut(L"id map: %d\n", map->GetMapWidth());
-
 	maps[id] = map;
 }
 

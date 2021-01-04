@@ -184,14 +184,11 @@ void Sound::LoadSoundResource(const char* filePath)
 	string path;
 	Stop("");
 
+	DebugOut(L"xoa am thanh\n");
 	for (auto it = soundBufferMap.begin(); it != soundBufferMap.end(); it++)
 	{
-		if (it->second)
-		{
-			it->second->Release();
-			it->second = NULL;
-		}
-
+		//UnLoadSound(it->first);
+		//soundBufferMap.erase(it->first);
 	}
 	soundBufferMap.clear();
 	//DebugOut(L"sound size: %d", soundBufferMap.size());

@@ -127,7 +127,6 @@ void Player::CollideWithObject(LPGAMEENTITY object)
 			this->changeAlpha();
 			isInjured = true;
 			SetInjured(enemy->GetDamage());
-			DebugOut(L"va cham sau: %d\n", enemy->GetEnemyType());
 
 			break;
 		}
