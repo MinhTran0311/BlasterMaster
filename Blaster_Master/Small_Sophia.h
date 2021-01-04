@@ -14,9 +14,9 @@
 #define ANIMATION_SET_SMALL_SOPHIA	2
 
 #define SMALL_SOPHIA_GRAVITY						0.0004f
-#define SMALL_SOPHIA_WALKING_SPEED			0.035f 
+#define SMALL_SOPHIA_WALKING_SPEED			0.035f
 #define SMALL_SOPHIA_WALKING_ACC			0.00015f
-#define SMALL_SOPHIA_CRAWLING_SPEED			0.03f 
+#define SMALL_SOPHIA_CRAWLING_SPEED			0.03f
 #define SMALL_SOPHIA_JUMP_SPEED_Y			0.15f
 #define SMALL_SOPHIA_CLIMB_SPEED			0.035f
 
@@ -97,4 +97,3 @@ public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
-

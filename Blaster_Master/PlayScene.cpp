@@ -47,7 +47,7 @@ void PlayScene::LoadBaseObjects()
 	{
 		player = new JASON(PlayerHandler::GetInstance()->GetJasonXPos(), PlayerHandler::GetInstance()->GetJasonYPos(), PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
 		DebugOut(L"[INFO] JASON CREATED!!! health:%d, dam:%d \n", player->GetHealth(), player->GetgunDam());
-		
+
 		PlayerHandler::GetInstance()->SetJasonStage(ID_AREA1);
 	}
 	HUD::GetInstance()->HUDInit(player->GetHealth(), player->GetgunDam());
@@ -280,11 +280,12 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 			{
 				player->SetState(SMALL_SOPHIA_STATE_WALKING_LEFT);
 			}
-			else if (CGame::GetInstance()->IsKeyDown(DIK_DOWN))
+			else
+					player->SetState(SOPHIA_STATE_IDLE);
+			if (CGame::GetInstance()->IsKeyDown(DIK_DOWN))
 			{
 				dynamic_cast<Small_Sophia*>(player)->SetIsCrawl(true);
-			} else 
-					player->SetState(SMALL_SOPHIA_STATE_IDLE);
+			}
 		}
 	}
 }
@@ -411,7 +412,7 @@ void PlayScene::changePlayer()
 	{
 		PlayerHandler::GetInstance()->SetJasonInfor(idStage, player->Getx(), player->Gety(), player->GetHealth(), player->GetgunDam());
 		PlayerHandler::GetInstance()->SetSophiaStage(idStage);
-		
+
 		this->player->SetState(JASON_STATE_OUT);
 		backup_player = player;
 		//player = new Small_Sophia(backup_player->Getx(), backup_player->Gety(), playerInfo.sophiaHealth, playerInfo.sophiaGundam);
@@ -546,7 +547,34 @@ void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		}
 		break;
 
+
+
+	case DIK_LEFT:
+		switch (player->GetPlayerType())
+		{
+		case EntityType::TAG_SMALL_SOPHIA:
+			dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CRAWL_STOP);
+			break;
+		}
+		break;
+
+
+
+	case DIK_RIGHT:
+		switch (player->GetPlayerType())
+		{
+		case EntityType::TAG_SMALL_SOPHIA:
+			dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CRAWL_STOP);
+			break;
+		}
+		break;
+
+
+
+
 	}
+
+
 
 }
 #pragma endregion
@@ -941,12 +969,12 @@ void PlayScene::Update(DWORD dt)
 	}
 	else if (this->inforDisplay == LIFE_DISPLAY)
 	{
-		
+
 		//this->player->SetHealth(8);
 		if (PlayerHandler::GetInstance()->GetLife() > 0) {
-			
+
 			if (this->cooldownTimer->IsTimeUp()) {
-				
+
 				PlayerHandler::GetInstance()->SetLife(PlayerHandler::GetInstance()->GetLife() - 1);
 				Sound::GetInstance()->Play("MusicMap", 1, 10000);
 				SetInforDisplay(0);
@@ -990,7 +1018,7 @@ void PlayScene::Update(DWORD dt)
 			}
 		}
 	}
-	
+
 #pragma endregion
 	if (player->GetPlayerType() == TAG_BIG_SOPHIA && idStage == ID_MAPOVERWORLD)
 	{
@@ -1070,7 +1098,7 @@ void PlayScene::Render()
 {
 	if (this->inforDisplay == LIFE_DISPLAY)
 	{
-		
+
 		if (PlayerHandler::GetInstance()->GetLife() < 0) {
 
 			CGame::GetInstance()->DrawTextInScene(L"CONTINUE", 100, 100, 400, 400);
