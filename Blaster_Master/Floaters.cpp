@@ -118,9 +118,9 @@ void Floaters::Render()
 	if (state == FLOATERS_STATE_DIE)
 	{
 		ani = FLOATERS_ANI_DIE;
-		if (animationSet->at(ani)->GetFrame() == 3)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 			animationSet->at(ani)->ResetCurrentFrame();
 		}
 		animationSet->at(ani)->Render(nx, x, y - 2);
@@ -147,7 +147,7 @@ Floaters::Floaters(float x, float y, LPGAMEENTITY t)
 	isActive = false;
 	this->dam = 1;
 	firstTimeActive = false;
-	isDoneDeath = false;
+	isDoneDeathAni = false;
 }
 
 void Floaters::Attack(LPGAMEENTITY target) //đi theo nhân vật

@@ -166,14 +166,14 @@ void SkullBullet::Render()
 
 		ani = BULLET_SKULL_ANI_FALL_DOWN_AND_ROLLING;
 
-		animationSet->at(ani)->OldRender(x, y);
+		animationSet->at(ani)->Render(1,x, y);
 	}
 	else if (state == BULLET_SKULL_STATE_EXPLOSION)
 	{
 		DebugOut(L"Dinh target2");
 		ani = BULLET_SKULL_ANI_EXPLOSION;
 		DebugOut(L"Dinh target3 %d", ani);
-		animationSet->at(ani)->OldRender(x, y);
+		animationSet->at(ani)->Render(1,x, y);
 		if (animationSet->at(ani)->GetFrame() == 2)
 		{
 			DebugOut(L"Dinh target4");

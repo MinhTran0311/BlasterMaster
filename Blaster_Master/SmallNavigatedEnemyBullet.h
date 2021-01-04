@@ -38,5 +38,6 @@ public:
 	void CalVelocity(float&, float&, LPGAMEENTITY);
 	float RandomVx();
 	virtual void SetState(int state);
+	void SetTarget(LPGAMEENTITY _target) { target = _target; };
 };
 

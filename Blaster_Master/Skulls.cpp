@@ -100,9 +100,9 @@ void Skulls::Render()
 	if (this->state == SKULLS_STATE_DIE)
 	{
 		ani = SKULLS_ANI_DIE;
-		if (animationSet->at(ani)->GetFrame() == 3)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 			animationSet->at(ani)->ResetCurrentFrame();
 		}
 		animationSet->at(ani)->Render(nx, x, y-2);

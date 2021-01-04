@@ -65,7 +65,7 @@ public:
 	bool IsFightWithBoss() { return isFightWithBoss; };
 	bool IsDoneFightWithBoss() { return isDoneFightWithBoss; };
 	void SetIsDoneFightWithBoss(bool done) { isDoneFightWithBoss=done; };
-
+	void ResetFightBossState() { isEnterIntroBossArea = false;  isFightWithBoss = false; isDoneFightWithBoss = false; };
 	void AutoRun(int direction);
 	void GetInfoBigSophia(int& direct, int& directY, float& playerx, float& playery, int& dame) { direct = nx; directY = ny; playerx = x; playery = y; dame = dam; }
 	virtual void FireBullet(int type);
@@ -74,5 +74,6 @@ public:
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void SetState(int state);
+
 };
 

@@ -119,19 +119,17 @@ void Orbs::Render()
 	if (this->state == ORBS_STATE_DIE)
 	{
 		ani = ORBS_ANI_DIE;
-		if (animationSet->at(ani)->GetFrame() == 3)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 			animationSet->at(ani)->ResetCurrentFrame();
 		}
-		animationSet->at(ani)->OldRender(x, y);
+		animationSet->at(ani)->Render(1,x, y);
 	}
 	else if (this->state == ORBS_STATE_FLY )
-		//else if (cooldownTimer->IsTimeUp())
 	{
 		ani = ORBS_ANI_FLY;
 		animationSet->at(ani)->Render(nx, x, y);
-		//animationSet->at(ani)->OldRender(x, y);
 
 	}
 	else if (this->state == ORBS_STATE_FLIP)

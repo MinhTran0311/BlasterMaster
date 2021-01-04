@@ -92,48 +92,7 @@ void CGame::InitDirectX(HWND hWnd)
 
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }
-
-/*
-	Utility function to wrap LPD3DXSPRITE::Draw 
-*/
-//void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom)
-//{
-//	D3DXVECTOR3 p(x, y, 0);
-//	RECT r; 
-//	r.left = left;
-//	r.top = top;
-//	r.right = right;
-//	r.bottom = bottom;
-//	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
-//}
-
-//void CGame::Draw(float x, float y, int nx, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom)
-//{
-//	D3DXVECTOR3 p(x, y, 0);
-//	RECT r;
-//	r.left = left;
-//	r.top = top;
-//	r.right = right;
-//	r.bottom = bottom;
-//
-//	//flip sprite using nx parameter
-//	D3DXMATRIX oldTransform;
-//	D3DXMATRIX newTransform;
-//
-//	spriteHandler->GetTransform(&oldTransform);
-//
-//	D3DXVECTOR2 center = D3DXVECTOR2(p.x + (right - left) / 2, p.y + (bottom - top) / 2);
-//	D3DXVECTOR2 rotate = D3DXVECTOR2(nx > 0 ? 1 : -1, 1);
-//
-//	D3DXMatrixTransformation2D(&newTransform, &center, 0.0f, &rotate, NULL, 0.0f, NULL);
-//	D3DXMATRIX finalTransform = newTransform * oldTransform;
-//	spriteHandler->SetTransform(&finalTransform);
-//
-//	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
-//	spriteHandler->SetTransform(&oldTransform);
-//}
-
-void CGame::OldDraw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+void CGame::RawDraw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
 	D3DXVECTOR3 p(floor(x - Camera::GetInstance()->GetCamx()), floor(y - Camera::GetInstance()->GetCamy()), 0);
 	RECT r;
@@ -144,32 +103,6 @@ void CGame::OldDraw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int 
 	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 }
 
-void CGame::DrawY(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
-{
-	D3DXVECTOR3 p(floor(x - Camera::GetInstance()->GetCamx()), floor(y - Camera::GetInstance()->GetCamy()), 0);
-	RECT r;
-	r.left = left;
-	r.top = top;
-	r.right = right;
-	r.bottom = bottom;
-
-	D3DXMATRIX oldMatrix;
-	D3DXMATRIX newMatrix;
-
-	D3DXVECTOR2 scaling;
-	if (direction < 0)
-		scaling = D3DXVECTOR2(1, 1);
-	else
-		scaling = D3DXVECTOR2(1, -1);
-
-	D3DXMatrixTransformation2D(&newMatrix, &D3DXVECTOR2(p.x + (float)(right - left) / 2, p.y + (float)(bottom - top) / 2), 0, &scaling, NULL, 0, NULL);
-	spriteHandler->GetTransform(&oldMatrix);
-	spriteHandler->SetTransform(&newMatrix);
-	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
-
-	spriteHandler->SetTransform(&oldMatrix);
-
-}
 void CGame::DrawTopBottom(int direction, float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
 	D3DXVECTOR3 p(floor(x - Camera::GetInstance()->GetCamx()), floor(y - Camera::GetInstance()->GetCamy()), 0);
@@ -195,30 +128,6 @@ void CGame::DrawTopBottom(int direction, float x, float y, LPDIRECT3DTEXTURE9 te
 
 	spriteHandler->SetTransform(&oldMatrix);
 }
-
-
-//void CGame::MapDraw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
-//{
-//	D3DXVECTOR3 p(floor(x - Camera::GetInstance()->GetCamx()), floor(y - Camera::GetInstance()->GetCamy()), 0);
-//	RECT r;
-//	r.left = left;
-//	r.top = top;
-//	r.right = right;
-//	r.bottom = bottom;
-//
-//	D3DXMATRIX oldMatrix;
-//	D3DXMATRIX newMatrix;
-//
-//	D3DXVECTOR2 scaling;
-//	scaling = D3DXVECTOR2(2, 2);
-//
-//	D3DXMatrixTransformation2D(&newMatrix, &D3DXVECTOR2(p.x + (float)(right - left) / 2, p.y + (float)(bottom - top) / 2), 0, &scaling, NULL, 0, NULL);
-//	spriteHandler->GetTransform(&oldMatrix);
-//	spriteHandler->SetTransform(&newMatrix);
-//	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
-//
-//	spriteHandler->SetTransform(&oldMatrix);
-//}
 
 //void CGame::SwitchScene(int id_scene)
 //{

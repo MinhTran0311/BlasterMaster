@@ -36,4 +36,5 @@ public:
 	virtual void shootBulletToTarget();
 	bool GetDamage() {return dam;};
 	void SetTarget(LPGAMEENTITY _target) { target = _target; };
+	EnemyType GetEnemyType() { return enemyType; };
 };

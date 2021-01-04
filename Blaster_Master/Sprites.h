@@ -19,9 +19,8 @@ public:
 
 	void Draw(int direction, float x, float y, int alpha = 255);
 	void IntroDraw(int direction, float x, float y, int alpha = 255);
-	void DrawY(int direction, float x, float y, int alpha = 255);
 	void DrawTopBottom(int direction, float x, float y, int alpha = 255);
-	void OldDraw(float x, float y, int alpha = 255);
+	void RawDraw(float x, float y, int alpha = 255);
 	int GetFrameWidth() { return right - left; }
 	int GetFrameHeight() { return bottom - top; }
 };

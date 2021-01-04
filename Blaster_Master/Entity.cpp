@@ -42,7 +42,7 @@ void Entity::RenderBoundingBox()
 	rect.right = (int)r - (int)l;
 	rect.bottom = (int)b - (int)t;
 
-	CGame::GetInstance()->OldDraw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, bbARGB);
+	CGame::GetInstance()->RawDraw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, bbARGB);
 
 }
 

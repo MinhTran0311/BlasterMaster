@@ -218,8 +218,10 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 #pragma region Obstacles
 	case EntityType::TAG_BRICK:
 	{
-		obj = new Brick(x,y,atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
-
+		if (tokens.size() == milestone + 3)
+			obj = new Brick(x, y, atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
+		else
+			obj = new Brick(x, y, atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()), atof(tokens[milestone + 3].c_str()));
 		DebugOut(L"[test] add brick !\n");
 		break;
 	}
@@ -469,6 +471,18 @@ void CGrid::SetTargetForEnemies(LPGAMEPLAYER player)
 				{
 					dynamic_cast<Enemy*>(cells[i][j].at(k))->SetTarget(player);
 					//DebugOut(L"nap lai target %d\n", dynamic_cast<Enemy*>(cells[i][j].at(k))->GetType());
+				}
+				else if (dynamic_cast<SmallNavigatedEnemyBullet*>(cells[i][j].at(k)))
+				{
+					dynamic_cast<SmallNavigatedEnemyBullet*>(cells[i][j].at(k))->SetTarget(player);
+				}				
+				else if (dynamic_cast<BigNavigatedEnemyBullet*>(cells[i][j].at(k)))
+				{
+					dynamic_cast<BigNavigatedEnemyBullet*>(cells[i][j].at(k))->SetTarget(player);
+				}			
+				else if (dynamic_cast<SkullBullet*>(cells[i][j].at(k)))
+				{
+					dynamic_cast<SkullBullet*>(cells[i][j].at(k))->SetTarget(player);
 				}
 			}
 		}

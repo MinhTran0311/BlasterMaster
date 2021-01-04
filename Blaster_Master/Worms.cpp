@@ -130,10 +130,10 @@ void Worm::Render()
 	int ani = WORM_ANI_WALKING;
 	if (state == WORM_STATE_DIE) {
 		ani = WORM_ANI_DIE;
-		if (animationSet->at(ani)->GetFrame() == 3)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
 			animationSet->at(ani)->ResetCurrentFrame();
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 		}
 		animationSet->at(ani)->Render(nx, x, y  + WORM_BBOX_HEIGHT - WORM_BBOX_HEIGHT_DIE-3);
 	}

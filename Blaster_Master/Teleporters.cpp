@@ -66,9 +66,9 @@ void Teleporters::Render()
 	int ani;
 	if (state == TELEPORTERS_STATE_DIE) {
 		ani = TELEPORTERS_ANI_DIE;
-		if (animationSet->at(ani)->GetFrame() == 3)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 			animationSet->at(ani)->ResetCurrentFrame();
 		}
 		animationSet->at(ani)->Render(nx, x, y - 3);
@@ -91,7 +91,7 @@ void Teleporters::Render()
 			ani = TELEPORTERS_ANI_IDLE;
 		}
 
-		animationSet->at(ani)->OldRender(x, y);
+		animationSet->at(ani)->Render(1, x, y);
 	}
 }
 

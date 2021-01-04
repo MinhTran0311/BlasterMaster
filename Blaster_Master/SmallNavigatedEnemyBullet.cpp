@@ -185,12 +185,12 @@ void SmallNavigatedEnemyBullet::Render()
 	if (state == SMALL_NAVI_ENEMY_BULLET_STATE_FLYING)
 	{
 		ani = SMALL_NAVI_ENEMY_BULLET_ANI;
-		animationSet->at(ani)->OldRender(x, y);
+		animationSet->at(ani)->Render(1,x, y);
 	}
 	else if (state == SMALL_NAVI_ENEMY_BULLET_STATE_HIT_BRICK || state == SMALL_NAVI_ENEMY_BULLET_STATE_HIT_PLAYER)
 	{
 		ani = SMALL_NAVI_ENEMY_BULLET_BANG;
-		animationSet->at(ani)->OldRender(x - 6, y - 6);
+		animationSet->at(ani)->Render(1, x - 6, y - 6);
 		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
 			isActive = false;
