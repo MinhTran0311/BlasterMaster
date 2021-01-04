@@ -9,7 +9,7 @@
 #define JASON_WALKING_SPEED			0.1f 
 #define JASON_WALKING_ACC				0.00035f
 
-#define JASON_JUMP_SPEED_Y				0.4f	//0.235
+#define JASON_JUMP_SPEED_Y				0.235f	//0.235
 #define JASON_GRAVITY					0.0004f
 #define JASON_HEIGHT_GUN_FLIP	15.5
 
@@ -26,7 +26,7 @@
 #define DURATION_X_TO_DIE	14
 #define DURATION_Y_TO_DIE	30
 #define DISTANCE_TO_OUT		8
-#define HEIGHT_LEVER1		60	//50
+#define HEIGHT_LEVER1		50	//50
 #define MAX_HEALTH			8
 #define JASON_ANI_IDLE_RIGHT					0
 #define JASON_ANI_IDLE_LEFT					1

@@ -192,8 +192,6 @@ void Small_Sophia::SetState(int state)
 			{
 				isCrawl = false;
 				y -= 3;
-				
-
 				vx = 0;
 				
 			}

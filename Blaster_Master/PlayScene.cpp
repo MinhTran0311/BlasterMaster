@@ -212,16 +212,16 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 	if (player->GetPlayerType() != TAG_SMALL_SOPHIA)
 	{
 		bool idleState = true;
-
+		player->SetState(JASON_STATE_IDLE);
 		if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
 		{
 			player->SetState(JASON_STATE_WALKING_RIGHT);
-			idleState = false;
+			//idleState = false;
 		}
 		if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
 		{
 			player->SetState(JASON_STATE_WALKING_LEFT);
-			idleState = false;
+			//idleState = false;
 		}
 		if (CGame::GetInstance()->IsKeyDown(DIK_SPACE))
 		{
@@ -230,7 +230,7 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 				player->SetState(JASON_STATE_IDLE);
 				dynamic_cast<JASON*>(player)->SetPressSpace(true);
 			}
-			idleState = false;
+			//idleState = false;
 		}
 
 		if (CGame::GetInstance()->IsKeyDown(DIK_UP))
@@ -243,15 +243,15 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 			}
 			else if (player->GetPlayerType() == TAG_BIG_SOPHIA)
 				dynamic_cast<Big_Sophia*>(player)->SetState(BIG_SOPHIA_STATE_WALKING_TOP);
-			idleState = false;
+			//idleState = false;
 		}
 		if ((CGame::GetInstance()->IsKeyDown(DIK_DOWN)))
 		{
 			if (player->GetPlayerType() == TAG_BIG_SOPHIA)
 				dynamic_cast<Big_Sophia*>(player)->SetState(BIG_SOPHIA_STATE_WALKING_BOTTOM);
-			idleState = false;
+			//idleState = false;
 		}
-		if (idleState) player->SetState(JASON_STATE_IDLE);
+		//if (idleState) player->SetState(JASON_STATE_IDLE);
 
 	}
 	else
@@ -1005,15 +1005,17 @@ void PlayScene::Update(DWORD dt)
 		{
 			//Camera::GetInstance()->Update(player->Getx(), player->Gety(), player->GetPlayerType(), dt, mapWidth, mapHeight, player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
 			Camera::GetInstance()->Update(player->Getx(), player->Gety(), player->GetPlayerType(), dt,mapWidth, mapHeight, player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
+			HUD::GetInstance()->Update(Camera::GetInstance()->GetCamx() + 20, HUD_Y + Camera::GetInstance()->GetCamy(), player->GetPlayerType(), player->GetHealth(), player->GetgunDam());
 
 		}
-		HUD::GetInstance()->Update(Camera::GetInstance()->GetCamx() + 20, HUD_Y + Camera::GetInstance()->GetCamy(), player->GetPlayerType(), player->GetHealth(), player->GetgunDam());
 
 	}
 
 #pragma endregion
-	if (player->isAutoRun() && player->GetPlayerType()!=TAG_BIG_SOPHIA)
+	if (player->isAutoRun() && player->GetPlayerType() != TAG_BIG_SOPHIA)
+	{
 		return;
+	}
 
 #pragma region update objects
 	if (isUnloaded)
@@ -1120,10 +1122,12 @@ void PlayScene::Render()
 			}
 		}
 		CGame::GetInstance()->Draw(1,-MapManager::GetIntance()->GetLeftAlign(idStage), 0, maptexture, 0, 0, mapWidth + MapManager::GetIntance()->GetLeftAlign(idStage) + MapManager::GetIntance()->GetRightAlign(idStage), mapHeight, textureAlpha);
-		HUD::GetInstance()->Render(player);
 
-		if (player->isAutoRun() && player->GetPlayerType()!=TAG_BIG_SOPHIA)
+		if (player->isAutoRun() && player->GetPlayerType() != TAG_BIG_SOPHIA)
+		{
+			HUD::GetInstance()->Render(player);
 			return;
+		}
 		vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListRenderObj(Camera::GetInstance()->GetRectCam());
 		for (int i = 0; i < coObjects.size(); i++)
 			coObjects[i]->Render();
@@ -1141,6 +1145,8 @@ void PlayScene::Render()
 			player->Render();
 			break;
 		}
+		HUD::GetInstance()->Render(player);
+
 	}
 }
 void PlayScene::Unload()
