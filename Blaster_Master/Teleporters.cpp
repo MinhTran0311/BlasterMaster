@@ -91,7 +91,7 @@ void Teleporters::Render()
 			ani = TELEPORTERS_ANI_IDLE;
 		}
 
-		animationSet->at(ani)->OldRender(x, y);
+		animationSet->at(ani)->Render(1, x, y);
 	}
 }
 

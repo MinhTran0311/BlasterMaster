@@ -45,8 +45,8 @@ void PlayerHandler::Init()
 	jasonStage = 1;
 	jasonXPos = 55;
 	jasonYPos = 100;
-	sophiaHealth = PLAYER_MAX_HEALTH;
-	sophiaGundam = PLAYER_DEFAULT_GUNDAM;
+	sophiaHealth = 30;
+	sophiaGundam = 30;
 	sophiaStage = 1;
 	sophiaXPos, sophiaYPos;
 	specialWeaponId = 1;

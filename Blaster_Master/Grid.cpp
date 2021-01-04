@@ -218,8 +218,10 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 #pragma region Obstacles
 	case EntityType::TAG_BRICK:
 	{
-		obj = new Brick(x,y,atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
-
+		if (tokens.size() == milestone + 3)
+			obj = new Brick(x, y, atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
+		else
+			obj = new Brick(x, y, atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()), atof(tokens[milestone + 3].c_str()));
 		DebugOut(L"[test] add brick !\n");
 		break;
 	}

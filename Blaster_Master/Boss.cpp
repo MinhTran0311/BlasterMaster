@@ -231,7 +231,7 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 void CBoss::Render()
 {
 	//DebugOut(L"Boss render x: %f, y: %f \n",x,y);
-	animationSet->at(ani)->OldRender(x, y, bossalpha);
+	animationSet->at(ani)->Render(1, x, y, bossalpha);
 	//animationSet->at(0)->Render(x, y);
 
 	//RenderBoundingBox();
@@ -475,15 +475,12 @@ void CBoss::BossClawSection::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void CBoss::BossClawSection::Render()
 {
-	//animationSet->at(0)->OldRender(x, y);
-	////animationSet->at(0)->Render(x, y);
-
 	int claw_ani;
 	if (ani == BOSS_ANI_DIE)
 		claw_ani = BOSS_ANI_INJURED;
 	else
 		claw_ani = ani;
-	animationSet->at(claw_ani)->OldRender(x, y, bossalpha);
+	animationSet->at(claw_ani)->Render(1 ,x , y, bossalpha);
 
 }
 

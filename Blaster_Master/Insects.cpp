@@ -132,20 +132,11 @@ void Insects::Render()
 		animationSet->at(ani)->Render(nx,x, y);
 	}
 	else if (true)
-		//else if (cooldownTimer->IsTimeUp())
 	{
 		ani = INSECTS_ANI_FLY;
 		animationSet->at(ani)->Render(nx, x, y);
-		//animationSet->at(ani)->OldRender(x, y);
 
 	}
-	/*else
-		if (!delayTimeranishot->IsTimeUp())
-	{
-		ani = INSECTS_ANI_ATTACK;
-		animationSet->at(ani)->OldRender(x, y);
-
-	}*/
 }
 
 Insects::Insects(float x, float y, LPGAMEENTITY t)

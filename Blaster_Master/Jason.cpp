@@ -331,7 +331,7 @@ void JASON::Render()
 
 			if (isGunFlipping == false)
 			{
-				animationSet->at(ani)->OldRender(x, y - JASON_HEIGHT_GUN_FLIP, alpha);
+				animationSet->at(ani)->Render(1, x, y - JASON_HEIGHT_GUN_FLIP, alpha);
 				if (animationSet->at(ani)->GetFrame() == 1)
 				{
 					//DebugOut(L"[frame]: %d;\n", animation_set->at(JASON_ANI_WALKING_RIGHT)->GetFrame());
@@ -389,7 +389,7 @@ void JASON::Render()
 			else if (vx > 0)
 				ani = JASON_ANI_WALKING_RIGHT;
 			else ani = JASON_ANI_WALKING_LEFT;
-			animationSet->at(ani)->OldRender(x, y, alpha);
+			animationSet->at(ani)->Render(1,x, y, alpha);
 			isGunFlipping = false;
 		}
 		else {
@@ -488,7 +488,7 @@ void JASON::Render()
 				else ani = JASON_ANI_JUMP_UP_WALKING_LEFT;
 			}
 			isGunFlipping = false;
-			animationSet->at(ani)->OldRender(x, y, alpha);
+			animationSet->at(ani)->Render(1, x, y, alpha);
 			return;
 		}
 	}

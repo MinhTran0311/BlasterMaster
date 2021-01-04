@@ -37,9 +37,9 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 				else
 				{
 					if ((yPos - camy) < (SCREEN_HEIGHT / 4))
-						camy -= CAMERA_SPEED_WORLD1 * dt;
+						camy -= CAMERA_SPEED_UNDERWORLD * dt;
 					else if ((yPos - camy) > (SCREEN_HEIGHT / 2))
-						camy += CAMERA_SPEED_WORLD1 * dt;
+						camy += CAMERA_SPEED_UNDERWORLD * dt;
 				}
 			}
 			if (yPos - camy > SCREEN_HEIGHT)
@@ -49,9 +49,9 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 		{
 			if (camx < mapWidth)
 			{
-				DebugOut(L"cam update 4 %d: \n", MapManager::GetIntance()->GetLeftAlign(MapManager::GetIntance()->GetCurrenStage()));
-				DebugOut(L"Vi tri xcam: %f", camx);
-				camx += CAMERA_SPEED_WORLD1 * dt;
+				//DebugOut(L"cam update 4 %d: \n", MapManager::GetIntance()->GetLeftAlign(MapManager::GetIntance()->GetCurrenStage()));
+				//DebugOut(L"Vi tri xcam: %f", camx);
+				camx += CAMERA_SPEED_UNDERWORLD * dt;
 			}
 			else
 			{
@@ -63,7 +63,7 @@ void Camera::Update(float xPos, float yPos, EntityType playertype, DWORD dt, int
 		{
 			if (camx > -SCREEN_WIDTH+10)
 			{
-				camx -= CAMERA_SPEED_WORLD1 * dt;
+				camx -= CAMERA_SPEED_UNDERWORLD * dt;
 			}
 			else {
 				AutoMoveDirection = 0;
