@@ -37,9 +37,12 @@ void CGame::InitWindow(int nCmdShow)
 
 void CGame::DrawTextInScene(LPCWSTR str, float l, float r,float t,float b) {
 	
-	/*font = NULL;*/
+	if (font == NULL) {
+		D3DXCreateFont(GetDirect3DDevice(), 25, 0, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FF_DONTCARE, L"Maven Pro", &font);
+
+	}
+	//font = NULL;
 	//LPCWSTR strfont = "Arial";
-	D3DXCreateFont(GetDirect3DDevice(), 25, 0, FW_NORMAL, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, FF_DONTCARE, L"Maven Pro", &font);
 	SetRect(&fRectangle, l, r, t, b);
 	
 	font->DrawText(NULL, str, -1, &fRectangle, DT_LEFT,D3DCOLOR_XRGB(255,255,255));

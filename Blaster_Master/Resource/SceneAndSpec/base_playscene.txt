@@ -20,7 +20,7 @@
 18	Resource/SceneAndSpec/Scene/area_8.jpg	195	195	195
 19	Resource/SceneAndSpec/Scene/area_9.jpg	195	195	195
 20	Resource/SceneAndSpec/Scene/overworld.png	255	0	255
-41	Resource/select_continue.jpg	255	0	255
+95	Resource/select_continue.jpg	255	0	255
 100	Resource/boss - Copy.png	255	255	255
 101	Resource/bossarm.png	255	255	255
 105	Resource/explosionsmall.png	255	0	255
@@ -28,7 +28,7 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 #select_continue
-60019	0	0	10	10	41
+60019	0	0	10	10	95
 ##============ SOPHIA JASON =================
 # idle right
 10001	146	5	172	23	30

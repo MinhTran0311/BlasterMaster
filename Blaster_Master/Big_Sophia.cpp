@@ -195,7 +195,6 @@ void Big_Sophia::Render()
 		animationSet->at(ani)->Render(nx, x, y, alpha);
 		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
-			DebugOut(L"is done death\n");
 			isDoneDeathAni = true;
 			animationSet->at(ani)->ResetCurrentFrame();
 
