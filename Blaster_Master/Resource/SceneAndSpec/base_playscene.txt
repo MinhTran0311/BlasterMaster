@@ -20,7 +20,7 @@
 18	Resource/SceneAndSpec/Scene/area_8.jpg	195	195	195
 19	Resource/SceneAndSpec/Scene/area_9.jpg	195	195	195
 20	Resource/SceneAndSpec/Scene/overworld.png	255	0	255
-41	Resource/select_continue.png	255	0	255
+41	Resource/select_continue.jpg	255	0	255
 100	Resource/boss - Copy.png	255	255	255
 101	Resource/bossarm.png	255	255	255
 105	Resource/explosionsmall.png	255	0	255
