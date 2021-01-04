@@ -457,7 +457,7 @@ void PlayScene::SetUpFightBoss()
 	Camera::GetInstance()->SetCamPos(1607, 995);
 	Camera::GetInstance()->SetIsFollowPlayer(false);
 	Sound::GetInstance()->Stop("BossIntro");
-	Sound::GetInstance()->Play("Boss", 1);
+	Sound::GetInstance()->Play("Boss", 1,10000);
 }
 
 void PlayScene::BossAreaController()

@@ -115,12 +115,13 @@ void Player::EnemyBulletHitPlayer(int dam)
 
 void Player::CollideWithObject(LPGAMEENTITY object)
 {
-	if (this->IsCollidingObject(object))
+	if (object->IsCollidingObject(this))
 	{
 		switch (object->GetType())
 		{
 		case EntityType::ENEMY:
 		{
+			DebugOut(L"va cham sau\n");
 			Enemy* enemy = dynamic_cast<Enemy*>(object);
 			this->changeAlpha();
 			isInjured = true;
