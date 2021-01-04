@@ -53,7 +53,6 @@ public:
 	void LoadSound(std::string fileName, std::string name);
 	void UnLoadSound(std::string name);
 	void LoadSoundResource(const char*);
-	void StopAll();
 	~Sound();
 };
 

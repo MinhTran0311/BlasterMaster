@@ -69,10 +69,10 @@ void Mines::Render()
 	if (state == MINES_STATE_DIE) {
 		ani = MINES_ANI_DIE;
 		//DebugOut(L"So sprite %d\n", animationSet->at(ani)->GetFrame());
-		if (animationSet->at(ani)->GetFrame() == 3)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
 			animationSet->at(ani)->ResetCurrentFrame();
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 		}
 		animationSet->at(ani)->Render(nx, x, y + MINES_BBOX_HEIGHT - MINES_BBOX_HEIGHT_DIE - 3);
 	}

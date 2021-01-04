@@ -3,21 +3,18 @@
 #include <assert.h>
 #include "debug.h"
 #include "Game.h"
-#include "Worms.h"
-#include "Gate.h"
 #include "PlayScene.h"
 #include "Grid.h"
 #include "JasonBullet.h"
 #include "JasonRocket.h"
 #include "InjuringBrick.h"
-#include "GadBrick.h"
 #include "ElectricBullet.h"
 #include "HomingMissles.h"
 #include "PlayerHandler.h"
 JASON::JASON(float x, float y, int _health, int _gundam)
 {
 	this->SetAnimationSet(CAnimationSets::GetInstance()->Get(ANIMATION_SET_JASON));
-	SetState(SOPHIA_STATE_IDLE);
+	SetState(JASON_STATE_IDLE);
 	_PlayerType = EntityType::TAG_JASON;
 	current_Jumpy = 0;
 	start_x = x;
@@ -43,15 +40,15 @@ void JASON::SetState(int state)
 	Entity::SetState(state);
 	switch (state)
 	{
-	case SOPHIA_STATE_WALKING_RIGHT:
-		vx = SOPHIA_WALKING_SPEED;
+	case JASON_STATE_WALKING_RIGHT:
+		vx = JASON_WALKING_SPEED;
 		nx = 1;
 		break;
-	case SOPHIA_STATE_WALKING_LEFT:
-		vx = -SOPHIA_WALKING_SPEED;
+	case JASON_STATE_WALKING_LEFT:
+		vx = -JASON_WALKING_SPEED;
 		nx = -1;
 		break;
-	case SOPHIA_STATE_JUMP:
+	case JASON_STATE_JUMP:
 		isPressJump = true;
 		if (isJumping == true)
 			return;
@@ -59,27 +56,27 @@ void JASON::SetState(int state)
 		{
 			isJumpHandle = false;
 			isJumping = true;
-			vy = -SOPHIA_JUMP_SPEED_Y;
+			vy = -JASON_JUMP_SPEED_Y;
 			current_Jumpy = y;
 			Sound::GetInstance()->Play("Jump", 0, 1);
 		}
 		break;
-	case SOPHIA_STATE_IDLE:
-		isPressJump = false;
+	case JASON_STATE_IDLE:
+		//isPressJump = false;
 		//isJumpHandle = true;
 		if (vx > 0) {
-			vx -= SOPHIA_WALKING_ACC * dt;
+			vx -= JASON_WALKING_ACC * dt;
 			if (vx < 0)
 				vx = 0;
 		}
 		else if (vx < 0)
 		{
-			vx += SOPHIA_WALKING_ACC * dt;
+			vx += JASON_WALKING_ACC * dt;
 			if (vx > 0)
 				vx = 0;
 		}
 		break;
-	case SOPHIA_STATE_OUT:
+	case JASON_STATE_OUT:
 		vx = 0;
 		isEjecting = true;
 		break;
@@ -94,7 +91,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	//fall down
 #pragma region fall down
 	if (vy > FALLING_VELOCITY_UPPER_LIMITATION) isJumping = true;
-	vy += SOPHIA_GRAVITY *dt;
+	vy += JASON_GRAVITY *dt;
 	//check player's height
 	if (isJumping && current_Jumpy - y >= HEIGHT_LEVER1 && isJumpHandle == false)
 	{
@@ -108,16 +105,16 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 #pragma region gun flip
 	if (isPressFlipGun == false)
 	{
-		animationSet->at(SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_1)->ResetCurrentFrame();
-		animationSet->at(SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_2)->ResetCurrentFrame();
-		animationSet->at(SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_3)->ResetCurrentFrame();
-		animationSet->at(SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_4)->ResetCurrentFrame();
-		animationSet->at(SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_1)->ResetCurrentFrame();
-		animationSet->at(SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_2)->ResetCurrentFrame();
-		animationSet->at(SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_3)->ResetCurrentFrame();
-		animationSet->at(SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_4)->ResetCurrentFrame();
-		animationSet->at(SOPHIA_ANI_GUN_FLIP_RIGHT)->ResetCurrentFrame();
-		animationSet->at(SOPHIA_ANI_GUN_FLIP_LEFT)->ResetCurrentFrame();
+		animationSet->at(JASON_ANI_GUN_FLIP_IDLE_RIGHT_1)->ResetCurrentFrame();
+		animationSet->at(JASON_ANI_GUN_FLIP_IDLE_RIGHT_2)->ResetCurrentFrame();
+		animationSet->at(JASON_ANI_GUN_FLIP_IDLE_RIGHT_3)->ResetCurrentFrame();
+		animationSet->at(JASON_ANI_GUN_FLIP_IDLE_RIGHT_4)->ResetCurrentFrame();
+		animationSet->at(JASON_ANI_GUN_FLIP_IDLE_LEFT_1)->ResetCurrentFrame();
+		animationSet->at(JASON_ANI_GUN_FLIP_IDLE_LEFT_2)->ResetCurrentFrame();
+		animationSet->at(JASON_ANI_GUN_FLIP_IDLE_LEFT_3)->ResetCurrentFrame();
+		animationSet->at(JASON_ANI_GUN_FLIP_IDLE_LEFT_4)->ResetCurrentFrame();
+		animationSet->at(JASON_ANI_GUN_FLIP_RIGHT)->ResetCurrentFrame();
+		animationSet->at(JASON_ANI_GUN_FLIP_LEFT)->ResetCurrentFrame();
 	}
 
 #pragma endregion
@@ -160,7 +157,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	//	//		//re check
 	//	//		//if (isJumping)
 	//	//		//{
-	//	//		//	this->SetState(SOPHIA_STATE_IDLE);
+	//	//		//	this->SetState(JASON_STATE_IDLE);
 	//	//		//	isJumping = false;
 	//	//		//	isJumpHandle = true;
 	//	//		//}
@@ -211,7 +208,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	//vector<LPCOLLISIONEVENT> coEventsResult;
 	//coEvents.clear();
 	//// turn off collision when player dies
-	//if (state != SOPHIA_STATE_DIE)
+	//if (state != JASON_STATE_DIE)
 	//	CalcPotentialCollisions(colliable_Objects, coEvents);
 	//// No collision occured, proceed normally
 	//if (coEvents.size() == 0)
@@ -262,7 +259,7 @@ void JASON::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void JASON::Render()
 {
-	if (isDoneDeath || _isAutoRun)
+	if (isDoneDeathAni || _isAutoRun)
 		return;
 	//RenderBoundingBox();
 
@@ -271,17 +268,17 @@ void JASON::Render()
 
 	if (isDeath)
 	{
-		ani = SOPHIA_JASON_ANI_DIE;
+		ani = JASON_ANI_DIE;
 		animationSet->at(ani)->Render(nx, x - DURATION_X_TO_DIE, y - DURATION_Y_TO_DIE, alpha);
 		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 			animationSet->at(ani)->ResetCurrentFrame();
 		}
 	}
 	else if (isEjecting)
 	{
-		ani = SOPHIA_JASON_ANI_EJECTING;
+		ani = JASON_ANI_EJECTING;
 		animationSet->at(ani)->Render(nx, x, y - 8, alpha);
 		if (animationSet->at(ani)->GetFrame() >= 1)
 		{
@@ -295,49 +292,49 @@ void JASON::Render()
 			if (nx > 0)
 			{
 				//idle theo walking
-				current_frame = animationSet->at(SOPHIA_ANI_JASON_WALKING_RIGHT)->GetFrameStopWalking();
+				current_frame = animationSet->at(JASON_ANI_WALKING_RIGHT)->GetFrameStopWalking();
 				switch (current_frame)
 				{
 				case SOPHIA_STOP_WALKING_SPRITE2:
-					ani = SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_2;
+					ani = JASON_ANI_GUN_FLIP_IDLE_RIGHT_2;
 					break;
 				case SOPHIA_STOP_WALKING_SPRITE3:
-					ani = SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_3;
+					ani = JASON_ANI_GUN_FLIP_IDLE_RIGHT_3;
 					break;
 				case SOPHIA_STOP_WALKING_SPRITE4:
-					ani = SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_4;
+					ani = JASON_ANI_GUN_FLIP_IDLE_RIGHT_4;
 					break;
 				default:
-					ani = SOPHIA_ANI_GUN_FLIP_IDLE_RIGHT_1;
+					ani = JASON_ANI_GUN_FLIP_IDLE_RIGHT_1;
 					break;
 				}
 			}
 			else
 			{
-				current_frame = animationSet->at(SOPHIA_ANI_JASON_WALKING_LEFT)->GetFrameStopWalking();
+				current_frame = animationSet->at(JASON_ANI_WALKING_LEFT)->GetFrameStopWalking();
 				switch (current_frame)
 				{
 				case SOPHIA_STOP_WALKING_SPRITE2:
-					ani = SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_2;
+					ani = JASON_ANI_GUN_FLIP_IDLE_LEFT_2;
 					break;
 				case SOPHIA_STOP_WALKING_SPRITE3:
-					ani = SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_3;
+					ani = JASON_ANI_GUN_FLIP_IDLE_LEFT_3;
 					break;
 				case SOPHIA_STOP_WALKING_SPRITE4:
-					ani = SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_4;
+					ani = JASON_ANI_GUN_FLIP_IDLE_LEFT_4;
 					break;
 				default:
-					ani = SOPHIA_ANI_GUN_FLIP_IDLE_LEFT_1;
+					ani = JASON_ANI_GUN_FLIP_IDLE_LEFT_1;
 					break;
 				}
 			}
 
 			if (isGunFlipping == false)
 			{
-				animationSet->at(ani)->OldRender(x, y - SOPHIA_JASON_HEIGHT_GUN_FLIP, alpha);
+				animationSet->at(ani)->Render(1, x, y - JASON_HEIGHT_GUN_FLIP, alpha);
 				if (animationSet->at(ani)->GetFrame() == 1)
 				{
-					//DebugOut(L"[frame]: %d;\n", animation_set->at(SOPHIA_ANI_JASON_WALKING_RIGHT)->GetFrame());
+					//DebugOut(L"[frame]: %d;\n", animation_set->at(JASON_ANI_WALKING_RIGHT)->GetFrame());
 					isGunFlipping = true;
 				}
 				return;
@@ -345,18 +342,18 @@ void JASON::Render()
 			}
 			else
 			{
-				animationSet->at(ani)->RenderFrame(1, x, y - SOPHIA_JASON_HEIGHT_GUN_FLIP, alpha);
+				animationSet->at(ani)->RenderFrame(1, x, y - JASON_HEIGHT_GUN_FLIP, alpha);
 				return;
 			}
 		}
 		else if (vx > 0)
-			ani = SOPHIA_ANI_GUN_FLIP_RIGHT;
+			ani = JASON_ANI_GUN_FLIP_RIGHT;
 		else
-			ani = SOPHIA_ANI_GUN_FLIP_LEFT;
+			ani = JASON_ANI_GUN_FLIP_LEFT;
 
 		if (isGunFlipping == false)
 		{
-			animationSet->at(ani)->RenderGunFlip(x, y - SOPHIA_JASON_HEIGHT_GUN_FLIP, alpha);
+			animationSet->at(ani)->RenderGunFlip(x, y - JASON_HEIGHT_GUN_FLIP, alpha);
 			if (animationSet->at(ani)->GetFrame() > 3)
 			{
 				isGunFlipping = true;
@@ -365,7 +362,7 @@ void JASON::Render()
 		}
 		else
 		{
-			animationSet->at(ani)->RenderGunFlipTargetTop(x, y - SOPHIA_JASON_HEIGHT_GUN_FLIP, alpha);
+			animationSet->at(ani)->RenderGunFlipTargetTop(x, y - JASON_HEIGHT_GUN_FLIP, alpha);
 			return;
 		}
 	}
@@ -377,12 +374,12 @@ void JASON::Render()
 			{
 				if (nx > 0)
 				{
-					ani = SOPHIA_ANI_JASON_WALKING_RIGHT;
+					ani = JASON_ANI_WALKING_RIGHT;
 					current_frame = animationSet->at(ani)->GetFrameStopWalking();
 				}
 				else
 				{
-					ani = SOPHIA_ANI_JASON_WALKING_LEFT;
+					ani = JASON_ANI_WALKING_LEFT;
 					current_frame = animationSet->at(ani)->GetFrameStopWalking();
 				}
 				animationSet->at(ani)->RenderFrame(current_frame, x, y, alpha);
@@ -390,9 +387,9 @@ void JASON::Render()
 				return;
 			}
 			else if (vx > 0)
-				ani = SOPHIA_ANI_JASON_WALKING_RIGHT;
-			else ani = SOPHIA_ANI_JASON_WALKING_LEFT;
-			animationSet->at(ani)->OldRender(x, y, alpha);
+				ani = JASON_ANI_WALKING_RIGHT;
+			else ani = JASON_ANI_WALKING_LEFT;
+			animationSet->at(ani)->Render(1,x, y, alpha);
 			isGunFlipping = false;
 		}
 		else {
@@ -401,39 +398,39 @@ void JASON::Render()
 				if (nx > 0)
 				{
 					//idle theo walking
-					current_frame = animationSet->at(SOPHIA_ANI_JASON_WALKING_RIGHT)->GetFrameStopWalking();
+					current_frame = animationSet->at(JASON_ANI_WALKING_RIGHT)->GetFrameStopWalking();
 					switch (current_frame)
 					{
 					case SOPHIA_STOP_WALKING_SPRITE2:
-						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_2;
+						ani = JASON_ANI_JUMP_DOWN_IDLE_RIGHT_2;
 						break;
 					case SOPHIA_STOP_WALKING_SPRITE3:
-						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_3;
+						ani = JASON_ANI_JUMP_DOWN_IDLE_RIGHT_3;
 						break;
 					case SOPHIA_STOP_WALKING_SPRITE4:
-						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_4;
+						ani = JASON_ANI_JUMP_DOWN_IDLE_RIGHT_4;
 						break;
 					default:
-						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_RIGHT_1;
+						ani = JASON_ANI_JUMP_DOWN_IDLE_RIGHT_1;
 						break;
 					}
 				}
 				else
 				{
-					current_frame = animationSet->at(SOPHIA_ANI_JASON_WALKING_LEFT)->GetFrameStopWalking();
+					current_frame = animationSet->at(JASON_ANI_WALKING_LEFT)->GetFrameStopWalking();
 					switch (current_frame)
 					{
 					case SOPHIA_STOP_WALKING_SPRITE2:
-						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT_2;
+						ani = JASON_ANI_JUMP_DOWN_IDLE_LEFT_2;
 						break;
 					case SOPHIA_STOP_WALKING_SPRITE3:
-						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT_3;
+						ani = JASON_ANI_JUMP_DOWN_IDLE_LEFT_3;
 						break;
 					case SOPHIA_STOP_WALKING_SPRITE4:
-						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT_4;
+						ani = JASON_ANI_JUMP_DOWN_IDLE_LEFT_4;
 						break;
 					default:
-						ani = SOPHIA_ANI_JASON_JUMP_DOWN_IDLE_LEFT_1;
+						ani = JASON_ANI_JUMP_DOWN_IDLE_LEFT_1;
 						break;
 					}
 				}
@@ -443,55 +440,55 @@ void JASON::Render()
 				if (nx > 0)
 				{
 					//idle theo walking
-					current_frame = animationSet->at(SOPHIA_ANI_JASON_WALKING_RIGHT)->GetFrameStopWalking();
+					current_frame = animationSet->at(JASON_ANI_WALKING_RIGHT)->GetFrameStopWalking();
 					switch (current_frame)
 					{
 					case SOPHIA_STOP_WALKING_SPRITE2:
-						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_2;
+						ani = JASON_ANI_JUMP_UP_IDLE_RIGHT_2;
 						break;
 					case SOPHIA_STOP_WALKING_SPRITE3:
-						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_3;
+						ani = JASON_ANI_JUMP_UP_IDLE_RIGHT_3;
 						break;
 					case SOPHIA_STOP_WALKING_SPRITE4:
-						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_4;
+						ani = JASON_ANI_JUMP_UP_IDLE_RIGHT_4;
 						break;
 					default:
-						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_RIGHT_1;
+						ani = JASON_ANI_JUMP_UP_IDLE_RIGHT_1;
 						break;
 					}
 				}
 				else
 				{
-					current_frame = animationSet->at(SOPHIA_ANI_JASON_WALKING_LEFT)->GetFrameStopWalking();
+					current_frame = animationSet->at(JASON_ANI_WALKING_LEFT)->GetFrameStopWalking();
 					switch (current_frame)
 					{
 					case SOPHIA_STOP_WALKING_SPRITE2:
-						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_2;
+						ani = JASON_ANI_JUMP_UP_IDLE_LEFT_2;
 						break;
 					case SOPHIA_STOP_WALKING_SPRITE3:
-						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_3;
+						ani = JASON_ANI_JUMP_UP_IDLE_LEFT_3;
 						break;
 					case SOPHIA_STOP_WALKING_SPRITE4:
-						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_4;
+						ani = JASON_ANI_JUMP_UP_IDLE_LEFT_4;
 						break;
 					default:
-						ani = SOPHIA_ANI_JASON_JUMP_UP_IDLE_LEFT_1;
+						ani = JASON_ANI_JUMP_UP_IDLE_LEFT_1;
 						break;
 					}
 				}
 			}
 			else if (vy > 0)
 			{
-				if (vx > 0) ani = SOPHIA_ANI_JASON_JUMP_DOWN_WALKING_RIGHT;
-				else ani = SOPHIA_ANI_JASON_JUMP_DOWN_WALKING_LEFT;
+				if (vx > 0) ani = JASON_ANI_JUMP_DOWN_WALKING_RIGHT;
+				else ani = JASON_ANI_JUMP_DOWN_WALKING_LEFT;
 			}
 			else if (vy <= 0)
 			{
-				if (vx > 0) ani = SOPHIA_ANI_JASON_JUMP_UP_WALKING_RIGHT;
-				else ani = SOPHIA_ANI_JASON_JUMP_UP_WALKING_LEFT;
+				if (vx > 0) ani = JASON_ANI_JUMP_UP_WALKING_RIGHT;
+				else ani = JASON_ANI_JUMP_UP_WALKING_LEFT;
 			}
 			isGunFlipping = false;
-			animationSet->at(ani)->OldRender(x, y, alpha);
+			animationSet->at(ani)->Render(1, x, y, alpha);
 			return;
 		}
 	}
@@ -501,12 +498,12 @@ void JASON::Render()
 void JASON::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 
-	if (isDoneDeath == false)
+	if (isDoneDeathAni == false)
 	{
 		left = x;
 		top = y;
-		right = x + SOPHIA_JASON_BBOX_WIDTH;
-		bottom = y + SOPHIA_JASON_BBOX_HEIGHT;
+		right = x + JASON_BBOX_WIDTH;
+		bottom = y + JASON_BBOX_HEIGHT;
 	}
 }
 

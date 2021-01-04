@@ -97,9 +97,9 @@ void Eyeballs::Render()
 	if (state == EYEBALLS_STATE_DIE) 
 	{
 		ani = EYEBALLS_ANI_DIE;
-		if (animationSet->at(ani)->GetFrame() == 3)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 			animationSet->at(ani)->ResetCurrentFrame();
 		}
 		animationSet->at(ani)->Render(nx, x, y - 2);

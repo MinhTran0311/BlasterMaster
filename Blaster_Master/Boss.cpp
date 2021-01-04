@@ -26,11 +26,11 @@ CBoss::CBoss(float xPos, float yPos, LPGAMEENTITY t) :
 	isActive = true;
 	//isBoss = true;
 	dam = 1;
-	health = 10;
+	health = 150;
 	nx = -1;
 	SetState(BOSS_STATE_WALKING);
-	vx = -BOSS_WALKING_SPEED;
-	vy = BOSS_WALKING_SPEED;
+	vx = BOSS_WALKING_SPEED;
+	vy =  BOSS_WALKING_SPEED;
 	Init();
 
 	bursttimer->Start();
@@ -66,7 +66,7 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		//	explosiontimerinit = false;
 		//}
 		Sound::GetInstance()->Stop("Boss");
-		Sound::GetInstance()->Play("BossDead",1);
+		Sound::GetInstance()->Play("BossDead",1,10000);
 		HandleDieState();
 		return;
 	}
@@ -113,7 +113,17 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		y += min_ty * dy + ny * 0.4f;// ko dính vào tường
 
 		/*setRandomVxVy(vx, vy);*/
-		if (!nx && !ny)
+		if (!nx)
+		{
+			vy = -vy;
+		}
+
+		if (!ny)
+		{
+			nx = -nx;
+			vx = -vx;
+		}
+		/*		if (!nx && !ny)
 		{
 			nx = -nx;
 			vx = -vx;
@@ -128,8 +138,7 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		{
 			nx = -nx;
 			vx = -vx;
-		}
-
+		}*/
 
 
 
@@ -137,12 +146,9 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	//clean up collision events
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 #pragma endregion
-
-
 	updateTarget1();
 	updateTarget2();
 	this->BigClawLeft.Follow(Target1);
-
 
 	LeftArm[3].Follow(BigClawLeft);
 	LeftArm[3].calculateEndpoint();
@@ -225,10 +231,8 @@ void CBoss::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 void CBoss::Render()
 {
 	//DebugOut(L"Boss render x: %f, y: %f \n",x,y);
-	animationSet->at(ani)->OldRender(x, y, bossalpha);
+	animationSet->at(ani)->Render(1, x, y, bossalpha);
 	//animationSet->at(0)->Render(x, y);
-
-
 
 	//RenderBoundingBox();
 	BigClawLeft.Render();
@@ -304,9 +308,6 @@ void CBoss::updateTarget1()
 	lList[16] = lList[1];
 	lList[17] = lList[4];
 	lList[18] = lList[0];
-
-
-
 
 	const float speedX = 2.5f, speedY = 3.5f;
 	nextTarget1 = lList[indexTarget1];
@@ -408,12 +409,13 @@ void CBoss::BossClawSection::Follow(float x, float y)
 	Vec2 Target = Vec2(x, y);
 	//DebugOut(L"Target x %f ", x);
 	//DebugOut(L"Target y %f ", y);
-	Vec2 Direction = Target - this->startPoint;
+	Vec2 Direction = this->startPoint.Direction(Target);
+	//Vec2 Direction = Target - this->startPoint;
 	//	DebugOut(L"Direction x %f, ", Direction.x);
 	//	DebugOut(L"Direction  y %f, ", Direction.y);
 	Angle = atan2(Direction.y, Direction.x);
 	//DebugOut(L"Angle %f", Angle);
-	this->startPoint = Target + Direction.GetNormalized() * SectionLength * -1;
+	this->startPoint = Target + Direction.GetNormalized() * (SectionLength-1.0f) * -1;
 
 
 }
@@ -473,15 +475,12 @@ void CBoss::BossClawSection::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 
 void CBoss::BossClawSection::Render()
 {
-	//animationSet->at(0)->OldRender(x, y);
-	////animationSet->at(0)->Render(x, y);
-
 	int claw_ani;
 	if (ani == BOSS_ANI_DIE)
 		claw_ani = BOSS_ANI_INJURED;
 	else
 		claw_ani = ani;
-	animationSet->at(claw_ani)->OldRender(x, y, bossalpha);
+	animationSet->at(claw_ani)->Render(1 ,x , y, bossalpha);
 
 }
 

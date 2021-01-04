@@ -41,4 +41,5 @@ public:
 	void Update(DWORD dt, vector<LPGAMEENTITY>* colliable_objects = NULL);
 	void Render();
 	virtual void SetState(int state);
+	void SetTarget(LPGAMEENTITY _target) { target = _target; };
 };

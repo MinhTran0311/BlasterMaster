@@ -12,29 +12,6 @@ void CAnimation::Add(int spriteId, DWORD time)
 	frames.push_back(frame);
 }
 
-
-
-void CAnimation::OldRender(float x, float y, int alpha)
-{
-	DWORD now = GetTickCount();
-	if (currentFrame == -1)
-	{
-		currentFrame = 0;
-		lastFrameTime = now;
-	}
-	else
-	{
-		DWORD t = frames[currentFrame]->GetTime();
-		if (now - lastFrameTime > t)
-		{
-			currentFrame++;
-			lastFrameTime = now;
-			if (currentFrame == frames.size()) currentFrame = 0;
-		}
-	}
-	frames[currentFrame]->GetSprite()->OldDraw(x, y, alpha);
-}
-
 void CAnimation::RenderGunFlip(float x, float y, int alpha)
 {
 	DWORD now = GetTickCount();
@@ -54,7 +31,7 @@ void CAnimation::RenderGunFlip(float x, float y, int alpha)
 		}
 	}
 
-	frames[currentFrame]->GetSprite()->OldDraw(x, y, alpha);
+	frames[currentFrame]->GetSprite()->RawDraw(x, y, alpha);
 }
 
 void CAnimation::RenderGunFlipTargetTop(float x, float y, int alpha)
@@ -76,7 +53,7 @@ void CAnimation::RenderGunFlipTargetTop(float x, float y, int alpha)
 		}
 	}
 
-	frames[currentFrame]->GetSprite()->OldDraw(x, y, alpha);
+	frames[currentFrame]->GetSprite()->RawDraw(x, y, alpha);
 }
 
 int CAnimation::GetFrameStopWalking()
@@ -107,7 +84,7 @@ int CAnimation::GetFrameStopWalking()
 
 void CAnimation::RenderFrame(int idFrame, float x, float y, int alpha)
 {
-	frames[idFrame]->GetSprite()->OldDraw(x, y, alpha);
+	frames[idFrame]->GetSprite()->RawDraw(x, y, alpha);
 }
 
 void CAnimation::Render(int direction, float x, float y, int alpha)
@@ -152,28 +129,6 @@ void CAnimation::IntroRender(int direction, float x, float y, int alpha)
 	}
 	frames[currentFrame]->GetSprite()->IntroDraw(direction, x, y, alpha);
 }
-void CAnimation::RenderY(int direction, float x, float y, int alpha)
-{
-	DWORD now = GetTickCount();
-	if (currentFrame == -1)
-	{
-		currentFrame = 0;
-		lastFrameTime = now;
-	}
-	else
-	{
-		DWORD t = frames[currentFrame]->GetTime();
-		if (now - lastFrameTime > t)
-		{
-			currentFrame++;
-			lastFrameTime = now;
-			if (currentFrame == frames.size()) currentFrame = 0;
-		}
-
-	}
-	frames[currentFrame]->GetSprite()->DrawY(direction, x, y, alpha);
-}
-
 void CAnimation::RenderTopBottom(int direction, float x, float y, int alpha)
 {
 	DWORD now = GetTickCount();
@@ -191,7 +146,6 @@ void CAnimation::RenderTopBottom(int direction, float x, float y, int alpha)
 			lastFrameTime = now;
 			if (currentFrame == frames.size()) currentFrame = 0;
 		}
-
 	}
 	frames[currentFrame]->GetSprite()->DrawTopBottom(direction, x, y, alpha);
 }

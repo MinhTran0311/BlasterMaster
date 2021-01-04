@@ -12,7 +12,7 @@
 #include "Big_Sophia.h"
 #include "Random.h"
 
-#define BOSS_WALKING_SPEED 0.03f;
+#define BOSS_WALKING_SPEED 0.04f;
 
 #define BOSS_BBOX_WIDTH 60
 #define BOSS_BBOX_HEIGHT 60

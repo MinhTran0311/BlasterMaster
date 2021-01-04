@@ -54,7 +54,6 @@ private:
 	int soundSension = 0;
 
 protected:
-	Camera* gameCamera;
 	LPANIMATION_SET intro_ani_set;
 
 	int idStage;

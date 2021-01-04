@@ -182,7 +182,7 @@ void Sound::LoadSoundResource(const char* filePath)
 	TiXmlElement* sound = nullptr;
 	string name;
 	string path;
-
+	Stop("");
 	soundBufferMap.clear();
 	//DebugOut(L"sound size: %d", soundBufferMap.size());
 

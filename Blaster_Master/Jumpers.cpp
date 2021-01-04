@@ -104,9 +104,9 @@ void Jumpers::Render()
 	int ani = JUMPER_ANI_WALKING;
 	if (state == JUMPER_STATE_DIE) {
 		ani = JUMPER_ANI_DIE;
-		if (animationSet->at(ani)->GetFrame() == 3)
+		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
-			isDoneDeath = true;
+			isDoneDeathAni = true;
 			animationSet->at(ani)->ResetCurrentFrame();
 		}
 		animationSet->at(ani)->Render(nx, x, y - 2);

@@ -185,12 +185,12 @@ void BigNavigatedEnemyBullet::Render()
 	if (state == BIG_NAVI_ENEMY_BULLET_STATE_FLYING)
 	{
 		ani = BIG_NAVI_ENEMY_BULLET_ANI;
-		animationSet->at(ani)->OldRender(x, y);
+		animationSet->at(ani)->Render(1,x, y);
 	}
 	else if (state == BIG_NAVI_ENEMY_BULLET_STATE_HIT_BRICK || state == BIG_NAVI_ENEMY_BULLET_STATE_HIT_PLAYER)
 	{
 		ani = BIG_NAVI_ENEMY_BULLET_BANG;
-		animationSet->at(ani)->OldRender(x - 6, y - 6);
+		animationSet->at(ani)->Render(1,x - 6, y - 6);
 		if (animationSet->at(ani)->GetFrame() == animationSet->at(ani)->GetLastFrameIndex())
 		{
 			isHitJason = false;

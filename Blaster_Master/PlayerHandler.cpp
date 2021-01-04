@@ -44,7 +44,7 @@ void PlayerHandler::Init()
 	jasonGundam = PLAYER_DEFAULT_GUNDAM;
 	jasonStage = 1;
 	jasonXPos = 55;
-	jasonYPos=100;
+	jasonYPos = 100;
 	sophiaHealth = PLAYER_MAX_HEALTH;
 	sophiaGundam = PLAYER_DEFAULT_GUNDAM;
 	sophiaStage = 1;

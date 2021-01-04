@@ -32,4 +32,5 @@ public:
 	//float CalPositionTarget(LPGAMEENTITY target, float v);`
 	void CalVelocity(float&, float&, LPGAMEENTITY);
 	virtual void SetState(int state);
+	void SetTarget(LPGAMEENTITY _target) { target = _target; };
 };

@@ -57,7 +57,7 @@ protected:
 	int dam = 0;
 	int state;
 	bool isActive;
-	bool isDoneDeath;
+	bool isDoneDeathAni;
 	int bbARGB;
 	//static vector<LPANIMATION> animations;
 
@@ -78,6 +78,7 @@ public:
 
 	/*int GetHeight{ return texture}*/
 	void SetDirection(int d) { nx = d; };
+	void SetDirectionY(int d) { ny = d; };
 	int GetDirection() { return nx; };
 	int GetDirctionY() { return ny; };
 	int GetHealth() { return health; }
@@ -88,7 +89,7 @@ public:
 	void AddgunDam(int BonusgunDam) { dam += BonusgunDam; }
 	EntityType GetType() { return tag; }
 
-	bool isFinishDeathAni() { return isDoneDeath; };
+	bool isFinishDeathAni() { return isDoneDeathAni; };
 	bool isActiveObject() { return isActive; };
 	void setActive(bool active) { isActive = active; };
 	bool IsDeath();

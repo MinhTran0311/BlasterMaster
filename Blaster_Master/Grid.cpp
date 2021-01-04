@@ -15,7 +15,6 @@
 #include "Mines.h"
 #include "Teleporters.h"
 #include "InjuringBrick.h"
-#include "GadBrick.h"
 #include "SoftBrick.h"
 #include "Big_Sophia.h"
 #include "Boss.h"
@@ -56,16 +55,6 @@ void CGrid::InitGrid(int _mapW, int _mapH)
 CGrid::CGrid()
 {
 }
-
-//CGrid::CGrid(int _mapW, int _mapH, string _fileobj)
-//{
-//	//CELL_SIZE.y = CELL_SIZE.y;
-//	//CELL_SIZE.x = CELL_SIZE.x;
-//	//columnGrid = 1 + _mapW / CELL_SIZE.x;
-//	//rowGrid = 1 + _mapH / CELL_SIZE.y;
-//	//fileobj = _fileobj;
-//}
-
 void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 {
 	player = playscene_player;
@@ -87,7 +76,6 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		posGrid.push_back(make_pair(atof(tokens[3 + 2 * i-1].c_str()), atof(tokens[3 + 2 * i].c_str())));
 	}
 	int milestone =	3 + 2 * number_of_grid;
-	//int ani_set_id = atoi(tokens[milestone+1].c_str());
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
 	LPGAMEENTITY obj = NULL;
@@ -230,8 +218,10 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 #pragma region Obstacles
 	case EntityType::TAG_BRICK:
 	{
-		obj = new Brick(x,y,atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
-
+		if (tokens.size() == milestone + 3)
+			obj = new Brick(x, y, atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
+		else
+			obj = new Brick(x, y, atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()), atof(tokens[milestone + 3].c_str()));
 		DebugOut(L"[test] add brick !\n");
 		break;
 	}
@@ -248,14 +238,6 @@ void CGrid::LoadGrid(vector<string> tokens, LPGAMEPLAYER playscene_player)
 		//obj->SetPosition(x, y);
 
 		DebugOut(L"[test] add injuring brick !\n");
-		break;
-	}
-	case EntityType::TAG_GAD_BRICK:
-	{
-		obj = new GadBrick(x, y, atof(tokens[milestone + 1].c_str()), atof(tokens[milestone + 2].c_str()));
-		//obj->SetPosition(x, y);
-
-		DebugOut(L"[test] add gad brick !\n");
 		break;
 	}
 	case EntityType::TAG_SOFT_BRICK:
@@ -489,6 +471,18 @@ void CGrid::SetTargetForEnemies(LPGAMEPLAYER player)
 				{
 					dynamic_cast<Enemy*>(cells[i][j].at(k))->SetTarget(player);
 					//DebugOut(L"nap lai target %d\n", dynamic_cast<Enemy*>(cells[i][j].at(k))->GetType());
+				}
+				else if (dynamic_cast<SmallNavigatedEnemyBullet*>(cells[i][j].at(k)))
+				{
+					dynamic_cast<SmallNavigatedEnemyBullet*>(cells[i][j].at(k))->SetTarget(player);
+				}				
+				else if (dynamic_cast<BigNavigatedEnemyBullet*>(cells[i][j].at(k)))
+				{
+					dynamic_cast<BigNavigatedEnemyBullet*>(cells[i][j].at(k))->SetTarget(player);
+				}			
+				else if (dynamic_cast<SkullBullet*>(cells[i][j].at(k)))
+				{
+					dynamic_cast<SkullBullet*>(cells[i][j].at(k))->SetTarget(player);
 				}
 			}
 		}
