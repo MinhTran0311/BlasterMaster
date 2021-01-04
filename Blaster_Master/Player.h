@@ -63,9 +63,9 @@ public:
 	float Getvy() { return vy; };
 	float GetDy() { return dy; };
 	float GetDx() { return dx; };
-	void SetIsDoneDeath(bool donedeath) { isDoneDeathAni = donedeath; };
+	void SetIsDoneDeathAni(bool donedeath) { isDoneDeathAni = donedeath; };
 	void SetIsDeath(bool death) { isDeath = death; };
-	bool IsDoneDeath(){return isDoneDeathAni;};
+	bool IsDoneDeathAni(){return isDoneDeathAni;};
 	EntityType GetPlayerType() { return _PlayerType; };
 	void SetPlayerType(EntityType type) { _PlayerType = type; };
 	void SetInjured(int dame);

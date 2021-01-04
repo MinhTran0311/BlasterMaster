@@ -41,12 +41,12 @@ void PlayerHandler::Init()
 	life = 2;
 	playerDirectionBeforePassGate = 1;
 	jasonHealth = PLAYER_MAX_HEALTH;
-	jasonGundam = 8;
+	jasonGundam = PLAYER_DEFAULT_GUNDAM;
 	jasonStage = 1;
 	jasonXPos = 55;
-	jasonYPos=100;
+	jasonYPos = 100;
 	sophiaHealth = PLAYER_MAX_HEALTH;
-	sophiaGundam = 8;
+	sophiaGundam = PLAYER_DEFAULT_GUNDAM;
 	sophiaStage = 1;
 	sophiaXPos, sophiaYPos;
 	specialWeaponId = 1;

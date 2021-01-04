@@ -52,7 +52,7 @@ private:
 	bool select_end = false;
 	bool death = false;
 	int time_drawlife = 0;
-	Timer* cooldownTimer = new Timer(1000);
+	Timer* cooldownTimer = new Timer(2000);
 	bool isReset = false;
 	float oldPosX;
 	float oldPosY;

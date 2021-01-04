@@ -45,15 +45,13 @@ void PlayScene::LoadBaseObjects()
 #pragma region create_base_objects
 	if (player == NULL)
 	{
-		player = new JASON(55, 100, PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
+		player = new JASON(PlayerHandler::GetInstance()->GetJasonXPos(), PlayerHandler::GetInstance()->GetJasonYPos(), PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
 		DebugOut(L"[INFO] JASON CREATED!!! health:%d, dam:%d \n", player->GetHealth(), player->GetgunDam());
 		
 		PlayerHandler::GetInstance()->SetJasonStage(ID_AREA1);
 	}
 	HUD::GetInstance()->HUDInit(player->GetHealth(), player->GetgunDam());
 #pragma endregion
-	//Sound::GetInstance()->LoadSound("Resource\\Sound\\01Opening.wav", "BackgroundMusic");
-
 	Camera::GetInstance()->SetCamPos(0.0f, 0.0f);	//initial camera
 }
 void PlayScene::LoadBaseTextures()
@@ -204,6 +202,7 @@ void PlayScene::LoadSceneObjects(LPCWSTR path)
 void PlayScenceKeyHandler::KeyState(BYTE* states)
 {
 	LPGAMEPLAYER player = ((PlayScene*)scence)->player;
+
 	if (player->GetPlayerType() == TAG_BIG_SOPHIA)
 		if (dynamic_cast<Big_Sophia*>(player)->isAutoRun())
 		{
@@ -305,6 +304,7 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				else {
 					//PlayerHandler::GetInstance()->SetLife(2);
 					SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
+					delete this;
 				}
 			}
 		}
@@ -358,8 +358,9 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			case DIK_A:
 			{
 				playScene->Unload();
-				((PlayScene*)scence)->player = new JASON(30, 60, PLAYER_MAX_HEALTH, PLAYER_DEFAULT_GUNDAM);
 				PlayerHandler::GetInstance()->Init();
+				((PlayScene*)scence)->player = new JASON(PlayerHandler::GetInstance()->GetJasonXPos(), PlayerHandler::GetInstance()->GetJasonYPos(), PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
+				//PlayerHandler::GetInstance()->Init();
 				playScene->ChooseMap(ID_AREA1);
 
 				break;
@@ -941,44 +942,43 @@ void PlayScene::Update(DWORD dt)
 	else if (this->inforDisplay == LIFE_DISPLAY)
 	{
 		
-		this->player->SetHealth(8);
+		//this->player->SetHealth(8);
 		if (PlayerHandler::GetInstance()->GetLife() > 0) {
 			
 			if (this->cooldownTimer->IsTimeUp()) {
 				
 				PlayerHandler::GetInstance()->SetLife(PlayerHandler::GetInstance()->GetLife() - 1);
+				Sound::GetInstance()->Play("MusicMap", 1, 10000);
 				SetInforDisplay(0);
 			}
 		}
-		else {
-			PlayerHandler::GetInstance()->SetLife(PlayerHandler::GetInstance()->GetLife() - 1);
+		else if (PlayerHandler::GetInstance()->GetLife() == 0)
+		{
+			PlayerHandler::GetInstance()->SetLife(-1);
+			Sound::GetInstance()->Stop("");
+			Sound::GetInstance()->Play("GameOver", 0, 1);
 		}
-		
+		return;
 	}
 	else
 #pragma region mạng và reset
 	{
-		if (player->IsDoneDeath())
+		if (player->IsDoneDeathAni())
 		{
-			SetInforDisplay( LIFE_DISPLAY);
+			SetInforDisplay(LIFE_DISPLAY);
 			this->cooldownTimer->Start();
 			if (PlayerHandler::GetInstance()->GetLife() < 0)
 			{
-				//ending
-				
 			}
 			else
 			{
 				isReset = true;
 				Unload();
-
-				//hiển thị số mạng còn dựa vào playerInfo.life
-				
-
 				if (player->GetPlayerType() == TAG_JASON)
 				{
 					ChooseMap(PlayerHandler::GetInstance()->GetJasonStage());
 					player->Reset(PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
+					DebugOut(L"mau: %d", PlayerHandler::GetInstance()->GetJasonHealth());
 				}
 				else
 				{
@@ -1006,14 +1006,12 @@ void PlayScene::Update(DWORD dt)
 	}
 	else
 	{
-		if (!player->IsDoneDeath())
+		if (!player->IsDoneDeathAni())
 		{
 			//Camera::GetInstance()->Update(player->Getx(), player->Gety(), player->GetPlayerType(), dt, mapWidth, mapHeight, player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
 			Camera::GetInstance()->Update(player->Getx(), player->Gety(), player->GetPlayerType(), dt,mapWidth, mapHeight, player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
 			HUD::GetInstance()->Update(Camera::GetInstance()->GetCamx() + 20, HUD_Y + Camera::GetInstance()->GetCamy(), player->GetPlayerType(), player->GetHealth(), player->GetgunDam());
-
 		}
-
 	}
 
 #pragma endregion
@@ -1030,14 +1028,12 @@ void PlayScene::Update(DWORD dt)
 	}
 
 	vector<LPGAMEENTITY> coObjects = CGrid::GetInstance()->GetListUpdateObj(Camera::GetInstance()->GetRectCam());
-
-
 	if (player != NULL)
 	{
 		player->Update(dt, &coObjects);
 	}
 	if (coObjects.size() != 0)
-	{//update obj
+	{
 		for (int i = 0; i < coObjects.size(); i++)
 		{
 			if (coObjects.at(i)->GetType() != EntityType::TAG_BRICK && coObjects.at(i)->GetType() != TAG_GATE && coObjects.at(i)->GetType() != TAG_GATE_OVERWORLD)
@@ -1045,10 +1041,7 @@ void PlayScene::Update(DWORD dt)
 				coObjects[i]->Update(dt, &coObjects);
 			}
 		}
-
-		//sua cho nay
 		int k = 0;
-
 		for (int i = 0; i < coObjects.size() - k; i++)
 		{
 			if ((coObjects.at(i)->IsDeath()))
@@ -1059,22 +1052,6 @@ void PlayScene::Update(DWORD dt)
 					coObjects.at(i)->GetPosition(xPos, yPos);
 					RandomSpawnItem(coObjects.at(i));
 				}
-
-				//LPGAMEENTITY backup = coObjects.at(i);
-				//float _xtemp, _ytemp;
-				//backup->GetPosition(_xtemp, _ytemp);
-				//// add item into grid
-				//switch (backup->GetType())
-				//{
-				//case EntityType::ENEMY: 
-				//{
-				//	LPGAMEENTITY _PowerUp = new PowerUp(xPos, yPos);
-				//	CGrid::GetInstance()->InsertGrid(_PowerUp);
-				//	break;
-				//}
-				//default:
-				//	break;
-				//}
 				CGrid::GetInstance()->RemoveObj(coObjects.at(i), true);
 				coObjects.erase(coObjects.begin() + i);
 				k = 1;
@@ -1100,18 +1077,12 @@ void PlayScene::Render()
 			CGame::GetInstance()->DrawTextInScene(L"END", 100, 130, 400, 400);
 			this->animation_set = CAnimationSets::GetInstance()->Get(61004);
 			this->animation_set->at(0)->Render(1, 80, 110 + 30 * this->select_end);
-			
-			
 		}
 		else {
 			wchar_t buffer[256];
 			wsprintfW(buffer, L"LEFT %d", PlayerHandler::GetInstance()->GetLife());
 			CGame::GetInstance()->DrawTextInScene(buffer, 100, 100, 400, 400);
-			
-			
 		}
-		//LPCWSTR Life = L"LEFT %d" + this->playerInfo.life;
-
 	}
 	else {
 		//LPDIRECT3DTEXTURE9 maptexture = CTextures::GetInstance()->Get(idStage);
