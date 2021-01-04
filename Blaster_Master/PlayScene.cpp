@@ -293,7 +293,7 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	PlayScene* playScene = dynamic_cast<PlayScene*>(scence);
-	if (playScene->death == true)
+	if (playScene->GetInforDisplay() == LIFE_DISPLAY)
 	{
 		if (PlayerHandler::GetInstance()->GetLife() < 0) {
 			if (KeyCode == DIK_DOWN)playScene->select_end = true;
@@ -943,20 +943,25 @@ void PlayScene::Update(DWORD dt)
 		
 		this->player->SetHealth(8);
 		if (PlayerHandler::GetInstance()->GetLife() > 0) {
-			this->time_drawlife++;
-			if (this->time_drawlife == 20) { 
-				this->time_drawlife = 0;
-				PlayerHandler::GetInstance()->SetLife(PlayerHandler::GetInstance()->GetLife()-1); 
-				this->inforDisplay == 0; 
+			
+			if (this->cooldownTimer->IsTimeUp()) {
+				
+				PlayerHandler::GetInstance()->SetLife(PlayerHandler::GetInstance()->GetLife() - 1);
+				SetInforDisplay(0);
 			}
 		}
+		else {
+			PlayerHandler::GetInstance()->SetLife(PlayerHandler::GetInstance()->GetLife() - 1);
+		}
+		
 	}
 	else
 #pragma region mạng và reset
 	{
 		if (player->IsDoneDeath())
 		{
-			this->inforDisplay == LIFE_DISPLAY;
+			SetInforDisplay( LIFE_DISPLAY);
+			this->cooldownTimer->Start();
 			if (PlayerHandler::GetInstance()->GetLife() < 0)
 			{
 				//ending
@@ -1094,7 +1099,7 @@ void PlayScene::Render()
 			CGame::GetInstance()->DrawTextInScene(L"CONTINUE", 100, 100, 400, 400);
 			CGame::GetInstance()->DrawTextInScene(L"END", 100, 130, 400, 400);
 			this->animation_set = CAnimationSets::GetInstance()->Get(61004);
-			this->animation_set->at(0)->Render(1, 80, 115 + 30 * this->select_end);
+			this->animation_set->at(0)->Render(1, 80, 110 + 30 * this->select_end);
 			
 			
 		}

@@ -28,7 +28,7 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 #select_continue
-60004	0	0	10	10	41
+60019	0	0	10	10	41
 ##============ SOPHIA JASON =================
 # idle right
 10001	146	5	172	23	30
@@ -274,7 +274,7 @@
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 #select_continue
-60104	60004	100
+60104	60019	100
 ##JASON=========================
 #idle right
 400	10001	100
