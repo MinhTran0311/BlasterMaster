@@ -16,6 +16,7 @@ SceneManager* SceneManager::GetInstance()
 
 
 
+
 void SceneManager::Load(LPCWSTR path)
 {
 	currentScene->LoadSceneObjects(path);

@@ -78,8 +78,13 @@ void Player::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		Sound::GetInstance()->Stop("");
 		Sound::GetInstance()->Play("LifeLost", 0, 1);
 		isDeath = true;
-		vx = 0;
-		vy = 0;
+		//vx = 0;
+		//vy = 0;
+		if (_PlayerType != TAG_SMALL_SOPHIA)
+			SetState(0);
+		else if (_PlayerType == TAG_SMALL_SOPHIA)
+			SetState(SMALL_SOPHIA_STATE_DIE);
+
 		return;
 	}
 	if (isDoneDeathAni)

@@ -304,8 +304,13 @@ void PlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				}
 				else {
 					//PlayerHandler::GetInstance()->SetLife(2);
-					SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
-					delete this;
+
+					playScene->Unload();
+					PlayerHandler::GetInstance()->Init();
+					((PlayScene*)scence)->player = new JASON(PlayerHandler::GetInstance()->GetJasonXPos(), PlayerHandler::GetInstance()->GetJasonYPos(), PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
+					//PlayerHandler::GetInstance()->Init();
+					playScene->ChooseMap(ID_AREA1);
+
 				}
 			}
 		}
@@ -974,7 +979,7 @@ void PlayScene::Update(DWORD dt)
 	{
 
 		//this->player->SetHealth(8);
-		if (PlayerHandler::GetInstance()->GetLife() > 0) {
+		if (PlayerHandler::GetInstance()->GetLife() >= 0) {
 
 			if (this->cooldownTimer->IsTimeUp()) {
 
@@ -983,25 +988,27 @@ void PlayScene::Update(DWORD dt)
 				SetInforDisplay(0);
 			}
 		}
-		else if (PlayerHandler::GetInstance()->GetLife() == 0)
+		else if (PlayerHandler::GetInstance()->GetLife() < 0)
 		{
 			
 			PlayerHandler::GetInstance()->SetLife(-1);
 			Sound::GetInstance()->Stop("");
 			Sound::GetInstance()->Play("GameOver", 0, 1);
-		}
-		else
-		{
 			if (this->cooldownTimer->GetTick() == 10000) {
 				if (this->select_end == true) {
 					DestroyWindow(CGame::GetInstance()->GetWindowHandle());
 				}
 				else {
 					//PlayerHandler::GetInstance()->SetLife(2);
-					SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
+					Unload();
+					PlayerHandler::GetInstance()->Init();
+					player = new JASON(PlayerHandler::GetInstance()->GetJasonXPos(), PlayerHandler::GetInstance()->GetJasonYPos(), PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
+					//PlayerHandler::GetInstance()->Init();
+					ChooseMap(ID_AREA1);
 				}
 			}
 		}
+		
 		return;
 	}
 	else
@@ -1020,9 +1027,16 @@ void PlayScene::Update(DWORD dt)
 				Unload();
 				if (player->GetPlayerType() == TAG_JASON)
 				{
+					DebugOut(L"test 1\n");
 					ChooseMap(PlayerHandler::GetInstance()->GetJasonStage());
+					DebugOut(L"test 2\n");
+
 					player->Reset(PlayerHandler::GetInstance()->GetJasonHealth(), PlayerHandler::GetInstance()->GetJasonGunDam());
+					DebugOut(L"test 3\n");
+
 					DebugOut(L"mau: %d", PlayerHandler::GetInstance()->GetJasonHealth());
+					DebugOut(L"test 4\n");
+
 				}
 				else
 				{
@@ -1121,8 +1135,9 @@ void PlayScene::Render()
 			CGame::GetInstance()->DrawTextInScene(buffer1, 100, 50, 400, 400);
 			CGame::GetInstance()->DrawTextInScene(L"CONTINUE", 100, 100, 400, 400);
 			CGame::GetInstance()->DrawTextInScene(L"END", 100, 130, 400, 400);
+			CGame::GetInstance()->DrawTextInScene(L"->", 60, 100 + 30 * this->select_end, 400, 400);
 			this->animation_set = CAnimationSets::GetInstance()->Get(61004);
-			this->animation_set->at(0)->Render(1, 80, 110 + 30 * this->select_end);
+			this->animation_set->at(0)->IntroRender(1, 50, 105 + 30 * this->select_end);
 		}
 		else {
 			wchar_t buffer[256];

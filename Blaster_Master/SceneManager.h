@@ -3,7 +3,7 @@
 #include "Scene.h"
 #include "Camera.h"
 #include "global.h"
-
+#include "PlayScene.h"
 class SceneManager
 {
 	static SceneManager* __instance;
