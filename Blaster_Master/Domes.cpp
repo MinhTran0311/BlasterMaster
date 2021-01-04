@@ -623,7 +623,10 @@ void Domes::SetDirection()
 {
 	if (target->Getx() >= this->x)
 	{
-		this->nx = 1;
+		this->SetState(DOMES_STATE_WALKING_TOP_BOTTOM_RIGHT);
 	}
-	else this->nx = -1;
+	else
+	{
+		this->SetState(DOMES_STATE_WALKING_TOP_BOTTOM_LEFT);
+	}
 }

@@ -25,6 +25,9 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		return;
 	}
 	if (isfly) { SetState(ORBS_STATE_FLY);  }
+	else {
+		SetState(ORBS_STATE_IDLE);
+	}
 	if (this->pointX != this->x || this->pointY != this->y) { canflip=true; }
 	coEvents.clear();
 	bricks.clear();
@@ -90,15 +93,13 @@ void Orbs::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	/*else SetState(ORBS_STATE_FLY);*/
 	if (GetDistance(D3DXVECTOR2(this->x, this->y), D3DXVECTOR2(target->Getx(), target->Gety())) <= TARGET_RANGE)
 	{
-		/*if (((-this->x + target->Getx()) < 18) && ((-this->x + target->Getx()) > 0) && ((-this->y + target->Gety()) < 15) && ((-this->y + target->Gety()) > 0)) {
-			this->health = 0;
-			
-		}*/
+		isfly = true;
 		if (mode == 1) {
 			Attack(target);
 		}
-		
 	}
+	else isfly = false;
+
 #pragma endregion
 
 }
@@ -126,7 +127,8 @@ void Orbs::Render()
 		}
 		animationSet->at(ani)->Render(1,x, y);
 	}
-	else if (this->state == ORBS_STATE_FLY )
+	else if (this->state == ORBS_STATE_FLY || this->state == ORBS_STATE_IDLE)
+		//else if (cooldownTimer->IsTimeUp())
 	{
 		ani = ORBS_ANI_FLY;
 		animationSet->at(ani)->Render(nx, x, y);
@@ -148,7 +150,7 @@ void Orbs::Render()
 Orbs::Orbs(float x, float y, LPGAMEENTITY t, int orb_mode)
 {
 	this->mode = orb_mode;
-	SetState(ORBS_STATE_FLY);
+	SetState(ORBS_STATE_IDLE);
 	enemyType = ORBS;
 	tag = EntityType::ENEMY;
 	this->x = x;
@@ -160,6 +162,9 @@ Orbs::Orbs(float x, float y, LPGAMEENTITY t, int orb_mode)
 	this->target = t;
 	health = MAXHEALTH;
 	isActive = true;
+	canflip = true;
+	isfly = true;
+	isAttack = false;
 }
 
 void Orbs::Attack(LPGAMEENTITY target) //đi theo nhân vật
@@ -200,25 +205,29 @@ void Orbs::SetState(int state)
 			vx = 0;
 			vy = 0;
 		}
-		
 		break;
 	
 	case ORBS_STATE_ATTACK:
-		
-
 		break;
 
 	case ORBS_STATE_FLY:
+	{
 		isAttack = false;
 		vy = 0;
 		if (nx > 0)
 			vx = MOVING_SPEED;
 		else
 			vx = -MOVING_SPEED;
-		
-		break;
 
-	
+		break;
+	}
+	case ORBS_STATE_IDLE:
+	{
+		vx = 0;
+		vy = 0;
+	}
+	default: 
+		break;
 	}
 
 }

@@ -26,11 +26,12 @@
 #define TELEPORTERS_SITEATTACK_PLAYER	300
 #define TELEPORTERS_SITEACTIVE_PLAYER	100
 
-#define TELEPORTERS_DELAY_ATTACK 700
+#define TELEPORTERS_DELAY_ATTACK 900
 #define TELEPORTERS_SHOOT_BULLET 800
 #define TELEPORTERS_RELAX_ATTACK 2000
-#define TELEPORTERS_DELAY_IDLE 700
-#define TELEPORTERS_MAXHEALTH	5
+#define TELEPORTERS_DELAY_IDLE	 700
+#define TELEPORTERS_TELE		 100
+#define TELEPORTERS_MAXHEALTH	4
 
 
 class Teleporters : public Enemy
@@ -50,11 +51,13 @@ private:
 	float y_Pos_Old;
 	float x_Pos_New;
 	float y_Pos_New;
+	bool firstTele;
 
 	Timer* delayAttackTimer = new Timer(TELEPORTERS_DELAY_ATTACK);
 	Timer* shootBulletTimer = new Timer(TELEPORTERS_SHOOT_BULLET);
 	Timer* relaxAttackTimer = new Timer(TELEPORTERS_RELAX_ATTACK);
 	Timer* delayIdleTimer = new Timer(TELEPORTERS_DELAY_IDLE);
+	Timer* telePositionOldTimer = new Timer(TELEPORTERS_TELE);
 public:
 	Teleporters(float x, float y, LPGAMEENTITY t, int x_Tele_Min, int y_Tele_Min, int x_Tele_Max, int y_Tele_Max);
 	Teleporters(float x, float y);

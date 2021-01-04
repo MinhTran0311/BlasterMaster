@@ -2,7 +2,7 @@
 
 void InjuringBrick::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void InjuringBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -15,8 +15,6 @@ void InjuringBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 InjuringBrick::InjuringBrick(int x, int y, float frameW, float frameH)
 {
-	bbARGB = 120;
-
 	tag = EntityType::TAG_INJURING_BRICK;
 	this->SetPosition(x, y);
 	this->height = frameH;
