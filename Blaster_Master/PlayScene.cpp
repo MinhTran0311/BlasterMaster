@@ -281,7 +281,7 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 				player->SetState(SMALL_SOPHIA_STATE_WALKING_LEFT);
 			}
 			else
-					player->SetState(SOPHIA_STATE_IDLE);
+					player->SetState(SMALL_SOPHIA_STATE_IDLE);
 			if (CGame::GetInstance()->IsKeyDown(DIK_DOWN))
 			{
 				dynamic_cast<Small_Sophia*>(player)->SetIsCrawl(true);
