@@ -165,7 +165,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	//SceneManager::GetInstance()->SetScene(new IntroScene(ID_INTROENDING));
-	SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA4));
+	SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA7));
 
 
 	SetWindowPos(hWnd, 0, 0, 0, SCREEN_WIDTH * 2, SCREEN_HEIGHT * 2, SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOZORDER);
