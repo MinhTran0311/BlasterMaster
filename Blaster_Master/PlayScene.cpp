@@ -934,32 +934,41 @@ void PlayScene::Update(DWORD dt)
 	}
 	else if (this->inforDisplay == LIFE_DISPLAY)
 	{
-		
+
 		this->player->SetHealth(8);
 		if (PlayerHandler::GetInstance()->GetLife() > 0) {
-			
+
 			if (this->cooldownTimer->IsTimeUp()) {
-				
+
 				PlayerHandler::GetInstance()->SetLife(PlayerHandler::GetInstance()->GetLife() - 1);
 				SetInforDisplay(0);
 			}
 		}
 		else {
 			PlayerHandler::GetInstance()->SetLife(PlayerHandler::GetInstance()->GetLife() - 1);
+			if (this, cooldownTimer->GetTick() == 10000) {
+				if (this->select_end == true) {
+					DestroyWindow(CGame::GetInstance()->GetWindowHandle());
+				}
+				else {
+					//PlayerHandler::GetInstance()->SetLife(2);
+					SceneManager::GetInstance()->SetScene(new PlayScene(ID_AREA1));
+				}
+			}
 		}
-		
+
 	}
 	else
 #pragma region mạng và reset
 	{
 		if (player->IsDoneDeath())
 		{
-			SetInforDisplay( LIFE_DISPLAY);
+			SetInforDisplay(LIFE_DISPLAY);
 			this->cooldownTimer->Start();
 			if (PlayerHandler::GetInstance()->GetLife() < 0)
 			{
 				//ending
-				
+
 			}
 			else
 			{
@@ -967,7 +976,7 @@ void PlayScene::Update(DWORD dt)
 				Unload();
 
 				//hiển thị số mạng còn dựa vào playerInfo.life
-				
+
 
 				if (player->GetPlayerType() == TAG_JASON)
 				{
@@ -983,8 +992,8 @@ void PlayScene::Update(DWORD dt)
 				isNeedResetCamera = true;
 			}
 		}
-	}
 	
+
 #pragma endregion
 	DebugOut(L"playscene update 2\n");
 
@@ -1005,7 +1014,7 @@ void PlayScene::Update(DWORD dt)
 		if (!player->IsDoneDeath())
 		{
 			//Camera::GetInstance()->Update(player->Getx(), player->Gety(), player->GetPlayerType(), dt, mapWidth, mapHeight, player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
-			Camera::GetInstance()->Update(player->Getx(), player->Gety(), player->GetPlayerType(), dt,mapWidth, mapHeight, player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
+			Camera::GetInstance()->Update(player->Getx(), player->Gety(), player->GetPlayerType(), dt, mapWidth, mapHeight, player->GetDirection(), player->GetDirctionY(), xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack, CamMoveDirection);
 
 		}
 		HUD::GetInstance()->Update(Camera::GetInstance()->GetCamx() + 20, HUD_Y + Camera::GetInstance()->GetCamy(), player->GetPlayerType(), player->GetHealth(), player->GetgunDam());
@@ -1013,7 +1022,7 @@ void PlayScene::Update(DWORD dt)
 	}
 
 #pragma endregion
-	if (player->isAutoRun() && player->GetPlayerType()!=TAG_BIG_SOPHIA)
+	if (player->isAutoRun() && player->GetPlayerType() != TAG_BIG_SOPHIA)
 		return;
 	DebugOut(L"playscene update 4\n");
 
@@ -1080,9 +1089,10 @@ void PlayScene::Update(DWORD dt)
 			}
 		}
 
-	CGrid::GetInstance()->UpdateGrid(coObjects);
+		CGrid::GetInstance()->UpdateGrid(coObjects);
 	}
 #pragma endregion
+	}
 }
 void PlayScene::Render()
 {
@@ -1092,6 +1102,9 @@ void PlayScene::Render()
 		if (PlayerHandler::GetInstance()->GetLife() < 0) {
 
 			CGame::GetInstance()->DrawTextInScene(L"CONTINUE", 100, 100, 400, 400);
+			wchar_t buffer1[256];
+			wsprintfW(buffer1, L"Time %d", 10 - this->cooldownTimer->GetTick()/1000 );
+			CGame::GetInstance()->DrawTextInScene(buffer1, 100, 50, 400, 400);
 			CGame::GetInstance()->DrawTextInScene(L"END", 100, 130, 400, 400);
 			this->animation_set = CAnimationSets::GetInstance()->Get(61004);
 			this->animation_set->at(0)->Render(1, 80, 110 + 30 * this->select_end);
