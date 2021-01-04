@@ -60,7 +60,7 @@ void Player::Reset(int initHealth, int initGundam)
 {
 	health = initHealth;
 	dam = initGundam;
-	isDoneDeath = false;
+	isDoneDeathAni = false;
 	isDeath = false;
 	SetState(0);
 	SetPosition(start_x, start_y);
@@ -70,13 +70,16 @@ void Player::Reset(int initHealth, int initGundam)
 void Player::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 #pragma region Death or not
-	if (isDoneDeath)
+	if (isDoneDeathAni)
 		return;
 	if (health <= 0)
 	{
+		Sound::GetInstance()->Stop("");
+		Sound::GetInstance()->Play("LifeLost", 0, 1);
 		isDeath = true;
 		vx = 0;
 		vy = 0;
+		return;
 	}
 	if (isImmortaling && immortalTimer->IsTimeUp())
 	{
@@ -118,7 +121,6 @@ void Player::CollideWithObject(LPGAMEENTITY object)
 		{
 			Enemy* enemy = dynamic_cast<Enemy*>(object);
 			this->changeAlpha();
-			DebugOut(L"alpha %d\n", alpha);
 			isInjured = true;
 			SetInjured(enemy->GetDamage());
 			break;
