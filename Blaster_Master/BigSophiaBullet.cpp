@@ -33,7 +33,7 @@ BigSophiaBullet::BigSophiaBullet(float posX, float posY, int level, int directio
 	{
 		typeBullet = BIG_SOPHIA_BULLET_LV3;
 		dam = 2;
-		angle = 60;
+		angle = 0;
 		timeDelayedMax = BULLET_BIG_SOPHIA_DELAY;
 	}
 	if (nx == 0)

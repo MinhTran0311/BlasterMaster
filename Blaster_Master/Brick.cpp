@@ -11,6 +11,7 @@ void Brick::GetBoundingBox(float& l, float& t, float& r, float& b)
 	t = y;
 	r = x + width;
 	b = y + height;
+	
 }
 
 Brick::Brick(int x, int y, float frameW, float frameH,int canshootthrought)
