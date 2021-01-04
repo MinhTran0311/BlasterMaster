@@ -121,11 +121,12 @@ void Player::CollideWithObject(LPGAMEENTITY object)
 		{
 		case EntityType::ENEMY:
 		{
-			DebugOut(L"va cham sau\n");
 			Enemy* enemy = dynamic_cast<Enemy*>(object);
 			this->changeAlpha();
 			isInjured = true;
 			SetInjured(enemy->GetDamage());
+			DebugOut(L"va cham sau: %d\n", enemy->GetEnemyType());
+
 			break;
 		}
 		case EntityType::ITEM:
