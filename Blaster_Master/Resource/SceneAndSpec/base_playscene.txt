@@ -3,7 +3,7 @@
 0	Resource/bbox.png	255	255	0
 1	Resource/item.png	255	255	255
 2	Resource/player_jason_bullet.png	199 	200 	50
-3	Resource/softbrick.png	255	0	255
+3	Resource/softbrick.png	255	255	255
 10	Resource/sophia_die.png	176	0	248
 21	Resource/sophia.png	255	0	255
 30	Resource/jason.png	255	0	255
