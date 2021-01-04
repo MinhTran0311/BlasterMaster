@@ -30,52 +30,31 @@ using namespace std;
 #define LIFE_DISPLAY			1
 #define CHOOSING_WEAPON_DISPLAY	2
 #define FREEZE_DURATION			4000
-
-//struct PlayerHealthAndGunInfo
-//{
-//	int life = 2;
-//	int playerDirectionBeforePassGate = 1;
-//	int jasonHealth = PLAYER_MAX_HEALTH;
-//	int jasonGundam = PLAYER_DEFAULT_GUNDAM;
-//	int jasonStage = 1;
-//	float jasonXPos, jasonYPos;
-//	int sophiaHealth = PLAYER_MAX_HEALTH;
-//	int sophiaGundam = PLAYER_DEFAULT_GUNDAM;
-//	int sophiaStage = 1;
-//	float sophiaXPos, sophiaYPos;
-//	int specialWeapon = 1;
-//};
+#define COOLDOWN_DURATION		2000
 
 class PlayScene : public Scene
 {
 private:
 	bool select_end = false;
-	bool death = false;
-	int time_drawlife = 0;
-	Timer* cooldownTimer = new Timer(2000);
+	int mapWidth, mapHeight;
 	bool isReset = false;
-	float oldPosX;
-	float oldPosY;
+
 	int CamMoveDirection = 0;
-	float posX, posY;
 	float xPosCamGo, xPosCamBack, yPosCamGo, yPosCamBack;
 	int textureAlpha = 255;
-	float nCamXGo;
-	float nCamXBack;
-	float nCamYGo;
-	float nCamYBack;
-	int camMap1X;
-	int camMap1Y;
+
+	int camResetXPos;
+	int camResetYPos;
 	bool isNeedResetCamera;
 	bool isUnloaded = false;
 	int inforDisplay = 0;
 	LPANIMATION_SET animation_set;
 	LPGAMEPLAYER player;
 	LPGAMEPLAYER backup_player;
-	int mapWidth, mapHeight;
 
+
+	Timer* cooldownTimer = new Timer(COOLDOWN_DURATION);
 	Timer* BossIntroTimer = new Timer(FREEZE_DURATION);
-	DWORD timeResetCam;
 	Random* random = new Random();
 
 	int idStage;

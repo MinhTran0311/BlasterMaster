@@ -65,6 +65,8 @@ void Player::Reset(int initHealth, int initGundam)
 	SetState(0);
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
+	if (_PlayerType == TAG_BIG_SOPHIA)
+		dynamic_cast<Big_Sophia*>(this)->ResetFightBossState();
 }
 
 void Player::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)

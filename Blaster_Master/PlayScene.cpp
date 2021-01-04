@@ -724,7 +724,7 @@ void PlayScene::CheckPlayerReachGate()
 				//playerInfo.jasonXPos = gate->GetNewPlayerX();
 				//playerInfo.jasonYPos = gate->GetNewPlayerY();
 				//isNeedResetCamera = gate->directionCam;
-				//DebugOut(L"camposX: %d, camposY: %d\n", camMap1X, camMap1Y);
+				//DebugOut(L"camposX: %d, camposY: %d\n", camResetXPos, camResetYPos);
 				//DebugOut(L"posX: %f, posY: %f\n", playerInfo.jasonXPos, playerInfo.jasonYPos);
 				//playerInfo.jasonGundam = player->GetgunDam();
 				//playerInfo.jasonHealth = player->GetHealth();
@@ -734,8 +734,8 @@ void PlayScene::CheckPlayerReachGate()
 
 				PlayerHandler::GetInstance()->SetJasonInfor(gate->GetIdScene(), gate->GetNewPlayerX(), gate->GetNewPlayerY(), player->GetHealth(), player->GetgunDam(), player->GetDirection());
 				PlayerHandler::GetInstance()->SetCamFollow(gate->IsCamFollowPlayer());
-				camMap1X = gate->GetNewCamXPos();
-				camMap1Y = gate->GetNewCamYPos();
+				camResetXPos = gate->GetNewCamXPos();
+				camResetYPos = gate->GetNewCamYPos();
 				int tempState = gate->GetNewPlayerState();
 
 
@@ -769,7 +769,7 @@ void PlayScene::CheckPlayerReachGate()
 			//playerInfo.sophiaXPos = gate->GetNewPlayerX();
 			//playerInfo.sophiaYPos = gate->GetNewPlayerY();
 			//isNeedResetCamera = gate->directionCam;
-			//DebugOut(L"camposX: %d, camposY: %d\n", camMap1X, camMap1Y);
+			//DebugOut(L"camposX: %d, camposY: %d\n", camResetXPos, camResetYPos);
 			//DebugOut(L"posX: %d, posY: %d\n", playerInfo.sophiaXPos, playerInfo.sophiaYPos);
 			//playerInfo.sophiaGundam = player->GetgunDam();
 			//playerInfo.sophiaHealth = player->GetHealth();
@@ -778,8 +778,8 @@ void PlayScene::CheckPlayerReachGate()
 
 				PlayerHandler::GetInstance()->SetSophiaInfor(gate->GetIdScene(), gate->GetNewPlayerX(), gate->GetNewPlayerY(), player->GetHealth(), player->GetgunDam(), player->GetDirection());
 				PlayerHandler::GetInstance()->SetCamFollow(gate->IsCamFollowPlayer());
-				camMap1X = gate->GetNewCamXPos();
-				camMap1Y = gate->GetNewCamYPos();
+				camResetXPos = gate->GetNewCamXPos();
+				camResetYPos = gate->GetNewCamYPos();
 
 				if (PlayerHandler::GetInstance()->GetSophiaStage() == ID_MAPOVERWORLD)
 				{
@@ -857,16 +857,16 @@ void PlayScene::CheckPlayerReachGate()
 				//playerInfo.sophiaXPos = gate->GetNewPlayerX();
 				//playerInfo.sophiaYPos = gate->GetNewPlayerY();
 				//isNeedResetCamera = gate->directionCam;
-				//camMap1X = gate->GetNewCamXPos();
-				//camMap1Y = gate->GetNewCamYPos();
+				//camResetXPos = gate->GetNewCamXPos();
+				//camResetYPos = gate->GetNewCamYPos();
 				//playerInfo.sophiaGundam = player->GetgunDam();
 				//playerInfo.sophiaHealth = player->GetHealth();
 				//isNeedResetCamera = true;
 
 				PlayerHandler::GetInstance()->SetSophiaInfor(gate->GetIdScene(), gate->GetNewPlayerX(), gate->GetNewPlayerY(), player->GetHealth(), player->GetgunDam(), player->GetDirection());
 				int tempState = gate->GetNewPlayerState();
-				camMap1X = gate->GetNewCamXPos();
-				camMap1Y = gate->GetNewCamYPos();
+				camResetXPos = gate->GetNewCamXPos();
+				camResetYPos = gate->GetNewCamYPos();
 				isNeedResetCamera = true;
 
 				Unload();
@@ -1012,7 +1012,7 @@ void PlayScene::Update(DWORD dt)
 				{
 					ChooseMap(PlayerHandler::GetInstance()->GetSophiaStage());
 					player->Reset(PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
-
+					
 				}
 				isNeedResetCamera = true;
 			}
@@ -1029,7 +1029,7 @@ void PlayScene::Update(DWORD dt)
 	if (isNeedResetCamera)
 	{
 		DebugOut(L"middle\n");
-		Camera::GetInstance()->SetCamPos(camMap1X, camMap1Y);
+		Camera::GetInstance()->SetCamPos(camResetXPos, camResetYPos);
 		isNeedResetCamera = false;
 	}
 	else
@@ -1157,7 +1157,7 @@ void PlayScene::Unload()
 {
 	CGrid::GetInstance()->UnLoadGrid();
 	//Sound::GetInstance()->UnLoadSound("BackgroundMusic");
-	posX = posY = 0;
+	//posX = posY = 0;
 	if (!isReset)
 		delete player;
 	isUnloaded = true;
