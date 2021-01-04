@@ -266,12 +266,13 @@ void Small_Sophia::SetState(int state)
 		}
 		break;
 	case SMALL_SOPHIA_STATE_CLIMB_DOWN:
-		if (isInStairs&&!isCrawl)
+		if (isInStairs && !isCrawl)
 		{
 			vx = 0;
 			ny = 1;
 			vy = SMALL_SOPHIA_CLIMB_SPEED;
 		}
+		
 		break;
 	case SMALL_SOPHIA_STATE_CLIMB_IDLE:
 		if (isInStairs && !isCrawl)
@@ -302,6 +303,7 @@ void Small_Sophia::GetBoundingBox(float& left, float& top, float& right, float& 
 		}
 	}
 }
+
 
 void Small_Sophia::FireBullet(int mode)
 {

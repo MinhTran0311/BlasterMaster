@@ -11,7 +11,7 @@ private:
 public:
 	Stair(float x, float y, int width, int height);
 	~Stair();
-
+	int GetStairHeight();
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Render();
 };

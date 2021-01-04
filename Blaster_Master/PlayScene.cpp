@@ -261,9 +261,9 @@ void PlayScenceKeyHandler::KeyState(BYTE* states)
 				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_UP);
 			else if (CGame::GetInstance()->IsKeyDown(DIK_DOWN))
 				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_DOWN);
-			else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT))
+			else if (CGame::GetInstance()->IsKeyDown(DIK_LEFT) && !dynamic_cast<Small_Sophia*>(player)->IsClimbing())
 				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_WALKING_LEFT);
-			else if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT))
+			else if (CGame::GetInstance()->IsKeyDown(DIK_RIGHT) && !dynamic_cast<Small_Sophia*>(player)->IsClimbing())
 				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_WALKING_RIGHT);
 			else
 				dynamic_cast<Small_Sophia*>(player)->SetState(SMALL_SOPHIA_STATE_CLIMB_IDLE);
@@ -541,8 +541,11 @@ void PlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		switch (player->GetPlayerType())
 		{
 		case EntityType::TAG_SMALL_SOPHIA:
-			dynamic_cast<Small_Sophia*>(player)->SetIsCrawl(false);
-			player->SetPosition(player->Getx(), player->Gety() - 10);
+			if (!dynamic_cast<Small_Sophia*>(player)->IsInStairs())
+			{
+				dynamic_cast<Small_Sophia*>(player)->SetIsCrawl(false);
+				player->SetPosition(player->Getx(), player->Gety() - 10);
+			}
 			break;
 		}
 		break;

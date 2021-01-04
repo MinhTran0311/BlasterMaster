@@ -14,6 +14,7 @@
 #include "Big_Sophia.h"
 #include "Item.h"
 #include "PlayerHandler.h"
+#include "Stair.h"
 Player::Player()
 {
 	tag = EntityType::TAG_PLAYER;
@@ -230,13 +231,16 @@ void Player::CollisionHandle(vector<LPGAMEENTITY>* coObjects)
 		{
 			if (dynamic_cast<Small_Sophia*>(this)->IsCollidingObject(coObjects->at(i)))
 			{
-				DebugOut(L"Dinh cau thang\n");
 				dynamic_cast<Small_Sophia*>(this)->SetIsInStairs(true);
-
+				if (y < ((float)dynamic_cast<Stair*>(coObjects->at(i))->GetStairHeight() + coObjects->at(i)->Gety()-25.0f) && (y > coObjects->at(i)->Gety() + 3.0f))
+				{
+					dynamic_cast<Small_Sophia*>(this)->SetIsClimbing(true);
+					x = (float)coObjects->at(i)->Getx() + 1.0f;
+				}
+				else dynamic_cast<Small_Sophia*>(this)->SetIsClimbing(false);
 			}
 			else
 			{
-				DebugOut(L"Khong dung\n");
 				dynamic_cast<Small_Sophia*>(this)->SetIsInStairs(false);
 			}
 		}

@@ -16,7 +16,7 @@
 #define SMALL_SOPHIA_GRAVITY						0.0004f
 #define SMALL_SOPHIA_WALKING_SPEED			0.035f
 #define SMALL_SOPHIA_WALKING_ACC			0.00015f
-#define SMALL_SOPHIA_CRAWLING_SPEED			0.03f
+#define SMALL_SOPHIA_CRAWLING_SPEED			0.04f
 #define SMALL_SOPHIA_JUMP_SPEED_Y			0.15f
 #define SMALL_SOPHIA_CLIMB_SPEED			0.035f
 
@@ -73,6 +73,7 @@ private:
 	float backup_JumpY;
 	bool isPressJump;
 	bool isInStairs = false;
+	bool isClimbing = false;
 	bool isCrawl;
 public:
 	Small_Sophia(float x, float y, int health, int gundam);
@@ -87,8 +88,10 @@ public:
 	void SetIsJumping(bool jump) { isJumping = jump; };
 	bool GetIsCrawl() { return isCrawl; }
 	void SetIsCrawl(bool crawl) { isCrawl = crawl; }
-
+	void SetBackUpY(float yPos) { backup_JumpY = yPos; };
 	void GetInfoForBullet(int& direct, float& playerx, float& playery) { direct = nx; playerx = x; playery = y; }
+	bool IsClimbing() { return isClimbing; };
+	void SetIsClimbing(bool climb) { isClimbing = climb; };
 
 	//Bullet* GetPlayerMainBullet() { return mainBullet; }
 	virtual void FireBullet(int mode);

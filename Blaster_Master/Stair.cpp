@@ -12,6 +12,11 @@ Stair::Stair(float xPos, float yPos, int _width, int _height)
 }
 Stair::~Stair() {}
 
+int Stair::GetStairHeight()
+{
+	return height;
+}
+
 void Stair::Render()
 {
 	RenderBoundingBox();
