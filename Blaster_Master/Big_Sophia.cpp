@@ -40,7 +40,6 @@ void Big_Sophia::AutoRun(int direction)
 
 void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
-	
 	Player::Update(dt, coObjects);
 #pragma region Timer
 	if (_isAutoRun == true)
@@ -198,7 +197,6 @@ void Big_Sophia::Render()
 			DebugOut(L"is done death\n");
 			isDoneDeathAni = true;
 			animationSet->at(ani)->ResetCurrentFrame();
-
 		}
 	}
 	else

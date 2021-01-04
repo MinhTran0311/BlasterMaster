@@ -73,8 +73,6 @@ void Player::Reset(int initHealth, int initGundam)
 void Player::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 {
 #pragma region Death or not
-	if (isDoneDeathAni)
-		return;
 	if (health <= 0)
 	{
 		Sound::GetInstance()->Stop("");
@@ -84,6 +82,9 @@ void Player::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		vy = 0;
 		return;
 	}
+	if (isDoneDeathAni)
+		return;
+
 	if (isImmortaling && immortalTimer->IsTimeUp())
 	{
 		isImmortaling = false;

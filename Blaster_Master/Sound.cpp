@@ -183,6 +183,16 @@ void Sound::LoadSoundResource(const char* filePath)
 	string name;
 	string path;
 	Stop("");
+
+	for (auto it = soundBufferMap.begin(); it != soundBufferMap.end(); it++)
+	{
+		if (it->second)
+		{
+			it->second->Release();
+			it->second = NULL;
+		}
+
+	}
 	soundBufferMap.clear();
 	//DebugOut(L"sound size: %d", soundBufferMap.size());
 
