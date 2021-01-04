@@ -223,12 +223,20 @@ void Teleporters::SetState(int state)
 		}
 		case TELEPORTERS_STATE_ATTACKING:
 		{
-			/*if (firstTele)
+			/*if (telePositionOldTimer->IsTimeUp())
 			{
+				if (!firstTele)
+				{
+					this->SetPosition(x_Pos_Old, y_Pos_Old);
+					firstTele = !firstTele;
+				}
+				else {
+					this->SetPosition(x_Pos_New, y_Pos_New);
+					firstTele = !firstTele;
+				}
+				telePositionOldTimer->Reset();
 				telePositionOldTimer->Start();
-				firstTele = false;
-			}
-			if ()*/
+			}*/
 			
 			break;
 		}
