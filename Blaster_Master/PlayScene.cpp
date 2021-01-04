@@ -1012,7 +1012,7 @@ void PlayScene::Update(DWORD dt)
 				{
 					ChooseMap(PlayerHandler::GetInstance()->GetSophiaStage());
 					player->Reset(PlayerHandler::GetInstance()->GetSophiaHealth(), PlayerHandler::GetInstance()->GetSophiaGunDam());
-
+					
 				}
 				isNeedResetCamera = true;
 			}
