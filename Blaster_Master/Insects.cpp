@@ -67,20 +67,15 @@ void Insects::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		x += min_tx * dx + nx * 0.4f; // ko dính vào tường
 		y += min_ty * dy + ny * 0.4f;// ko dính vào tường
 
+		//DebugOut(L"DUC INSECT nx:%d,ny:%d\n", nx, ny);
 		//setRandomVxVy(vx, vy);
-		if (!nx && !ny)
-		{
-			nx = -nx;
-			vx = -vx;
-			//vy = -vy;
-		}
-		else if (!nx)
+		if (!nx)
 		{
 			//vy = -vy;
 		}
-
-		else if (!ny)
+		if (!ny)
 		{
+			//DebugOut(L"DUC INSECT Chuyen huong");
 			nx = -nx;
 			vx = -vx;
 		}
@@ -102,7 +97,7 @@ void Insects::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 	{
 		if (!firstTimeActive)
 		{
-			setRandomVxVy(vx, vy);
+			//setRandomVxVy(vx, vy);
 			isActive = true;
 			firstTimeActive = true;
 		}
@@ -160,6 +155,7 @@ Insects::Insects(float x, float y, LPGAMEENTITY t)
 
 void Insects::SetState(int state)
 {
+	Entity::SetState(state);
 	switch (state)
 	{
 	case INSECTS_STATE_DIE:
@@ -219,7 +215,11 @@ void Insects::setRandomVxVy(float& vx, float& vy)
 
 void Insects::setRandomVx()
 {
-	vx = r->getRandomFloat(0.001f, MOVING_SPEED);
+	if (vx<0)
+	{
+		vx = -r->getRandomFloat(0.001f, MOVING_SPEED);
+	} else vx = r->getRandomFloat(0.001f, MOVING_SPEED);
+	
 }
 
 void Insects::fly(const DWORD &dt)
