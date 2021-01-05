@@ -21,6 +21,10 @@
 #include "PlayerHandler.h"
 using namespace std;
 
+#define Animation_ChooseWeaponScene		52000
+#define Animation_ChooseWeaponBackgroud	0
+#define Animation_Item_Left				1
+#define Animation_Item_Right			2
 
 class ChooseWeaponScene : public Scene
 {

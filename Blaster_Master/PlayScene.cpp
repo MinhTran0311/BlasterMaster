@@ -1136,8 +1136,8 @@ void PlayScene::Render()
 			CGame::GetInstance()->DrawTextInScene(L"CONTINUE", 100, 100, 400, 400);
 			CGame::GetInstance()->DrawTextInScene(L"END", 100, 130, 400, 400);
 			CGame::GetInstance()->DrawTextInScene(L"->", 60, 100 + 30 * this->select_end, 400, 400);
-			this->animation_set = CAnimationSets::GetInstance()->Get(61004);
-			this->animation_set->at(0)->IntroRender(1, 50, 105 + 30 * this->select_end);
+			//this->animation_set = CAnimationSets::GetInstance()->Get(61004);
+			//this->animation_set->at(0)->IntroRender(1, 50, 105 + 30 * this->select_end);
 		}
 		else {
 			wchar_t buffer[256];

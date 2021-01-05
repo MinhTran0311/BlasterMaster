@@ -71,8 +71,12 @@ void Big_Sophia::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 			GateColliding = false;
 		}
 		Entity::Update(dt, coObjects);
-		x += dx;
-		y += dy;
+		if (this->GetState()!= BIG_SOPHIA_STATE_DIE)
+		{
+			x += dx;
+			y += dy;
+		}
+		
 		return;
 	}
 #pragma endregion
