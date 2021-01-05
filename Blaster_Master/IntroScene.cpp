@@ -378,5 +378,9 @@ void IntroScene::Unload()
 	//Sound::GetInstance()->UnLoadSound("CarSplash");
 	//Sound::GetInstance()->UnLoadSound("CarBackground");
 
+	CAnimations::GetInstance()->Clear();
+	CSprites::GetInstance()->Clear();
+	CTextures::GetInstance()->Clear();
+
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
