@@ -68,13 +68,7 @@ void Insects::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		y += min_ty * dy + ny * 0.4f;// ko dính vào tường
 
 		//setRandomVxVy(vx, vy);
-		if (!nx && !ny)
-		{
-			nx = -nx;
-			vx = -vx;
-			//vy = -vy;
-		}
-		else if (!nx)
+		if (!nx)
 		{
 			//vy = -vy;
 		}
