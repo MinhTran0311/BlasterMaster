@@ -78,7 +78,6 @@ void Insects::Update(DWORD dt, vector<LPGAMEENTITY>* coObjects)
 		{
 			//vy = -vy;
 		}
-
 		else if (!ny)
 		{
 			nx = -nx;
